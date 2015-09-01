@@ -5,17 +5,23 @@
  */
 package ft.mod.mfg.db;
 
+import java.util.ArrayList;
+import sba.lib.gui.DGuiSession;
+
 /**
  *
  * @author Sergio Flores
  */
 public interface DRowJobProgMask {
     
+    public int getLineId();
     public String getLineCode();
+    public String getLineName();
     public int getProg();
     public String getItem();
     public String getFormula();
     public double getQuantity();
     public String getUnitCode();
     public double getDefaultVariable1();
+    public ArrayList<DRowJobRqmtMask> createRqmts(final DGuiSession session);
 }

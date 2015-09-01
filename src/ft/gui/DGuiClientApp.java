@@ -78,6 +78,7 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
     private Statement miSysStatement;
     private String msCompany;
     private String msMassCode;
+    private String msVariable1;
 
     private DGuiDatePicker moDatePicker;
     private DGuiDateRangePicker moDateRangePicker;
@@ -204,7 +205,7 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
         jPanel1.setLayout(new java.awt.BorderLayout());
 
         jpStatus.setBackground(java.awt.Color.black);
-        jpStatus.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+        jpStatus.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 3));
 
         jtfSystemDate.setEditable(false);
         jtfSystemDate.setForeground(java.awt.Color.white);
@@ -256,7 +257,7 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
         jPanel1.add(jpStatus, java.awt.BorderLayout.WEST);
 
         jPanel2.setBackground(java.awt.Color.black);
-        jPanel2.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
+        jPanel2.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT, 5, 3));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ft/gui/img/logo 024.jpg"))); // NOI18N
         jPanel2.add(jLabel1);
@@ -625,6 +626,7 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
                 msCompany = loginDlg.getCompany();
                 setTitle(APP_NAME + " - " + msCompany);
                 msMassCode = (String) moSession.readField(DModConsts.CU_UNT, new int[] { DModSysConsts.CU_UNT_KG }, DDbRegistry.FIELD_CODE);
+                msVariable1 = !config.isVariable1() ? "Var 1" : config.getVariable1();
 
                 jtfSystemDate.setText(DLibUtils.DateFormatDate.format(moSession.getSystemDate()));
                 jtfWorkingDate.setText(DLibUtils.DateFormatDate.format(moSession.getWorkingDate()));
@@ -733,6 +735,10 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
     
     public String getMassCode() {
         return msMassCode;
+    }
+
+    public String getVariable1() {
+        return msVariable1;
     }
 
     /**

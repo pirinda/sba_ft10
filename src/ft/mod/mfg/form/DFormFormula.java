@@ -11,6 +11,7 @@
 
 package ft.mod.mfg.form;
 
+import ft.gui.DGuiClientApp;
 import ft.mod.DModConsts;
 import ft.mod.DModSysConsts;
 import ft.mod.cfg.db.DDbConfig;
@@ -399,7 +400,7 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_BOOL_S, "Estándar");
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_DEC_QTY, "Cantidad");
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_CODE_UNT, "Unidad");
-                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_BOOL_S, "Consumo Var 1");
+                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_BOOL_S, "Consumo " + ((DGuiClientApp) miClient).getVariable1());
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT, "Ref estadísticas");
 
                 for (col = 0; col < columns.length; col++) {

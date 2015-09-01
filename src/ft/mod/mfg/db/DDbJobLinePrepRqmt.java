@@ -34,6 +34,7 @@ public class DDbJobLinePrepRqmt extends DDbRegistryUser implements DRowJobRqmtMa
     protected int mnFkUnitId;
 
     protected String msXtaLinePrepCode;
+    protected String msXtaLinePrepName;
     protected String msXtaItemTypeCode;
     protected String msXtaItemCode;
     protected String msXtaItemName;
@@ -76,6 +77,7 @@ public class DDbJobLinePrepRqmt extends DDbRegistryUser implements DRowJobRqmtMa
     public int getFkUnitId() { return mnFkUnitId; }
 
     public void setXtaLinePrepCode(String s) { msXtaLinePrepCode = s; }
+    public void setXtaLinePrepName(String s) { msXtaLinePrepName = s; }
     public void setXtaItemTypeCode(String s) { msXtaItemTypeCode = s; }
     public void setXtaItemCode(String s) { msXtaItemCode = s; }
     public void setXtaItemName(String s) { msXtaItemName = s; }
@@ -85,6 +87,7 @@ public class DDbJobLinePrepRqmt extends DDbRegistryUser implements DRowJobRqmtMa
     public void setAuxQuantityCon(double d) { mdAuxQuantityCon = d; }
     
     public String getXtaLinePrepCode() { return msXtaLinePrepCode; }
+    public String getXtaLinePrepName() { return msXtaLinePrepName; }
     public String getXtaItemTypeCode() { return msXtaItemTypeCode; }
     public String getXtaItemCode() { return msXtaItemCode; }
     public String getXtaItemName() { return msXtaItemName; }
@@ -125,6 +128,7 @@ public class DDbJobLinePrepRqmt extends DDbRegistryUser implements DRowJobRqmtMa
         mnFkUnitId = 0;
         
         msXtaLinePrepCode = "";
+        msXtaLinePrepName = "";
         msXtaItemTypeCode = "";
         msXtaItemCode = "";
         msXtaItemName = "";
@@ -194,6 +198,7 @@ public class DDbJobLinePrepRqmt extends DDbRegistryUser implements DRowJobRqmtMa
             // Read aswell extra data:
             
             msXtaLinePrepCode = (String) session.readField(DModConsts.MU_LIN_PRP, new int[] { mnPkLinePrepId }, DDbRegistry.FIELD_CODE);
+            msXtaLinePrepName = (String) session.readField(DModConsts.MU_LIN_PRP, new int[] { mnPkLinePrepId }, DDbRegistry.FIELD_NAME);
             msXtaItemTypeCode = (String) session.readField(DModConsts.CS_ITM_TP, new int[] { mnFkItemTypeId }, DDbRegistry.FIELD_CODE);
             msXtaItemCode = (String) session.readField(DModConsts.CU_ITM, new int[] { mnFkItemId }, DDbRegistry.FIELD_CODE);
             msXtaItemName = (String) session.readField(DModConsts.CU_ITM, new int[] { mnFkItemId }, DDbRegistry.FIELD_NAME);
@@ -275,6 +280,7 @@ public class DDbJobLinePrepRqmt extends DDbRegistryUser implements DRowJobRqmtMa
         registry.setFkUnitId(this.getFkUnitId());
 
         registry.setXtaLinePrepCode(this.getXtaLinePrepCode());
+        registry.setXtaLinePrepName(this.getXtaLinePrepName());
         registry.setXtaItemTypeCode(this.getXtaItemTypeCode());
         registry.setXtaItemCode(this.getXtaItemCode());
         registry.setXtaItemName(this.getXtaItemName());
@@ -288,8 +294,18 @@ public class DDbJobLinePrepRqmt extends DDbRegistryUser implements DRowJobRqmtMa
     }
 
     @Override
+    public int getLineId() {
+        return getPkLinePrepId();
+    }
+    
+    @Override
     public String getLineCode() {
         return getXtaLinePrepCode();
+    }
+
+    @Override
+    public String getLineName() {
+        return getXtaLinePrepName();
     }
 
     @Override

@@ -41,6 +41,7 @@ public class DDbJobLinePack extends DDbRegistryUser implements DRowJobProgMask {
     protected ArrayList<DDbJobLinePackMfg> maChildMfgs;
     
     protected String msXtaLinePackCode;
+    protected String msXtaLinePackName;
     protected String msXtaItemCode;
     protected String msXtaItemName;
     protected String msXtaUnitCode;
@@ -88,6 +89,7 @@ public class DDbJobLinePack extends DDbRegistryUser implements DRowJobProgMask {
     public ArrayList<DDbJobLinePackMfg> getChildMfgs() { return maChildMfgs; }
     
     public void setXtaLinePackCode(String s) { msXtaLinePackCode = s; }
+    public void setXtaLinePackName(String s) { msXtaLinePackName = s; }
     public void setXtaItemCode(String s) { msXtaItemCode = s; }
     public void setXtaItemName(String s) { msXtaItemName = s; }
     public void setXtaUnitCode(String s) { msXtaUnitCode = s; }
@@ -95,45 +97,12 @@ public class DDbJobLinePack extends DDbRegistryUser implements DRowJobProgMask {
     public void setXtaFormulaName(String s) { msXtaFormulaName = s; }
     
     public String getXtaLinePackCode() { return msXtaLinePackCode; }
+    public String getXtaLinePackName() { return msXtaLinePackName; }
     public String getXtaItemCode() { return msXtaItemCode; }
     public String getXtaItemName() { return msXtaItemName; }
     public String getXtaUnitCode() { return msXtaUnitCode; }
     public String getXtaUnitName() { return msXtaUnitName; }
     public String getXtaFormulaName() { return msXtaFormulaName; }
-    
-    public ArrayList<DDbJobLinePackRqmt> createRqmts(final DGuiSession session) {
-        DDbItem item = null;
-        DDbJobLinePackRqmt rqmt = null;
-        ArrayList<DDbJobLinePackRqmt> rqmts = new ArrayList<>();
-        DDbFormula formula = (DDbFormula) session.readRegistry(DModConsts.MU_FRM, new int[] { mnFkFormulaId });
-        
-        for (DDbFormulaComp comp : formula.maChildComps) {
-            item = (DDbItem) session.readRegistry(DModConsts.CU_ITM, new int[] { comp.getFkItemId() });
-            
-            rqmt = new DDbJobLinePackRqmt();
-            rqmt.setPkJobId(mnPkJobId);
-            rqmt.setPkLinePackId(mnPkLinePackId);
-            rqmt.setPkPackId(mnPkPackId);
-            //rqmt.setPkRqmtId(...);
-            rqmt.setQuantity(comp.getQuantity() * mdLoads);
-            rqmt.setMassUnit(item.getMassUnit());
-            rqmt.setMass_r(item.getMassUnit() * comp.getQuantity() * mdLoads);
-            rqmt.setStatisticsReference(comp.getStatisticsReference());
-            rqmt.setStandard(comp.isStandard());
-            rqmt.setFkItemTypeId(comp.getFkItemTypeId());
-            rqmt.setFkItemId(comp.getFkItemId());
-            rqmt.setFkUnitId(comp.getFkUnitId());
-            rqmt.setXtaLinePackCode(msXtaLinePackCode);
-            rqmt.setXtaItemTypeCode(item.getXtaItemTypeCode());
-            rqmt.setXtaItemCode(item.getCode());
-            rqmt.setXtaItemName(item.getName());
-            rqmt.setXtaUnitCode(item.getXtaUnitCode());
-            rqmt.setXtaUnitName(item.getXtaUnitName());
-            rqmts.add(rqmt);
-        }
-        
-        return rqmts;
-    }
     
     @Override
     public void setPrimaryKey(int[] pk) {
@@ -170,6 +139,7 @@ public class DDbJobLinePack extends DDbRegistryUser implements DRowJobProgMask {
         maChildMfgs.clear();
         
         msXtaLinePackCode = "";
+        msXtaLinePackName = "";
         msXtaItemCode = "";
         msXtaItemName = "";
         msXtaUnitCode = "";
@@ -266,6 +236,7 @@ public class DDbJobLinePack extends DDbRegistryUser implements DRowJobProgMask {
             // Read aswell extra data:
             
             msXtaLinePackCode = (String) session.readField(DModConsts.MU_LIN_PCK, new int[] { mnPkLinePackId }, DDbRegistry.FIELD_CODE);
+            msXtaLinePackName = (String) session.readField(DModConsts.MU_LIN_PCK, new int[] { mnPkLinePackId }, DDbRegistry.FIELD_NAME);
             msXtaItemCode = (String) session.readField(DModConsts.CU_ITM, new int[] { mnFkItemId }, DDbRegistry.FIELD_CODE);
             msXtaItemName = (String) session.readField(DModConsts.CU_ITM, new int[] { mnFkItemId }, DDbRegistry.FIELD_NAME);
             msXtaUnitCode = (String) session.readField(DModConsts.CU_UNT, new int[] { mnFkUnitId }, DDbRegistry.FIELD_CODE);
@@ -397,6 +368,7 @@ public class DDbJobLinePack extends DDbRegistryUser implements DRowJobProgMask {
         }
         
         registry.setXtaLinePackCode(this.getXtaLinePackCode());
+        registry.setXtaLinePackName(this.getXtaLinePackName());
         registry.setXtaItemCode(this.getXtaItemCode());
         registry.setXtaItemName(this.getXtaItemName());
         registry.setXtaUnitCode(this.getXtaUnitCode());
@@ -408,10 +380,20 @@ public class DDbJobLinePack extends DDbRegistryUser implements DRowJobProgMask {
     }
 
     @Override
+    public int getLineId() {
+        return getPkLinePackId();
+    }
+
+    @Override
     public String getLineCode() {
         return getXtaLinePackCode();
     }
 
+    @Override
+    public String getLineName() {
+        return getXtaLinePackName();
+    }
+    
     @Override
     public int getProg() {
         return getPkPackId();
@@ -435,5 +417,41 @@ public class DDbJobLinePack extends DDbRegistryUser implements DRowJobProgMask {
     @Override
     public double getDefaultVariable1() {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    @Override
+    public ArrayList<DRowJobRqmtMask> createRqmts(final DGuiSession session) {
+        DDbItem item = null;
+        DDbJobLinePackRqmt rqmt = null;
+        ArrayList<DRowJobRqmtMask> rqmts = new ArrayList<>();
+        DDbFormula formula = (DDbFormula) session.readRegistry(DModConsts.MU_FRM, new int[] { mnFkFormulaId });
+        
+        for (DDbFormulaComp comp : formula.maChildComps) {
+            item = (DDbItem) session.readRegistry(DModConsts.CU_ITM, new int[] { comp.getFkItemId() });
+            
+            rqmt = new DDbJobLinePackRqmt();
+            rqmt.setPkJobId(mnPkJobId);
+            rqmt.setPkLinePackId(mnPkLinePackId);
+            rqmt.setPkPackId(mnPkPackId);
+            //rqmt.setPkRqmtId(...);
+            rqmt.setQuantity(comp.getQuantity() * mdLoads);
+            rqmt.setMassUnit(item.getMassUnit());
+            rqmt.setMass_r(item.getMassUnit() * comp.getQuantity() * mdLoads);
+            rqmt.setStatisticsReference(comp.getStatisticsReference());
+            rqmt.setStandard(comp.isStandard());
+            rqmt.setFkItemTypeId(comp.getFkItemTypeId());
+            rqmt.setFkItemId(comp.getFkItemId());
+            rqmt.setFkUnitId(comp.getFkUnitId());
+            rqmt.setXtaLinePackCode(msXtaLinePackCode);
+            rqmt.setXtaLinePackName(msXtaLinePackName);
+            rqmt.setXtaItemTypeCode(item.getXtaItemTypeCode());
+            rqmt.setXtaItemCode(item.getCode());
+            rqmt.setXtaItemName(item.getName());
+            rqmt.setXtaUnitCode(item.getXtaUnitCode());
+            rqmt.setXtaUnitName(item.getXtaUnitName());
+            rqmts.add(rqmt);
+        }
+        
+        return rqmts;
     }
 }

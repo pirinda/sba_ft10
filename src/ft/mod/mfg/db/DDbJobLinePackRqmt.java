@@ -33,6 +33,7 @@ public class DDbJobLinePackRqmt extends DDbRegistryUser implements DRowJobRqmtMa
     protected int mnFkUnitId;
 
     protected String msXtaLinePackCode;
+    protected String msXtaLinePackName;
     protected String msXtaItemTypeCode;
     protected String msXtaItemCode;
     protected String msXtaItemName;
@@ -73,6 +74,7 @@ public class DDbJobLinePackRqmt extends DDbRegistryUser implements DRowJobRqmtMa
     public int getFkUnitId() { return mnFkUnitId; }
 
     public void setXtaLinePackCode(String s) { msXtaLinePackCode = s; }
+    public void setXtaLinePackName(String s) { msXtaLinePackName = s; }
     public void setXtaItemTypeCode(String s) { msXtaItemTypeCode = s; }
     public void setXtaItemCode(String s) { msXtaItemCode = s; }
     public void setXtaItemName(String s) { msXtaItemName = s; }
@@ -82,6 +84,7 @@ public class DDbJobLinePackRqmt extends DDbRegistryUser implements DRowJobRqmtMa
     public void setAuxQuantityCon(double d) { mdAuxQuantityCon = d; }
     
     public String getXtaLinePackCode() { return msXtaLinePackCode; }
+    public String getXtaLinePackName() { return msXtaLinePackName; }
     public String getXtaItemTypeCode() { return msXtaItemTypeCode; }
     public String getXtaItemCode() { return msXtaItemCode; }
     public String getXtaItemName() { return msXtaItemName; }
@@ -121,6 +124,7 @@ public class DDbJobLinePackRqmt extends DDbRegistryUser implements DRowJobRqmtMa
         mnFkUnitId = 0;
         
         msXtaLinePackCode = "";
+        msXtaLinePackName = "";
         msXtaItemTypeCode = "";
         msXtaItemCode = "";
         msXtaItemName = "";
@@ -189,6 +193,7 @@ public class DDbJobLinePackRqmt extends DDbRegistryUser implements DRowJobRqmtMa
             // Read aswell extra data:
             
             msXtaLinePackCode = (String) session.readField(DModConsts.MU_LIN_PCK, new int[] { mnPkLinePackId }, DDbRegistry.FIELD_CODE);
+            msXtaLinePackName = (String) session.readField(DModConsts.MU_LIN_PCK, new int[] { mnPkLinePackId }, DDbRegistry.FIELD_NAME);
             msXtaItemTypeCode = (String) session.readField(DModConsts.CS_ITM_TP, new int[] { mnFkItemTypeId }, DDbRegistry.FIELD_CODE);
             msXtaItemCode = (String) session.readField(DModConsts.CU_ITM, new int[] { mnFkItemId }, DDbRegistry.FIELD_CODE);
             msXtaItemName = (String) session.readField(DModConsts.CU_ITM, new int[] { mnFkItemId }, DDbRegistry.FIELD_NAME);
@@ -267,6 +272,7 @@ public class DDbJobLinePackRqmt extends DDbRegistryUser implements DRowJobRqmtMa
         registry.setFkUnitId(this.getFkUnitId());
 
         registry.setXtaLinePackCode(this.getXtaLinePackCode());
+        registry.setXtaLinePackName(this.getXtaLinePackName());
         registry.setXtaItemTypeCode(this.getXtaItemTypeCode());
         registry.setXtaItemCode(this.getXtaItemCode());
         registry.setXtaItemName(this.getXtaItemName());
@@ -280,8 +286,18 @@ public class DDbJobLinePackRqmt extends DDbRegistryUser implements DRowJobRqmtMa
     }
 
     @Override
+    public int getLineId() {
+        return getPkLinePackId();
+    }
+
+    @Override
     public String getLineCode() {
         return getXtaLinePackCode();
+    }
+
+    @Override
+    public String getLineName() {
+        return getXtaLinePackName();
     }
 
     @Override

@@ -288,6 +288,7 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout">
             <Property name="alignment" type="int" value="0"/>
+            <Property name="verticalGap" type="int" value="3"/>
           </Layout>
           <SubComponents>
             <Component class="javax.swing.JTextField" name="jtfSystemDate">
@@ -387,6 +388,7 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout">
             <Property name="alignment" type="int" value="2"/>
+            <Property name="verticalGap" type="int" value="3"/>
           </Layout>
           <SubComponents>
             <Component class="javax.swing.JLabel" name="jLabel1">

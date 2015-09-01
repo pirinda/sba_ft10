@@ -38,11 +38,12 @@ public class DDbJobLinePrep extends DDbRegistryUser implements DRowJobProgMask {
     protected int mnFkFormulaTypeId;
     protected int mnFkFormulaId;
     
-    public ArrayList<DDbJobLinePrepRqmt> getChildRqmts() { return maChildRqmts; }
-    public ArrayList<DDbJobLinePrepCons> getChildConss() { return maChildConss; }
-    public ArrayList<DDbJobLinePrepMfg> getChildMfgs() { return maChildMfgs; }
+    protected ArrayList<DDbJobLinePrepRqmt> maChildRqmts;
+    protected ArrayList<DDbJobLinePrepCons> maChildConss;
+    protected ArrayList<DDbJobLinePrepMfg> maChildMfgs;
 
     protected String msXtaLinePrepCode;
+    protected String msXtaLinePrepName;
     protected String msXtaItemCode;
     protected String msXtaItemName;
     protected String msXtaUnitCode;
@@ -89,11 +90,12 @@ public class DDbJobLinePrep extends DDbRegistryUser implements DRowJobProgMask {
     public int getFkFormulaTypeId() { return mnFkFormulaTypeId; }
     public int getFkFormulaId() { return mnFkFormulaId; }
 
-    protected ArrayList<DDbJobLinePrepRqmt> maChildRqmts;
-    protected ArrayList<DDbJobLinePrepCons> maChildConss;
-    protected ArrayList<DDbJobLinePrepMfg> maChildMfgs;
+    public ArrayList<DDbJobLinePrepRqmt> getChildRqmts() { return maChildRqmts; }
+    public ArrayList<DDbJobLinePrepCons> getChildConss() { return maChildConss; }
+    public ArrayList<DDbJobLinePrepMfg> getChildMfgs() { return maChildMfgs; }
 
     public void setXtaLinePrepCode(String s) { msXtaLinePrepCode = s; }
+    public void setXtaLinePrepName(String s) { msXtaLinePrepName = s; }
     public void setXtaItemCode(String s) { msXtaItemCode = s; }
     public void setXtaItemName(String s) { msXtaItemName = s; }
     public void setXtaUnitCode(String s) { msXtaUnitCode = s; }
@@ -101,46 +103,12 @@ public class DDbJobLinePrep extends DDbRegistryUser implements DRowJobProgMask {
     public void setXtaFormulaName(String s) { msXtaFormulaName = s; }
     
     public String getXtaLinePrepCode() { return msXtaLinePrepCode; }
+    public String getXtaLinePrepName() { return msXtaLinePrepName; }
     public String getXtaItemCode() { return msXtaItemCode; }
     public String getXtaItemName() { return msXtaItemName; }
     public String getXtaUnitCode() { return msXtaUnitCode; }
     public String getXtaUnitName() { return msXtaUnitName; }
     public String getXtaFormulaName() { return msXtaFormulaName; }
-    
-    public ArrayList<DDbJobLinePrepRqmt> createRqmts(final DGuiSession session) {
-        DDbItem item = null;
-        DDbJobLinePrepRqmt rqmt = null;
-        ArrayList<DDbJobLinePrepRqmt> rqmts = new ArrayList<>();
-        DDbFormula formula = (DDbFormula) session.readRegistry(DModConsts.MU_FRM, new int[] { mnFkFormulaId });
-        
-        for (DDbFormulaComp comp : formula.maChildComps) {
-            item = (DDbItem) session.readRegistry(DModConsts.CU_ITM, new int[] { comp.getFkItemId() });
-            
-            rqmt = new DDbJobLinePrepRqmt();
-            rqmt.setPkJobId(mnPkJobId);
-            rqmt.setPkLinePrepId(mnPkLinePrepId);
-            rqmt.setPkPrepId(mnPkPrepId);
-            //rqmt.setPkRqmtId(...);
-            rqmt.setQuantity(comp.getQuantity() * mdLoads);
-            rqmt.setMassUnit(item.getMassUnit());
-            rqmt.setMass_r(item.getMassUnit() * comp.getQuantity() * mdLoads);
-            rqmt.setStatisticsReference(comp.getStatisticsReference());
-            rqmt.setStandard(comp.isStandard());
-            rqmt.setConsVariable1(comp.isConsVariable1());
-            rqmt.setFkItemTypeId(comp.getFkItemTypeId());
-            rqmt.setFkItemId(comp.getFkItemId());
-            rqmt.setFkUnitId(comp.getFkUnitId());
-            rqmt.setXtaLinePrepCode(msXtaLinePrepCode);
-            rqmt.setXtaItemTypeCode(item.getXtaItemTypeCode());
-            rqmt.setXtaItemCode(item.getCode());
-            rqmt.setXtaItemName(item.getName());
-            rqmt.setXtaUnitCode(item.getXtaUnitCode());
-            rqmt.setXtaUnitName(item.getXtaUnitName());
-            rqmts.add(rqmt);
-        }
-        
-        return rqmts;
-    }
     
     @Override
     public void setPrimaryKey(int[] pk) {
@@ -179,6 +147,7 @@ public class DDbJobLinePrep extends DDbRegistryUser implements DRowJobProgMask {
         maChildMfgs.clear();
         
         msXtaLinePrepCode = "";
+        msXtaLinePrepName = "";
         msXtaItemCode = "";
         msXtaItemName = "";
         msXtaUnitCode = "";
@@ -277,6 +246,7 @@ public class DDbJobLinePrep extends DDbRegistryUser implements DRowJobProgMask {
             // Read aswell extra data:
             
             msXtaLinePrepCode = (String) session.readField(DModConsts.MU_LIN_PRP, new int[] { mnPkLinePrepId }, DDbRegistry.FIELD_CODE);
+            msXtaLinePrepName = (String) session.readField(DModConsts.MU_LIN_PRP, new int[] { mnPkLinePrepId }, DDbRegistry.FIELD_NAME);
             msXtaItemCode = (String) session.readField(DModConsts.CU_ITM, new int[] { mnFkItemId }, DDbRegistry.FIELD_CODE);
             msXtaItemName = (String) session.readField(DModConsts.CU_ITM, new int[] { mnFkItemId }, DDbRegistry.FIELD_NAME);
             msXtaUnitCode = (String) session.readField(DModConsts.CU_UNT, new int[] { mnFkUnitId }, DDbRegistry.FIELD_CODE);
@@ -414,6 +384,7 @@ public class DDbJobLinePrep extends DDbRegistryUser implements DRowJobProgMask {
         }
         
         registry.setXtaLinePrepCode(this.getXtaLinePrepCode());
+        registry.setXtaLinePrepName(this.getXtaLinePrepName());
         registry.setXtaItemCode(this.getXtaItemCode());
         registry.setXtaItemName(this.getXtaItemName());
         registry.setXtaUnitCode(this.getXtaUnitCode());
@@ -425,10 +396,20 @@ public class DDbJobLinePrep extends DDbRegistryUser implements DRowJobProgMask {
     }
 
     @Override
+    public int getLineId() {
+        return getPkLinePrepId();
+    }
+
+    @Override
     public String getLineCode() {
         return getXtaLinePrepCode();
     }
 
+    @Override
+    public String getLineName() {
+        return getXtaLinePrepName();
+    }
+    
     @Override
     public int getProg() {
         return getPkPrepId();
@@ -447,5 +428,42 @@ public class DDbJobLinePrep extends DDbRegistryUser implements DRowJobProgMask {
     @Override
     public String getUnitCode() {
         return getXtaUnitCode();
+    }
+    
+    @Override
+    public ArrayList<DRowJobRqmtMask> createRqmts(final DGuiSession session) {
+        DDbItem item = null;
+        DDbJobLinePrepRqmt rqmt = null;
+        ArrayList<DRowJobRqmtMask> rqmts = new ArrayList<>();
+        DDbFormula formula = (DDbFormula) session.readRegistry(DModConsts.MU_FRM, new int[] { mnFkFormulaId });
+        
+        for (DDbFormulaComp comp : formula.maChildComps) {
+            item = (DDbItem) session.readRegistry(DModConsts.CU_ITM, new int[] { comp.getFkItemId() });
+            
+            rqmt = new DDbJobLinePrepRqmt();
+            rqmt.setPkJobId(mnPkJobId);
+            rqmt.setPkLinePrepId(mnPkLinePrepId);
+            rqmt.setPkPrepId(mnPkPrepId);
+            //rqmt.setPkRqmtId(...);
+            rqmt.setQuantity(comp.getQuantity() * mdLoads);
+            rqmt.setMassUnit(item.getMassUnit());
+            rqmt.setMass_r(item.getMassUnit() * comp.getQuantity() * mdLoads);
+            rqmt.setStatisticsReference(comp.getStatisticsReference());
+            rqmt.setStandard(comp.isStandard());
+            rqmt.setConsVariable1(comp.isConsVariable1());
+            rqmt.setFkItemTypeId(comp.getFkItemTypeId());
+            rqmt.setFkItemId(comp.getFkItemId());
+            rqmt.setFkUnitId(comp.getFkUnitId());
+            rqmt.setXtaLinePrepCode(msXtaLinePrepCode);
+            rqmt.setXtaLinePrepName(msXtaLinePrepName);
+            rqmt.setXtaItemTypeCode(item.getXtaItemTypeCode());
+            rqmt.setXtaItemCode(item.getCode());
+            rqmt.setXtaItemName(item.getName());
+            rqmt.setXtaUnitCode(item.getXtaUnitCode());
+            rqmt.setXtaUnitName(item.getXtaUnitName());
+            rqmts.add(rqmt);
+        }
+        
+        return rqmts;
     }
 }

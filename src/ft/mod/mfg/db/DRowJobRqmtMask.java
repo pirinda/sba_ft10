@@ -11,7 +11,9 @@ package ft.mod.mfg.db;
  */
 public interface DRowJobRqmtMask {
     
+    public int getLineId();
     public String getLineCode();
+    public String getLineName();
     public int getProg();
     public String getItemTypeCode();
     public String getItem();
