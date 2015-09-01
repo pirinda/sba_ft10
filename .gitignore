@@ -1,6 +1,6 @@
 # Git Ignore Settings
-# Author: Sergio Abraham Flores Gutiérrez
-# Date: 2015-05-28
+# Author: Sergio Abraham Flores Gutiï¿½rrez
+# Date: 2015-09-01
 
 # Java BiteCode files:
 *.class
@@ -24,9 +24,10 @@ build/
 dist/
 nbproject/
 test/
+reps/cfd/
 build.xml
 manifest.mf
 Thumbs.db
 *.swa
-sa*.xml
+sba*.xml
 *.jrxml
