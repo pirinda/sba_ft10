@@ -69,19 +69,22 @@ public class DRowJobRqmt implements DGridRow {
                 value = miJobRqmt.getProduct();
                 break;
             case 2:
-                value = miJobRqmt.getRequirementTypeCode();
+                value = miJobRqmt.getRqmtTypeCode();
                 break;
             case 3:
-                value = miJobRqmt.getRequirement();
+                value = miJobRqmt.getRqmt();
                 break;
             case 4:
-                value = miJobRqmt.getQuantityReq();
+                value = miJobRqmt.getQuantityRqmt();
                 break;
             case 5:
-                value = miJobRqmt.getQuantityCon();
+                value = miJobRqmt.getQuantityCons();
                 break;
             case 6:
                 value = miJobRqmt.getUnitCode();
+                break;
+            case 7:
+                value = miJobRqmt.isConsVariable1();
                 break;
             default:
         }

@@ -20,7 +20,7 @@ public class DRowJobCons implements DGridRow {
         miJobCons = jobPrep;
     }
 
-    public DRowJobConsMask getJobPrep() { return miJobCons; }
+    public DRowJobConsMask getJobCons() { return miJobCons; }
     
     @Override
     public int[] getRowPrimaryKey() {

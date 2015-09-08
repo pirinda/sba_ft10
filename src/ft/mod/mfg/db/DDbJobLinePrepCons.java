@@ -37,9 +37,9 @@ public class DDbJobLinePrepCons extends DDbRegistryUser implements DRowJobConsMa
     protected int mnXtaProductId;
     protected String msXtaProductCode;
     protected String msXtaProductName;
-    protected String msXtaRequirementTypeCode;
-    protected String msXtaRequirementCode;
-    protected String msXtaRequirementName;
+    protected String msXtaRqmtTypeCode;
+    protected String msXtaRqmtCode;
+    protected String msXtaRqmtName;
     protected String msXtaUnitCode;
     protected String msXtaUnitName;
     
@@ -79,9 +79,9 @@ public class DDbJobLinePrepCons extends DDbRegistryUser implements DRowJobConsMa
     public void setXtaProductId(int n) { mnXtaProductId = n; }
     public void setXtaProductCode(String s) { msXtaProductCode = s; }
     public void setXtaProductName(String s) { msXtaProductName = s; }
-    public void setXtaRequirementTypeCode(String s) { msXtaRequirementTypeCode = s; }
-    public void setXtaRequirementCode(String s) { msXtaRequirementCode = s; }
-    public void setXtaRequirementName(String s) { msXtaRequirementName = s; }
+    public void setXtaRqmtTypeCode(String s) { msXtaRqmtTypeCode = s; }
+    public void setXtaRqmtCode(String s) { msXtaRqmtCode = s; }
+    public void setXtaRqmtName(String s) { msXtaRqmtName = s; }
     public void setXtaUnitCode(String s) { msXtaUnitCode = s; }
     public void setXtaUnitName(String s) { msXtaUnitName = s; }
     
@@ -90,9 +90,9 @@ public class DDbJobLinePrepCons extends DDbRegistryUser implements DRowJobConsMa
     public int getXtaProductId() { return mnXtaProductId; }
     public String getXtaProductCode() { return msXtaProductCode; }
     public String getXtaProductName() { return msXtaProductName; }
-    public String getXtaRequirementTypeCode() { return msXtaRequirementTypeCode; }
-    public String getXtaRequirementCode() { return msXtaRequirementCode; }
-    public String getXtaRequirementName() { return msXtaRequirementName; }
+    public String getXtaRqmtTypeCode() { return msXtaRqmtTypeCode; }
+    public String getXtaRqmtCode() { return msXtaRqmtCode; }
+    public String getXtaRqmtName() { return msXtaRqmtName; }
     public String getXtaUnitCode() { return msXtaUnitCode; }
     public String getXtaUnitName() { return msXtaUnitName; }
     
@@ -131,9 +131,9 @@ public class DDbJobLinePrepCons extends DDbRegistryUser implements DRowJobConsMa
         mnXtaProductId = 0;
         msXtaProductCode = "";
         msXtaProductName = "";
-        msXtaRequirementTypeCode = "";
-        msXtaRequirementCode = "";
-        msXtaRequirementName = "";
+        msXtaRqmtTypeCode = "";
+        msXtaRqmtCode = "";
+        msXtaRqmtName = "";
         msXtaUnitCode = "";
         msXtaUnitName = "";
     }
@@ -210,9 +210,9 @@ public class DDbJobLinePrepCons extends DDbRegistryUser implements DRowJobConsMa
             msXtaLinePrepName = (String) session.readField(DModConsts.MU_LIN_PRP, new int[] { mnPkLinePrepId }, DDbRegistry.FIELD_NAME);
             msXtaProductCode = (String) session.readField(DModConsts.CU_ITM, new int[] { mnXtaProductId }, DDbRegistry.FIELD_CODE);
             msXtaProductName = (String) session.readField(DModConsts.CU_ITM, new int[] { mnXtaProductId }, DDbRegistry.FIELD_NAME);
-            msXtaRequirementTypeCode = (String) session.readField(DModConsts.CS_ITM_TP, new int[] { mnFkItemTypeId }, DDbRegistry.FIELD_CODE);
-            msXtaRequirementCode = (String) session.readField(DModConsts.CU_ITM, new int[] { mnFkItemId }, DDbRegistry.FIELD_CODE);
-            msXtaRequirementName = (String) session.readField(DModConsts.CU_ITM, new int[] { mnFkItemId }, DDbRegistry.FIELD_NAME);
+            msXtaRqmtTypeCode = (String) session.readField(DModConsts.CS_ITM_TP, new int[] { mnFkItemTypeId }, DDbRegistry.FIELD_CODE);
+            msXtaRqmtCode = (String) session.readField(DModConsts.CU_ITM, new int[] { mnFkItemId }, DDbRegistry.FIELD_CODE);
+            msXtaRqmtName = (String) session.readField(DModConsts.CU_ITM, new int[] { mnFkItemId }, DDbRegistry.FIELD_NAME);
             msXtaUnitCode = (String) session.readField(DModConsts.CU_UNT, new int[] { mnFkUnitId }, DDbRegistry.FIELD_CODE);
             msXtaUnitName = (String) session.readField(DModConsts.CU_UNT, new int[] { mnFkUnitId }, DDbRegistry.FIELD_NAME);
 
@@ -292,9 +292,9 @@ public class DDbJobLinePrepCons extends DDbRegistryUser implements DRowJobConsMa
         registry.setXtaProductId(this.getXtaProductId());
         registry.setXtaProductCode(this.getXtaProductCode());
         registry.setXtaProductName(this.getXtaProductName());
-        registry.setXtaRequirementTypeCode(this.getXtaRequirementTypeCode());
-        registry.setXtaRequirementCode(this.getXtaRequirementCode());
-        registry.setXtaRequirementName(this.getXtaRequirementName());
+        registry.setXtaRqmtTypeCode(this.getXtaRqmtTypeCode());
+        registry.setXtaRqmtCode(this.getXtaRqmtCode());
+        registry.setXtaRqmtName(this.getXtaRqmtName());
         registry.setXtaUnitCode(this.getXtaUnitCode());
         registry.setXtaUnitName(this.getXtaUnitName());
         
@@ -319,12 +319,12 @@ public class DDbJobLinePrepCons extends DDbRegistryUser implements DRowJobConsMa
 
     @Override
     public String getRequirementTypeCode() {
-        return getXtaRequirementTypeCode();
+        return getXtaRqmtTypeCode();
     }
 
     @Override
     public String getRequirement() {
-        return getXtaRequirementName();
+        return getXtaRqmtName();
     }
 
     @Override

@@ -20,7 +20,7 @@ public class DRowJobMfg implements DGridRow {
         miJobMfg = jobPack;
     }
 
-    public DRowJobMfgMask getJobPack() { return miJobMfg; }
+    public DRowJobMfgMask getJobMfg() { return miJobMfg; }
     
     @Override
     public int[] getRowPrimaryKey() {

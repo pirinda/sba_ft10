@@ -733,7 +733,7 @@
                             <Property name="verticalGap" type="int" value="0"/>
                           </Layout>
                           <SubComponents>
-                            <Component class="javax.swing.JLabel" name="jlPrepConLinePrep">
+                            <Component class="javax.swing.JLabel" name="jlPrepConsLinePrep">
                               <Properties>
                                 <Property name="text" type="java.lang.String" value="L&#xed;nea:*"/>
                                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -741,7 +741,7 @@
                                 </Property>
                               </Properties>
                             </Component>
-                            <Component class="sba.lib.gui.bean.DBeanFieldKey" name="moKeyPrepConLinePrep">
+                            <Component class="sba.lib.gui.bean.DBeanFieldKey" name="moKeyPrepConsLinePrep">
                               <Properties>
                                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                                   <Dimension value="[240, 23]"/>
@@ -757,7 +757,7 @@
                             <Property name="verticalGap" type="int" value="0"/>
                           </Layout>
                           <SubComponents>
-                            <Component class="javax.swing.JLabel" name="jlPrepConLinePrepItem">
+                            <Component class="javax.swing.JLabel" name="jlPrepConsLinePrepItem">
                               <Properties>
                                 <Property name="text" type="java.lang.String" value="Producto:*"/>
                                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -765,7 +765,7 @@
                                 </Property>
                               </Properties>
                             </Component>
-                            <Component class="sba.lib.gui.bean.DBeanFieldKey" name="moKeyPrepConLinePrepItem">
+                            <Component class="sba.lib.gui.bean.DBeanFieldKey" name="moKeyPrepConsLinePrepItem">
                               <Properties>
                                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                                   <Dimension value="[240, 23]"/>
@@ -781,7 +781,7 @@
                             <Property name="verticalGap" type="int" value="0"/>
                           </Layout>
                           <SubComponents>
-                            <Component class="javax.swing.JLabel" name="jlPrepConRequirement">
+                            <Component class="javax.swing.JLabel" name="jlPrepConsRqmt">
                               <Properties>
                                 <Property name="text" type="java.lang.String" value="Insumo:*"/>
                                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -789,7 +789,7 @@
                                 </Property>
                               </Properties>
                             </Component>
-                            <Component class="sba.lib.gui.bean.DBeanFieldKey" name="moKeyPrepConRequirement">
+                            <Component class="sba.lib.gui.bean.DBeanFieldKey" name="moKeyPrepConsRqmt">
                               <Properties>
                                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                                   <Dimension value="[240, 23]"/>
@@ -805,7 +805,7 @@
                             <Property name="verticalGap" type="int" value="0"/>
                           </Layout>
                           <SubComponents>
-                            <Component class="javax.swing.JLabel" name="jlPrepConQuantity">
+                            <Component class="javax.swing.JLabel" name="jlPrepConsQuantity">
                               <Properties>
                                 <Property name="text" type="java.lang.String" value="Cantidad:*"/>
                                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -813,9 +813,9 @@
                                 </Property>
                               </Properties>
                             </Component>
-                            <Component class="sba.lib.gui.bean.DBeanCompoundField" name="moCompPrepConQuantity">
+                            <Component class="sba.lib.gui.bean.DBeanCompoundField" name="moCompPrepConsQuantity">
                             </Component>
-                            <Component class="sba.lib.gui.bean.DBeanCompoundField" name="moCompPrepConVariable1">
+                            <Component class="sba.lib.gui.bean.DBeanCompoundField" name="moCompPrepConsVariable1">
                               <Properties>
                                 <Property name="toolTipText" type="java.lang.String" value="Variable 1"/>
                                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -832,7 +832,7 @@
                             <Property name="verticalGap" type="int" value="0"/>
                           </Layout>
                           <SubComponents>
-                            <Component class="javax.swing.JLabel" name="jlPrepConLot">
+                            <Component class="javax.swing.JLabel" name="jlPrepConsLot">
                               <Properties>
                                 <Property name="text" type="java.lang.String" value="Lote:*"/>
                                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -840,7 +840,7 @@
                                 </Property>
                               </Properties>
                             </Component>
-                            <Component class="sba.lib.gui.bean.DBeanFieldText" name="moTextPrepConLot">
+                            <Component class="sba.lib.gui.bean.DBeanFieldText" name="moTextPrepConsLot">
                             </Component>
                             <Component class="javax.swing.JLabel" name="jLabel3">
                               <Properties>
@@ -849,7 +849,7 @@
                                 </Property>
                               </Properties>
                             </Component>
-                            <Component class="javax.swing.JButton" name="jbPrepConAdd">
+                            <Component class="javax.swing.JButton" name="jbPrepConsAdd">
                               <Properties>
                                 <Property name="text" type="java.lang.String" value="+"/>
                                 <Property name="toolTipText" type="java.lang.String" value="Agregar"/>
@@ -861,7 +861,7 @@
                                 </Property>
                               </Properties>
                             </Component>
-                            <Component class="javax.swing.JButton" name="jbPrepConClear">
+                            <Component class="javax.swing.JButton" name="jbPrepConsClear">
                               <Properties>
                                 <Property name="text" type="java.lang.String" value="!"/>
                                 <Property name="toolTipText" type="java.lang.String" value="Limpiar"/>
@@ -1127,7 +1127,7 @@
                             <Property name="verticalGap" type="int" value="0"/>
                           </Layout>
                           <SubComponents>
-                            <Component class="javax.swing.JLabel" name="jlPackConLinePack">
+                            <Component class="javax.swing.JLabel" name="jlPackConsLinePack">
                               <Properties>
                                 <Property name="text" type="java.lang.String" value="L&#xed;nea:*"/>
                                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -1135,7 +1135,7 @@
                                 </Property>
                               </Properties>
                             </Component>
-                            <Component class="sba.lib.gui.bean.DBeanFieldKey" name="moKeyPackConLinePack">
+                            <Component class="sba.lib.gui.bean.DBeanFieldKey" name="moKeyPackConsLinePack">
                               <Properties>
                                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                                   <Dimension value="[240, 23]"/>
@@ -1151,7 +1151,7 @@
                             <Property name="verticalGap" type="int" value="0"/>
                           </Layout>
                           <SubComponents>
-                            <Component class="javax.swing.JLabel" name="jlPackConLinePackItem">
+                            <Component class="javax.swing.JLabel" name="jlPackConsLinePackItem">
                               <Properties>
                                 <Property name="text" type="java.lang.String" value="Producto:*"/>
                                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -1159,7 +1159,7 @@
                                 </Property>
                               </Properties>
                             </Component>
-                            <Component class="sba.lib.gui.bean.DBeanFieldKey" name="moKeyPackConLinePackItem">
+                            <Component class="sba.lib.gui.bean.DBeanFieldKey" name="moKeyPackConsLinePackItem">
                               <Properties>
                                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                                   <Dimension value="[240, 23]"/>
@@ -1175,7 +1175,7 @@
                             <Property name="verticalGap" type="int" value="0"/>
                           </Layout>
                           <SubComponents>
-                            <Component class="javax.swing.JLabel" name="jlPackConRequirement">
+                            <Component class="javax.swing.JLabel" name="jlPackConsRqmt">
                               <Properties>
                                 <Property name="text" type="java.lang.String" value="Insumo:*"/>
                                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -1183,7 +1183,7 @@
                                 </Property>
                               </Properties>
                             </Component>
-                            <Component class="sba.lib.gui.bean.DBeanFieldKey" name="moKeyPackConRequirement">
+                            <Component class="sba.lib.gui.bean.DBeanFieldKey" name="moKeyPackConsRqmt">
                               <Properties>
                                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                                   <Dimension value="[240, 23]"/>
@@ -1199,7 +1199,7 @@
                             <Property name="verticalGap" type="int" value="0"/>
                           </Layout>
                           <SubComponents>
-                            <Component class="javax.swing.JLabel" name="jlPackConQuantity">
+                            <Component class="javax.swing.JLabel" name="jlPackConsQuantity">
                               <Properties>
                                 <Property name="text" type="java.lang.String" value="Cantidad:*"/>
                                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -1207,7 +1207,7 @@
                                 </Property>
                               </Properties>
                             </Component>
-                            <Component class="sba.lib.gui.bean.DBeanCompoundField" name="moCompPackConQuantity">
+                            <Component class="sba.lib.gui.bean.DBeanCompoundField" name="moCompPackConsQuantity">
                             </Component>
                           </SubComponents>
                         </Container>
@@ -1218,7 +1218,7 @@
                             <Property name="verticalGap" type="int" value="0"/>
                           </Layout>
                           <SubComponents>
-                            <Component class="javax.swing.JLabel" name="jlPackConLot">
+                            <Component class="javax.swing.JLabel" name="jlPackConsLot">
                               <Properties>
                                 <Property name="text" type="java.lang.String" value="Lote:*"/>
                                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -1226,7 +1226,7 @@
                                 </Property>
                               </Properties>
                             </Component>
-                            <Component class="sba.lib.gui.bean.DBeanFieldText" name="moTextPackConLot">
+                            <Component class="sba.lib.gui.bean.DBeanFieldText" name="moTextPackConsLot">
                             </Component>
                             <Component class="javax.swing.JLabel" name="jLabel5">
                               <Properties>
@@ -1235,7 +1235,7 @@
                                 </Property>
                               </Properties>
                             </Component>
-                            <Component class="javax.swing.JButton" name="jbPackConAdd">
+                            <Component class="javax.swing.JButton" name="jbPackConsAdd">
                               <Properties>
                                 <Property name="text" type="java.lang.String" value="+"/>
                                 <Property name="toolTipText" type="java.lang.String" value="Agregar"/>
@@ -1247,7 +1247,7 @@
                                 </Property>
                               </Properties>
                             </Component>
-                            <Component class="javax.swing.JButton" name="jbPackConClear">
+                            <Component class="javax.swing.JButton" name="jbPackConsClear">
                               <Properties>
                                 <Property name="text" type="java.lang.String" value="!"/>
                                 <Property name="toolTipText" type="java.lang.String" value="Limpiar"/>

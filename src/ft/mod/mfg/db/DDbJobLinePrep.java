@@ -432,13 +432,13 @@ public class DDbJobLinePrep extends DDbRegistryUser implements DRowJobProgMask {
     
     @Override
     public ArrayList<DRowJobRqmtMask> createRqmts(final DGuiSession session) {
-        DDbItem item = null;
+        DDbItem itemRqmt = null;
         DDbJobLinePrepRqmt rqmt = null;
         ArrayList<DRowJobRqmtMask> rqmts = new ArrayList<>();
         DDbFormula formula = (DDbFormula) session.readRegistry(DModConsts.MU_FRM, new int[] { mnFkFormulaId });
         
         for (DDbFormulaComp comp : formula.maChildComps) {
-            item = (DDbItem) session.readRegistry(DModConsts.CU_ITM, new int[] { comp.getFkItemId() });
+            itemRqmt = (DDbItem) session.readRegistry(DModConsts.CU_ITM, new int[] { comp.getFkItemId() });
             
             rqmt = new DDbJobLinePrepRqmt();
             rqmt.setPkJobId(mnPkJobId);
@@ -446,8 +446,8 @@ public class DDbJobLinePrep extends DDbRegistryUser implements DRowJobProgMask {
             rqmt.setPkPrepId(mnPkPrepId);
             //rqmt.setPkRqmtId(...);
             rqmt.setQuantity(comp.getQuantity() * mdLoads);
-            rqmt.setMassUnit(item.getMassUnit());
-            rqmt.setMass_r(item.getMassUnit() * comp.getQuantity() * mdLoads);
+            rqmt.setMassUnit(itemRqmt.getMassUnit());
+            rqmt.setMass_r(itemRqmt.getMassUnit() * comp.getQuantity() * mdLoads);
             rqmt.setStatisticsReference(comp.getStatisticsReference());
             rqmt.setStandard(comp.isStandard());
             rqmt.setConsVariable1(comp.isConsVariable1());
@@ -456,11 +456,14 @@ public class DDbJobLinePrep extends DDbRegistryUser implements DRowJobProgMask {
             rqmt.setFkUnitId(comp.getFkUnitId());
             rqmt.setXtaLinePrepCode(msXtaLinePrepCode);
             rqmt.setXtaLinePrepName(msXtaLinePrepName);
-            rqmt.setXtaRequirementTypeCode(item.getXtaItemTypeCode());
-            rqmt.setXtaRequirementCode(item.getCode());
-            rqmt.setXtaRequirementName(item.getName());
-            rqmt.setXtaUnitCode(item.getXtaUnitCode());
-            rqmt.setXtaUnitName(item.getXtaUnitName());
+            rqmt.setXtaProductId(mnFkItemId);
+            rqmt.setXtaProductCode(msXtaItemCode);
+            rqmt.setXtaProductName(msXtaItemName);
+            rqmt.setXtaRqmtTypeCode(itemRqmt.getXtaItemTypeCode());
+            rqmt.setXtaRqmtCode(itemRqmt.getCode());
+            rqmt.setXtaRqmtName(itemRqmt.getName());
+            rqmt.setXtaUnitCode(itemRqmt.getXtaUnitCode());
+            rqmt.setXtaUnitName(itemRqmt.getXtaUnitName());
             rqmts.add(rqmt);
         }
         

@@ -16,10 +16,11 @@ public interface DRowJobRqmtMask {
     public String getLineName();
     public int getProductId();
     public String getProduct();
-    public String getRequirementTypeCode();
-    public String getRequirement();
-    public double getQuantityReq();
-    public double getQuantityCon();
+    public int getRqmtId();
+    public String getRqmt();
+    public String getRqmtTypeCode();
+    public double getQuantityRqmt();
+    public double getQuantityCons();
     public String getUnitCode();
     public boolean isConsVariable1();
 }
