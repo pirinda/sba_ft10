@@ -5,59 +5,56 @@
  */
 package ft.mod.mfg.db;
 
+import sba.lib.db.DDbRegistryUser;
 import sba.lib.grid.DGridRow;
 
 /**
  *
  * @author Sergio Flores
  */
-public class DRowOption implements DGridRow {
+public class DRowJobMfg implements DGridRow {
     
-    public int OptionId;
-    public String Code;
-    public String Name;
-    public boolean Selected;
+    protected DRowJobMfgMask miJobMfg;
     
-    public DRowOption(int optionId, String code, String name, boolean selected) {
-        OptionId = optionId;
-        Code = code;
-        Name = name;
-        Selected = selected;
+    public DRowJobMfg(DRowJobMfgMask jobPack) {
+        miJobMfg = jobPack;
     }
 
+    public DRowJobMfgMask getJobPack() { return miJobMfg; }
+    
     @Override
     public int[] getRowPrimaryKey() {
-        return new int[] { OptionId };
+        return ((DDbRegistryUser) miJobMfg).getPrimaryKey();
     }
 
     @Override
     public String getRowCode() {
-        return Code;
+        return ((DDbRegistryUser) miJobMfg).getCode();
     }
 
     @Override
     public String getRowName() {
-        return Name;
+        return ((DDbRegistryUser) miJobMfg).getName();
     }
 
     @Override
     public boolean isRowSystem() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return ((DDbRegistryUser) miJobMfg).isSystem();
     }
 
     @Override
     public boolean isRowDeletable() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return ((DDbRegistryUser) miJobMfg).isDeletable();
     }
 
     @Override
     public boolean isRowEdited() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return ((DDbRegistryUser) miJobMfg).isRegistryEdited();
     }
 
     @Override
     public void setRowEdited(boolean edited) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        ((DDbRegistryUser) miJobMfg).setRegistryEdited(edited);
     }
 
     @Override
@@ -66,13 +63,19 @@ public class DRowOption implements DGridRow {
         
         switch (col) {
             case 0:
-                value = Name;
+                value = miJobMfg.getLineCode();
                 break;
             case 1:
-                value = Code;
+                value = miJobMfg.getProduct();
                 break;
             case 2:
-                value = Selected;
+                value = miJobMfg.getQuantity();
+                break;
+            case 3:
+                value = miJobMfg.getUnitCode();
+                break;
+            case 4:
+                value = miJobMfg.getVariable1();
                 break;
             default:
         }
@@ -82,14 +85,6 @@ public class DRowOption implements DGridRow {
 
     @Override
     public void setRowValueAt(Object value, int col) {
-        switch (col) {
-            case 0:
-            case 1:
-                break;
-            case 2:
-                Selected = (Boolean) value;
-                break;
-            default:
-        }
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

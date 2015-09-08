@@ -14,9 +14,10 @@ public interface DRowJobRqmtMask {
     public int getLineId();
     public String getLineCode();
     public String getLineName();
-    public int getProg();
-    public String getItemTypeCode();
-    public String getItem();
+    public int getProductId();
+    public String getProduct();
+    public String getRequirementTypeCode();
+    public String getRequirement();
     public double getQuantityReq();
     public double getQuantityCon();
     public String getUnitCode();

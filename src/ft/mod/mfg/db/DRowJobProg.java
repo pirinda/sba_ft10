@@ -66,21 +66,18 @@ public class DRowJobProg implements DGridRow {
                 value = miJobProg.getLineCode();
                 break;
             case 1:
-                value = miJobProg.getProg();
+                value = miJobProg.getProduct();
                 break;
             case 2:
-                value = miJobProg.getItem();
-                break;
-            case 3:
                 value = miJobProg.getFormula();
                 break;
-            case 4:
+            case 3:
                 value = miJobProg.getQuantity();
                 break;
-            case 5:
+            case 4:
                 value = miJobProg.getUnitCode();
                 break;
-            case 6:
+            case 5:
                 value = miJobProg.getDefaultVariable1();
                 break;
             default:
@@ -91,6 +88,6 @@ public class DRowJobProg implements DGridRow {
 
     @Override
     public void setRowValueAt(Object value, int col) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

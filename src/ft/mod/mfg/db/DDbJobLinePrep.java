@@ -411,12 +411,12 @@ public class DDbJobLinePrep extends DDbRegistryUser implements DRowJobProgMask {
     }
     
     @Override
-    public int getProg() {
-        return getPkPrepId();
+    public int getProductId() {
+        return getFkItemId();
     }
 
     @Override
-    public String getItem() {
+    public String getProduct() {
         return getXtaItemName();
     }
 
@@ -456,9 +456,9 @@ public class DDbJobLinePrep extends DDbRegistryUser implements DRowJobProgMask {
             rqmt.setFkUnitId(comp.getFkUnitId());
             rqmt.setXtaLinePrepCode(msXtaLinePrepCode);
             rqmt.setXtaLinePrepName(msXtaLinePrepName);
-            rqmt.setXtaItemTypeCode(item.getXtaItemTypeCode());
-            rqmt.setXtaItemCode(item.getCode());
-            rqmt.setXtaItemName(item.getName());
+            rqmt.setXtaRequirementTypeCode(item.getXtaItemTypeCode());
+            rqmt.setXtaRequirementCode(item.getCode());
+            rqmt.setXtaRequirementName(item.getName());
             rqmt.setXtaUnitCode(item.getXtaUnitCode());
             rqmt.setXtaUnitName(item.getXtaUnitName());
             rqmts.add(rqmt);

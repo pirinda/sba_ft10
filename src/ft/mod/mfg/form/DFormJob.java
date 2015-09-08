@@ -190,8 +190,8 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         jlPrepConLinePrepItem = new javax.swing.JLabel();
         moKeyPrepConLinePrepItem = new sba.lib.gui.bean.DBeanFieldKey();
         jPanel7 = new javax.swing.JPanel();
-        jlPrepConItem = new javax.swing.JLabel();
-        moKeyPrepConItem = new sba.lib.gui.bean.DBeanFieldKey();
+        jlPrepConRequirement = new javax.swing.JLabel();
+        moKeyPrepConRequirement = new sba.lib.gui.bean.DBeanFieldKey();
         jPanel8 = new javax.swing.JPanel();
         jlPrepConQuantity = new javax.swing.JLabel();
         moCompPrepConQuantity = new sba.lib.gui.bean.DBeanCompoundField();
@@ -212,8 +212,6 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         jlPrepMfgLinePrepItem = new javax.swing.JLabel();
         moKeyPrepMfgLinePrepItem = new sba.lib.gui.bean.DBeanFieldKey();
         jPanel29 = new javax.swing.JPanel();
-        jlPrepMfgItem = new javax.swing.JLabel();
-        moKeyPrepMfgItem = new sba.lib.gui.bean.DBeanFieldKey();
         jPanel30 = new javax.swing.JPanel();
         jlPrepMfgQuantity = new javax.swing.JLabel();
         moCompPrepMfgQuantity = new sba.lib.gui.bean.DBeanCompoundField();
@@ -236,8 +234,8 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         jlPackConLinePackItem = new javax.swing.JLabel();
         moKeyPackConLinePackItem = new sba.lib.gui.bean.DBeanFieldKey();
         jPanel35 = new javax.swing.JPanel();
-        jlPackConItem = new javax.swing.JLabel();
-        moKeyPackConItem = new sba.lib.gui.bean.DBeanFieldKey();
+        jlPackConRequirement = new javax.swing.JLabel();
+        moKeyPackConRequirement = new sba.lib.gui.bean.DBeanFieldKey();
         jPanel36 = new javax.swing.JPanel();
         jlPackConQuantity = new javax.swing.JLabel();
         moCompPackConQuantity = new sba.lib.gui.bean.DBeanCompoundField();
@@ -257,8 +255,6 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         jlPackMfgLinePackItem = new javax.swing.JLabel();
         moKeyPackMfgLinePackItem = new sba.lib.gui.bean.DBeanFieldKey();
         jPanel41 = new javax.swing.JPanel();
-        jlPackMfgItem = new javax.swing.JLabel();
-        moKeyPackMfgItem = new sba.lib.gui.bean.DBeanFieldKey();
         jPanel42 = new javax.swing.JPanel();
         jlPackMfgQuantity = new javax.swing.JLabel();
         moCompPackMfgQuantity = new sba.lib.gui.bean.DBeanCompoundField();
@@ -574,7 +570,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
 
         jPanel10.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
-        jlPrepConLinePrepItem.setText("Programa:*");
+        jlPrepConLinePrepItem.setText("Producto:*");
         jlPrepConLinePrepItem.setPreferredSize(new java.awt.Dimension(75, 23));
         jPanel10.add(jlPrepConLinePrepItem);
 
@@ -585,12 +581,12 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
 
         jPanel7.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
-        jlPrepConItem.setText("Insumo:*");
-        jlPrepConItem.setPreferredSize(new java.awt.Dimension(75, 23));
-        jPanel7.add(jlPrepConItem);
+        jlPrepConRequirement.setText("Insumo:*");
+        jlPrepConRequirement.setPreferredSize(new java.awt.Dimension(75, 23));
+        jPanel7.add(jlPrepConRequirement);
 
-        moKeyPrepConItem.setPreferredSize(new java.awt.Dimension(240, 23));
-        jPanel7.add(moKeyPrepConItem);
+        moKeyPrepConRequirement.setPreferredSize(new java.awt.Dimension(240, 23));
+        jPanel7.add(moKeyPrepConRequirement);
 
         jpPrepConsData.add(jPanel7);
 
@@ -656,7 +652,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
 
         jPanel31.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
-        jlPrepMfgLinePrepItem.setText("Programa:*");
+        jlPrepMfgLinePrepItem.setText("Producto:*");
         jlPrepMfgLinePrepItem.setPreferredSize(new java.awt.Dimension(75, 23));
         jPanel31.add(jlPrepMfgLinePrepItem);
 
@@ -666,14 +662,6 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         jpPrepMfgData.add(jPanel31);
 
         jPanel29.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
-
-        jlPrepMfgItem.setText("Producto:*");
-        jlPrepMfgItem.setPreferredSize(new java.awt.Dimension(75, 23));
-        jPanel29.add(jlPrepMfgItem);
-
-        moKeyPrepMfgItem.setPreferredSize(new java.awt.Dimension(240, 23));
-        jPanel29.add(moKeyPrepMfgItem);
-
         jpPrepMfgData.add(jPanel29);
 
         jPanel30.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
@@ -748,7 +736,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
 
         jPanel37.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
-        jlPackConLinePackItem.setText("Programa:*");
+        jlPackConLinePackItem.setText("Producto:*");
         jlPackConLinePackItem.setPreferredSize(new java.awt.Dimension(75, 23));
         jPanel37.add(jlPackConLinePackItem);
 
@@ -759,12 +747,12 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
 
         jPanel35.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
-        jlPackConItem.setText("Insumo:*");
-        jlPackConItem.setPreferredSize(new java.awt.Dimension(75, 23));
-        jPanel35.add(jlPackConItem);
+        jlPackConRequirement.setText("Insumo:*");
+        jlPackConRequirement.setPreferredSize(new java.awt.Dimension(75, 23));
+        jPanel35.add(jlPackConRequirement);
 
-        moKeyPackConItem.setPreferredSize(new java.awt.Dimension(240, 23));
-        jPanel35.add(moKeyPackConItem);
+        moKeyPackConRequirement.setPreferredSize(new java.awt.Dimension(240, 23));
+        jPanel35.add(moKeyPackConRequirement);
 
         jpPackConsData.add(jPanel35);
 
@@ -826,7 +814,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
 
         jPanel43.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
-        jlPackMfgLinePackItem.setText("Programa:*");
+        jlPackMfgLinePackItem.setText("Producto:*");
         jlPackMfgLinePackItem.setPreferredSize(new java.awt.Dimension(75, 23));
         jPanel43.add(jlPackMfgLinePackItem);
 
@@ -836,14 +824,6 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         jpPackMfgData.add(jPanel43);
 
         jPanel41.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
-
-        jlPackMfgItem.setText("Producto:*");
-        jlPackMfgItem.setPreferredSize(new java.awt.Dimension(75, 23));
-        jPanel41.add(jlPackMfgItem);
-
-        moKeyPackMfgItem.setPreferredSize(new java.awt.Dimension(240, 23));
-        jPanel41.add(moKeyPackMfgItem);
-
         jpPackMfgData.add(jPanel41);
 
         jPanel42.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
@@ -962,21 +942,19 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
     private javax.swing.JLabel jlJobTimeEnd;
     private javax.swing.JLabel jlJobTimeStart;
     private javax.swing.JLabel jlJobType;
-    private javax.swing.JLabel jlPackConItem;
     private javax.swing.JLabel jlPackConLinePack;
     private javax.swing.JLabel jlPackConLinePackItem;
     private javax.swing.JLabel jlPackConLot;
     private javax.swing.JLabel jlPackConQuantity;
-    private javax.swing.JLabel jlPackMfgItem;
+    private javax.swing.JLabel jlPackConRequirement;
     private javax.swing.JLabel jlPackMfgLinePack;
     private javax.swing.JLabel jlPackMfgLinePackItem;
     private javax.swing.JLabel jlPackMfgQuantity;
-    private javax.swing.JLabel jlPrepConItem;
     private javax.swing.JLabel jlPrepConLinePrep;
     private javax.swing.JLabel jlPrepConLinePrepItem;
     private javax.swing.JLabel jlPrepConLot;
     private javax.swing.JLabel jlPrepConQuantity;
-    private javax.swing.JLabel jlPrepMfgItem;
+    private javax.swing.JLabel jlPrepConRequirement;
     private javax.swing.JLabel jlPrepMfgLinePrep;
     private javax.swing.JLabel jlPrepMfgLinePrepItem;
     private javax.swing.JLabel jlPrepMfgQuantity;
@@ -1036,16 +1014,14 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
     private sba.lib.gui.bean.DBeanFieldKey moKeyJobItemFamily;
     private sba.lib.gui.bean.DBeanFieldKey moKeyJobStatus;
     private sba.lib.gui.bean.DBeanFieldKey moKeyJobType;
-    private sba.lib.gui.bean.DBeanFieldKey moKeyPackConItem;
     private sba.lib.gui.bean.DBeanFieldKey moKeyPackConLinePack;
     private sba.lib.gui.bean.DBeanFieldKey moKeyPackConLinePackItem;
-    private sba.lib.gui.bean.DBeanFieldKey moKeyPackMfgItem;
+    private sba.lib.gui.bean.DBeanFieldKey moKeyPackConRequirement;
     private sba.lib.gui.bean.DBeanFieldKey moKeyPackMfgLinePack;
     private sba.lib.gui.bean.DBeanFieldKey moKeyPackMfgLinePackItem;
-    private sba.lib.gui.bean.DBeanFieldKey moKeyPrepConItem;
     private sba.lib.gui.bean.DBeanFieldKey moKeyPrepConLinePrep;
     private sba.lib.gui.bean.DBeanFieldKey moKeyPrepConLinePrepItem;
-    private sba.lib.gui.bean.DBeanFieldKey moKeyPrepMfgItem;
+    private sba.lib.gui.bean.DBeanFieldKey moKeyPrepConRequirement;
     private sba.lib.gui.bean.DBeanFieldKey moKeyPrepMfgLinePrep;
     private sba.lib.gui.bean.DBeanFieldKey moKeyPrepMfgLinePrepItem;
     private sba.lib.gui.bean.DBeanFieldKey moKeyProgPackFormula;
@@ -1095,7 +1071,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         
         moKeyPrepConLinePrep.setKeySettings(miClient, DGuiUtils.getLabelName(jlPrepConLinePrep), true);
         moKeyPrepConLinePrepItem.setKeySettings(miClient, DGuiUtils.getLabelName(jlPrepConLinePrepItem), true);
-        moKeyPrepConItem.setKeySettings(miClient, DGuiUtils.getLabelName(jlPrepConItem), true);
+        moKeyPrepConRequirement.setKeySettings(miClient, DGuiUtils.getLabelName(jlPrepConRequirement), true);
         moCompPrepConQuantity.setCompoundFieldSettings(miClient);
         moCompPrepConQuantity.getField().setDecimalSettings(DGuiUtils.getLabelName(jlPrepConQuantity), DGuiConsts.GUI_TYPE_DEC_QTY, true);
         moCompPrepConVariable1.setCompoundFieldSettings(miClient);
@@ -1104,7 +1080,6 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         
         moKeyPrepMfgLinePrep.setKeySettings(miClient, DGuiUtils.getLabelName(jlPrepMfgLinePrep), true);
         moKeyPrepMfgLinePrepItem.setKeySettings(miClient, DGuiUtils.getLabelName(jlPrepMfgLinePrepItem), true);
-        moKeyPrepMfgItem.setKeySettings(miClient, DGuiUtils.getLabelName(jlPrepMfgItem), true);
         moCompPrepMfgQuantity.setCompoundFieldSettings(miClient);
         moCompPrepMfgQuantity.getField().setDecimalSettings(DGuiUtils.getLabelName(jlPrepMfgQuantity), DGuiConsts.GUI_TYPE_DEC_QTY, true);
         moCompPrepMfgVariable1.setCompoundFieldSettings(miClient);
@@ -1112,14 +1087,13 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         
         moKeyPackConLinePack.setKeySettings(miClient, DGuiUtils.getLabelName(jlPackConLinePack), true);
         moKeyPackConLinePackItem.setKeySettings(miClient, DGuiUtils.getLabelName(jlPackConLinePackItem), true);
-        moKeyPackConItem.setKeySettings(miClient, DGuiUtils.getLabelName(jlPackConItem), true);
+        moKeyPackConRequirement.setKeySettings(miClient, DGuiUtils.getLabelName(jlPackConRequirement), true);
         moCompPackConQuantity.setCompoundFieldSettings(miClient);
         moCompPackConQuantity.getField().setDecimalSettings(DGuiUtils.getLabelName(jlPackConQuantity), DGuiConsts.GUI_TYPE_DEC_QTY, true);
         moTextPackConLot.setTextSettings(DGuiUtils.getLabelName(jlPackConLot), 25);
         
         moKeyPackMfgLinePack.setKeySettings(miClient, DGuiUtils.getLabelName(jlPackMfgLinePack), true);
         moKeyPackMfgLinePackItem.setKeySettings(miClient, DGuiUtils.getLabelName(jlPackMfgLinePackItem), true);
-        moKeyPackMfgItem.setKeySettings(miClient, DGuiUtils.getLabelName(jlPackMfgItem), true);
         moCompPackMfgQuantity.setCompoundFieldSettings(miClient);
         moCompPackMfgQuantity.getField().setDecimalSettings(DGuiUtils.getLabelName(jlPackMfgQuantity), DGuiConsts.GUI_TYPE_DEC_QTY, true);
         
@@ -1147,26 +1121,24 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         
         moFields.addField(moKeyPrepConLinePrep);
         moFields.addField(moKeyPrepConLinePrepItem);
-        moFields.addField(moKeyPrepConItem);
+        moFields.addField(moKeyPrepConRequirement);
         moFields.addField(moCompPrepConQuantity.getField());
         moFields.addField(moCompPrepConVariable1.getField());
         moFields.addField(moTextPrepConLot);
         
         moFields.addField(moKeyPrepMfgLinePrep);
         moFields.addField(moKeyPrepMfgLinePrepItem);
-        moFields.addField(moKeyPrepMfgItem);
         moFields.addField(moCompPrepMfgQuantity.getField());
         moFields.addField(moCompPrepMfgVariable1.getField());
         
         moFields.addField(moKeyPackConLinePack);
         moFields.addField(moKeyPackConLinePackItem);
-        moFields.addField(moKeyPackConItem);
+        moFields.addField(moKeyPackConRequirement);
         moFields.addField(moCompPackConQuantity.getField());
         moFields.addField(moTextPackConLot);
         
         moFields.addField(moKeyPackMfgLinePack);
         moFields.addField(moKeyPackMfgLinePackItem);
-        moFields.addField(moKeyPackMfgItem);
         moFields.addField(moCompPackMfgQuantity.getField());
         
         moFields.setFormButton(jbSave);
@@ -1187,10 +1159,9 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
             @Override
             public void createGridColumns() {
                 int col = 0;
-                DGridColumnForm[] columns = new DGridColumnForm[7];
+                DGridColumnForm[] columns = new DGridColumnForm[6];
 
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_CODE_CO, "Línea");
-                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_INT_1B, "Programa");
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_NAME_ITM_S, "Producto");
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_NAME_CAT_S, "Fórmula");
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_DEC_QTY, "Cantidad");
@@ -1213,10 +1184,9 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
             @Override
             public void createGridColumns() {
                 int col = 0;
-                DGridColumnForm[] columns = new DGridColumnForm[6];
+                DGridColumnForm[] columns = new DGridColumnForm[5];
 
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_CODE_CO, "Línea");
-                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_INT_1B, "Programa");
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_NAME_ITM_S, "Producto");
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_NAME_CAT_S, "Fórmula");
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_DEC_QTY, "Cantidad");
@@ -1241,7 +1211,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
                 DGridColumnForm[] columns = new DGridColumnForm[7];
 
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_CODE_CO, "Línea");
-                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_INT_1B, "Programa");
+                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_NAME_ITM_S, "Producto");
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_CODE_CO, DGridConsts.COL_TITLE_TYPE + " insumo");
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_NAME_ITM_S, "Insumo");
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_DEC_QTY, "Cant requerida");
@@ -1320,7 +1290,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
                 DGridColumnForm[] columns = new DGridColumnForm[7];
 
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_CODE_CO, "Línea");
-                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_INT_1B, "Programa");
+                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_NAME_ITM_S, "Producto");
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_CODE_CO, DGridConsts.COL_TITLE_TYPE + " insumo");
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_NAME_ITM_S, "Insumo");
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_DEC_QTY, "Cant requerida");
@@ -1597,15 +1567,15 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
     
     private void updateFieldsPrepConLinePrepItem() {
         if (moKeyPrepConLinePrepItem.getSelectedIndex() <= 0) {
-            moKeyPrepConItem.setEnabled(false);
+            moKeyPrepConRequirement.setEnabled(false);
         }
         else {
-            moKeyPrepConItem.setEnabled(true);
+            moKeyPrepConRequirement.setEnabled(true);
         }
     }
     
-    private void updateFieldsPrepConItem() {
-        if (moKeyPrepConItem.getSelectedIndex() <= 0) {
+    private void updateFieldsPrepConRequirement() {
+        if (moKeyPrepConRequirement.getSelectedIndex() <= 0) {
             moCompPrepConQuantity.setEditable(false);
             moCompPrepConVariable1.setEditable(false);
             moTextPrepConLot.setEditable(false);
@@ -1628,15 +1598,6 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
     
     private void updateFieldsPrepMfgLinePrepItem() {
         if (moKeyPrepMfgLinePrepItem.getSelectedIndex() <= 0) {
-            moKeyPrepMfgItem.setEnabled(false);
-        }
-        else {
-            moKeyPrepMfgItem.setEnabled(true);
-        }
-    }
-    
-    private void updateFieldsPrepMfgItem() {
-        if (moKeyPrepMfgItem.getSelectedIndex() <= 0) {
             moCompPrepMfgQuantity.setEditable(false);
             moCompPrepMfgVariable1.setEditable(false);
         }
@@ -1657,15 +1618,15 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
     
     private void updateFieldsPackConLinePackItem() {
         if (moKeyPackConLinePackItem.getSelectedIndex() <= 0) {
-            moKeyPackConItem.setEnabled(false);
+            moKeyPackConRequirement.setEnabled(false);
         }
         else {
-            moKeyPackConItem.setEnabled(true);
+            moKeyPackConRequirement.setEnabled(true);
         }
     }
     
-    private void updateFieldsPackConItem() {
-        if (moKeyPackConItem.getSelectedIndex() <= 0) {
+    private void updateFieldsPackConRequirement() {
+        if (moKeyPackConRequirement.getSelectedIndex() <= 0) {
             moCompPackConQuantity.setEditable(false);
             moTextPackConLot.setEditable(false);
         }
@@ -1686,15 +1647,6 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
     
     private void updateFieldsPackMfgLinePackItem() {
         if (moKeyPackMfgLinePackItem.getSelectedIndex() <= 0) {
-            moKeyPackMfgItem.setEnabled(false);
-        }
-        else {
-            moKeyPackMfgItem.setEnabled(true);
-        }
-    }
-    
-    private void updateFieldsPackMfgItem() {
-        if (moKeyPackMfgItem.getSelectedIndex() <= 0) {
             moCompPackMfgQuantity.setEditable(false);
         }
         else {
@@ -1706,13 +1658,17 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
      * Private methods: clear fields handlers
      */
 
-    private void clearFieldsProgPrep() {
-        moKeyProgPrepLinePrep.resetField();
+    private void clearFieldsProgPrep(boolean preserveLine) {
+        if (!preserveLine) {
+            moKeyProgPrepLinePrep.resetField();
+        }
         moKeyProgPrepFormula.resetField();
     }
     
-    private void clearFieldsProgPack() {
-        moKeyProgPackLinePack.resetField();
+    private void clearFieldsProgPack(boolean preserveLine) {
+        if (!preserveLine) {
+            moKeyProgPackLinePack.resetField();
+        }
         moKeyProgPackFormula.resetField();
     }
     
@@ -1820,7 +1776,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         return validation;
     }
     
-    private ArrayList<DGuiItem> createProgLineItems(DGridPaneForm grid, String tag) {
+    private ArrayList<DGuiItem> createProgLineGuiItems(DGridPaneForm grid, String tag) {
         DRowJobProgMask rowJob = null;
         HashMap<Integer, DGuiItem> map = new HashMap<>();
         
@@ -1837,7 +1793,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
     }
     
     private void populateProgPrepLineItems() {
-        ArrayList<DGuiItem> items = createProgLineItems(moGridProgPrep, DGuiUtils.getLabelName(jlPrepConLinePrep));
+        ArrayList<DGuiItem> items = createProgLineGuiItems(moGridProgPrep, DGuiUtils.getLabelName(jlPrepConLinePrep));
 
         moKeyPrepConLinePrep.removeAllItems();
         moKeyPrepMfgLinePrep.removeAllItems();
@@ -1849,7 +1805,15 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
     }
     
     private void populateProgPackLineItems() {
-        
+        ArrayList<DGuiItem> items = createProgLineGuiItems(moGridProgPack, DGuiUtils.getLabelName(jlPackConLinePack));
+
+        moKeyPackConLinePack.removeAllItems();
+        moKeyPackMfgLinePack.removeAllItems();
+
+        for (DGuiItem gi : items) {
+            moKeyPackConLinePack.addItem(gi);
+            moKeyPackMfgLinePack.addItem(gi);
+        }
     }
     
     /*
@@ -1942,13 +1906,13 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
                 
                 populateProgPrepLineItems();
                 
-                actionPerformedProgPrepClear();
+                actionPerformedProgPrepClear(true);
             }
         }
     }
     
-    private void actionPerformedProgPrepClear() {
-        clearFieldsProgPrep();
+    private void actionPerformedProgPrepClear(boolean preserveLine) {
+        clearFieldsProgPrep(preserveLine);
         moKeyProgPrepLinePrep.requestFocus();
     }
 
@@ -2009,13 +1973,13 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
 
                 populateProgPackLineItems();
                 
-                actionPerformedProgPackClear();
+                actionPerformedProgPackClear(true);
             }
         }
     }
 
-    private void actionPerformedProgPackClear() {
-        clearFieldsProgPack();
+    private void actionPerformedProgPackClear(boolean preserveLine) {
+        clearFieldsProgPack(preserveLine);
         moKeyProgPackLinePack.requestFocus();
     }
 
@@ -2191,10 +2155,9 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
     private void itemStateChangedPrepConLinePrep() {
         updateFieldsPrepConLinePrep();
         
-        if (moKeyPrepConLinePrep.getSelectedIndex() <= 0) {
-            moKeyPrepConLinePrepItem.removeAllItems();
-        }
-        else {
+        moKeyPrepConLinePrepItem.removeAllItems();
+        
+        if (moKeyPrepConLinePrep.getSelectedIndex() > 0) {
             
         }
         
@@ -2204,18 +2167,17 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
     private void itemStateChangedPrepConLinePrepItem() {
         updateFieldsPrepConLinePrepItem();
         
-        if (moKeyPrepConLinePrepItem.getSelectedIndex() <= 0) {
-            moKeyPrepConItem.removeAllItems();
-        }
-        else {
+        moKeyPrepConRequirement.removeAllItems();
+        
+        if (moKeyPrepConLinePrepItem.getSelectedIndex() > 0) {
             
         }
         
-        itemStateChangedPrepConItem();
+        itemStateChangedPrepConRequirement();
     }
     
-    private void itemStateChangedPrepConItem() {
-        updateFieldsPrepConItem();
+    private void itemStateChangedPrepConRequirement() {
+        updateFieldsPrepConRequirement();
         
         moCompPrepConQuantity.getField().setValue(0d);
         moCompPrepConVariable1.getField().setValue(0d);
@@ -2225,10 +2187,9 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
     private void itemStateChangedPrepMfgLinePrep() {
         updateFieldsPrepMfgLinePrep();
         
-        if (moKeyPrepMfgLinePrep.getSelectedIndex() <= 0) {
-            moKeyPrepMfgLinePrepItem.removeAllItems();
-        }
-        else {
+        moKeyPrepMfgLinePrepItem.removeAllItems();
+        
+        if (moKeyPrepMfgLinePrep.getSelectedIndex() > 0) {
             
         }
         
@@ -2238,19 +2199,6 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
     private void itemStateChangedPrepMfgLinePrepItem() {
         updateFieldsPrepMfgLinePrepItem();
         
-        if (moKeyPrepMfgLinePrepItem.getSelectedIndex() <= 0) {
-            moKeyPrepMfgItem.removeAllItems();
-        }
-        else {
-            
-        }
-        
-        itemStateChangedPrepMfgItem();
-    }
-    
-    private void itemStateChangedPrepMfgItem() {
-        updateFieldsPrepMfgItem();
-        
         moCompPrepMfgQuantity.getField().setValue(0d);
         moCompPrepMfgVariable1.getField().setValue(0d);
     }
@@ -2258,10 +2206,9 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
     private void itemStateChangedPackConLinePack() {
         updateFieldsPackConLinePack();
         
-        if (moKeyPackConLinePack.getSelectedIndex() <= 0) {
-            moKeyPackConLinePackItem.removeAllItems();
-        }
-        else {
+        moKeyPackConLinePackItem.removeAllItems();
+        
+        if (moKeyPackConLinePack.getSelectedIndex() > 0) {
             
         }
         
@@ -2271,18 +2218,17 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
     private void itemStateChangedPackConLinePackItem() {
         updateFieldsPackConLinePackItem();
         
-        if (moKeyPackConLinePackItem.getSelectedIndex() <= 0) {
-            moKeyPackConItem.removeAllItems();
-        }
-        else {
+        moKeyPackConRequirement.removeAllItems();
+        
+        if (moKeyPackConLinePackItem.getSelectedIndex() > 0) {
             
         }
         
-        itemStateChangedPackConItem();
+        itemStateChangedPackConRequirement();
     }
     
-    private void itemStateChangedPackConItem() {
-        updateFieldsPackConItem();
+    private void itemStateChangedPackConRequirement() {
+        updateFieldsPackConRequirement();
         
         moCompPackConQuantity.getField().setValue(0d);
         moTextPackConLot.setValue("");
@@ -2291,17 +2237,17 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
     private void itemStateChangedPackMfgLinePack() {
         updateFieldsPackMfgLinePack();
         
+        moKeyPackMfgLinePackItem.removeAllItems();
+        
+        if (moKeyPackMfgLinePack.getSelectedIndex() > 0) {
+            
+        }
+        
         itemStateChangedPackMfgLinePackItem();
     }
     
     private void itemStateChangedPackMfgLinePackItem() {
         updateFieldsPackMfgLinePackItem();
-        
-        itemStateChangedPackMfgItem();
-    }
-    
-    private void itemStateChangedPackMfgItem() {
-        updateFieldsPackMfgItem();
         
         moCompPackMfgQuantity.getField().setValue(0d);
     }
@@ -2359,16 +2305,14 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         moKeyProgPackFormula.addItemListener(this);
         moKeyPrepConLinePrep.addItemListener(this);
         moKeyPrepConLinePrepItem.addItemListener(this);
-        moKeyPrepConItem.addItemListener(this);
+        moKeyPrepConRequirement.addItemListener(this);
         moKeyPrepMfgLinePrep.addItemListener(this);
         moKeyPrepMfgLinePrepItem.addItemListener(this);
-        moKeyPrepMfgItem.addItemListener(this);
         moKeyPackConLinePack.addItemListener(this);
         moKeyPackConLinePackItem.addItemListener(this);
-        moKeyPackConItem.addItemListener(this);
+        moKeyPackConRequirement.addItemListener(this);
         moKeyPackMfgLinePack.addItemListener(this);
         moKeyPackMfgLinePackItem.addItemListener(this);
-        moKeyPackMfgItem.addItemListener(this);
         
         moDecProgPrepLoads.addFocusListener(this);
         moDecProgPackLoads.addFocusListener(this);
@@ -2403,16 +2347,14 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         moKeyProgPackFormula.removeItemListener(this);
         moKeyPrepConLinePrep.removeItemListener(this);
         moKeyPrepConLinePrepItem.removeItemListener(this);
-        moKeyPrepConItem.removeItemListener(this);
+        moKeyPrepConRequirement.removeItemListener(this);
         moKeyPrepMfgLinePrep.removeItemListener(this);
         moKeyPrepMfgLinePrepItem.removeItemListener(this);
-        moKeyPrepMfgItem.removeItemListener(this);
         moKeyPackConLinePack.removeItemListener(this);
         moKeyPackConLinePackItem.removeItemListener(this);
-        moKeyPackConItem.removeItemListener(this);
+        moKeyPackConRequirement.removeItemListener(this);
         moKeyPackMfgLinePack.removeItemListener(this);
         moKeyPackMfgLinePackItem.removeItemListener(this);
-        moKeyPackMfgItem.removeItemListener(this);
         
         moDecProgPrepLoads.removeFocusListener(this);
         moDecProgPackLoads.removeFocusListener(this);
@@ -2566,12 +2508,12 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
 
     @Override
     public void notifyRowNew(int gridType, int gridSubtype, int row, DGridRow gridRow) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public void notifyRowEdit(int gridType, int gridSubtype, int row, DGridRow gridRow) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
@@ -2616,13 +2558,13 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
                 actionPerformedProgPrepAdd();
             }
             else if (button == jbProgPrepClear) {
-                actionPerformedProgPrepClear();
+                actionPerformedProgPrepClear(false);
             }
             else if (button == jbProgPackAdd) {
                 actionPerformedProgPackAdd();
             }
             else if (button == jbProgPackClear) {
-                actionPerformedProgPackClear();
+                actionPerformedProgPackClear(false);
             }
             else if (button == jbPrepConAdd) {
                 actionPerformedPrepConAdd();
@@ -2693,8 +2635,8 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
                 else if (field == moKeyPrepConLinePrepItem) {
                     itemStateChangedPrepConLinePrepItem();
                 }
-                else if (field == moKeyPrepConItem) {
-                    itemStateChangedPrepConItem();
+                else if (field == moKeyPrepConRequirement) {
+                    itemStateChangedPrepConRequirement();
                 }
                 else if (field == moKeyPrepMfgLinePrep) {
                     itemStateChangedPrepMfgLinePrep();
@@ -2702,26 +2644,20 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
                 else if (field == moKeyPrepMfgLinePrepItem) {
                     itemStateChangedPrepMfgLinePrepItem();
                 }
-                else if (field == moKeyPrepMfgItem) {
-                    itemStateChangedPrepMfgItem();
-                }
                 else if (field == moKeyPackConLinePack) {
                     itemStateChangedPackConLinePack();
                 }
                 else if (field == moKeyPackConLinePackItem) {
                     itemStateChangedPackConLinePackItem();
                 }
-                else if (field == moKeyPackConItem) {
-                    itemStateChangedPackConItem();
+                else if (field == moKeyPackConRequirement) {
+                    itemStateChangedPackConRequirement();
                 }
                 else if (field == moKeyPackMfgLinePack) {
                     itemStateChangedPackMfgLinePack();
                 }
                 else if (field == moKeyPackMfgLinePackItem) {
                     itemStateChangedPackMfgLinePackItem();
-                }
-                else if (field == moKeyPackMfgItem) {
-                    itemStateChangedPackMfgItem();
                 }
             }
         }

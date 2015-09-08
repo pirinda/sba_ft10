@@ -731,12 +731,12 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
 
     @Override
     public void notifyRowNew(int gridType, int gridSubtype, int row, DGridRow gridRow) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public void notifyRowEdit(int gridType, int gridSubtype, int row, DGridRow gridRow) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override

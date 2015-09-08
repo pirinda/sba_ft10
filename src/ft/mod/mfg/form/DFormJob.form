@@ -759,7 +759,7 @@
                           <SubComponents>
                             <Component class="javax.swing.JLabel" name="jlPrepConLinePrepItem">
                               <Properties>
-                                <Property name="text" type="java.lang.String" value="Programa:*"/>
+                                <Property name="text" type="java.lang.String" value="Producto:*"/>
                                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                                   <Dimension value="[75, 23]"/>
                                 </Property>
@@ -781,7 +781,7 @@
                             <Property name="verticalGap" type="int" value="0"/>
                           </Layout>
                           <SubComponents>
-                            <Component class="javax.swing.JLabel" name="jlPrepConItem">
+                            <Component class="javax.swing.JLabel" name="jlPrepConRequirement">
                               <Properties>
                                 <Property name="text" type="java.lang.String" value="Insumo:*"/>
                                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -789,7 +789,7 @@
                                 </Property>
                               </Properties>
                             </Component>
-                            <Component class="sba.lib.gui.bean.DBeanFieldKey" name="moKeyPrepConItem">
+                            <Component class="sba.lib.gui.bean.DBeanFieldKey" name="moKeyPrepConRequirement">
                               <Properties>
                                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                                   <Dimension value="[240, 23]"/>
@@ -947,7 +947,7 @@
                           <SubComponents>
                             <Component class="javax.swing.JLabel" name="jlPrepMfgLinePrepItem">
                               <Properties>
-                                <Property name="text" type="java.lang.String" value="Programa:*"/>
+                                <Property name="text" type="java.lang.String" value="Producto:*"/>
                                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                                   <Dimension value="[75, 23]"/>
                                 </Property>
@@ -968,23 +968,6 @@
                             <Property name="alignment" type="int" value="0"/>
                             <Property name="verticalGap" type="int" value="0"/>
                           </Layout>
-                          <SubComponents>
-                            <Component class="javax.swing.JLabel" name="jlPrepMfgItem">
-                              <Properties>
-                                <Property name="text" type="java.lang.String" value="Producto:*"/>
-                                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                                  <Dimension value="[75, 23]"/>
-                                </Property>
-                              </Properties>
-                            </Component>
-                            <Component class="sba.lib.gui.bean.DBeanFieldKey" name="moKeyPrepMfgItem">
-                              <Properties>
-                                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                                  <Dimension value="[240, 23]"/>
-                                </Property>
-                              </Properties>
-                            </Component>
-                          </SubComponents>
                         </Container>
                         <Container class="javax.swing.JPanel" name="jPanel30">
 
@@ -1170,7 +1153,7 @@
                           <SubComponents>
                             <Component class="javax.swing.JLabel" name="jlPackConLinePackItem">
                               <Properties>
-                                <Property name="text" type="java.lang.String" value="Programa:*"/>
+                                <Property name="text" type="java.lang.String" value="Producto:*"/>
                                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                                   <Dimension value="[75, 23]"/>
                                 </Property>
@@ -1192,7 +1175,7 @@
                             <Property name="verticalGap" type="int" value="0"/>
                           </Layout>
                           <SubComponents>
-                            <Component class="javax.swing.JLabel" name="jlPackConItem">
+                            <Component class="javax.swing.JLabel" name="jlPackConRequirement">
                               <Properties>
                                 <Property name="text" type="java.lang.String" value="Insumo:*"/>
                                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -1200,7 +1183,7 @@
                                 </Property>
                               </Properties>
                             </Component>
-                            <Component class="sba.lib.gui.bean.DBeanFieldKey" name="moKeyPackConItem">
+                            <Component class="sba.lib.gui.bean.DBeanFieldKey" name="moKeyPackConRequirement">
                               <Properties>
                                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                                   <Dimension value="[240, 23]"/>
@@ -1350,7 +1333,7 @@
                           <SubComponents>
                             <Component class="javax.swing.JLabel" name="jlPackMfgLinePackItem">
                               <Properties>
-                                <Property name="text" type="java.lang.String" value="Programa:*"/>
+                                <Property name="text" type="java.lang.String" value="Producto:*"/>
                                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                                   <Dimension value="[75, 23]"/>
                                 </Property>
@@ -1371,23 +1354,6 @@
                             <Property name="alignment" type="int" value="0"/>
                             <Property name="verticalGap" type="int" value="0"/>
                           </Layout>
-                          <SubComponents>
-                            <Component class="javax.swing.JLabel" name="jlPackMfgItem">
-                              <Properties>
-                                <Property name="text" type="java.lang.String" value="Producto:*"/>
-                                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                                  <Dimension value="[75, 23]"/>
-                                </Property>
-                              </Properties>
-                            </Component>
-                            <Component class="sba.lib.gui.bean.DBeanFieldKey" name="moKeyPackMfgItem">
-                              <Properties>
-                                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                                  <Dimension value="[240, 23]"/>
-                                </Property>
-                              </Properties>
-                            </Component>
-                          </SubComponents>
                         </Container>
                         <Container class="javax.swing.JPanel" name="jPanel42">
 

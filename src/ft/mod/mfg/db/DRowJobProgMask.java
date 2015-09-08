@@ -17,8 +17,8 @@ public interface DRowJobProgMask {
     public int getLineId();
     public String getLineCode();
     public String getLineName();
-    public int getProg();
-    public String getItem();
+    public int getProductId();
+    public String getProduct();
     public String getFormula();
     public double getQuantity();
     public String getUnitCode();

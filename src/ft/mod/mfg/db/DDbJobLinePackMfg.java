@@ -17,7 +17,7 @@ import sba.lib.gui.DGuiSession;
  *
  * @author Sergio Flores
  */
-public class DDbJobLinePackMfg extends DDbRegistryUser implements DRowJobPackMask {
+public class DDbJobLinePackMfg extends DDbRegistryUser implements DRowJobMfgMask {
 
     protected int mnPkJobId;
     protected int mnPkLinePackId;
@@ -32,9 +32,9 @@ public class DDbJobLinePackMfg extends DDbRegistryUser implements DRowJobPackMas
     protected int mnFkPresentId;
 
     protected String msXtaLinePackCode;
-    protected String msXtaItemTypeCode;
-    protected String msXtaItemCode;
-    protected String msXtaItemName;
+    protected String msXtaLinePackName;
+    protected String msXtaProductCode;
+    protected String msXtaProductName;
     protected String msXtaUnitCode;
     protected String msXtaUnitName;
     
@@ -68,16 +68,16 @@ public class DDbJobLinePackMfg extends DDbRegistryUser implements DRowJobPackMas
     public int getFkPresentId() { return mnFkPresentId; }
 
     public void setXtaLinePackCode(String s) { msXtaLinePackCode = s; }
-    public void setXtaItemTypeCode(String s) { msXtaItemTypeCode = s; }
-    public void setXtaItemCode(String s) { msXtaItemCode = s; }
-    public void setXtaItemName(String s) { msXtaItemName = s; }
+    public void setXtaLinePackName(String s) { msXtaLinePackName = s; }
+    public void setXtaProductCode(String s) { msXtaProductCode = s; }
+    public void setXtaProductName(String s) { msXtaProductName = s; }
     public void setXtaUnitCode(String s) { msXtaUnitCode = s; }
     public void setXtaUnitName(String s) { msXtaUnitName = s; }
     
     public String getXtaLinePackCode() { return msXtaLinePackCode; }
-    public String getXtaItemTypeCode() { return msXtaItemTypeCode; }
-    public String getXtaItemCode() { return msXtaItemCode; }
-    public String getXtaItemName() { return msXtaItemName; }
+    public String getXtaLinePackName() { return msXtaLinePackName; }
+    public String getXtaProductCode() { return msXtaProductCode; }
+    public String getXtaProductName() { return msXtaProductName; }
     public String getXtaUnitCode() { return msXtaUnitCode; }
     public String getXtaUnitName() { return msXtaUnitName; }
     
@@ -111,9 +111,9 @@ public class DDbJobLinePackMfg extends DDbRegistryUser implements DRowJobPackMas
         mnFkPresentId = 0;
         
         msXtaLinePackCode = "";
-        msXtaItemTypeCode = "";
-        msXtaItemCode = "";
-        msXtaItemName = "";
+        msXtaLinePackName = "";
+        msXtaProductCode = "";
+        msXtaProductName = "";
         msXtaUnitCode = "";
         msXtaUnitName = "";
   }
@@ -176,9 +176,9 @@ public class DDbJobLinePackMfg extends DDbRegistryUser implements DRowJobPackMas
             // Read aswell extra data:
             
             msXtaLinePackCode = (String) session.readField(DModConsts.MU_LIN_PCK, new int[] { mnPkLinePackId }, DDbRegistry.FIELD_CODE);
-            msXtaItemTypeCode = (String) session.readField(DModConsts.CS_ITM_TP, new int[] { mnFkItemTypeId }, DDbRegistry.FIELD_CODE);
-            msXtaItemCode = (String) session.readField(DModConsts.CU_ITM, new int[] { mnFkItemId }, DDbRegistry.FIELD_CODE);
-            msXtaItemName = (String) session.readField(DModConsts.CU_ITM, new int[] { mnFkItemId }, DDbRegistry.FIELD_NAME);
+            msXtaLinePackName = (String) session.readField(DModConsts.MU_LIN_PCK, new int[] { mnPkLinePackId }, DDbRegistry.FIELD_NAME);
+            msXtaProductCode = (String) session.readField(DModConsts.CU_ITM, new int[] { mnFkItemId }, DDbRegistry.FIELD_CODE);
+            msXtaProductName = (String) session.readField(DModConsts.CU_ITM, new int[] { mnFkItemId }, DDbRegistry.FIELD_NAME);
             msXtaUnitCode = (String) session.readField(DModConsts.CU_UNT, new int[] { mnFkUnitId }, DDbRegistry.FIELD_CODE);
             msXtaUnitName = (String) session.readField(DModConsts.CU_UNT, new int[] { mnFkUnitId }, DDbRegistry.FIELD_NAME);
 
@@ -251,9 +251,9 @@ public class DDbJobLinePackMfg extends DDbRegistryUser implements DRowJobPackMas
         registry.setFkPresentId(this.getFkPresentId());
 
         registry.setXtaLinePackCode(this.getXtaLinePackCode());
-        registry.setXtaItemTypeCode(this.getXtaItemTypeCode());
-        registry.setXtaItemCode(this.getXtaItemCode());
-        registry.setXtaItemName(this.getXtaItemName());
+        registry.setXtaLinePackName(this.getXtaLinePackName());
+        registry.setXtaProductCode(this.getXtaProductCode());
+        registry.setXtaProductName(this.getXtaProductName());
         registry.setXtaUnitCode(this.getXtaUnitCode());
         registry.setXtaUnitName(this.getXtaUnitName());
         
@@ -267,18 +267,13 @@ public class DDbJobLinePackMfg extends DDbRegistryUser implements DRowJobPackMas
     }
 
     @Override
-    public int getProg() {
-        return getPkPackId();
+    public String getLineName() {
+        return getXtaLinePackName();
     }
 
     @Override
-    public String getItemTypeCode() {
-        return getXtaItemTypeCode();
-    }
-
-    @Override
-    public String getItem() {
-        return getXtaItemName();
+    public String getProduct() {
+        return getXtaProductName();
     }
 
     @Override
@@ -287,7 +282,7 @@ public class DDbJobLinePackMfg extends DDbRegistryUser implements DRowJobPackMas
     }
 
     @Override
-    public String getLot() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public double getVariable1() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

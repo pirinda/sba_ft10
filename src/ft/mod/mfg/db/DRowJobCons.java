@@ -12,49 +12,49 @@ import sba.lib.grid.DGridRow;
  *
  * @author Sergio Flores
  */
-public class DRowJobRqmt implements DGridRow {
+public class DRowJobCons implements DGridRow {
     
-    protected DRowJobRqmtMask miJobRqmt;
+    protected DRowJobConsMask miJobCons;
     
-    public DRowJobRqmt(DRowJobRqmtMask jobRqmt) {
-        miJobRqmt = jobRqmt;
+    public DRowJobCons(DRowJobConsMask jobPrep) {
+        miJobCons = jobPrep;
     }
 
-    public DRowJobRqmtMask getJobRqmt() { return miJobRqmt; }
+    public DRowJobConsMask getJobPrep() { return miJobCons; }
     
     @Override
     public int[] getRowPrimaryKey() {
-        return ((DDbRegistryUser) miJobRqmt).getPrimaryKey();
+        return ((DDbRegistryUser) miJobCons).getPrimaryKey();
     }
 
     @Override
     public String getRowCode() {
-        return ((DDbRegistryUser) miJobRqmt).getCode();
+        return ((DDbRegistryUser) miJobCons).getCode();
     }
 
     @Override
     public String getRowName() {
-        return ((DDbRegistryUser) miJobRqmt).getName();
+        return ((DDbRegistryUser) miJobCons).getName();
     }
 
     @Override
     public boolean isRowSystem() {
-        return ((DDbRegistryUser) miJobRqmt).isSystem();
+        return ((DDbRegistryUser) miJobCons).isSystem();
     }
 
     @Override
     public boolean isRowDeletable() {
-        return ((DDbRegistryUser) miJobRqmt).isDeletable();
+        return ((DDbRegistryUser) miJobCons).isDeletable();
     }
 
     @Override
     public boolean isRowEdited() {
-        return ((DDbRegistryUser) miJobRqmt).isRegistryEdited();
+        return ((DDbRegistryUser) miJobCons).isRegistryEdited();
     }
 
     @Override
     public void setRowEdited(boolean edited) {
-        ((DDbRegistryUser) miJobRqmt).setRegistryEdited(edited);
+        ((DDbRegistryUser) miJobCons).setRegistryEdited(edited);
     }
 
     @Override
@@ -63,25 +63,28 @@ public class DRowJobRqmt implements DGridRow {
         
         switch (col) {
             case 0:
-                value = miJobRqmt.getLineCode();
+                value = miJobCons.getLineCode();
                 break;
             case 1:
-                value = miJobRqmt.getProduct();
+                value = miJobCons.getProduct();
                 break;
             case 2:
-                value = miJobRqmt.getRequirementTypeCode();
+                value = miJobCons.getRequirementTypeCode();
                 break;
             case 3:
-                value = miJobRqmt.getRequirement();
+                value = miJobCons.getRequirement();
                 break;
             case 4:
-                value = miJobRqmt.getQuantityReq();
+                value = miJobCons.getQuantity();
                 break;
             case 5:
-                value = miJobRqmt.getQuantityCon();
+                value = miJobCons.getUnitCode();
                 break;
             case 6:
-                value = miJobRqmt.getUnitCode();
+                value = miJobCons.getLot();
+                break;
+            case 7:
+                value = miJobCons.getVariable1();
                 break;
             default:
         }
