@@ -26,7 +26,7 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow {
     protected double mdQuantity;
     protected String msStatisticsReference;
     protected boolean mbStandard;
-    protected boolean mbConsVariable1;
+    protected boolean mbConsByVar1;
     protected int mnFkItemTypeId;
     protected int mnFkItemId;
     protected int mnFkUnitId;
@@ -48,7 +48,7 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow {
     public void setQuantity(double d) { mdQuantity = d; }
     public void setStatisticsReference(String s) { msStatisticsReference = s; }
     public void setStandard(boolean b) { mbStandard = b; }
-    public void setConsVariable1(boolean b) { mbConsVariable1 = b; }
+    public void setConsByVar1(boolean b) { mbConsByVar1 = b; }
     public void setFkItemTypeId(int n) { mnFkItemTypeId = n; }
     public void setFkItemId(int n) { mnFkItemId = n; }
     public void setFkUnitId(int n) { mnFkUnitId = n; }
@@ -58,7 +58,7 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow {
     public double getQuantity() { return mdQuantity; }
     public String getStatisticsReference() { return msStatisticsReference; }
     public boolean isStandard() { return mbStandard; }
-    public boolean isConsVariable1() { return mbConsVariable1; }
+    public boolean isConsByVar1() { return mbConsByVar1; }
     public int getFkItemTypeId() { return mnFkItemTypeId; }
     public int getFkItemId() { return mnFkItemId; }
     public int getFkUnitId() { return mnFkUnitId; }
@@ -126,7 +126,7 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow {
         mdQuantity = 0;
         msStatisticsReference = "";
         mbStandard = false;
-        mbConsVariable1 = false;
+        mbConsByVar1 = false;
         mnFkItemTypeId = 0;
         mnFkItemId = 0;
         mnFkUnitId = 0;
@@ -187,7 +187,7 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow {
             mdQuantity = resultSet.getDouble("qty");
             msStatisticsReference = resultSet.getString("sta_ref");
             mbStandard = resultSet.getBoolean("b_std");
-            mbConsVariable1 = resultSet.getBoolean("b_con_var_1");
+            mbConsByVar1 = resultSet.getBoolean("b_con_var_1");
             mnFkItemTypeId = resultSet.getInt("fk_itm_tp");
             mnFkItemId = resultSet.getInt("fk_itm");
             mnFkUnitId = resultSet.getInt("fk_unt");
@@ -220,7 +220,7 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow {
                     mdQuantity + ", " + 
                     "'" + msStatisticsReference + "', " + 
                     (mbStandard ? 1 : 0) + ", " + 
-                    (mbConsVariable1 ? 1 : 0) + ", " + 
+                    (mbConsByVar1 ? 1 : 0) + ", " + 
                     mnFkItemTypeId + ", " + 
                     mnFkItemId + ", " + 
                     mnFkUnitId + " " + 
@@ -233,7 +233,7 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow {
                     "qty = " + mdQuantity + ", " +
                     "sta_ref = '" + msStatisticsReference + "', " +
                     "b_std = " + (mbStandard ? 1 : 0) + ", " +
-                    "b_con_var_1 = " + (mbConsVariable1 ? 1 : 0) + ", " +
+                    "b_con_var_1 = " + (mbConsByVar1 ? 1 : 0) + ", " +
                     "fk_itm_tp = " + mnFkItemTypeId + ", " +
                     "fk_itm = " + mnFkItemId + ", " +
                     "fk_unt = " + mnFkUnitId + ", " +
@@ -254,7 +254,7 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow {
         registry.setQuantity(this.getQuantity());
         registry.setStatisticsReference(this.getStatisticsReference());
         registry.setStandard(this.isStandard());
-        registry.setConsVariable1(this.isConsVariable1());
+        registry.setConsByVar1(this.isConsByVar1());
         registry.setFkItemTypeId(this.getFkItemTypeId());
         registry.setFkItemId(this.getFkItemId());
         registry.setFkUnitId(this.getFkUnitId());
@@ -321,7 +321,7 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow {
                 value = msXtaUnitCode;
                 break;
             case 6:
-                value = mbConsVariable1;
+                value = mbConsByVar1;
                 break;
             case 7:
                 value = msStatisticsReference;

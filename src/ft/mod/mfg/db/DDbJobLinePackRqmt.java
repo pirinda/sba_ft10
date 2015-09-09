@@ -368,7 +368,7 @@ public class DDbJobLinePackRqmt extends DDbRegistryUser implements DRowJobRqmtMa
     }
 
     @Override
-    public boolean isConsVariable1() {
+    public boolean isConsByVar1() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

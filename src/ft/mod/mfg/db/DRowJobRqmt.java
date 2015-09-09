@@ -14,47 +14,47 @@ import sba.lib.grid.DGridRow;
  */
 public class DRowJobRqmt implements DGridRow {
     
-    protected DRowJobRqmtMask miJobRqmt;
+    protected DRowJobRqmtMask miJobRqmtMask;
     
-    public DRowJobRqmt(DRowJobRqmtMask jobRqmt) {
-        miJobRqmt = jobRqmt;
+    public DRowJobRqmt(DRowJobRqmtMask mask) {
+        miJobRqmtMask = mask;
     }
 
-    public DRowJobRqmtMask getJobRqmt() { return miJobRqmt; }
+    public DRowJobRqmtMask getJobRqmtMask() { return miJobRqmtMask; }
     
     @Override
     public int[] getRowPrimaryKey() {
-        return ((DDbRegistryUser) miJobRqmt).getPrimaryKey();
+        return ((DDbRegistryUser) miJobRqmtMask).getPrimaryKey();
     }
 
     @Override
     public String getRowCode() {
-        return ((DDbRegistryUser) miJobRqmt).getCode();
+        return ((DDbRegistryUser) miJobRqmtMask).getCode();
     }
 
     @Override
     public String getRowName() {
-        return ((DDbRegistryUser) miJobRqmt).getName();
+        return ((DDbRegistryUser) miJobRqmtMask).getName();
     }
 
     @Override
     public boolean isRowSystem() {
-        return ((DDbRegistryUser) miJobRqmt).isSystem();
+        return ((DDbRegistryUser) miJobRqmtMask).isSystem();
     }
 
     @Override
     public boolean isRowDeletable() {
-        return ((DDbRegistryUser) miJobRqmt).isDeletable();
+        return ((DDbRegistryUser) miJobRqmtMask).isDeletable();
     }
 
     @Override
     public boolean isRowEdited() {
-        return ((DDbRegistryUser) miJobRqmt).isRegistryEdited();
+        return ((DDbRegistryUser) miJobRqmtMask).isRegistryEdited();
     }
 
     @Override
     public void setRowEdited(boolean edited) {
-        ((DDbRegistryUser) miJobRqmt).setRegistryEdited(edited);
+        ((DDbRegistryUser) miJobRqmtMask).setRegistryEdited(edited);
     }
 
     @Override
@@ -63,28 +63,28 @@ public class DRowJobRqmt implements DGridRow {
         
         switch (col) {
             case 0:
-                value = miJobRqmt.getLineCode();
+                value = miJobRqmtMask.getLineCode();
                 break;
             case 1:
-                value = miJobRqmt.getProduct();
+                value = miJobRqmtMask.getProduct();
                 break;
             case 2:
-                value = miJobRqmt.getRqmtTypeCode();
+                value = miJobRqmtMask.getRqmtTypeCode();
                 break;
             case 3:
-                value = miJobRqmt.getRqmt();
+                value = miJobRqmtMask.getRqmt();
                 break;
             case 4:
-                value = miJobRqmt.getQuantityRqmt();
+                value = miJobRqmtMask.getQuantityRqmt();
                 break;
             case 5:
-                value = miJobRqmt.getQuantityCons();
+                value = miJobRqmtMask.getQuantityCons();
                 break;
             case 6:
-                value = miJobRqmt.getUnitCode();
+                value = miJobRqmtMask.getUnitCode();
                 break;
             case 7:
-                value = miJobRqmt.isConsVariable1();
+                value = miJobRqmtMask.isConsByVar1();
                 break;
             default:
         }

@@ -16,5 +16,5 @@ public interface DRowJobMfgMask {
     public String getProduct();
     public double getQuantity();
     public String getUnitCode();
-    public double getVariable1();
+    public double getVar1();
 }

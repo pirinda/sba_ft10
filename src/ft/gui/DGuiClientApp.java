@@ -78,7 +78,7 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
     private Statement miSysStatement;
     private String msCompany;
     private String msMassCode;
-    private String msVariable1;
+    private String msVar1;
 
     private DGuiDatePicker moDatePicker;
     private DGuiDateRangePicker moDateRangePicker;
@@ -626,7 +626,7 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
                 msCompany = loginDlg.getCompany();
                 setTitle(APP_NAME + " - " + msCompany);
                 msMassCode = (String) moSession.readField(DModConsts.CU_UNT, new int[] { DModSysConsts.CU_UNT_KG }, DDbRegistry.FIELD_CODE);
-                msVariable1 = !config.isVariable1() ? "Var 1" : config.getVariable1();
+                msVar1 = !config.isVar1() ? "Var 1" : config.getVar1();
 
                 jtfSystemDate.setText(DLibUtils.DateFormatDate.format(moSession.getSystemDate()));
                 jtfWorkingDate.setText(DLibUtils.DateFormatDate.format(moSession.getWorkingDate()));
@@ -737,8 +737,8 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
         return msMassCode;
     }
 
-    public String getVariable1() {
-        return msVariable1;
+    public String getVar1() {
+        return msVar1;
     }
 
     /**

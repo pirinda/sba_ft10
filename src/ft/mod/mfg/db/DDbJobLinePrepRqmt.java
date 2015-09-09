@@ -28,7 +28,7 @@ public class DDbJobLinePrepRqmt extends DDbRegistryUser implements DRowJobRqmtMa
     protected double mdMass_r;
     protected String msStatisticsReference;
     protected boolean mbStandard;
-    protected boolean mbConsVariable1;
+    protected boolean mbConsByVar1;
     protected int mnFkItemTypeId;
     protected int mnFkItemId;
     protected int mnFkUnitId;
@@ -60,7 +60,7 @@ public class DDbJobLinePrepRqmt extends DDbRegistryUser implements DRowJobRqmtMa
     public void setMass_r(double d) { mdMass_r = d; }
     public void setStatisticsReference(String s) { msStatisticsReference = s; }
     public void setStandard(boolean b) { mbStandard = b; }
-    public void setConsVariable1(boolean b) { mbConsVariable1 = b; }
+    public void setConsByVar1(boolean b) { mbConsByVar1 = b; }
     public void setFkItemTypeId(int n) { mnFkItemTypeId = n; }
     public void setFkItemId(int n) { mnFkItemId = n; }
     public void setFkUnitId(int n) { mnFkUnitId = n; }
@@ -74,7 +74,7 @@ public class DDbJobLinePrepRqmt extends DDbRegistryUser implements DRowJobRqmtMa
     public double getMass_r() { return mdMass_r; }
     public String getStatisticsReference() { return msStatisticsReference; }
     public boolean isStandard() { return mbStandard; }
-    public boolean isConsVariable1() { return mbConsVariable1; }
+    public boolean isConsByVar1() { return mbConsByVar1; }
     public int getFkItemTypeId() { return mnFkItemTypeId; }
     public int getFkItemId() { return mnFkItemId; }
     public int getFkUnitId() { return mnFkUnitId; }
@@ -131,7 +131,7 @@ public class DDbJobLinePrepRqmt extends DDbRegistryUser implements DRowJobRqmtMa
         mdMass_r = 0;
         msStatisticsReference = "";
         mbStandard = false;
-        mbConsVariable1 = false;
+        mbConsByVar1 = false;
         mnFkItemTypeId = 0;
         mnFkItemId = 0;
         mnFkUnitId = 0;
@@ -202,7 +202,7 @@ public class DDbJobLinePrepRqmt extends DDbRegistryUser implements DRowJobRqmtMa
             mdMass_r = resultSet.getDouble("mss_r");
             msStatisticsReference = resultSet.getString("sta_ref");
             mbStandard = resultSet.getBoolean("b_std");
-            mbConsVariable1 = resultSet.getBoolean("b_con_var_1");
+            mbConsByVar1 = resultSet.getBoolean("b_con_var_1");
             mnFkItemTypeId = resultSet.getInt("fk_itm_tp");
             mnFkItemId = resultSet.getInt("fk_itm");
             mnFkUnitId = resultSet.getInt("fk_unt");
@@ -254,7 +254,7 @@ public class DDbJobLinePrepRqmt extends DDbRegistryUser implements DRowJobRqmtMa
                     mdMass_r + ", " + 
                     "'" + msStatisticsReference + "', " + 
                     (mbStandard ? 1 : 0) + ", " + 
-                    (mbConsVariable1 ? 1 : 0) + ", " + 
+                    (mbConsByVar1 ? 1 : 0) + ", " + 
                     mnFkItemTypeId + ", " + 
                     mnFkItemId + ", " + 
                     mnFkUnitId + " " + 
@@ -273,7 +273,7 @@ public class DDbJobLinePrepRqmt extends DDbRegistryUser implements DRowJobRqmtMa
                     "mss_r = " + mdMass_r + ", " +
                     "sta_ref = '" + msStatisticsReference + "', " +
                     "b_std = " + (mbStandard ? 1 : 0) + ", " +
-                    "b_con_var_1 = " + (mbConsVariable1 ? 1 : 0) + ", " +
+                    "b_con_var_1 = " + (mbConsByVar1 ? 1 : 0) + ", " +
                     "fk_itm_tp = " + mnFkItemTypeId + ", " +
                     "fk_itm = " + mnFkItemId + ", " +
                     "fk_unt = " + mnFkUnitId + " " +
@@ -298,7 +298,7 @@ public class DDbJobLinePrepRqmt extends DDbRegistryUser implements DRowJobRqmtMa
         registry.setMass_r(this.getMass_r());
         registry.setStatisticsReference(this.getStatisticsReference());
         registry.setStandard(this.isStandard());
-        registry.setConsVariable1(this.isConsVariable1());
+        registry.setConsByVar1(this.isConsByVar1());
         registry.setFkItemTypeId(this.getFkItemTypeId());
         registry.setFkItemId(this.getFkItemId());
         registry.setFkUnitId(this.getFkUnitId());

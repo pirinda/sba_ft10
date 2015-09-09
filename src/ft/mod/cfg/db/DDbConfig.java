@@ -30,8 +30,8 @@ public class DDbConfig extends DDbRegistryUser implements DGuiConfigCompany {
     protected Date mtVersionTs;
     protected String msNameSeparator;
     protected String msLotFormat;
-    protected boolean mbVariable1;
-    protected String msVariable1;
+    protected boolean mbVar1;
+    protected String msVar1;
     protected boolean mbModuleCfg;
     protected boolean mbModuleMfg;
     protected boolean mbModuleQas;
@@ -56,8 +56,8 @@ public class DDbConfig extends DDbRegistryUser implements DGuiConfigCompany {
     public void setVersionTs(Date t) { mtVersionTs = t; }
     public void setNameSeparator(String s) { msNameSeparator = s; }
     public void setLotFormat(String s) { msLotFormat = s; }
-    public void setVariable1(boolean b) { mbVariable1 = b; }
-    public void setVariable1(String s) { msVariable1 = s; }
+    public void setVar1(boolean b) { mbVar1 = b; }
+    public void setVar1(String s) { msVar1 = s; }
     public void setModuleCfg(boolean b) { mbModuleCfg = b; }
     public void setModuleMfg(boolean b) { mbModuleMfg = b; }
     public void setModuleQas(boolean b) { mbModuleQas = b; }
@@ -75,8 +75,8 @@ public class DDbConfig extends DDbRegistryUser implements DGuiConfigCompany {
     public Date getVersionTs() { return mtVersionTs; }
     public String getNameSeparator() { return msNameSeparator; }
     public String getLotFormat() { return msLotFormat; }
-    public boolean isVariable1() { return mbVariable1; }
-    public String getVariable1() { return msVariable1; }
+    public boolean isVar1() { return mbVar1; }
+    public String getVar1() { return msVar1; }
     public boolean isModuleCfg() { return mbModuleCfg; }
     public boolean isModuleMfg() { return mbModuleMfg; }
     public boolean isModuleQas() { return mbModuleQas; }
@@ -110,8 +110,8 @@ public class DDbConfig extends DDbRegistryUser implements DGuiConfigCompany {
         mtVersionTs = null;
         msNameSeparator = "";
         msLotFormat = "";
-        mbVariable1 = false;
-        msVariable1 = "";
+        mbVar1 = false;
+        msVar1 = "";
         mbModuleCfg = false;
         mbModuleMfg = false;
         mbModuleQas = false;
@@ -172,8 +172,8 @@ public class DDbConfig extends DDbRegistryUser implements DGuiConfigCompany {
             mtVersionTs = resultSet.getTimestamp("ver_ts");
             msNameSeparator = resultSet.getString("name_sep");
             msLotFormat = resultSet.getString("lot_fmt");
-            mbVariable1 = resultSet.getBoolean("b_var_1");
-            msVariable1 = resultSet.getString("var_1");
+            mbVar1 = resultSet.getBoolean("b_var_1");
+            msVar1 = resultSet.getString("var_1");
             mbModuleCfg = resultSet.getBoolean("b_mod_cfg");
             mbModuleMfg = resultSet.getBoolean("b_mod_mfg");
             mbModuleQas = resultSet.getBoolean("b_mod_qas");
@@ -209,8 +209,8 @@ public class DDbConfig extends DDbRegistryUser implements DGuiConfigCompany {
                     "NOW()" + ", " + 
                     "'" + msNameSeparator + "', " + 
                     "'" + msLotFormat + "', " + 
-                    (mbVariable1 ? 1 : 0) + ", " + 
-                    "'" + msVariable1 + "', " + 
+                    (mbVar1 ? 1 : 0) + ", " + 
+                    "'" + msVar1 + "', " + 
                     (mbModuleCfg ? 1 : 0) + ", " + 
                     (mbModuleMfg ? 1 : 0) + ", " + 
                     (mbModuleQas ? 1 : 0) + ", " + 
@@ -233,8 +233,8 @@ public class DDbConfig extends DDbRegistryUser implements DGuiConfigCompany {
                     "ver_ts = " + "NOW()" + ", " +
                     "name_sep = '" + msNameSeparator + "', " +
                     "lot_fmt = '" + msLotFormat + "', " +
-                    "b_var_1 = " + (mbVariable1 ? 1 : 0) + ", " +
-                    "var_1 = '" + msVariable1 + "', " +
+                    "b_var_1 = " + (mbVar1 ? 1 : 0) + ", " +
+                    "var_1 = '" + msVar1 + "', " +
                     "b_mod_cfg = " + (mbModuleCfg ? 1 : 0) + ", " +
                     "b_mod_mfg = " + (mbModuleMfg ? 1 : 0) + ", " +
                     "b_mod_qas = " + (mbModuleQas ? 1 : 0) + ", " +
@@ -264,8 +264,8 @@ public class DDbConfig extends DDbRegistryUser implements DGuiConfigCompany {
         registry.setVersionTs(this.getVersionTs());
         registry.setNameSeparator(this.getNameSeparator());
         registry.setLotFormat(this.getLotFormat());
-        registry.setVariable1(this.isVariable1());
-        registry.setVariable1(this.getVariable1());
+        registry.setVar1(this.isVar1());
+        registry.setVar1(this.getVar1());
         registry.setModuleCfg(this.isModuleCfg());
         registry.setModuleMfg(this.isModuleMfg());
         registry.setModuleQas(this.isModuleQas());

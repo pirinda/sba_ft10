@@ -14,47 +14,47 @@ import sba.lib.grid.DGridRow;
  */
 public class DRowJobProg implements DGridRow {
     
-    protected DRowJobProgMask miJobProg;
+    protected DRowJobProgMask miJobProgMask;
     
-    public DRowJobProg(DRowJobProgMask jobProgPack) {
-        miJobProg = jobProgPack;
+    public DRowJobProg(DRowJobProgMask mask) {
+        miJobProgMask = mask;
     }
 
-    public DRowJobProgMask getJobProg() { return miJobProg; }
+    public DRowJobProgMask getJobProgMask() { return miJobProgMask; }
     
     @Override
     public int[] getRowPrimaryKey() {
-        return ((DDbRegistryUser) miJobProg).getPrimaryKey();
+        return ((DDbRegistryUser) miJobProgMask).getPrimaryKey();
     }
 
     @Override
     public String getRowCode() {
-        return ((DDbRegistryUser) miJobProg).getCode();
+        return ((DDbRegistryUser) miJobProgMask).getCode();
     }
 
     @Override
     public String getRowName() {
-        return ((DDbRegistryUser) miJobProg).getName();
+        return ((DDbRegistryUser) miJobProgMask).getName();
     }
 
     @Override
     public boolean isRowSystem() {
-        return ((DDbRegistryUser) miJobProg).isSystem();
+        return ((DDbRegistryUser) miJobProgMask).isSystem();
     }
 
     @Override
     public boolean isRowDeletable() {
-        return ((DDbRegistryUser) miJobProg).isDeletable();
+        return ((DDbRegistryUser) miJobProgMask).isDeletable();
     }
 
     @Override
     public boolean isRowEdited() {
-        return ((DDbRegistryUser) miJobProg).isRegistryEdited();
+        return ((DDbRegistryUser) miJobProgMask).isRegistryEdited();
     }
 
     @Override
     public void setRowEdited(boolean edited) {
-        ((DDbRegistryUser) miJobProg).setRegistryEdited(edited);
+        ((DDbRegistryUser) miJobProgMask).setRegistryEdited(edited);
     }
 
     @Override
@@ -63,22 +63,22 @@ public class DRowJobProg implements DGridRow {
         
         switch (col) {
             case 0:
-                value = miJobProg.getLineCode();
+                value = miJobProgMask.getLineCode();
                 break;
             case 1:
-                value = miJobProg.getProduct();
+                value = miJobProgMask.getProduct();
                 break;
             case 2:
-                value = miJobProg.getFormula();
+                value = miJobProgMask.getFormula();
                 break;
             case 3:
-                value = miJobProg.getQuantity();
+                value = miJobProgMask.getQuantity();
                 break;
             case 4:
-                value = miJobProg.getUnitCode();
+                value = miJobProgMask.getUnitCode();
                 break;
             case 5:
-                value = miJobProg.getDefaultVariable1();
+                value = miJobProgMask.getDefaultVar1();
                 break;
             default:
         }

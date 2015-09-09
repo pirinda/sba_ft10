@@ -75,7 +75,7 @@ public class DRowJobMfg implements DGridRow {
                 value = miJobMfg.getUnitCode();
                 break;
             case 4:
-                value = miJobMfg.getVariable1();
+                value = miJobMfg.getVar1();
                 break;
             default:
         }

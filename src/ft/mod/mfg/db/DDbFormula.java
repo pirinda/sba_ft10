@@ -29,9 +29,9 @@ public class DDbFormula extends DDbRegistryUser {
     protected String msCode;
     protected String msName;
     protected String msNameReference;
-    protected double mdDefaultVariable1;
+    protected double mdDefaultVar1;
     protected double mdQuantity;
-    protected boolean mbQuantityVariable1;
+    protected boolean mbQuantityByVar1;
     /*
     protected boolean mbDeleted;
     protected boolean mbSystem;
@@ -78,9 +78,9 @@ public class DDbFormula extends DDbRegistryUser {
     public void setCode(String s) { msCode = s; }
     public void setName(String s) { msName = s; }
     public void setNameReference(String s) { msNameReference = s; }
-    public void setDefaultVariable1(double d) { mdDefaultVariable1 = d; }
+    public void setDefaultVar1(double d) { mdDefaultVar1 = d; }
     public void setQuantity(double d) { mdQuantity = d; }
-    public void setQuantityVariable1(boolean b) { mbQuantityVariable1 = b; }
+    public void setQuantityByVar1(boolean b) { mbQuantityByVar1 = b; }
     public void setDeleted(boolean b) { mbDeleted = b; }
     public void setSystem(boolean b) { mbSystem = b; }
     public void setFkFormulaTypeId(int n) { mnFkFormulaTypeId = n; }
@@ -97,9 +97,9 @@ public class DDbFormula extends DDbRegistryUser {
     public String getCode() { return msCode; }
     public String getName() { return msName; }
     public String getNameReference() { return msNameReference; }
-    public double getDefaultVariable1() { return mdDefaultVariable1; }
+    public double getDefaultVar1() { return mdDefaultVar1; }
     public double getQuantity() { return mdQuantity; }
-    public boolean isQuantityVariable1() { return mbQuantityVariable1; }
+    public boolean isQuantityByVar1() { return mbQuantityByVar1; }
     public boolean isDeleted() { return mbDeleted; }
     public boolean isSystem() { return mbSystem; }
     public int getFkFormulaTypeId() { return mnFkFormulaTypeId; }
@@ -132,9 +132,9 @@ public class DDbFormula extends DDbRegistryUser {
         msCode = "";
         msName = "";
         msNameReference = "";
-        mdDefaultVariable1 = 0;
+        mdDefaultVar1 = 0;
         mdQuantity = 0;
-        mbQuantityVariable1 = false;
+        mbQuantityByVar1 = false;
         mbDeleted = false;
         mbSystem = false;
         mnFkFormulaTypeId = 0;
@@ -197,9 +197,9 @@ public class DDbFormula extends DDbRegistryUser {
             msCode = resultSet.getString("code");
             msName = resultSet.getString("name");
             msNameReference = resultSet.getString("name_ref");
-            mdDefaultVariable1 = resultSet.getDouble("def_var_1");
+            mdDefaultVar1 = resultSet.getDouble("def_var_1");
             mdQuantity = resultSet.getDouble("qty");
-            mbQuantityVariable1 = resultSet.getBoolean("b_qty_var_1");
+            mbQuantityByVar1 = resultSet.getBoolean("b_qty_var_1");
             mbDeleted = resultSet.getBoolean("b_del");
             mbSystem = resultSet.getBoolean("b_sys");
             mnFkFormulaTypeId = resultSet.getInt("fk_frm_tp");
@@ -251,9 +251,9 @@ public class DDbFormula extends DDbRegistryUser {
                     "'" + msCode + "', " + 
                     "'" + msName + "', " + 
                     "'" + msNameReference + "', " + 
-                    mdDefaultVariable1 + ", " + 
+                    mdDefaultVar1 + ", " + 
                     mdQuantity + ", " + 
-                    (mbQuantityVariable1 ? 1 : 0) + ", " + 
+                    (mbQuantityByVar1 ? 1 : 0) + ", " + 
                     (mbDeleted ? 1 : 0) + ", " + 
                     (mbSystem ? 1 : 0) + ", " + 
                     mnFkFormulaTypeId + ", " + 
@@ -275,9 +275,9 @@ public class DDbFormula extends DDbRegistryUser {
                     "code = '" + msCode + "', " +
                     "name = '" + msName + "', " +
                     "name_ref = '" + msNameReference + "', " +
-                    "def_var_1 = " + mdDefaultVariable1 + ", " +
+                    "def_var_1 = " + mdDefaultVar1 + ", " +
                     "qty = " + mdQuantity + ", " +
-                    "b_qty_var_1 = " + (mbQuantityVariable1 ? 1 : 0) + ", " +
+                    "b_qty_var_1 = " + (mbQuantityByVar1 ? 1 : 0) + ", " +
                     "b_del = " + (mbDeleted ? 1 : 0) + ", " +
                     "b_sys = " + (mbSystem ? 1 : 0) + ", " +
                     "fk_frm_tp = " + mnFkFormulaTypeId + ", " +
@@ -319,9 +319,9 @@ public class DDbFormula extends DDbRegistryUser {
         registry.setCode(this.getCode());
         registry.setName(this.getName());
         registry.setNameReference(this.getNameReference());
-        registry.setDefaultVariable1(this.getDefaultVariable1());
+        registry.setDefaultVar1(this.getDefaultVar1());
         registry.setQuantity(this.getQuantity());
-        registry.setQuantityVariable1(this.isQuantityVariable1());
+        registry.setQuantityByVar1(this.isQuantityByVar1());
         registry.setDeleted(this.isDeleted());
         registry.setSystem(this.isSystem());
         registry.setFkFormulaTypeId(this.getFkFormulaTypeId());

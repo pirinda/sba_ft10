@@ -311,12 +311,12 @@ public class DDbJobLinePackCons extends DDbRegistryUser implements DRowJobConsMa
     }
 
     @Override
-    public String getRequirementTypeCode() {
+    public String getRqmtTypeCode() {
         return getXtaRqmtTypeCode();
     }
 
     @Override
-    public String getRequirement() {
+    public String getRqmt() {
         return getXtaRqmtName();
     }
 
@@ -326,7 +326,7 @@ public class DDbJobLinePackCons extends DDbRegistryUser implements DRowJobConsMa
     }
 
     @Override
-    public double getVariable1() {
+    public double getVar1() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

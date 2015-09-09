@@ -415,15 +415,20 @@ public class DDbJobLinePack extends DDbRegistryUser implements DRowJobProgMask {
     }
 
     @Override
-    public double getDefaultVariable1() {
+    public boolean isQuantityByVar1() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public double getDefaultVar1() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
     @Override
-    public ArrayList<DRowJobRqmtMask> createRqmts(final DGuiSession session) {
+    public ArrayList<DRowJobRqmtMask> createRqmtMasks(final DGuiSession session) {
         DDbItem itemRqmt = null;
         DDbJobLinePackRqmt rqmt = null;
-        ArrayList<DRowJobRqmtMask> rqmts = new ArrayList<>();
+        ArrayList<DRowJobRqmtMask> masks = new ArrayList<>();
         DDbFormula formula = (DDbFormula) session.readRegistry(DModConsts.MU_FRM, new int[] { mnFkFormulaId });
         
         for (DDbFormulaComp comp : formula.maChildComps) {
@@ -452,9 +457,9 @@ public class DDbJobLinePack extends DDbRegistryUser implements DRowJobProgMask {
             rqmt.setXtaRqmtName(itemRqmt.getName());
             rqmt.setXtaUnitCode(itemRqmt.getXtaUnitCode());
             rqmt.setXtaUnitName(itemRqmt.getXtaUnitName());
-            rqmts.add(rqmt);
+            masks.add(rqmt);
         }
         
-        return rqmts;
+        return masks;
     }
 }

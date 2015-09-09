@@ -126,7 +126,7 @@ public class DViewFormulaComp extends DGridPaneView {
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_BOOL_M, "vc.b_std", "Estándar comp");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_DEC_QTY, "vc.qty", "Cantidad comp");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_CODE_UNT, "cu.code", "Unidad comp");
-        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_BOOL_M, "vc.b_con_var_1", "Consumo " + ((DGuiClientApp) miClient).getVariable1() + " comp");
+        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_BOOL_M, "vc.b_con_var_1", "Consumo " + ((DGuiClientApp) miClient).getVar1() + " comp");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT, "vc.sta_ref", "Ref. estadísticas comp");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_BOOL_S, DDbConsts.FIELD_IS_DEL, DGridConsts.COL_TITLE_IS_DEL);
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_BOOL_S, DDbConsts.FIELD_IS_SYS, DGridConsts.COL_TITLE_IS_SYS);

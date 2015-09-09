@@ -22,6 +22,7 @@ public interface DRowJobProgMask {
     public String getFormula();
     public double getQuantity();
     public String getUnitCode();
-    public double getDefaultVariable1();
-    public ArrayList<DRowJobRqmtMask> createRqmts(final DGuiSession session);
+    public boolean isQuantityByVar1();
+    public double getDefaultVar1();
+    public ArrayList<DRowJobRqmtMask> createRqmtMasks(final DGuiSession session);
 }

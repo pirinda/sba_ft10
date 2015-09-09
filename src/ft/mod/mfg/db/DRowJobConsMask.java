@@ -14,10 +14,10 @@ public interface DRowJobConsMask {
     public String getLineCode();
     public String getLineName();
     public String getProduct();
-    public String getRequirementTypeCode();
-    public String getRequirement();
+    public String getRqmtTypeCode();
+    public String getRqmt();
     public double getQuantity();
     public String getUnitCode();
     public String getLot();
-    public double getVariable1();
+    public double getVar1();
 }

@@ -26,12 +26,12 @@ public class DDbJobLinePrep extends DDbRegistryUser implements DRowJobProgMask {
     protected int mnPkLinePrepId;
     protected int mnPkPrepId;
     protected double mdLoads;
-    protected double mdDefaultVariable1;
+    protected double mdDefaultVar1;
     protected double mdQuantity;
     protected double mdMassUnit;
     protected double mdMass_r;
     protected double mdPackagingFactor;
-    protected boolean mbQuantityVariable1;
+    protected boolean mbQuantityByVar1;
     protected int mnFkItemTypeId;
     protected int mnFkItemId;
     protected int mnFkUnitId;
@@ -62,12 +62,12 @@ public class DDbJobLinePrep extends DDbRegistryUser implements DRowJobProgMask {
     public void setPkLinePrepId(int n) { mnPkLinePrepId = n; }
     public void setPkPrepId(int n) { mnPkPrepId = n; }
     public void setLoads(double d) { mdLoads = d; }
-    public void setDefaultVariable1(double d) { mdDefaultVariable1 = d; }
+    public void setDefaultVar1(double d) { mdDefaultVar1 = d; }
     public void setQuantity(double d) { mdQuantity = d; }
     public void setMassUnit(double d) { mdMassUnit = d; }
     public void setMass_r(double d) { mdMass_r = d; }
     public void setPackagingFactor(double d) { mdPackagingFactor = d; }
-    public void setQuantityVariable1(boolean b) { mbQuantityVariable1 = b; }
+    public void setQuantityByVar1(boolean b) { mbQuantityByVar1 = b; }
     public void setFkItemTypeId(int n) { mnFkItemTypeId = n; }
     public void setFkItemId(int n) { mnFkItemId = n; }
     public void setFkUnitId(int n) { mnFkUnitId = n; }
@@ -78,12 +78,12 @@ public class DDbJobLinePrep extends DDbRegistryUser implements DRowJobProgMask {
     public int getPkLinePrepId() { return mnPkLinePrepId; }
     public int getPkPrepId() { return mnPkPrepId; }
     public double getLoads() { return mdLoads; }
-    public double getDefaultVariable1() { return mdDefaultVariable1; }
+    public double getDefaultVar1() { return mdDefaultVar1; }
     public double getQuantity() { return mdQuantity; }
     public double getMassUnit() { return mdMassUnit; }
     public double getMass_r() { return mdMass_r; }
     public double getPackagingFactor() { return mdPackagingFactor; }
-    public boolean isQuantityVariable1() { return mbQuantityVariable1; }
+    public boolean isQuantityByVar1() { return mbQuantityByVar1; }
     public int getFkItemTypeId() { return mnFkItemTypeId; }
     public int getFkItemId() { return mnFkItemId; }
     public int getFkUnitId() { return mnFkUnitId; }
@@ -130,12 +130,12 @@ public class DDbJobLinePrep extends DDbRegistryUser implements DRowJobProgMask {
         mnPkLinePrepId = 0;
         mnPkPrepId = 0;
         mdLoads = 0;
-        mdDefaultVariable1 = 0;
+        mdDefaultVar1 = 0;
         mdQuantity = 0;
         mdMassUnit = 0;
         mdMass_r = 0;
         mdPackagingFactor = 0;
-        mbQuantityVariable1 = false;
+        mbQuantityByVar1 = false;
         mnFkItemTypeId = 0;
         mnFkItemId = 0;
         mnFkUnitId = 0;
@@ -203,12 +203,12 @@ public class DDbJobLinePrep extends DDbRegistryUser implements DRowJobProgMask {
             mnPkLinePrepId = resultSet.getInt("id_lin_prp");
             mnPkPrepId = resultSet.getInt("id_prp");
             mdLoads = resultSet.getDouble("lds");
-            mdDefaultVariable1 = resultSet.getDouble("def_var_1");
+            mdDefaultVar1 = resultSet.getDouble("def_var_1");
             mdQuantity = resultSet.getDouble("qty");
             mdMassUnit = resultSet.getDouble("mss_unt");
             mdMass_r = resultSet.getDouble("mss_r");
             mdPackagingFactor = resultSet.getDouble("pck_fac");
-            mbQuantityVariable1 = resultSet.getBoolean("b_qty_var_1");
+            mbQuantityByVar1 = resultSet.getBoolean("b_qty_var_1");
             mnFkItemTypeId = resultSet.getInt("fk_itm_tp");
             mnFkItemId = resultSet.getInt("fk_itm");
             mnFkUnitId = resultSet.getInt("fk_unt");
@@ -273,12 +273,12 @@ public class DDbJobLinePrep extends DDbRegistryUser implements DRowJobProgMask {
                     mnPkLinePrepId + ", " + 
                     mnPkPrepId + ", " + 
                     mdLoads + ", " + 
-                    mdDefaultVariable1 + ", " + 
+                    mdDefaultVar1 + ", " + 
                     mdQuantity + ", " + 
                     mdMassUnit + ", " + 
                     mdMass_r + ", " + 
                     mdPackagingFactor + ", " + 
-                    (mbQuantityVariable1 ? 1 : 0) + ", " + 
+                    (mbQuantityByVar1 ? 1 : 0) + ", " + 
                     mnFkItemTypeId + ", " + 
                     mnFkItemId + ", " + 
                     mnFkUnitId + ", " + 
@@ -294,12 +294,12 @@ public class DDbJobLinePrep extends DDbRegistryUser implements DRowJobProgMask {
                     //"id_lin_prp = " + mnPkLinePrepId + ", " +
                     //"id_prp = " + mnPkPrepId + ", " +
                     "lds = " + mdLoads + ", " +
-                    "def_var_1 = " + mdDefaultVariable1 + ", " +
+                    "def_var_1 = " + mdDefaultVar1 + ", " +
                     "qty = " + mdQuantity + ", " +
                     "mss_unt = " + mdMassUnit + ", " +
                     "mss_r = " + mdMass_r + ", " +
                     "pck_fac = " + mdPackagingFactor + ", " +
-                    "b_qty_var_1 = " + (mbQuantityVariable1 ? 1 : 0) + ", " +
+                    "b_qty_var_1 = " + (mbQuantityByVar1 ? 1 : 0) + ", " +
                     "fk_itm_tp = " + mnFkItemTypeId + ", " +
                     "fk_itm = " + mnFkItemId + ", " +
                     "fk_unt = " + mnFkUnitId + ", " +
@@ -359,12 +359,12 @@ public class DDbJobLinePrep extends DDbRegistryUser implements DRowJobProgMask {
         registry.setPkLinePrepId(this.getPkLinePrepId());
         registry.setPkPrepId(this.getPkPrepId());
         registry.setLoads(this.getLoads());
-        registry.setDefaultVariable1(this.getDefaultVariable1());
+        registry.setDefaultVar1(this.getDefaultVar1());
         registry.setQuantity(this.getQuantity());
         registry.setMassUnit(this.getMassUnit());
         registry.setMass_r(this.getMass_r());
         registry.setPackagingFactor(this.getPackagingFactor());
-        registry.setQuantityVariable1(this.isQuantityVariable1());
+        registry.setQuantityByVar1(this.isQuantityByVar1());
         registry.setFkItemTypeId(this.getFkItemTypeId());
         registry.setFkItemId(this.getFkItemId());
         registry.setFkUnitId(this.getFkUnitId());
@@ -431,10 +431,10 @@ public class DDbJobLinePrep extends DDbRegistryUser implements DRowJobProgMask {
     }
     
     @Override
-    public ArrayList<DRowJobRqmtMask> createRqmts(final DGuiSession session) {
+    public ArrayList<DRowJobRqmtMask> createRqmtMasks(final DGuiSession session) {
         DDbItem itemRqmt = null;
         DDbJobLinePrepRqmt rqmt = null;
-        ArrayList<DRowJobRqmtMask> rqmts = new ArrayList<>();
+        ArrayList<DRowJobRqmtMask> masks = new ArrayList<>();
         DDbFormula formula = (DDbFormula) session.readRegistry(DModConsts.MU_FRM, new int[] { mnFkFormulaId });
         
         for (DDbFormulaComp comp : formula.maChildComps) {
@@ -450,7 +450,7 @@ public class DDbJobLinePrep extends DDbRegistryUser implements DRowJobProgMask {
             rqmt.setMass_r(itemRqmt.getMassUnit() * comp.getQuantity() * mdLoads);
             rqmt.setStatisticsReference(comp.getStatisticsReference());
             rqmt.setStandard(comp.isStandard());
-            rqmt.setConsVariable1(comp.isConsVariable1());
+            rqmt.setConsByVar1(comp.isConsByVar1());
             rqmt.setFkItemTypeId(comp.getFkItemTypeId());
             rqmt.setFkItemId(comp.getFkItemId());
             rqmt.setFkUnitId(comp.getFkUnitId());
@@ -464,9 +464,9 @@ public class DDbJobLinePrep extends DDbRegistryUser implements DRowJobProgMask {
             rqmt.setXtaRqmtName(itemRqmt.getName());
             rqmt.setXtaUnitCode(itemRqmt.getXtaUnitCode());
             rqmt.setXtaUnitName(itemRqmt.getXtaUnitName());
-            rqmts.add(rqmt);
+            masks.add(rqmt);
         }
         
-        return rqmts;
+        return masks;
     }
 }

@@ -282,7 +282,7 @@ public class DDbJobLinePackMfg extends DDbRegistryUser implements DRowJobMfgMask
     }
 
     @Override
-    public double getVariable1() {
+    public double getVar1() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

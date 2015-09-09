@@ -100,16 +100,16 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
         jPanel9 = new javax.swing.JPanel();
         jlQuantity = new javax.swing.JLabel();
         moCompQuantity = new sba.lib.gui.bean.DBeanCompoundField();
-        moBoolQuantityVariable1 = new sba.lib.gui.bean.DBeanFieldBoolean();
+        moBoolQuantityByVar1 = new sba.lib.gui.bean.DBeanFieldBoolean();
         jPanel14 = new javax.swing.JPanel();
-        jlDefaultVariable1 = new javax.swing.JLabel();
-        moCompDefaultVariable1 = new sba.lib.gui.bean.DBeanCompoundField();
+        jlDefaultVar1 = new javax.swing.JLabel();
+        moCompDefaultVar1 = new sba.lib.gui.bean.DBeanCompoundField();
         jpComps = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         moKeyCompItemType = new sba.lib.gui.bean.DBeanFieldKey();
         moBoolCompStandard = new sba.lib.gui.bean.DBeanFieldBoolean();
-        moBoolCompConsVariable1 = new sba.lib.gui.bean.DBeanFieldBoolean();
+        moBoolCompConsByVar1 = new sba.lib.gui.bean.DBeanFieldBoolean();
         jPanel11 = new javax.swing.JPanel();
         moKeyCompItem = new sba.lib.gui.bean.DBeanFieldKey();
         jlCompQuantity = new javax.swing.JLabel();
@@ -214,18 +214,18 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
         jPanel9.add(jlQuantity);
         jPanel9.add(moCompQuantity);
 
-        moBoolQuantityVariable1.setText("Cantidad por Variable 1");
-        moBoolQuantityVariable1.setPreferredSize(new java.awt.Dimension(150, 23));
-        jPanel9.add(moBoolQuantityVariable1);
+        moBoolQuantityByVar1.setText("Cantidad por Variable 1");
+        moBoolQuantityByVar1.setPreferredSize(new java.awt.Dimension(150, 23));
+        jPanel9.add(moBoolQuantityByVar1);
 
         jpFormula.add(jPanel9);
 
         jPanel14.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
-        jlDefaultVariable1.setText("Variable 1 default:");
-        jlDefaultVariable1.setPreferredSize(new java.awt.Dimension(100, 23));
-        jPanel14.add(jlDefaultVariable1);
-        jPanel14.add(moCompDefaultVariable1);
+        jlDefaultVar1.setText("Variable 1 default:");
+        jlDefaultVar1.setPreferredSize(new java.awt.Dimension(100, 23));
+        jPanel14.add(jlDefaultVar1);
+        jPanel14.add(moCompDefaultVar1);
 
         jpFormula.add(jPanel14);
 
@@ -246,9 +246,9 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
         moBoolCompStandard.setPreferredSize(new java.awt.Dimension(220, 23));
         jPanel4.add(moBoolCompStandard);
 
-        moBoolCompConsVariable1.setText("Consumo por Variable 1");
-        moBoolCompConsVariable1.setPreferredSize(new java.awt.Dimension(205, 23));
-        jPanel4.add(moBoolCompConsVariable1);
+        moBoolCompConsByVar1.setText("Consumo por Variable 1");
+        moBoolCompConsByVar1.setPreferredSize(new java.awt.Dimension(205, 23));
+        jPanel4.add(moBoolCompConsByVar1);
 
         jPanel3.add(jPanel4);
 
@@ -306,7 +306,7 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
     private javax.swing.JButton jbCompClear;
     private javax.swing.JLabel jlCompQuantity;
     private javax.swing.JLabel jlCompStatisticsReference;
-    private javax.swing.JLabel jlDefaultVariable1;
+    private javax.swing.JLabel jlDefaultVar1;
     private javax.swing.JLabel jlFormulaType;
     private javax.swing.JLabel jlItem;
     private javax.swing.JLabel jlItemType;
@@ -321,11 +321,11 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
     private javax.swing.JTextField jtfName;
     private javax.swing.JTextField jtfPresent;
     private javax.swing.JTextField jtfUnit;
-    private sba.lib.gui.bean.DBeanFieldBoolean moBoolCompConsVariable1;
+    private sba.lib.gui.bean.DBeanFieldBoolean moBoolCompConsByVar1;
     private sba.lib.gui.bean.DBeanFieldBoolean moBoolCompStandard;
-    private sba.lib.gui.bean.DBeanFieldBoolean moBoolQuantityVariable1;
+    private sba.lib.gui.bean.DBeanFieldBoolean moBoolQuantityByVar1;
     private sba.lib.gui.bean.DBeanCompoundField moCompCompQuantity;
-    private sba.lib.gui.bean.DBeanCompoundField moCompDefaultVariable1;
+    private sba.lib.gui.bean.DBeanCompoundField moCompDefaultVar1;
     private sba.lib.gui.bean.DBeanCompoundField moCompQuantity;
     private sba.lib.gui.bean.DBeanFieldKey moKeyCompItem;
     private sba.lib.gui.bean.DBeanFieldKey moKeyCompItemType;
@@ -349,15 +349,15 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
         moTextNameReference.setTextSettings(DGuiUtils.getLabelName(jlNameReference), 50, 0);
         moCompQuantity.setCompoundFieldSettings(miClient);
         moCompQuantity.getField().setDecimalSettings(DGuiUtils.getLabelName(jlQuantity), DGuiConsts.GUI_TYPE_DEC_QTY, true);
-        moBoolQuantityVariable1.setBooleanSettings(moBoolQuantityVariable1.getText(), false);
-        moCompDefaultVariable1.setCompoundFieldSettings(miClient);
-        moCompDefaultVariable1.getField().setDecimalSettings(DGuiUtils.getLabelName(jlDefaultVariable1), DGuiConsts.GUI_TYPE_DEC_QTY, false);
+        moBoolQuantityByVar1.setBooleanSettings(moBoolQuantityByVar1.getText(), false);
+        moCompDefaultVar1.setCompoundFieldSettings(miClient);
+        moCompDefaultVar1.getField().setDecimalSettings(DGuiUtils.getLabelName(jlDefaultVar1), DGuiConsts.GUI_TYPE_DEC_QTY, false);
         moKeyCompItemType.setKeySettings(miClient, moKeyCompItemType.getToolTipText(), false);
         moKeyCompItem.setKeySettings(miClient, moKeyCompItem.getToolTipText(), false);
         moBoolCompStandard.setBooleanSettings(moBoolCompStandard.getText(), false);
         moCompCompQuantity.setCompoundFieldSettings(miClient);
         moCompCompQuantity.getField().setDecimalSettings(DGuiUtils.getLabelName(jlCompQuantity), DGuiConsts.GUI_TYPE_DEC_QTY, false);
-        moBoolCompConsVariable1.setBooleanSettings(moBoolCompConsVariable1.getText(), false);
+        moBoolCompConsByVar1.setBooleanSettings(moBoolCompConsByVar1.getText(), false);
         moTextCompStatisticsReference.setTextSettings(DGuiUtils.getLabelName(jlCompStatisticsReference.getText()), 25, 0);
         
         moFields.addField(moKeyFormulaType);
@@ -365,13 +365,13 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
         moFields.addField(moKeyItem);
         moFields.addField(moTextNameReference);
         moFields.addField(moCompQuantity.getField());
-        moFields.addField(moBoolQuantityVariable1);
-        moFields.addField(moCompDefaultVariable1.getField());
+        moFields.addField(moBoolQuantityByVar1);
+        moFields.addField(moCompDefaultVar1.getField());
         moFields.addField(moKeyCompItemType);
         moFields.addField(moKeyCompItem);
         moFields.addField(moBoolCompStandard);
         moFields.addField(moCompCompQuantity.getField());
-        moFields.addField(moBoolCompConsVariable1);
+        moFields.addField(moBoolCompConsByVar1);
         moFields.addField(moTextCompStatisticsReference);
         
         moFields.setFormButton(jbCompAdd);
@@ -380,7 +380,7 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
         moKeyGroupProduct = new DGuiFieldKeyGroup(miClient);
         moKeyGroupComp = new DGuiFieldKeyGroup(miClient);
         
-        moCompDefaultVariable1.setCompoundText(moConfig.getVariable1());
+        moCompDefaultVar1.setCompoundText(moConfig.getVar1());
         
         moGridComps = new DGridPaneForm(miClient, mnFormType, DModConsts.MU_FRM_CMP, DGuiUtils.getLabelName(((TitledBorder) jpComps.getBorder()).getTitle())) {
             
@@ -400,7 +400,7 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_BOOL_S, "Estándar");
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_DEC_QTY, "Cantidad");
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_CODE_UNT, "Unidad");
-                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_BOOL_S, "Consumo " + ((DGuiClientApp) miClient).getVariable1());
+                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_BOOL_S, "Consumo " + ((DGuiClientApp) miClient).getVar1());
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT, "Ref estadísticas");
 
                 for (col = 0; col < columns.length; col++) {
@@ -436,7 +436,7 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
         //moKeyCmpComp.resetField();    // already reset by key group
         moBoolCompStandard.setValue(moKeyFormulaType.getSelectedIndex() > 0 && moKeyFormulaType.getValue()[0] == DModSysConsts.MS_FRM_TP_STD);
         moCompCompQuantity.getField().resetField();
-        moBoolCompConsVariable1.resetField();
+        moBoolCompConsByVar1.resetField();
         moTextCompStatisticsReference.resetField();
         
         itemStateChangedCompStandard();
@@ -485,7 +485,7 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
             comp.setQuantity(moCompCompQuantity.getField().getValue());
             comp.setStatisticsReference(moTextCompStatisticsReference.getValue());
             comp.setStandard(moBoolCompStandard.getValue());
-            comp.setConsVariable1(moBoolCompConsVariable1.getValue());
+            comp.setConsByVar1(moBoolCompConsByVar1.getValue());
             //component.setFkItemTypeId(...);
             comp.setFkItemId(moKeyCompItem.getValue()[0]);
             //component.setFkUnitId(...);
@@ -503,7 +503,16 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
         }
     }
     
-    private void displayProductSettings() {
+    private void updateFieldsItemTypeSettings() {
+        moBoolCompConsByVar1.setSelected(false);
+        moBoolCompConsByVar1.setEnabled(false);
+        
+        if (moKeyItemType.getSelectedIndex() > 0) {
+            moBoolCompConsByVar1.setEnabled(moConfig.isVar1() && moKeyItemType.getSelectedItem().getPrimaryKey()[0] == DModSysConsts.CS_ITM_TP_PB);
+        }
+    }
+    
+    private void displayItemSettings() {
         DDbItem item = null;
         
         if (moKeyItem.getSelectedIndex() <= 0) {
@@ -520,7 +529,7 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
         }
     }
     
-    private void displayCompCompSettings() {
+    private void displayCompItemSettings() {
         DDbItem item = null;
         
         if (moKeyCompItem.getSelectedIndex() <= 0) {
@@ -538,44 +547,48 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
             moCompQuantity.setEditable(false);
             moCompQuantity.getField().setValue(0d);
             
-            moBoolQuantityVariable1.setEnabled(false);
-            moBoolQuantityVariable1.setValue(false);
+            moBoolQuantityByVar1.setEnabled(false);
+            moBoolQuantityByVar1.setValue(false);
         }
         else {
             if (moKeyFormulaType.getValue()[0] == DModSysConsts.MS_FRM_TP_STD) {
                 moCompQuantity.setEditable(true);
             
-                moBoolQuantityVariable1.setEnabled(false);
-                moBoolQuantityVariable1.setValue(false);
+                moBoolQuantityByVar1.setEnabled(false);
+                moBoolQuantityByVar1.setValue(false);
             }
             else {
                 moCompQuantity.setEditable(false);
                 moCompQuantity.getField().setValue(0d);
                 
-                moBoolQuantityVariable1.setEnabled(moConfig.isVariable1());
+                moBoolQuantityByVar1.setEnabled(moConfig.isVar1());
             }
         }
         
-        itemStateChangedQuantityVariable1();
+        itemStateChangedQuantityByVar1();
         clearComp();
     }
     
+    private void itemStateChangedItemType() {
+        updateFieldsItemTypeSettings();
+    }
+    
     private void itemStateChangedItem() {
-        displayProductSettings();
+        displayItemSettings();
         computeName();
     }
     
     private void itemStateChangedCompItem() {
-        displayCompCompSettings();
+        displayCompItemSettings();
     }
     
-    private void itemStateChangedQuantityVariable1() {
-        if (moBoolQuantityVariable1.isSelected()) {
-            moCompDefaultVariable1.setEditable(true);
+    private void itemStateChangedQuantityByVar1() {
+        if (moBoolQuantityByVar1.isSelected()) {
+            moCompDefaultVar1.setEditable(true);
         }
         else {
-            moCompDefaultVariable1.setEditable(false);
-            moCompDefaultVariable1.getField().setValue(0d);
+            moCompDefaultVar1.setEditable(false);
+            moCompDefaultVar1.getField().setValue(0d);
         }
     }
     
@@ -604,9 +617,10 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
     @Override
     public void addAllListeners() {
         moKeyFormulaType.addItemListener(this);
+        moKeyItemType.addItemListener(this);
         moKeyItem.addItemListener(this);
         moKeyCompItem.addItemListener(this);
-        moBoolQuantityVariable1.addItemListener(this);
+        moBoolQuantityByVar1.addItemListener(this);
         moBoolCompStandard.addItemListener(this);
         moTextNameReference.addFocusListener(this);
         jbCompClear.addActionListener(this);
@@ -616,9 +630,10 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
     @Override
     public void removeAllListeners() {
         moKeyFormulaType.removeItemListener(this);
+        moKeyItemType.removeItemListener(this);
         moKeyItem.removeItemListener(this);
         moKeyCompItem.removeItemListener(this);
-        moBoolQuantityVariable1.removeItemListener(this);
+        moBoolQuantityByVar1.removeItemListener(this);
         moBoolCompStandard.removeItemListener(this);
         moTextNameReference.removeFocusListener(this);
         jbCompClear.removeActionListener(this);
@@ -665,15 +680,15 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
         moKeyItem.setValue(new int[] { moRegistry.getFkItemId()});
         moTextNameReference.setValue(moRegistry.getNameReference());
         moCompQuantity.getField().setValue(moRegistry.getQuantity());
-        moCompDefaultVariable1.getField().setValue(!moConfig.isVariable1() ? 0d : moRegistry.getDefaultVariable1());
-        moBoolQuantityVariable1.setValue(!moConfig.isVariable1() ? false : moRegistry.isQuantityVariable1());
+        moCompDefaultVar1.getField().setValue(!moConfig.isVar1() ? 0d : moRegistry.getDefaultVar1());
+        moBoolQuantityByVar1.setValue(!moConfig.isVar1() ? false : moRegistry.isQuantityByVar1());
         
-        displayProductSettings();
+        displayItemSettings();
         computeName();
         
         for (DDbFormulaComp comp : moRegistry.getChildComps()) {
-            if (!moConfig.isVariable1()) {
-                comp.setConsVariable1(false);
+            if (!moConfig.isVar1()) {
+                comp.setConsByVar1(false);
             }
             comps.add(comp);
         }
@@ -682,8 +697,9 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
         
         setFormEditable(true);
         
+        updateFieldsItemTypeSettings();
         itemStateChangedFormulaType();
-        //itemStateChangedQuantityVariable1(...);   // already called in itemStateChangedFormulaType()
+        //itemStateChangedQuantityByVar1(...);      // already called in itemStateChangedFormulaType()
         
         clearComp();
         //itemStateChangedCompStandard(...);        // already called in clearComp()
@@ -693,7 +709,6 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
         }
 
         moKeyCompItem.setEnabled(false);
-        moBoolCompConsVariable1.setEnabled(moConfig.isVariable1());
         
         addAllListeners();
     }
@@ -707,9 +722,9 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
         //registry.setCode(...);
         //registry.setName(...);
         registry.setNameReference(moTextNameReference.getValue());
-        registry.setDefaultVariable1(moCompDefaultVariable1.getField().getValue());
+        registry.setDefaultVar1(moCompDefaultVar1.getField().getValue());
         registry.setQuantity(moCompQuantity.getField().getValue());
-        registry.setQuantityVariable1(moBoolQuantityVariable1.getValue());
+        registry.setQuantityByVar1(moBoolQuantityByVar1.getValue());
         registry.setFkFormulaTypeId(moKeyFormulaType.getValue()[0]);
         //registry.setFkItemTypeId(...);
         registry.setFkItemId(moKeyItem.getValue()[0]);
@@ -772,6 +787,9 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
                 if (field == moKeyFormulaType) {
                     itemStateChangedFormulaType();
                 }
+                else if (field == moKeyItemType) {
+                    itemStateChangedItemType();
+                }
                 else if (field == moKeyItem) {
                     itemStateChangedItem();
                 }
@@ -783,8 +801,8 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
         else if (e.getSource() instanceof DBeanFieldBoolean) {
             DBeanFieldBoolean field = (DBeanFieldBoolean) e.getSource();
             
-            if (field == moBoolQuantityVariable1) {
-                itemStateChangedQuantityVariable1();
+            if (field == moBoolQuantityByVar1) {
+                itemStateChangedQuantityByVar1();
             }
             else if (field == moBoolCompStandard) {
                 itemStateChangedCompStandard();

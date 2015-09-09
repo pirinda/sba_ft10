@@ -22,5 +22,5 @@ public interface DRowJobRqmtMask {
     public double getQuantityRqmt();
     public double getQuantityCons();
     public String getUnitCode();
-    public boolean isConsVariable1();
+    public boolean isConsByVar1();
 }

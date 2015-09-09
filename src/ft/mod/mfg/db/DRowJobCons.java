@@ -69,10 +69,10 @@ public class DRowJobCons implements DGridRow {
                 value = miJobCons.getProduct();
                 break;
             case 2:
-                value = miJobCons.getRequirementTypeCode();
+                value = miJobCons.getRqmtTypeCode();
                 break;
             case 3:
-                value = miJobCons.getRequirement();
+                value = miJobCons.getRqmt();
                 break;
             case 4:
                 value = miJobCons.getQuantity();
@@ -84,7 +84,7 @@ public class DRowJobCons implements DGridRow {
                 value = miJobCons.getLot();
                 break;
             case 7:
-                value = miJobCons.getVariable1();
+                value = miJobCons.getVar1();
                 break;
             default:
         }

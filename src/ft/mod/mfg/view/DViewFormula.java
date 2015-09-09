@@ -99,8 +99,8 @@ public class DViewFormula extends DGridPaneView {
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_CAT_S, "p.name", "Presentación");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_DEC_QTY, "v.qty", "Cantidad");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_CODE_UNT, "u.code", "Unidad");
-        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_BOOL_M, "v.b_qty_var_1", "Cantidad " + ((DGuiClientApp) miClient).getVariable1());
-        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_DEC_QTY, "v.def_var_1", ((DGuiClientApp) miClient).getVariable1() + " default");
+        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_BOOL_M, "v.b_qty_var_1", "Cantidad " + ((DGuiClientApp) miClient).getVar1());
+        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_DEC_QTY, "v.def_var_1", ((DGuiClientApp) miClient).getVar1() + " default");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_BOOL_S, DDbConsts.FIELD_IS_DEL, DGridConsts.COL_TITLE_IS_DEL);
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_BOOL_S, DDbConsts.FIELD_IS_SYS, DGridConsts.COL_TITLE_IS_SYS);
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_USR, DDbConsts.FIELD_USER_INS_NAME, DGridConsts.COL_TITLE_USER_INS_NAME);

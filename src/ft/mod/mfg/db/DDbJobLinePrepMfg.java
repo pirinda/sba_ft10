@@ -23,7 +23,7 @@ public class DDbJobLinePrepMfg extends DDbRegistryUser implements DRowJobMfgMask
     protected int mnPkLinePrepId;
     protected int mnPkPrepId;
     protected int mnPkMfgId;
-    protected double mdVariable1;
+    protected double mdVar1;
     protected double mdQuantity;
     protected double mdMassUnit;
     protected double mdMass_r;
@@ -47,7 +47,7 @@ public class DDbJobLinePrepMfg extends DDbRegistryUser implements DRowJobMfgMask
     public void setPkLinePrepId(int n) { mnPkLinePrepId = n; }
     public void setPkPrepId(int n) { mnPkPrepId = n; }
     public void setPkMfgId(int n) { mnPkMfgId = n; }
-    public void setVariable1(double d) { mdVariable1 = d; }
+    public void setVar1(double d) { mdVar1 = d; }
     public void setQuantity(double d) { mdQuantity = d; }
     public void setMassUnit(double d) { mdMassUnit = d; }
     public void setMass_r(double d) { mdMass_r = d; }
@@ -59,7 +59,7 @@ public class DDbJobLinePrepMfg extends DDbRegistryUser implements DRowJobMfgMask
     public int getPkLinePrepId() { return mnPkLinePrepId; }
     public int getPkPrepId() { return mnPkPrepId; }
     public int getPkMfgId() { return mnPkMfgId; }
-    public double getVariable1() { return mdVariable1; }
+    public double getVar1() { return mdVar1; }
     public double getQuantity() { return mdQuantity; }
     public double getMassUnit() { return mdMassUnit; }
     public double getMass_r() { return mdMass_r; }
@@ -102,7 +102,7 @@ public class DDbJobLinePrepMfg extends DDbRegistryUser implements DRowJobMfgMask
         mnPkLinePrepId = 0;
         mnPkPrepId = 0;
         mnPkMfgId = 0;
-        mdVariable1 = 0;
+        mdVar1 = 0;
         mdQuantity = 0;
         mdMassUnit = 0;
         mdMass_r = 0;
@@ -165,7 +165,7 @@ public class DDbJobLinePrepMfg extends DDbRegistryUser implements DRowJobMfgMask
             mnPkLinePrepId = resultSet.getInt("id_lin_prp");
             mnPkPrepId = resultSet.getInt("id_prp");
             mnPkMfgId = resultSet.getInt("id_mfg");
-            mdVariable1 = resultSet.getDouble("var_1");
+            mdVar1 = resultSet.getDouble("var_1");
             mdQuantity = resultSet.getDouble("qty");
             mdMassUnit = resultSet.getDouble("mss_unt");
             mdMass_r = resultSet.getDouble("mss_r");
@@ -202,7 +202,7 @@ public class DDbJobLinePrepMfg extends DDbRegistryUser implements DRowJobMfgMask
                     mnPkLinePrepId + ", " + 
                     mnPkPrepId + ", " + 
                     mnPkMfgId + ", " + 
-                    mdVariable1 + ", " + 
+                    mdVar1 + ", " + 
                     mdQuantity + ", " + 
                     mdMassUnit + ", " + 
                     mdMass_r + ", " + 
@@ -219,7 +219,7 @@ public class DDbJobLinePrepMfg extends DDbRegistryUser implements DRowJobMfgMask
                     //"id_lin_prp = " + mnPkLinePrepId + ", " +
                     //"id_prp = " + mnPkPrepId + ", " +
                     //"id_mfg = " + mnPkMfgId + ", " +
-                    "var_1 = " + mdVariable1 + ", " +
+                    "var_1 = " + mdVar1 + ", " +
                     "qty = " + mdQuantity + ", " +
                     "mss_unt = " + mdMassUnit + ", " +
                     "mss_r = " + mdMass_r + ", " +
@@ -242,7 +242,7 @@ public class DDbJobLinePrepMfg extends DDbRegistryUser implements DRowJobMfgMask
         registry.setPkLinePrepId(this.getPkLinePrepId());
         registry.setPkPrepId(this.getPkPrepId());
         registry.setPkMfgId(this.getPkMfgId());
-        registry.setVariable1(this.getVariable1());
+        registry.setVar1(this.getVar1());
         registry.setQuantity(this.getQuantity());
         registry.setMassUnit(this.getMassUnit());
         registry.setMass_r(this.getMass_r());
