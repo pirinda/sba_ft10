@@ -34,7 +34,7 @@ public class DDbItem extends DDbRegistryUser {
     protected boolean mbDeleted;
     protected boolean mbSystem;
     */
-    protected int mnFkItemFamilyId;
+    protected int mnFkItemGroupId;
     protected int mnFkUnitId;
     protected int mnFkPresentId;
     protected int mnFkItemId_n;
@@ -45,6 +45,7 @@ public class DDbItem extends DDbRegistryUser {
     protected Date mtTsUserUpdate;
     */
     
+    protected int mnXtaFkItemFamilyId;
     protected int mnXtaFkItemTypeId;
     protected String msXtaItemTypeCode;
     protected String msXtaUnitCode;
@@ -58,13 +59,15 @@ public class DDbItem extends DDbRegistryUser {
     }
 
     public void readXtaData(final DGuiSession session) {
+        DDbItemGroup group = null;
         DDbItemFamily family = null;
         
         // Reset extra data:
         
+        mnXtaFkItemFamilyId = DLibConsts.UNDEFINED;
         mnXtaFkItemTypeId = DLibConsts.UNDEFINED;
         msXtaItemTypeCode = "";
-
+        
         msXtaUnitCode = "";
         msXtaUnitName = "";
         msXtaPresentCode = "";
@@ -72,8 +75,10 @@ public class DDbItem extends DDbRegistryUser {
         
         // Read extra data:
         
-        family = (DDbItemFamily) session.readRegistry(DModConsts.CU_FAM, new int[] { mnFkItemFamilyId }, DDbConsts.MODE_STEALTH);
+        group = (DDbItemGroup) session.readRegistry(DModConsts.CU_GRP, new int[] { mnFkItemGroupId }, DDbConsts.MODE_STEALTH);
+        family = (DDbItemFamily) session.readRegistry(DModConsts.CU_FAM, new int[] { group.getFkItemFamilyId() }, DDbConsts.MODE_STEALTH);
         
+        mnXtaFkItemFamilyId = group.getFkItemFamilyId();
         mnXtaFkItemTypeId = family.getFkItemTypeId();
         msXtaItemTypeCode = (String) session.readField(DModConsts.CS_ITM_TP, new int[] { family.getFkItemTypeId() }, DDbRegistry.FIELD_CODE);
 
@@ -97,7 +102,7 @@ public class DDbItem extends DDbRegistryUser {
     public void setMassUnit(double d) { mdMassUnit = d; }
     public void setDeleted(boolean b) { mbDeleted = b; }
     public void setSystem(boolean b) { mbSystem = b; }
-    public void setFkItemFamilyId(int n) { mnFkItemFamilyId = n; }
+    public void setFkItemGroupId(int n) { mnFkItemGroupId = n; }
     public void setFkUnitId(int n) { mnFkUnitId = n; }
     public void setFkPresentId(int n) { mnFkPresentId = n; }
     public void setFkItemId_n(int n) { mnFkItemId_n = n; }
@@ -114,7 +119,7 @@ public class DDbItem extends DDbRegistryUser {
     public double getMassUnit() { return mdMassUnit; }
     public boolean isDeleted() { return mbDeleted; }
     public boolean isSystem() { return mbSystem; }
-    public int getFkItemFamilyId() { return mnFkItemFamilyId; }
+    public int getFkItemGroupId() { return mnFkItemGroupId; }
     public int getFkUnitId() { return mnFkUnitId; }
     public int getFkPresentId() { return mnFkPresentId; }
     public int getFkItemId_n() { return mnFkItemId_n; }
@@ -123,6 +128,7 @@ public class DDbItem extends DDbRegistryUser {
     public Date getTsUserInsert() { return mtTsUserInsert; }
     public Date getTsUserUpdate() { return mtTsUserUpdate; }
 
+    public void setXtaFkItemFamilyId(int n) { mnXtaFkItemFamilyId = n; }
     public void setXtaFkItemTypeId(int n) { mnXtaFkItemTypeId = n; }
     public void setXtaItemTypeCode(String s) { msXtaItemTypeCode = s; }
     public void setXtaUnitCode(String s) { msXtaUnitCode = s; }
@@ -130,6 +136,7 @@ public class DDbItem extends DDbRegistryUser {
     public void setXtaPresentCode(String s) { msXtaPresentCode = s; }
     public void setXtaPresentName(String s) { msXtaPresentName = s; }
 
+    public int getXtaFkItemFamilyId() { return mnXtaFkItemFamilyId; }
     public int getXtaFkItemTypeId() { return mnXtaFkItemTypeId; }
     public String getXtaItemTypeCode() { return msXtaItemTypeCode; }
     public String getXtaUnitCode() { return msXtaUnitCode; }
@@ -159,7 +166,7 @@ public class DDbItem extends DDbRegistryUser {
         mdMassUnit = 0;
         mbDeleted = false;
         mbSystem = false;
-        mnFkItemFamilyId = 0;
+        mnFkItemGroupId = 0;
         mnFkUnitId = 0;
         mnFkPresentId = 0;
         mnFkItemId_n = 0;
@@ -168,6 +175,7 @@ public class DDbItem extends DDbRegistryUser {
         mtTsUserInsert = null;
         mtTsUserUpdate = null;
         
+        mnXtaFkItemFamilyId = 0;
         mnXtaFkItemTypeId = 0;
         msXtaItemTypeCode = "";
         msXtaUnitCode = "";
@@ -226,7 +234,7 @@ public class DDbItem extends DDbRegistryUser {
             mdMassUnit = resultSet.getDouble("mss_unt");
             mbDeleted = resultSet.getBoolean("b_del");
             mbSystem = resultSet.getBoolean("b_sys");
-            mnFkItemFamilyId = resultSet.getInt("fk_fam");
+            mnFkItemGroupId = resultSet.getInt("fk_grp");
             mnFkUnitId = resultSet.getInt("fk_unt");
             mnFkPresentId = resultSet.getInt("fk_prs");
             mnFkItemId_n = resultSet.getInt("fk_itm_n");
@@ -281,7 +289,7 @@ public class DDbItem extends DDbRegistryUser {
                     mdMassUnit + ", " + 
                     (mbDeleted ? 1 : 0) + ", " + 
                     (mbSystem ? 1 : 0) + ", " + 
-                    mnFkItemFamilyId + ", " + 
+                    mnFkItemGroupId + ", " + 
                     mnFkUnitId + ", " + 
                     mnFkPresentId + ", " + 
                     (mnFkItemId_n == DLibConsts.UNDEFINED ? "NULL" : "" + mnFkItemId_n) + ", " + 
@@ -303,7 +311,7 @@ public class DDbItem extends DDbRegistryUser {
                     "mss_unt = " + mdMassUnit + ", " +
                     "b_del = " + (mbDeleted ? 1 : 0) + ", " +
                     "b_sys = " + (mbSystem ? 1 : 0) + ", " +
-                    "fk_fam = " + mnFkItemFamilyId + ", " +
+                    "fk_grp = " + mnFkItemGroupId + ", " +
                     "fk_unt = " + mnFkUnitId + ", " +
                     "fk_prs = " + mnFkPresentId + ", " +
                     "fk_itm_n = " + (mnFkItemId_n == DLibConsts.UNDEFINED ? "NULL" : "" + mnFkItemId_n) + ", " +
@@ -331,7 +339,7 @@ public class DDbItem extends DDbRegistryUser {
         registry.setMassUnit(this.getMassUnit());
         registry.setDeleted(this.isDeleted());
         registry.setSystem(this.isSystem());
-        registry.setFkItemFamilyId(this.getFkItemFamilyId());
+        registry.setFkItemGroupId(this.getFkItemGroupId());
         registry.setFkUnitId(this.getFkUnitId());
         registry.setFkPresentId(this.getFkPresentId());
         registry.setFkItemId_n(this.getFkItemId_n());
@@ -340,6 +348,7 @@ public class DDbItem extends DDbRegistryUser {
         registry.setTsUserInsert(this.getTsUserInsert());
         registry.setTsUserUpdate(this.getTsUserUpdate());
 
+        registry.setXtaFkItemFamilyId(this.getXtaFkItemFamilyId());
         registry.setXtaFkItemTypeId(this.getXtaFkItemTypeId());
         registry.setXtaItemTypeCode(this.getXtaItemTypeCode());
         registry.setXtaUnitCode(this.getXtaUnitCode());

@@ -27,6 +27,7 @@ import sba.lib.DLibUtils;
 import sba.lib.db.DDbRegistry;
 import sba.lib.gui.DGuiClient;
 import sba.lib.gui.DGuiConsts;
+import sba.lib.gui.DGuiFieldKeyGroup;
 import sba.lib.gui.DGuiParams;
 import sba.lib.gui.DGuiUtils;
 import sba.lib.gui.DGuiValidation;
@@ -45,6 +46,7 @@ public class DFormItem extends DBeanForm implements ItemListener, FocusListener 
     private DDbUnit moUnitItem;
     private DDbUnit moUnitPresent;
     private DDbPresent moPresent;
+    private DGuiFieldKeyGroup moKeyGroup;
     private boolean mbApplyPresent;
     private boolean mbApplyMassUnit;
     private boolean mbApplyItemBase;
@@ -70,6 +72,9 @@ public class DFormItem extends DBeanForm implements ItemListener, FocusListener 
         jPanel7 = new javax.swing.JPanel();
         jlItemFamily = new javax.swing.JLabel();
         moKeyItemFamily = new sba.lib.gui.bean.DBeanFieldKey();
+        jPanel12 = new javax.swing.JPanel();
+        jlItemGroup = new javax.swing.JLabel();
+        moKeyItemGroup = new sba.lib.gui.bean.DBeanFieldKey();
         jPanel10 = new javax.swing.JPanel();
         jlItemBase = new javax.swing.JLabel();
         moKeyItemBase = new sba.lib.gui.bean.DBeanFieldKey();
@@ -98,7 +103,7 @@ public class DFormItem extends DBeanForm implements ItemListener, FocusListener 
         jpContainer.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos del registro:"));
         jpContainer.setLayout(new java.awt.BorderLayout());
 
-        jPanel1.setLayout(new java.awt.GridLayout(9, 1, 0, 5));
+        jPanel1.setLayout(new java.awt.GridLayout(10, 1, 0, 5));
 
         jPanel7.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
@@ -110,6 +115,17 @@ public class DFormItem extends DBeanForm implements ItemListener, FocusListener 
         jPanel7.add(moKeyItemFamily);
 
         jPanel1.add(jPanel7);
+
+        jPanel12.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
+
+        jlItemGroup.setText("Grupo ítem:*");
+        jlItemGroup.setPreferredSize(new java.awt.Dimension(100, 23));
+        jPanel12.add(jlItemGroup);
+
+        moKeyItemGroup.setPreferredSize(new java.awt.Dimension(200, 23));
+        jPanel12.add(moKeyItemGroup);
+
+        jPanel1.add(jPanel12);
 
         jPanel10.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
@@ -206,6 +222,7 @@ public class DFormItem extends DBeanForm implements ItemListener, FocusListener 
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
@@ -216,6 +233,7 @@ public class DFormItem extends DBeanForm implements ItemListener, FocusListener 
     private javax.swing.JLabel jlCode;
     private javax.swing.JLabel jlItemBase;
     private javax.swing.JLabel jlItemFamily;
+    private javax.swing.JLabel jlItemGroup;
     private javax.swing.JLabel jlLotCode;
     private javax.swing.JLabel jlMassUnit;
     private javax.swing.JLabel jlName;
@@ -227,6 +245,7 @@ public class DFormItem extends DBeanForm implements ItemListener, FocusListener 
     private sba.lib.gui.bean.DBeanCompoundField moCompMassUnit;
     private sba.lib.gui.bean.DBeanFieldKey moKeyItemBase;
     private sba.lib.gui.bean.DBeanFieldKey moKeyItemFamily;
+    private sba.lib.gui.bean.DBeanFieldKey moKeyItemGroup;
     private sba.lib.gui.bean.DBeanFieldKey moKeyPresent;
     private sba.lib.gui.bean.DBeanFieldKey moKeyUnit;
     private sba.lib.gui.bean.DBeanFieldText moTextCode;
@@ -239,7 +258,7 @@ public class DFormItem extends DBeanForm implements ItemListener, FocusListener 
      */
     
     private void initComponentsCustom() {
-        DGuiUtils.setWindowBounds(this, 560, 350);
+        DGuiUtils.setWindowBounds(this, 640, 400);
         
         mbApplyPresent = false;
         mbApplyMassUnit = false;
@@ -272,6 +291,7 @@ public class DFormItem extends DBeanForm implements ItemListener, FocusListener 
         }
         
         moKeyItemFamily.setKeySettings(miClient, DGuiUtils.getLabelName(jlItemFamily), true);
+        moKeyItemGroup.setKeySettings(miClient, DGuiUtils.getLabelName(jlItemGroup), true);
         moKeyItemBase.setKeySettings(miClient, DGuiUtils.getLabelName(jlItemBase), true);
         moTextCode.setTextSettings(DGuiUtils.getLabelName(jlCode), 25);
         moTextNameRaw.setTextSettings(DGuiUtils.getLabelName(jlNameRaw), 50);
@@ -282,6 +302,7 @@ public class DFormItem extends DBeanForm implements ItemListener, FocusListener 
         moTextLotCode.setTextSettings(DGuiUtils.getLabelName(jlLotCode), 5, 0);
         
         moFields.addField(moKeyItemFamily);
+        moFields.addField(moKeyItemGroup);
         moFields.addField(moKeyItemBase);
         moFields.addField(moTextCode);
         moFields.addField(moTextNameRaw);
@@ -291,6 +312,8 @@ public class DFormItem extends DBeanForm implements ItemListener, FocusListener 
         moFields.addField(moTextLotCode);
         
         moFields.setFormButton(jbSave);
+        
+        moKeyGroup = new DGuiFieldKeyGroup(miClient);
         
         moCompMassUnit.setCompoundText(((DGuiClientApp) miClient).getMassCode());
     }
@@ -411,7 +434,11 @@ public class DFormItem extends DBeanForm implements ItemListener, FocusListener 
 
     @Override
     public void reloadCatalogues() {
-        miClient.getSession().populateCatalogue(moKeyItemFamily, DModConsts.CU_FAM, mnFormSubtype, null);
+        moKeyGroup.initGroup();
+        moKeyGroup.addFieldKey(moKeyItemFamily, DModConsts.CU_FAM, DLibConsts.UNDEFINED, null);
+        moKeyGroup.addFieldKey(moKeyItemGroup, DModConsts.CU_GRP, DLibConsts.UNDEFINED, null);
+        moKeyGroup.populateCatalogues();
+        
         miClient.getSession().populateCatalogue(moKeyUnit, DModConsts.CU_UNT, DLibConsts.UNDEFINED, null);
         miClient.getSession().populateCatalogue(moKeyPresent, DModConsts.CU_PRS, DLibConsts.UNDEFINED, null);
     }
@@ -439,8 +466,9 @@ public class DFormItem extends DBeanForm implements ItemListener, FocusListener 
             jtfRegistryKey.setText(DLibUtils.textKey(moRegistry.getPrimaryKey()));
         }
 
-        moKeyItemFamily.setValue(new int[] { moRegistry.getFkItemFamilyId() });
+        moKeyItemFamily.setValue(new int[] { moRegistry.getXtaFkItemFamilyId() });
         itemStateChangeItemFamily();
+        moKeyItemGroup.setValue(new int[] { moRegistry.getFkItemGroupId() });
         moKeyItemBase.setValue(new int[] { moRegistry.getFkItemId_n() });
         moTextCode.setValue(moRegistry.getCode());
         moTextNameRaw.setValue(moRegistry.getNameRaw());
@@ -452,6 +480,15 @@ public class DFormItem extends DBeanForm implements ItemListener, FocusListener 
         computeName();
 
         setFormEditable(true);
+        
+        if (moRegistry.isRegistryNew()) {
+            moKeyGroup.resetGroup();
+            moKeyItemGroup.setEnabled(moKeyItemGroup.getSelectedIndex() > 0);
+        }
+        else {
+            
+        }
+        
         moTextCode.setEnabled(false);
         updateFieldItemBase();
         
@@ -475,7 +512,7 @@ public class DFormItem extends DBeanForm implements ItemListener, FocusListener 
         registry.setNameRaw(moTextNameRaw.getValue());
         registry.setLotCode(moTextLotCode.getValue());
         registry.setMassUnit(moCompMassUnit.getField().getValue());
-        registry.setFkItemFamilyId(moKeyItemFamily.getValue()[0]);
+        registry.setFkItemGroupId(moKeyItemGroup.getValue()[0]);
         registry.setFkUnitId(moKeyUnit.getValue()[0]);
         registry.setFkPresentId(moKeyPresent.getValue()[0]);
         registry.setFkItemId_n(!moKeyItemBase.isEnabled() ? DLibConsts.UNDEFINED : moKeyItemBase.getValue()[0]);

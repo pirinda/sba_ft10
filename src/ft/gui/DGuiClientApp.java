@@ -65,7 +65,7 @@ import sba.lib.xml.DXmlUtils;
 public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener  {
 
     public static final String APP_NAME = "FoodTrace 1.0";
-    public static final String APP_RELEASE = "FoodTrace 1.0 002.01";
+    public static final String APP_RELEASE = "FoodTrace 1.0 003.01";
     public static final String APP_COPYRIGHT = "Copyright © FoodTrace SA de CV";
     public static final String APP_PROVIDER = "http://www.foodtrace.com";
     
@@ -164,6 +164,7 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
         jmiCfgItemEo = new javax.swing.JMenuItem();
         jsCfg3 = new javax.swing.JPopupMenu.Separator();
         jmiCfgItem = new javax.swing.JMenuItem();
+        jmiCfgItemGroup = new javax.swing.JMenuItem();
         jmiCfgItemFamily = new javax.swing.JMenuItem();
         jsCfg4 = new javax.swing.JPopupMenu.Separator();
         jmiCfgUnit = new javax.swing.JMenuItem();
@@ -323,6 +324,9 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
 
         jmiCfgItem.setText("Ítems");
         jmCfg.add(jmiCfgItem);
+
+        jmiCfgItemGroup.setText("Grupos ítems");
+        jmCfg.add(jmiCfgItemGroup);
 
         jmiCfgItemFamily.setText("Familias ítems");
         jmCfg.add(jmiCfgItemFamily);
@@ -513,6 +517,7 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
         jmiCfgItemEm.addActionListener(this);
         jmiCfgItemEo.addActionListener(this);
         jmiCfgItem.addActionListener(this);
+        jmiCfgItemGroup.addActionListener(this);
         jmiCfgItemFamily.addActionListener(this);
         jmiCfgUnit.addActionListener(this);
         jmiCfgPresent.addActionListener(this);
@@ -783,6 +788,7 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
     private javax.swing.JMenuItem jmiCfgItemEm;
     private javax.swing.JMenuItem jmiCfgItemEo;
     private javax.swing.JMenuItem jmiCfgItemFamily;
+    private javax.swing.JMenuItem jmiCfgItemGroup;
     private javax.swing.JMenuItem jmiCfgItemMi;
     private javax.swing.JMenuItem jmiCfgItemPb;
     private javax.swing.JMenuItem jmiCfgItemPf;
@@ -1132,6 +1138,9 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
             }
             else if (menuItem == jmiCfgItem) {
                 moSession.showView(DModConsts.CU_ITM, DLibConsts.UNDEFINED, null);
+            }
+            else if (menuItem == jmiCfgItemGroup) {
+                moSession.showView(DModConsts.CU_GRP, DLibConsts.UNDEFINED, null);
             }
             else if (menuItem == jmiCfgItemFamily) {
                 moSession.showView(DModConsts.CU_FAM, DLibConsts.UNDEFINED, null);

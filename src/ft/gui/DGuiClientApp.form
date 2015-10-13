@@ -104,6 +104,11 @@
                 <Property name="text" type="java.lang.String" value="&#xcd;tems"/>
               </Properties>
             </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jmiCfgItemGroup">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Grupos &#xed;tems"/>
+              </Properties>
+            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jmiCfgItemFamily">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Familias &#xed;tems"/>

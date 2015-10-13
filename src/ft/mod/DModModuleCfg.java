@@ -8,16 +8,19 @@ package ft.mod;
 import ft.mod.cfg.db.DDbConfig;
 import ft.mod.cfg.db.DDbItem;
 import ft.mod.cfg.db.DDbItemFamily;
+import ft.mod.cfg.db.DDbItemGroup;
 import ft.mod.cfg.db.DDbPresent;
 import ft.mod.cfg.db.DDbUnit;
 import ft.mod.cfg.db.DDbUser;
 import ft.mod.cfg.db.DDbUserGui;
 import ft.mod.cfg.form.DFormItem;
 import ft.mod.cfg.form.DFormItemFamily;
+import ft.mod.cfg.form.DFormItemGroup;
 import ft.mod.cfg.form.DFormPresent;
 import ft.mod.cfg.form.DFormUnit;
 import ft.mod.cfg.view.DViewItem;
 import ft.mod.cfg.view.DViewItemFamily;
+import ft.mod.cfg.view.DViewItemGroup;
 import ft.mod.cfg.view.DViewPresent;
 import ft.mod.cfg.view.DViewUnit;
 import javax.swing.JMenu;
@@ -43,6 +46,7 @@ public class DModModuleCfg extends DGuiModule {
     private DFormUnit moFormUnit;
     private DFormPresent moFormPresent;
     private DFormItemFamily moFormItemFamily;
+    private DFormItemGroup moFormItemGroup;
     private DFormItem moFormItemRmi;
     private DFormItem moFormItemRmp;
     private DFormItem moFormItemMi;
@@ -115,6 +119,9 @@ public class DModModuleCfg extends DGuiModule {
             case DModConsts.CU_FAM:
                 registry = new DDbItemFamily();
                 break;
+            case DModConsts.CU_GRP:
+                registry = new DDbItemGroup();
+                break;
             case DModConsts.CU_ITM:
                 registry = new DDbItem();
                 break;
@@ -176,9 +183,14 @@ public class DModModuleCfg extends DGuiModule {
                 sql = "SELECT id_fam AS " + DDbConsts.FIELD_ID + "1, name AS " + DDbConsts.FIELD_ITEM + " " +
                         "FROM " + DModConsts.TablesMap.get(type) + " WHERE b_del = 0 " + (subtype == DLibConsts.UNDEFINED ? "" : "AND fk_itm_tp = " + subtype + " ") + "ORDER BY name, id_fam ";
                 break;
+            case DModConsts.CU_GRP:
+                settings = new DGuiCatalogueSettings("Grupo ítem", 1, 1);
+                sql = "SELECT id_grp AS " + DDbConsts.FIELD_ID + "1, name AS " + DDbConsts.FIELD_ITEM + ", fk_fam AS " + DDbConsts.FIELD_FK + "1 " +
+                        "FROM " + DModConsts.TablesMap.get(type) + " WHERE b_del = 0 ORDER BY name, id_grp ";
+                break;
             case DModConsts.CU_ITM:
                 settings = new DGuiCatalogueSettings("Ítem", 1, 1, DLibConsts.DATA_TYPE_TEXT);
-                sql = "SELECT i.id_itm AS " + DDbConsts.FIELD_ID + "1, i.name AS " + DDbConsts.FIELD_ITEM + ", i.fk_fam AS " + DDbConsts.FIELD_FK + "1, u.code AS " + DDbConsts.FIELD_COMP + " " +
+                sql = "SELECT i.id_itm AS " + DDbConsts.FIELD_ID + "1, i.name AS " + DDbConsts.FIELD_ITEM + ", i.fk_grp AS " + DDbConsts.FIELD_FK + "1, u.code AS " + DDbConsts.FIELD_COMP + " " +
                         "FROM " + DModConsts.TablesMap.get(type) + " AS i " +
                         "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_UNT) + " AS u ON i.fk_unt = u.id_unt " +
                         "WHERE i.b_del = 0 " + (params == null ? "" : "AND i.fk_fam = " + params.getKey()[0] + " ") + "ORDER BY i.name, i.id_itm ";
@@ -247,6 +259,9 @@ public class DModModuleCfg extends DGuiModule {
                 break;
             case DModConsts.CU_FAM:
                 view = new DViewItemFamily(miClient, "Familias ítems");
+                break;
+            case DModConsts.CU_GRP:
+                view = new DViewItemGroup(miClient, "Grupos ítems");
                 break;
             case DModConsts.CU_ITM:
                 switch (subtype) {
@@ -321,8 +336,12 @@ public class DModModuleCfg extends DGuiModule {
                 form = moFormPresent;
                 break;
             case DModConsts.CU_FAM:
-                if (moFormItemFamily == null) moFormItemFamily = new DFormItemFamily(miClient, "Familia ítem");
+                if (moFormItemFamily == null) moFormItemFamily = new DFormItemFamily(miClient, "Familia ítems");
                 form = moFormItemFamily;
+                break;
+            case DModConsts.CU_GRP:
+                if (moFormItemGroup == null) moFormItemGroup = new DFormItemGroup(miClient, "Grupo ítems");
+                form = moFormItemGroup;
                 break;
             case DModConsts.CU_ITM:
                 switch (subtype) {

@@ -26,6 +26,7 @@ public abstract class DModConsts {
     public static final int CU_UNT = 112021;
     public static final int CU_PRS = 112026;
     public static final int CU_FAM = 112031;
+    public static final int CU_GRP = 112032;
     public static final int CU_ITM = 112036;
 
     public static final int C_CFG = 113001;
@@ -35,6 +36,7 @@ public abstract class DModConsts {
     public static final int CX_ITM_TP_CMP = 115002;     // components
     public static final int CX_ITM_BY_ITM_TP = 115006;
     
+    public static final int MS_REF_TP = 211021;
     public static final int MS_FRM_TP = 211041;
     public static final int MS_JOB_TP = 211051;
     public static final int MS_JOB_ST = 211052;
@@ -96,11 +98,13 @@ public abstract class DModConsts {
         TablesMap.put(CU_UNT, "cu_unt");
         TablesMap.put(CU_PRS, "cu_prs");
         TablesMap.put(CU_FAM, "cu_fam");
+        TablesMap.put(CU_GRP, "cu_grp");
         TablesMap.put(CU_ITM, "cu_itm");
 
         TablesMap.put(C_CFG, "c_cfg");
         TablesMap.put(C_USR_GUI, "c_usr_gui");
 
+        TablesMap.put(MS_REF_TP, "ms_ref_tp");
         TablesMap.put(MS_FRM_TP, "ms_frm_tp");
         TablesMap.put(MS_JOB_TP, "ms_job_tp");
         TablesMap.put(MS_JOB_ST, "ms_job_st");
