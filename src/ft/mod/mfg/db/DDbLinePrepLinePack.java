@@ -22,7 +22,7 @@ public class DDbLinePrepLinePack extends DDbRegistryUser {
     protected int mnPkLinePackId;
 
     public DDbLinePrepLinePack() {
-        super(DModConsts.MU_LIN_PRP_LIN_PCK);
+        super(/*XXXDModConsts.MU_LIN_PRP_LIN_PCK*/0);
         initRegistry();
     }
 

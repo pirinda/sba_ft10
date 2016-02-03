@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package ft.mod.mfg.view;
+package ft.mod.cfg.view;
 
 import ft.mod.DModConsts;
 import sba.lib.DLibConsts;
@@ -18,11 +18,11 @@ import sba.lib.gui.DGuiClient;
  *
  * @author Sergio Flores
  */
-public class DViewYearWeek extends DGridPaneView {
+public class DViewYear extends DGridPaneView {
 
-    public DViewYearWeek(DGuiClient client, String title) {
-        super(client, DGridConsts.GRID_VIEW_TAB, DModConsts.M_YER_WEK, DLibConsts.UNDEFINED, title);
-        setRowButtonsEnabled(false);
+    public DViewYear(DGuiClient client, String title) {
+        super(client, DGridConsts.GRID_VIEW_TAB, DModConsts.C_YEA, DLibConsts.UNDEFINED, title);
+        setRowButtonsEnabled(true, true, true, false, true);
     }
 
     @Override
@@ -30,7 +30,7 @@ public class DViewYearWeek extends DGridPaneView {
         String sql = "";
         Object filter = null;
 
-        moPaneSettings = new DGridPaneSettings(2);
+        moPaneSettings = new DGridPaneSettings(1);
         moPaneSettings.setDeletedApplying(true);
         moPaneSettings.setSystemApplying(true);
         moPaneSettings.setUserInsertApplying(true);
@@ -38,45 +38,39 @@ public class DViewYearWeek extends DGridPaneView {
 
         filter = (Boolean) moFiltersMap.get(DGridConsts.FILTER_DELETED);
         if ((Boolean) filter) {
-            sql += (sql.length() == 0 ? "" : "AND ") + "y.b_del = 0 ";
+            sql += (sql.length() == 0 ? "" : "AND ") + "v.b_del = 0 ";
         }
 
         msSql = "SELECT " +
                 "v.id_yer AS " + DDbConsts.FIELD_ID + "1, " +
-                "v.id_wek AS " + DDbConsts.FIELD_ID + "2, " +
-                "v.id_wek AS " + DDbConsts.FIELD_CODE + ", " +
-                "v.id_wek AS " + DDbConsts.FIELD_NAME + ", " +
+                "v.id_yer AS " + DDbConsts.FIELD_CODE + ", " +
+                "v.id_yer AS " + DDbConsts.FIELD_NAME + ", " +
                 "v.sta, " +
-                "ADDDATE(v.sta, 6) AS f_end, " +
-                "y.b_del AS " + DDbConsts.FIELD_IS_DEL + ", " +
-                "y.b_sys AS " + DDbConsts.FIELD_IS_SYS + ", " +
-                "y.fk_usr_ins AS " + DDbConsts.FIELD_USER_INS_ID + ", " +
-                "y.fk_usr_upd AS " + DDbConsts.FIELD_USER_UPD_ID + ", " +
-                "y.ts_usr_ins AS " + DDbConsts.FIELD_USER_INS_TS + ", " +
-                "y.ts_usr_upd AS " + DDbConsts.FIELD_USER_UPD_TS + ", " +
-                "y.ts_usr_upd AS " + DDbConsts.FIELD_USER_UPD_TS + ", " +
+                "v.b_del AS " + DDbConsts.FIELD_IS_DEL + ", " +
+                "v.b_sys AS " + DDbConsts.FIELD_IS_SYS + ", " +
+                "v.fk_usr_ins AS " + DDbConsts.FIELD_USER_INS_ID + ", " +
+                "v.fk_usr_upd AS " + DDbConsts.FIELD_USER_UPD_ID + ", " +
+                "v.ts_usr_ins AS " + DDbConsts.FIELD_USER_INS_TS + ", " +
+                "v.ts_usr_upd AS " + DDbConsts.FIELD_USER_UPD_TS + ", " +
+                "v.ts_usr_upd AS " + DDbConsts.FIELD_USER_UPD_TS + ", " +
                 "ui.name AS " + DDbConsts.FIELD_USER_INS_NAME + ", " +
                 "uu.name AS " + DDbConsts.FIELD_USER_UPD_NAME + " " +
-                "FROM " + DModConsts.TablesMap.get(DModConsts.M_YER) + " AS y " +
-                "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.M_YER_WEK) + " AS v ON " +
-                "y.id_yer = v.id_yer " +
+                "FROM " + DModConsts.TablesMap.get(DModConsts.C_YEA) + " AS v " +
                 "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_USR) + " AS ui ON " +
-                "y.fk_usr_ins = ui.id_usr " +
+                "v.fk_usr_ins = ui.id_usr " +
                 "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_USR) + " AS uu ON " +
-                "y.fk_usr_upd = uu.id_usr " +
+                "v.fk_usr_upd = uu.id_usr " +
                 (sql.length() == 0 ? "" : "WHERE " + sql) +
-                "ORDER BY v.id_yer, v.id_wek ";
+                "ORDER BY v.id_yer ";
     }
 
     @Override
     public void createGridColumns() {
         int col = 0;
-        DGridColumnView[] columns = new DGridColumnView[10];
+        DGridColumnView[] columns = new DGridColumnView[8];
 
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_INT_CAL_YEAR, DDbConsts.FIELD_ID + "1", "Año");
-        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_INT_CAL_MONTH, DDbConsts.FIELD_ID + "2", "Semana");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_DATE, "v.sta", "Inicio");
-        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_DATE, "f_end", "Fin");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_BOOL_S, DDbConsts.FIELD_IS_DEL, DGridConsts.COL_TITLE_IS_DEL);
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_BOOL_S, DDbConsts.FIELD_IS_SYS, DGridConsts.COL_TITLE_IS_SYS);
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_USR, DDbConsts.FIELD_USER_INS_NAME, DGridConsts.COL_TITLE_USER_INS_NAME);
@@ -92,7 +86,6 @@ public class DViewYearWeek extends DGridPaneView {
     @Override
     public void defineSuscriptions() {
         moSuscriptionsSet.add(mnGridType);
-        moSuscriptionsSet.add(DModConsts.M_YER);
         moSuscriptionsSet.add(DModConsts.CU_USR);
     }
 }

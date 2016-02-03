@@ -15,72 +15,72 @@ public abstract class DModConsts {
 
     public static final int SU_SYS = 110001;
     public static final int SU_COM = 110002;
-    
-    public static final int CS_MOD = 111001;
-    public static final int CS_USR_TP = 111011;
-    public static final int CS_UNT_TP = 111021;
-    public static final int CS_ITM_TP = 111031;
 
-    public static final int CU_USR = 112011;
-    public static final int CU_USR_MOD = 112016;
-    public static final int CU_UNT = 112021;
-    public static final int CU_PRS = 112026;
-    public static final int CU_FAM = 112031;
-    public static final int CU_GRP = 112032;
-    public static final int CU_ITM = 112036;
+    public static final int CS_MOD = 111001;
+    public static final int CS_USR_TP = 111101;
+    public static final int CS_ACS_TP = 111106;
+    public static final int CS_PER_TP = 111201;
+    public static final int CS_BPR_TP = 111206;
+    public static final int CS_UOM_TP = 111301;
+    public static final int CS_ITM_TP = 111316;
+
+    public static final int CU_USR = 112101;
+    public static final int CU_USR_MOD = 112106;
+    public static final int CU_BPR = 112201;
+    public static final int CU_UOM = 112301;
+    public static final int CU_PRE = 112306;
+    public static final int CU_FAM = 112311;
+    public static final int CU_ITM = 112316;
 
     public static final int C_CFG = 113001;
-    public static final int C_USR_GUI = 113101;
+    public static final int C_YEA = 113101;
+    public static final int C_USR_GUI = 113201;
 
-    public static final int CX_ITM_TP_PRO = 115001;     // products
-    public static final int CX_ITM_TP_CMP = 115002;     // components
-    public static final int CX_ITM_BY_ITM_TP = 115006;
+    public static final int CX_ITM_TP_PRO = 115316;
+    public static final int CX_ITM_TP_CMP = 115317;
+    public static final int CX_ITM_BY_ITM_TP = 115318;
     
-    public static final int MS_REF_TP = 211021;
+    public static final int SS_WHS_TP = 111001;
+    public static final int SS_MOV_CL = 111101;
+    public static final int SS_MOV_TP = 111106;
+    public static final int SS_TRN_TP = 111201;
+    public static final int SS_ADJ_TP = 111206;
+
+    public static final int SU_WHS = 112001;
+
+    public static final int S_WSD = 113001;
+    public static final int S_WSD_ROW = 113101;
+    public static final int S_STK = 113201;
+
     public static final int MS_FRM_TP = 211041;
-    public static final int MS_JOB_TP = 211051;
-    public static final int MS_JOB_ST = 211052;
+    public static final int MS_JOB_TP = 211061;
+    public static final int MS_JOB_ST = 211062;
 
     public static final int MU_DPT = 212011;
-    public static final int MU_LIN_PCK = 212021;
-    public static final int MU_LIN_PCK_PRS = 212022;
-    public static final int MU_LIN_PRP = 212031;
-    public static final int MU_LIN_PRP_FAM = 212032;
-    public static final int MU_LIN_PRP_LIN_PCK = 212033;
+    public static final int MU_LIN = 212021;
     public static final int MU_FRM = 212041;
-    public static final int MU_FRM_CMP = 212042;
+    public static final int MU_FRM_CMP_FAM = 212046;
+    public static final int MU_FRM_CMP_ITM = 212047;
+    public static final int MU_FRM_BYP = 212049;
+    public static final int MU_VAR = 212051;
+    public static final int MU_VAR_FAM = 212052;
 
-    public static final int M_YER = 213011;
-    public static final int M_YER_WEK = 213012;
-    public static final int M_JOB = 213051;
-    public static final int M_JOB_PRP = 213061;
-    public static final int M_JOB_PRP_REQ = 213062;
-    public static final int M_JOB_PRP_CON = 213063;
-    public static final int M_JOB_PRP_MFG = 213064;
-    public static final int M_JOB_PCK = 213071;
-    public static final int M_JOB_PCK_REQ = 213072;
-    public static final int M_JOB_PCK_CON = 213073;
-    public static final int M_JOB_PCK_MFG = 213074;
-    
-    public static final int MX_LIN_PRP_BY_FAM = 215011;
-    public static final int MX_LIN_PCK_BY_LIN_PRP = 215012;
-    public static final int MX_PF_BY_PB_N_LIN_PCK = 215016;
-    public static final int MX_FRM_BY_ITM = 215021;
+    public static final int M_JOB = 213061;
+    public static final int M_JOB_REQ_FAM = 213066;
+    public static final int M_JOB_REQ_ITM = 213067;
+    public static final int M_JOB_CON = 213071;
+    public static final int M_JOB_MFG = 213076;
+    public static final int M_JOB_VAR = 213081;
 
-    public static final int QS_PAR_TP = 311011;
+    public static final int QS_RES_TP = 311011;
 
     public static final int QU_PAR = 312011;
-    public static final int QU_TST_CL = 312021;
-    public static final int QU_TST_TP = 312022;
-    public static final int QU_TST_TP_PAR = 312023;
+    public static final int QU_TST = 312021;
+    public static final int QU_TST_PAR = 312022;
+    public static final int QU_TST_FAM = 312026;
 
-    public static final int Q_TST = 313021;
-
-    public static final int OS_WHS_TP = 411051;
-
-    public static final int OU_WHS = 412051;
-
-    public static final int O_STK = 413051;
+    public static final int Q_APP = 313021;
+    public static final int Q_APP_RES = 313026;
 
     public static final HashMap<Integer, String> TablesMap = new HashMap<Integer, String>();
 
@@ -90,59 +90,64 @@ public abstract class DModConsts {
 
         TablesMap.put(CS_MOD, "cs_mod");
         TablesMap.put(CS_USR_TP, "cs_usr_tp");
-        TablesMap.put(CS_UNT_TP, "cs_unt_tp");
+        TablesMap.put(CS_ACS_TP, "cs_acs_tp");
+        TablesMap.put(CS_PER_TP, "cs_per_tp");
+        TablesMap.put(CS_BPR_TP, "cs_bpr_tp");
+        TablesMap.put(CS_UOM_TP, "cs_uom_tp");
         TablesMap.put(CS_ITM_TP, "cs_itm_tp");
 
         TablesMap.put(CU_USR, "cu_usr");
         TablesMap.put(CU_USR_MOD, "cu_usr_mod");
-        TablesMap.put(CU_UNT, "cu_unt");
-        TablesMap.put(CU_PRS, "cu_prs");
+        TablesMap.put(CU_BPR, "cu_bpr");
+        TablesMap.put(CU_UOM, "cu_uom");
+        TablesMap.put(CU_PRE, "cu_pre");
         TablesMap.put(CU_FAM, "cu_fam");
-        TablesMap.put(CU_GRP, "cu_grp");
         TablesMap.put(CU_ITM, "cu_itm");
 
         TablesMap.put(C_CFG, "c_cfg");
+        TablesMap.put(C_YEA, "c_yea");
         TablesMap.put(C_USR_GUI, "c_usr_gui");
 
-        TablesMap.put(MS_REF_TP, "ms_ref_tp");
+        TablesMap.put(SS_WHS_TP, "ss_whs_tp");
+        TablesMap.put(SS_MOV_CL, "ss_mov_cl");
+        TablesMap.put(SS_MOV_TP, "ss_mov_tp");
+        TablesMap.put(SS_TRN_TP, "ss_trn_tp");
+        TablesMap.put(SS_ADJ_TP, "ss_adj_tp");
+
+        TablesMap.put(SU_WHS, "su_whs");
+
+        TablesMap.put(S_WSD, "s_wsd");
+        TablesMap.put(S_WSD_ROW, "s_wsd_row");
+        TablesMap.put(S_STK, "s_stk");
+
         TablesMap.put(MS_FRM_TP, "ms_frm_tp");
         TablesMap.put(MS_JOB_TP, "ms_job_tp");
         TablesMap.put(MS_JOB_ST, "ms_job_st");
 
         TablesMap.put(MU_DPT, "mu_dpt");
-        TablesMap.put(MU_LIN_PCK, "mu_lin_pck");
-        TablesMap.put(MU_LIN_PCK_PRS, "mu_lin_pck_prs");
-        TablesMap.put(MU_LIN_PRP, "mu_lin_prp");
-        TablesMap.put(MU_LIN_PRP_FAM, "mu_lin_prp_fam");
-        TablesMap.put(MU_LIN_PRP_LIN_PCK, "mu_lin_prp_lin_pck");
+        TablesMap.put(MU_LIN, "mu_lin");
         TablesMap.put(MU_FRM, "mu_frm");
-        TablesMap.put(MU_FRM_CMP, "mu_frm_cmp");
+        TablesMap.put(MU_FRM_CMP_FAM, "mu_frm_cmp_fam");
+        TablesMap.put(MU_FRM_CMP_ITM, "mu_frm_cmp_itm");
+        TablesMap.put(MU_FRM_BYP, "mu_frm_byp");
+        TablesMap.put(MU_VAR, "mu_var");
+        TablesMap.put(MU_VAR_FAM, "mu_var_fam");
 
-        TablesMap.put(M_YER, "m_yer");
-        TablesMap.put(M_YER_WEK, "m_yer_wek");
         TablesMap.put(M_JOB, "m_job");
-        TablesMap.put(M_JOB_PRP, "m_job_prp");
-        TablesMap.put(M_JOB_PRP_REQ, "m_job_prp_req");
-        TablesMap.put(M_JOB_PRP_CON, "m_job_prp_con");
-        TablesMap.put(M_JOB_PRP_MFG, "m_job_prp_mfg");
-        TablesMap.put(M_JOB_PCK, "m_job_pck");
-        TablesMap.put(M_JOB_PCK_REQ, "m_job_pck_req");
-        TablesMap.put(M_JOB_PCK_CON, "m_job_pck_con");
-        TablesMap.put(M_JOB_PCK_MFG, "m_job_pck_mfg");
+        TablesMap.put(M_JOB_REQ_FAM, "m_job_req_fam");
+        TablesMap.put(M_JOB_REQ_ITM, "m_job_req_itm");
+        TablesMap.put(M_JOB_CON, "m_job_con");
+        TablesMap.put(M_JOB_MFG, "m_job_mfg");
+        TablesMap.put(M_JOB_VAR, "m_job_var");
 
-        TablesMap.put(QS_PAR_TP, "qs_par_tp");
+        TablesMap.put(QS_RES_TP, "qs_res_tp");
 
         TablesMap.put(QU_PAR, "qu_par");
-        TablesMap.put(QU_TST_CL, "qu_tst_cl");
-        TablesMap.put(QU_TST_TP, "qu_tst_tp");
-        TablesMap.put(QU_TST_TP_PAR, "qu_tst_tp_par");
+        TablesMap.put(QU_TST, "qu_tst");
+        TablesMap.put(QU_TST_PAR, "qu_tst_par");
+        TablesMap.put(QU_TST_FAM, "qu_tst_fam");
 
-        TablesMap.put(Q_TST, "q_tst");
-
-        TablesMap.put(OS_WHS_TP, "os_whs_tp");
-
-        TablesMap.put(OU_WHS, "ou_whs");
-
-        TablesMap.put(O_STK, "o_stk");
+        TablesMap.put(Q_APP, "q_app");
+        TablesMap.put(Q_APP_RES, "q_app_res");
     }
 }

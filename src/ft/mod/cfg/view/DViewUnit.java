@@ -21,7 +21,7 @@ import sba.lib.gui.DGuiClient;
 public class DViewUnit extends DGridPaneView {
 
     public DViewUnit(DGuiClient client, String title) {
-        super(client, DGridConsts.GRID_VIEW_TAB, DModConsts.CU_UNT, DLibConsts.UNDEFINED, title);
+        super(client, DGridConsts.GRID_VIEW_TAB, DModConsts.CU_UOM, DLibConsts.UNDEFINED, title);
         setRowButtonsEnabled(true, true, true, false, true);
     }
 
@@ -46,42 +46,38 @@ public class DViewUnit extends DGridPaneView {
                 "v.code AS " + DDbConsts.FIELD_CODE + ", " +
                 "v.name AS " + DDbConsts.FIELD_NAME + ", " +
                 "v.sort, " +
-                "v.bas_eqv, " +
-                "v.b_def, " +
+                "v.conv, " +
+                "ut.code, " +
+                "ut.name, " +
                 "v.b_del AS " + DDbConsts.FIELD_IS_DEL + ", " +
                 "v.b_sys AS " + DDbConsts.FIELD_IS_SYS + ", " +
                 "v.fk_usr_ins AS " + DDbConsts.FIELD_USER_INS_ID + ", " +
                 "v.fk_usr_upd AS " + DDbConsts.FIELD_USER_UPD_ID + ", " +
                 "v.ts_usr_ins AS " + DDbConsts.FIELD_USER_INS_TS + ", " +
                 "v.ts_usr_upd AS " + DDbConsts.FIELD_USER_UPD_TS + ", " +
-                "ut.code, " +
-                "ut.name, " +
-                "ut.bas, " +
                 "ui.name AS " + DDbConsts.FIELD_USER_INS_NAME + ", " +
                 "uu.name AS " + DDbConsts.FIELD_USER_UPD_NAME + " " +
-                "FROM " + DModConsts.TablesMap.get(DModConsts.CU_UNT) + " AS v " +
-                "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CS_UNT_TP) + " AS ut ON " +
+                "FROM " + DModConsts.TablesMap.get(DModConsts.CU_UOM) + " AS v " +
+                "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CS_UOM_TP) + " AS ut ON " +
                 "v.fk_unt_tp = ut.id_unt_tp " +
                 "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_USR) + " AS ui ON " +
                 "v.fk_usr_ins = ui.id_usr " +
                 "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_USR) + " AS uu ON " +
                 "v.fk_usr_upd = uu.id_usr " +
                 (sql.length() == 0 ? "" : "WHERE " + sql) +
-                "ORDER BY v.name, v.code, v.id_unt ";
+                "ORDER BY ut.name, ut.code, v.sort, v.name, v.code, v.id_uom ";
     }
 
     @Override
     public void createGridColumns() {
         int col = 0;
-        DGridColumnView[] columns = new DGridColumnView[13];
+        DGridColumnView[] columns = new DGridColumnView[11];
 
+        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_CAT_S, "ut.name", DGridConsts.COL_TITLE_TYPE + " unidad");
+        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_INT_RAW, "v.sort", "Pos. ordenamiento");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_CAT_M, DDbConsts.FIELD_NAME, DGridConsts.COL_TITLE_NAME);
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_CODE_CAT, DDbConsts.FIELD_CODE, DGridConsts.COL_TITLE_CODE);
-        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_CAT_S, "ut.name", DGridConsts.COL_TITLE_TYPE + " unidad");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_DEC_AMT_UNIT, "v.bas_eqv", "Equivalencia base");
-        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_CODE_UNT, "ut.bas", "Base");
-        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_INT_RAW, "v.sort", "Posición");
-        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_BOOL_M, "v.b_def", "Default");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_BOOL_S, DDbConsts.FIELD_IS_DEL, DGridConsts.COL_TITLE_IS_DEL);
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_BOOL_S, DDbConsts.FIELD_IS_SYS, DGridConsts.COL_TITLE_IS_SYS);
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_USR, DDbConsts.FIELD_USER_INS_NAME, DGridConsts.COL_TITLE_USER_INS_NAME);

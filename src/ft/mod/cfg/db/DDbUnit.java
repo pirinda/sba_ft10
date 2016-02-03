@@ -24,8 +24,7 @@ public class DDbUnit extends DDbRegistryUser {
     protected String msCode;
     protected String msName;
     protected int mnSortingPos;
-    protected double mdBaseEquivalence;
-    protected boolean mbDefault;
+    protected double mdConversionFactor;
     /*
     protected boolean mbDeleted;
     protected boolean mbSystem;
@@ -38,39 +37,16 @@ public class DDbUnit extends DDbRegistryUser {
     protected Date mtTsUserUpdate;
     */
     
-    protected boolean mbXtaMass;
-
     public DDbUnit() {
-        super(DModConsts.CU_UNT);
+        super(DModConsts.CU_UOM);
         initRegistry();
     }
 
-    public void readXtaData(final DGuiSession session) throws SQLException, Exception {
-        String sql = "";
-        ResultSet resultSet = null;
-        
-        // Reset extra data:
-        
-        mbXtaMass = false;
-        
-        // Read extra data:
-        
-        sql = "SELECT b_mss FROM " + DModConsts.TablesMap.get(DModConsts.CS_UNT_TP) + " WHERE id_unt_tp = " + mnFkUnitTypeId + " ";
-        resultSet = session.getStatement().executeQuery(sql);
-        if (!resultSet.next()) {
-            throw new Exception(DDbConsts.ERR_MSG_REG_NOT_FOUND);
-        }
-        else {
-            mbXtaMass = resultSet.getBoolean(1);
-        }
-    }
-    
     public void setPkUnitId(int n) { mnPkUnitId = n; }
     public void setCode(String s) { msCode = s; }
     public void setName(String s) { msName = s; }
     public void setSortingPos(int n) { mnSortingPos = n; }
-    public void setBaseEquivalence(double d) { mdBaseEquivalence = d; }
-    public void setDefault(boolean b) { mbDefault = b; }
+    public void setConversionFactor(double d) { mdConversionFactor = d; }
     public void setDeleted(boolean b) { mbDeleted = b; }
     public void setSystem(boolean b) { mbSystem = b; }
     public void setFkUnitTypeId(int n) { mnFkUnitTypeId = n; }
@@ -83,8 +59,7 @@ public class DDbUnit extends DDbRegistryUser {
     public String getCode() { return msCode; }
     public String getName() { return msName; }
     public int getSortingPos() { return mnSortingPos; }
-    public double getBaseEquivalence() { return mdBaseEquivalence; }
-    public boolean isDefault() { return mbDefault; }
+    public double getConversionFactor() { return mdConversionFactor; }
     public boolean isDeleted() { return mbDeleted; }
     public boolean isSystem() { return mbSystem; }
     public int getFkUnitTypeId() { return mnFkUnitTypeId; }
@@ -93,10 +68,6 @@ public class DDbUnit extends DDbRegistryUser {
     public Date getTsUserInsert() { return mtTsUserInsert; }
     public Date getTsUserUpdate() { return mtTsUserUpdate; }
 
-    public void setXtaMass(boolean b) { mbXtaMass = b; }
-    
-    public boolean isXtaMass() { return mbXtaMass; }
-    
     @Override
     public void setPrimaryKey(int[] pk) {
         mnPkUnitId = pk[0];
@@ -115,8 +86,7 @@ public class DDbUnit extends DDbRegistryUser {
         msCode = "";
         msName = "";
         mnSortingPos = 0;
-        mdBaseEquivalence = 0;
-        mbDefault = false;
+        mdConversionFactor = 0;
         mbDeleted = false;
         mbSystem = false;
         mnFkUnitTypeId = 0;
@@ -133,12 +103,12 @@ public class DDbUnit extends DDbRegistryUser {
 
     @Override
     public String getSqlWhere() {
-        return "WHERE id_unt = " + mnPkUnitId + " ";
+        return "WHERE id_uom = " + mnPkUnitId + " ";
     }
 
     @Override
     public String getSqlWhere(int[] pk) {
-        return "WHERE id_unt = " + pk[0] + " ";
+        return "WHERE id_uom = " + pk[0] + " ";
     }
 
     @Override
@@ -147,7 +117,7 @@ public class DDbUnit extends DDbRegistryUser {
 
         mnPkUnitId = 0;
 
-        msSql = "SELECT COALESCE(MAX(id_unt), 0) + 1 FROM " + getSqlTable();
+        msSql = "SELECT COALESCE(MAX(id_uom), 0) + 1 FROM " + getSqlTable();
         resultSet = session.getStatement().executeQuery(msSql);
         if (resultSet.next()) {
             mnPkUnitId = resultSet.getInt(1);
@@ -168,26 +138,19 @@ public class DDbUnit extends DDbRegistryUser {
             throw new Exception(DDbConsts.ERR_MSG_REG_NOT_FOUND);
         }
         else {
-            mnPkUnitId = resultSet.getInt("id_unt");
+            mnPkUnitId = resultSet.getInt("id_uom");
             msCode = resultSet.getString("code");
             msName = resultSet.getString("name");
             mnSortingPos = resultSet.getInt("sort");
-            mdBaseEquivalence = resultSet.getDouble("bas_eqv");
-            mbDefault = resultSet.getBoolean("b_def");
+            mdConversionFactor = resultSet.getDouble("conv");
             mbDeleted = resultSet.getBoolean("b_del");
             mbSystem = resultSet.getBoolean("b_sys");
-            mnFkUnitTypeId = resultSet.getInt("fk_unt_tp");
+            mnFkUnitTypeId = resultSet.getInt("fk_uom_tp");
             mnFkUserInsertId = resultSet.getInt("fk_usr_ins");
             mnFkUserUpdateId = resultSet.getInt("fk_usr_upd");
             mtTsUserInsert = resultSet.getTimestamp("ts_usr_ins");
             mtTsUserUpdate = resultSet.getTimestamp("ts_usr_upd");
             
-            // Read aswell extra data:
-
-            readXtaData(session);
-            
-            // Finish registry reading:
-
             mbRegistryNew = false;
         }
 
@@ -211,8 +174,7 @@ public class DDbUnit extends DDbRegistryUser {
                     "'" + msCode + "', " + 
                     "'" + msName + "', " + 
                     mnSortingPos + ", " + 
-                    mdBaseEquivalence + ", " + 
-                    (mbDefault ? 1 : 0) + ", " + 
+                    mdConversionFactor + ", " + 
                     (mbDeleted ? 1 : 0) + ", " + 
                     (mbSystem ? 1 : 0) + ", " + 
                     mnFkUnitTypeId + ", " + 
@@ -226,15 +188,14 @@ public class DDbUnit extends DDbRegistryUser {
             mnFkUserUpdateId = session.getUser().getPkUserId();
 
             msSql = "UPDATE " + getSqlTable() + " SET " +
-                    //"id_unt = " + mnPkUnitId + ", " +
+                    //"id_uom = " + mnPkUnitId + ", " +
                     "code = '" + msCode + "', " +
                     "name = '" + msName + "', " +
                     "sort = " + mnSortingPos + ", " +
-                    "bas_eqv = " + mdBaseEquivalence + ", " +
-                    "b_def = " + (mbDefault ? 1 : 0) + ", " +
+                    "conv = " + mdConversionFactor + ", " +
                     "b_del = " + (mbDeleted ? 1 : 0) + ", " +
                     "b_sys = " + (mbSystem ? 1 : 0) + ", " +
-                    "fk_unt_tp = " + mnFkUnitTypeId + ", " +
+                    "fk_uom_tp = " + mnFkUnitTypeId + ", " +
                     //"fk_usr_ins = " + mnFkUserInsertId + ", " +
                     "fk_usr_upd = " + mnFkUserUpdateId + ", " +
                     //"ts_usr_ins = " + "NOW()" + ", " +
@@ -255,8 +216,7 @@ public class DDbUnit extends DDbRegistryUser {
         registry.setCode(this.getCode());
         registry.setName(this.getName());
         registry.setSortingPos(this.getSortingPos());
-        registry.setBaseEquivalence(this.getBaseEquivalence());
-        registry.setDefault(this.isDefault());
+        registry.setConversionFactor(this.getConversionFactor());
         registry.setDeleted(this.isDeleted());
         registry.setSystem(this.isSystem());
         registry.setFkUnitTypeId(this.getFkUnitTypeId());

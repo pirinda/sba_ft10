@@ -4,7 +4,7 @@
  */
 
 /*
- * DFormYear.java
+ * DFormLine.java
  *
  * Created on 29/08/2011, 08:02:13 PM
  */
@@ -12,7 +12,7 @@
 package ft.mod.mfg.form;
 
 import ft.mod.DModConsts;
-import ft.mod.mfg.db.DDbYear;
+import ft.mod.mfg.db.DDbLine;
 import sba.lib.DLibConsts;
 import sba.lib.DLibUtils;
 import sba.lib.db.DDbRegistry;
@@ -26,13 +26,13 @@ import sba.lib.gui.bean.DBeanForm;
  *
  * @author Sergio Flores
  */
-public class DFormYear extends DBeanForm {
+public class DFormLine extends DBeanForm {
 
-    private DDbYear moRegistry;
+    private DDbLine moRegistry;
 
-    /** Creates new form DFormYear */
-    public DFormYear(DGuiClient client, String title) {
-        setFormSettings(client, DGuiConsts.BEAN_FORM_EDIT, DModConsts.M_YER, DLibConsts.UNDEFINED, title);
+    /** Creates new form DFormLine */
+    public DFormLine(DGuiClient client, String title) {
+        setFormSettings(client, DGuiConsts.BEAN_FORM_EDIT, DModConsts.MU_LIN, DLibConsts.UNDEFINED, title);
         initComponents();
         initComponentsCustom();
     }
@@ -48,34 +48,51 @@ public class DFormYear extends DBeanForm {
 
         jpContainer = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
+        jPanel5 = new javax.swing.JPanel();
+        jlDepart = new javax.swing.JLabel();
+        moKeyDepart = new sba.lib.gui.bean.DBeanFieldKey();
         jPanel3 = new javax.swing.JPanel();
-        jlYear = new javax.swing.JLabel();
-        moCalYear = new sba.lib.gui.bean.DBeanFieldCalendarYear();
+        jlCode = new javax.swing.JLabel();
+        moTextCode = new sba.lib.gui.bean.DBeanFieldText();
         jPanel4 = new javax.swing.JPanel();
-        jlDateStart = new javax.swing.JLabel();
-        moDateStart = new sba.lib.gui.bean.DBeanFieldDate();
+        jlName = new javax.swing.JLabel();
+        moTextName = new sba.lib.gui.bean.DBeanFieldText();
 
         jpContainer.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos del registro:"));
         jpContainer.setLayout(new java.awt.BorderLayout());
 
-        jPanel1.setLayout(new java.awt.GridLayout(2, 1, 0, 5));
+        jPanel1.setLayout(new java.awt.GridLayout(3, 1, 0, 5));
+
+        jPanel5.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
+
+        jlDepart.setText("Departamento:*");
+        jlDepart.setPreferredSize(new java.awt.Dimension(100, 23));
+        jPanel5.add(jlDepart);
+
+        moKeyDepart.setPreferredSize(new java.awt.Dimension(200, 23));
+        jPanel5.add(moKeyDepart);
+
+        jPanel1.add(jPanel5);
 
         jPanel3.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
-        jlYear.setForeground(java.awt.Color.blue);
-        jlYear.setText("Año:*");
-        jlYear.setPreferredSize(new java.awt.Dimension(100, 23));
-        jPanel3.add(jlYear);
-        jPanel3.add(moCalYear);
+        jlCode.setText("Código:*");
+        jlCode.setPreferredSize(new java.awt.Dimension(100, 23));
+        jPanel3.add(jlCode);
+
+        moTextCode.setPreferredSize(new java.awt.Dimension(50, 23));
+        jPanel3.add(moTextCode);
 
         jPanel1.add(jPanel3);
 
         jPanel4.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
-        jlDateStart.setText("Inicio:*");
-        jlDateStart.setPreferredSize(new java.awt.Dimension(100, 23));
-        jPanel4.add(jlDateStart);
-        jPanel4.add(moDateStart);
+        jlName.setText("Nombre:*");
+        jlName.setPreferredSize(new java.awt.Dimension(100, 23));
+        jPanel4.add(jlName);
+
+        moTextName.setPreferredSize(new java.awt.Dimension(200, 23));
+        jPanel4.add(moTextName);
 
         jPanel1.add(jPanel4);
 
@@ -88,11 +105,14 @@ public class DFormYear extends DBeanForm {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JLabel jlDateStart;
-    private javax.swing.JLabel jlYear;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JLabel jlCode;
+    private javax.swing.JLabel jlDepart;
+    private javax.swing.JLabel jlName;
     private javax.swing.JPanel jpContainer;
-    private sba.lib.gui.bean.DBeanFieldCalendarYear moCalYear;
-    private sba.lib.gui.bean.DBeanFieldDate moDateStart;
+    private sba.lib.gui.bean.DBeanFieldKey moKeyDepart;
+    private sba.lib.gui.bean.DBeanFieldText moTextCode;
+    private sba.lib.gui.bean.DBeanFieldText moTextName;
     // End of variables declaration//GEN-END:variables
 
     /*
@@ -102,11 +122,13 @@ public class DFormYear extends DBeanForm {
     private void initComponentsCustom() {
         DGuiUtils.setWindowBounds(this, 400, 250);
         
-        moCalYear.setCalendarSettings(DGuiUtils.getLabelName(jlYear));
-        moDateStart.setDateSettings(miClient, DGuiUtils.getLabelName(jlDateStart), true);
+        moKeyDepart.setKeySettings(miClient, DGuiUtils.getLabelName(jlDepart), true);
+        moTextCode.setTextSettings(DGuiUtils.getLabelName(jlCode), 5);
+        moTextName.setTextSettings(DGuiUtils.getLabelName(jlName), 50);
         
-        moFields.addField(moCalYear);
-        moFields.addField(moDateStart);
+        moFields.addField(moKeyDepart);
+        moFields.addField(moTextCode);
+        moFields.addField(moTextName);
         
         moFields.setFormButton(jbSave);
     }
@@ -131,13 +153,11 @@ public class DFormYear extends DBeanForm {
 
     @Override
     public void reloadCatalogues() {
-        
+        miClient.getSession().populateCatalogue(moKeyDepart, DModConsts.MU_DPT, DLibConsts.UNDEFINED, null);
     }
 
     @Override
     public void setRegistry(DDbRegistry registry) throws Exception {
-        moRegistry = (DDbYear) registry;
-
         mnFormResult = DLibConsts.UNDEFINED;
         mbFirstActivation = true;
 
@@ -145,35 +165,41 @@ public class DFormYear extends DBeanForm {
         reloadCatalogues();
 
         if (moRegistry.isRegistryNew()) {
+            moRegistry.setCode("");
             moRegistry.initPrimaryKey();
-            moRegistry.setPkYearId(miClient.getSession().getWorkingYear());
             jtfRegistryKey.setText("");
         }
         else {
             jtfRegistryKey.setText(DLibUtils.textKey(moRegistry.getPrimaryKey()));
         }
 
-        moCalYear.setValue(moRegistry.getPkYearId());
-        moDateStart.setValue(moRegistry.getStart());
+        moKeyDepart.setValue(new int[] { moRegistry.getFkDepartId() });
+        moTextCode.setValue(moRegistry.getCode());
+        moTextName.setValue(moRegistry.getName());
 
         setFormEditable(true);
         
-        if (!moRegistry.isRegistryNew()) {
-            moCalYear.setEditable(false);
-        }
+        moTextCode.setEnabled(false);
 
+        if (moRegistry.isRegistryNew()) {
+            
+        }
+        else {
+            
+        }
+        
         addAllListeners();
     }
 
     @Override
-    public DDbYear getRegistry() throws Exception {
-        DDbYear registry = moRegistry.clone();
+    public DDbLine getRegistry() throws Exception {
+        DDbLine registry = moRegistry.clone();
 
-        if (registry.isRegistryNew()) {
-            registry.setPkYearId(moCalYear.getValue());
-        }
+        if (registry.isRegistryNew()) { }
 
-        registry.setStart(moDateStart.getValue());
+        registry.setCode(moTextCode.getValue());
+        registry.setName(moTextName.getValue());
+        registry.setFkDepartId(moKeyDepart.getValue()[0]);
 
         return registry;
     }

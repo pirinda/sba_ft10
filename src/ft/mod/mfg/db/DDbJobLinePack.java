@@ -12,7 +12,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import sba.lib.db.DDbConsts;
-import sba.lib.db.DDbRegistry;
 import sba.lib.db.DDbRegistryUser;
 import sba.lib.gui.DGuiSession;
 
@@ -49,7 +48,7 @@ public class DDbJobLinePack extends DDbRegistryUser implements DRowJobProgMask {
     protected String msXtaFormulaName;
 
     public DDbJobLinePack() {
-        super(DModConsts.M_JOB_PCK);
+        super(/*XXXDModConsts.M_JOB_PCK*/0);
         maChildRqmts = new ArrayList<>();
         maChildConss = new ArrayList<>();
         maChildMfgs = new ArrayList<>();
@@ -208,7 +207,7 @@ public class DDbJobLinePack extends DDbRegistryUser implements DRowJobProgMask {
             // Read aswell child registries:
 
             statement = session.getStatement().getConnection().createStatement();
-
+/*XXX
             msSql = "SELECT id_req FROM " + DModConsts.TablesMap.get(DModConsts.M_JOB_PRP_REQ) + " " + getSqlWhere();
             resultSet = statement.executeQuery(msSql);
             while (resultSet.next()) {
@@ -239,10 +238,10 @@ public class DDbJobLinePack extends DDbRegistryUser implements DRowJobProgMask {
             msXtaLinePackName = (String) session.readField(DModConsts.MU_LIN_PCK, new int[] { mnPkLinePackId }, DDbRegistry.FIELD_NAME);
             msXtaItemCode = (String) session.readField(DModConsts.CU_ITM, new int[] { mnFkItemId }, DDbRegistry.FIELD_CODE);
             msXtaItemName = (String) session.readField(DModConsts.CU_ITM, new int[] { mnFkItemId }, DDbRegistry.FIELD_NAME);
-            msXtaUnitCode = (String) session.readField(DModConsts.CU_UNT, new int[] { mnFkUnitId }, DDbRegistry.FIELD_CODE);
-            msXtaUnitName = (String) session.readField(DModConsts.CU_UNT, new int[] { mnFkUnitId }, DDbRegistry.FIELD_NAME);
+            msXtaUnitCode = (String) session.readField(DModConsts.CU_UOM, new int[] { mnFkUnitId }, DDbRegistry.FIELD_CODE);
+            msXtaUnitName = (String) session.readField(DModConsts.CU_UOM, new int[] { mnFkUnitId }, DDbRegistry.FIELD_NAME);
             msXtaFormulaName = (String) session.readField(DModConsts.MU_FRM, new int[] { mnFkFormulaId }, DDbRegistry.FIELD_NAME);
-
+*/
             // Finish registry reading:
             
             mbRegistryNew = false;
@@ -297,7 +296,7 @@ public class DDbJobLinePack extends DDbRegistryUser implements DRowJobProgMask {
         session.getStatement().execute(msSql);
         
         // Save aswell child registries:
-
+/*XXX
         msSql = "DELETE FROM " + DModConsts.TablesMap.get(DModConsts.M_JOB_PRP_REQ) + " " + getSqlWhere();
         session.getStatement().execute(msSql);
 
@@ -330,7 +329,7 @@ public class DDbJobLinePack extends DDbRegistryUser implements DRowJobProgMask {
             child.setRegistryNew(true);
             child.save(session);
         }
-
+*/
         // Finish registry updating:
 
         mbRegistryNew = false;

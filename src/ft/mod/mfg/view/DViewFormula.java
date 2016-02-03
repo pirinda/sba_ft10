@@ -5,7 +5,6 @@
 
 package ft.mod.mfg.view;
 
-import ft.gui.DGuiClientApp;
 import ft.mod.DModConsts;
 import sba.lib.DLibConsts;
 import sba.lib.db.DDbConsts;
@@ -74,9 +73,9 @@ public class DViewFormula extends DGridPaneView {
                 "v.fk_itm_tp = it.id_itm_tp " +
                 "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_ITM) + " AS i ON " +
                 "v.fk_itm = i.id_itm " +
-                "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_UNT) + " AS u ON " +
+                "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_UOM) + " AS u ON " +
                 "v.fk_unt = u.id_unt " +
-                "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_PRS) + " AS p ON " +
+                "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_PRE) + " AS p ON " +
                 "v.fk_prs = p.id_prs " +
                 "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_USR) + " AS ui ON " +
                 "v.fk_usr_ins = ui.id_usr " +
@@ -99,8 +98,10 @@ public class DViewFormula extends DGridPaneView {
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_CAT_S, "p.name", "Presentación");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_DEC_QTY, "v.qty", "Cantidad");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_CODE_UNT, "u.code", "Unidad");
+/*XXX
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_BOOL_M, "v.b_qty_var_1", "Cantidad " + ((DGuiClientApp) miClient).getVar1());
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_DEC_QTY, "v.def_var_1", ((DGuiClientApp) miClient).getVar1() + " default");
+*/
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_BOOL_S, DDbConsts.FIELD_IS_DEL, DGridConsts.COL_TITLE_IS_DEL);
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_BOOL_S, DDbConsts.FIELD_IS_SYS, DGridConsts.COL_TITLE_IS_SYS);
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_USR, DDbConsts.FIELD_USER_INS_NAME, DGridConsts.COL_TITLE_USER_INS_NAME);
@@ -117,8 +118,8 @@ public class DViewFormula extends DGridPaneView {
     public void defineSuscriptions() {
         moSuscriptionsSet.add(mnGridType);
         moSuscriptionsSet.add(DModConsts.CU_ITM);
-        moSuscriptionsSet.add(DModConsts.CU_UNT);
-        moSuscriptionsSet.add(DModConsts.CU_PRS);
+        moSuscriptionsSet.add(DModConsts.CU_UOM);
+        moSuscriptionsSet.add(DModConsts.CU_PRE);
         moSuscriptionsSet.add(DModConsts.CU_USR);
     }
 }

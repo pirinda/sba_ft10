@@ -22,7 +22,7 @@ public class DDbLinePrepItemFamily extends DDbRegistryUser {
     protected int mnPkItemFamilyId;
 
     public DDbLinePrepItemFamily() {
-        super(DModConsts.MU_LIN_PRP_FAM);
+        super(/*XXXDModConsts.MU_LIN_PRP_FAM*/0);
         initRegistry();
     }
 

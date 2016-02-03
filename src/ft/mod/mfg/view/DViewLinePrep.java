@@ -21,7 +21,7 @@ import sba.lib.gui.DGuiClient;
 public class DViewLinePrep extends DGridPaneView {
 
     public DViewLinePrep(DGuiClient client, String title) {
-        super(client, DGridConsts.GRID_VIEW_TAB, DModConsts.MU_LIN_PRP, DLibConsts.UNDEFINED, title);
+        super(client, DGridConsts.GRID_VIEW_TAB, /*XXXDModConsts.MU_LIN_PRP*/0, DLibConsts.UNDEFINED, title);
         setRowButtonsEnabled(true, true, true, false, true);
     }
 
@@ -55,7 +55,7 @@ public class DViewLinePrep extends DGridPaneView {
                 "d.name, " +
                 "ui.name AS " + DDbConsts.FIELD_USER_INS_NAME + ", " +
                 "uu.name AS " + DDbConsts.FIELD_USER_UPD_NAME + " " +
-                "FROM " + DModConsts.TablesMap.get(DModConsts.MU_LIN_PRP) + " AS v " +
+                "FROM " + DModConsts.TablesMap.get(/*XXXDModConsts.MU_LIN_PRP*/0) + " AS v " +
                 "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.MU_DPT) + " AS d ON " +
                 "v.fk_dpt = d.id_dpt " +
                 "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_USR) + " AS ui ON " +

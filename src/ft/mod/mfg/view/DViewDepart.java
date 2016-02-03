@@ -18,9 +18,9 @@ import ft.mod.DModConsts;
  *
  * @author Sergio Flores
  */
-public class DViewDepartment extends DGridPaneView {
+public class DViewDepart extends DGridPaneView {
 
-    public DViewDepartment(DGuiClient client, String title) {
+    public DViewDepart(DGuiClient client, String title) {
         super(client, DGridConsts.GRID_VIEW_TAB, DModConsts.MU_DPT, DLibConsts.UNDEFINED, title);
         setRowButtonsEnabled(true, true, true, false, true);
     }

@@ -35,7 +35,7 @@ public class DFormUnit extends DBeanForm implements ItemListener {
 
     /** Creates new form DFormUnit */
     public DFormUnit(DGuiClient client, String title) {
-        setFormSettings(client, DGuiConsts.BEAN_FORM_EDIT, DModConsts.CU_UNT, DLibConsts.UNDEFINED, title);
+        setFormSettings(client, DGuiConsts.BEAN_FORM_EDIT, DModConsts.CU_UOM, DLibConsts.UNDEFINED, title);
         initComponents();
         initComponentsCustom();
     }
@@ -60,18 +60,17 @@ public class DFormUnit extends DBeanForm implements ItemListener {
         jPanel4 = new javax.swing.JPanel();
         jlName = new javax.swing.JLabel();
         moTextName = new sba.lib.gui.bean.DBeanFieldText();
-        jPanel6 = new javax.swing.JPanel();
-        jlBaseEquivalence = new javax.swing.JLabel();
-        moCompBaseEquivalence = new sba.lib.gui.bean.DBeanCompoundField();
         jPanel7 = new javax.swing.JPanel();
         jlSortingPos = new javax.swing.JLabel();
         moIntSortingPos = new sba.lib.gui.bean.DBeanFieldInteger();
-        moBoolDefault = new sba.lib.gui.bean.DBeanFieldBoolean();
+        jPanel6 = new javax.swing.JPanel();
+        jlConversionFactor = new javax.swing.JLabel();
+        moCompConversionFactor = new sba.lib.gui.bean.DBeanCompoundField();
 
         jpContainer.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos del registro:"));
         jpContainer.setLayout(new java.awt.BorderLayout());
 
-        jPanel1.setLayout(new java.awt.GridLayout(6, 1, 0, 5));
+        jPanel1.setLayout(new java.awt.GridLayout(5, 1, 0, 5));
 
         jPanel5.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
@@ -107,18 +106,9 @@ public class DFormUnit extends DBeanForm implements ItemListener {
 
         jPanel1.add(jPanel4);
 
-        jPanel6.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
-
-        jlBaseEquivalence.setText("Equivalencia base:*");
-        jlBaseEquivalence.setPreferredSize(new java.awt.Dimension(100, 23));
-        jPanel6.add(jlBaseEquivalence);
-        jPanel6.add(moCompBaseEquivalence);
-
-        jPanel1.add(jPanel6);
-
         jPanel7.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
-        jlSortingPos.setText("Posición:");
+        jlSortingPos.setText("Pos. ordenamiento:");
         jlSortingPos.setPreferredSize(new java.awt.Dimension(100, 23));
         jPanel7.add(jlSortingPos);
 
@@ -127,8 +117,14 @@ public class DFormUnit extends DBeanForm implements ItemListener {
 
         jPanel1.add(jPanel7);
 
-        moBoolDefault.setText("Default");
-        jPanel1.add(moBoolDefault);
+        jPanel6.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
+
+        jlConversionFactor.setText("Equivalencia base:*");
+        jlConversionFactor.setPreferredSize(new java.awt.Dimension(100, 23));
+        jPanel6.add(jlConversionFactor);
+        jPanel6.add(moCompConversionFactor);
+
+        jPanel1.add(jPanel6);
 
         jpContainer.add(jPanel1, java.awt.BorderLayout.NORTH);
 
@@ -142,14 +138,13 @@ public class DFormUnit extends DBeanForm implements ItemListener {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
-    private javax.swing.JLabel jlBaseEquivalence;
     private javax.swing.JLabel jlCode;
+    private javax.swing.JLabel jlConversionFactor;
     private javax.swing.JLabel jlName;
     private javax.swing.JLabel jlSortingPos;
     private javax.swing.JLabel jlUnitType;
     private javax.swing.JPanel jpContainer;
-    private sba.lib.gui.bean.DBeanFieldBoolean moBoolDefault;
-    private sba.lib.gui.bean.DBeanCompoundField moCompBaseEquivalence;
+    private sba.lib.gui.bean.DBeanCompoundField moCompConversionFactor;
     private sba.lib.gui.bean.DBeanFieldInteger moIntSortingPos;
     private sba.lib.gui.bean.DBeanFieldKey moKeyUnitType;
     private sba.lib.gui.bean.DBeanFieldText moTextCode;
@@ -164,26 +159,24 @@ public class DFormUnit extends DBeanForm implements ItemListener {
         DGuiUtils.setWindowBounds(this, 400, 250);
         
         moKeyUnitType.setKeySettings(miClient, DGuiUtils.getLabelName(jlUnitType), true);
-        moTextCode.setTextSettings(DGuiUtils.getLabelName(jlCode), 5);
+        moTextCode.setTextSettings(DGuiUtils.getLabelName(jlCode), 10);
         moTextCode.setTextCaseType(DLibConsts.UNDEFINED);
         moTextName.setTextSettings(DGuiUtils.getLabelName(jlName), 50);
-        moCompBaseEquivalence.setCompoundFieldSettings(miClient);
-        moCompBaseEquivalence.getField().setDecimalSettings(DGuiUtils.getLabelName(jlBaseEquivalence), DGuiConsts.GUI_TYPE_DEC_AMT_UNIT, true);
         moIntSortingPos.setIntegerSettings(DGuiUtils.getLabelName(jlSortingPos), DGuiConsts.GUI_TYPE_INT_RAW, false);
-        moBoolDefault.setBooleanSettings(moBoolDefault.getText(), false);
+        moCompConversionFactor.setCompoundFieldSettings(miClient);
+        moCompConversionFactor.getField().setDecimalSettings(DGuiUtils.getLabelName(jlConversionFactor), DGuiConsts.GUI_TYPE_DEC_AMT_UNIT, true);
         
         moFields.addField(moKeyUnitType);
         moFields.addField(moTextCode);
         moFields.addField(moTextName);
-        moFields.addField(moCompBaseEquivalence.getField());
         moFields.addField(moIntSortingPos);
-        moFields.addField(moBoolDefault);
+        moFields.addField(moCompConversionFactor.getField());
         
         moFields.setFormButton(jbSave);
     }
     
     private void displayUnitTypeCode() {
-        moCompBaseEquivalence.setCompoundText(moKeyUnitType.getSelectedIndex() <= 0 ? "" : (String) moKeyUnitType.getSelectedItem().getComplement());
+        moCompConversionFactor.setCompoundText(moKeyUnitType.getSelectedIndex() <= 0 ? "" : (String) moKeyUnitType.getSelectedItem().getComplement());
     }
     
     private void itemStateChangeUnitType() {
@@ -210,7 +203,7 @@ public class DFormUnit extends DBeanForm implements ItemListener {
 
     @Override
     public void reloadCatalogues() {
-        miClient.getSession().populateCatalogue(moKeyUnitType, DModConsts.CS_UNT_TP, DLibConsts.UNDEFINED, null);
+        miClient.getSession().populateCatalogue(moKeyUnitType, DModConsts.CS_UOM_TP, DLibConsts.UNDEFINED, null);
     }
 
     @Override
@@ -226,6 +219,7 @@ public class DFormUnit extends DBeanForm implements ItemListener {
         if (moRegistry.isRegistryNew()) {
             moRegistry.setCode("");
             moRegistry.initPrimaryKey();
+            
             jtfRegistryKey.setText("");
         }
         else {
@@ -235,14 +229,21 @@ public class DFormUnit extends DBeanForm implements ItemListener {
         moKeyUnitType.setValue(new int[] { moRegistry.getFkUnitTypeId()});
         moTextCode.setValue(moRegistry.getCode());
         moTextName.setValue(moRegistry.getName());
-        moCompBaseEquivalence.getField().setValue(moRegistry.getBaseEquivalence());
         moIntSortingPos.setValue(moRegistry.getSortingPos());
-        moBoolDefault.setValue(moRegistry.isDefault());
-
+        moCompConversionFactor.getField().setValue(moRegistry.getConversionFactor());
+        
         displayUnitTypeCode();
         
         setFormEditable(true);
-        //moTextCode.setEnabled(false); // user sets code
+
+        //moTextCode.setEnabled(false);
+        
+        if (moRegistry.isRegistryNew()) {
+            
+        }
+        else {
+            
+        }
         
         addAllListeners();
     }
@@ -256,8 +257,9 @@ public class DFormUnit extends DBeanForm implements ItemListener {
         registry.setCode(moTextCode.getValue());
         registry.setName(moTextName.getValue());
         registry.setSortingPos(moIntSortingPos.getValue());
-        registry.setBaseEquivalence(moCompBaseEquivalence.getField().getValue());
-        registry.setDefault(moBoolDefault.getValue());
+        registry.setConversionFactor(moCompConversionFactor.getField().getValue());
+        //registry.setDeleted(...);
+        //registry.setSystem(...);
         registry.setFkUnitTypeId(moKeyUnitType.getValue()[0]);
 
         return registry;

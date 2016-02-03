@@ -21,7 +21,7 @@ import sba.lib.gui.DGuiClient;
 public class DViewPresent extends DGridPaneView {
 
     public DViewPresent(DGuiClient client, String title) {
-        super(client, DGridConsts.GRID_VIEW_TAB, DModConsts.CU_PRS, DLibConsts.UNDEFINED, title);
+        super(client, DGridConsts.GRID_VIEW_TAB, DModConsts.CU_PRE, DLibConsts.UNDEFINED, title);
         setRowButtonsEnabled(true, true, true, false, true);
     }
 
@@ -42,30 +42,30 @@ public class DViewPresent extends DGridPaneView {
         }
 
         msSql = "SELECT " +
-                "v.id_prs AS " + DDbConsts.FIELD_ID + "1, " +
+                "v.id_pre AS " + DDbConsts.FIELD_ID + "1, " +
                 "v.code AS " + DDbConsts.FIELD_CODE + ", " +
                 "v.name AS " + DDbConsts.FIELD_NAME + ", " +
                 "v.lot_code, " +
-                "v.cnt_unt, " +
+                "v.cont_unt, " +
+                "u.code, " +
+                "u.name, " +
                 "v.b_del AS " + DDbConsts.FIELD_IS_DEL + ", " +
                 "v.b_sys AS " + DDbConsts.FIELD_IS_SYS + ", " +
                 "v.fk_usr_ins AS " + DDbConsts.FIELD_USER_INS_ID + ", " +
                 "v.fk_usr_upd AS " + DDbConsts.FIELD_USER_UPD_ID + ", " +
                 "v.ts_usr_ins AS " + DDbConsts.FIELD_USER_INS_TS + ", " +
                 "v.ts_usr_upd AS " + DDbConsts.FIELD_USER_UPD_TS + ", " +
-                "u.code, " +
-                "u.name, " +
                 "ui.name AS " + DDbConsts.FIELD_USER_INS_NAME + ", " +
                 "uu.name AS " + DDbConsts.FIELD_USER_UPD_NAME + " " +
-                "FROM " + DModConsts.TablesMap.get(DModConsts.CU_PRS) + " AS v " +
-                "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_UNT) + " AS u ON " +
-                "v.fk_unt = u.id_unt " +
+                "FROM " + DModConsts.TablesMap.get(DModConsts.CU_PRE) + " AS v " +
+                "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_UOM) + " AS u ON " +
+                "v.fk_uom = u.id_uom " +
                 "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_USR) + " AS ui ON " +
                 "v.fk_usr_ins = ui.id_usr " +
                 "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_USR) + " AS uu ON " +
                 "v.fk_usr_upd = uu.id_usr " +
                 (sql.length() == 0 ? "" : "WHERE " + sql) +
-                "ORDER BY v.name, v.code, v.id_prs ";
+                "ORDER BY v.name, v.code, v.id_pre ";
     }
 
     @Override
@@ -75,9 +75,9 @@ public class DViewPresent extends DGridPaneView {
 
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_CAT_M, DDbConsts.FIELD_NAME, DGridConsts.COL_TITLE_NAME);
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_CODE_CAT, DDbConsts.FIELD_CODE, DGridConsts.COL_TITLE_CODE);
-        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_DEC_AMT_UNIT, "v.cnt_unt", "Contenido neto");
+        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_DEC_AMT_UNIT, "v.cont_unt", "Contenido neto");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_CODE_UNT, "u.code", "Unidad");
-        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_CODE_CAT, "v.lot_code", DGridConsts.COL_TITLE_CODE + " lote");
+        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_CODE_CAT, "v.lot_code", DGridConsts.COL_TITLE_CODE + " lotes");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_BOOL_S, DDbConsts.FIELD_IS_DEL, DGridConsts.COL_TITLE_IS_DEL);
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_BOOL_S, DDbConsts.FIELD_IS_SYS, DGridConsts.COL_TITLE_IS_SYS);
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_USR, DDbConsts.FIELD_USER_INS_NAME, DGridConsts.COL_TITLE_USER_INS_NAME);
@@ -93,7 +93,7 @@ public class DViewPresent extends DGridPaneView {
     @Override
     public void defineSuscriptions() {
         moSuscriptionsSet.add(mnGridType);
-        moSuscriptionsSet.add(DModConsts.CU_UNT);
+        moSuscriptionsSet.add(DModConsts.CU_UOM);
         moSuscriptionsSet.add(DModConsts.CU_USR);
     }
 }

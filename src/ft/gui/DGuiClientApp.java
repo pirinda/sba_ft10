@@ -39,7 +39,6 @@ import sba.lib.DLibUtils;
 import sba.lib.db.DDbConsts;
 import sba.lib.db.DDbDatabase;
 import sba.lib.db.DDbDatabaseMonitor;
-import sba.lib.db.DDbRegistry;
 import sba.lib.grid.DGridPaneView;
 import sba.lib.gui.DGuiClient;
 import sba.lib.gui.DGuiConsts;
@@ -77,8 +76,6 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
     private DDbDatabaseMonitor moSysDatabaseMonitor;
     private Statement miSysStatement;
     private String msCompany;
-    private String msMassCode;
-    private String msVar1;
 
     private DGuiDatePicker moDatePicker;
     private DGuiDateRangePicker moDateRangePicker;
@@ -153,39 +150,58 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
         jsFile3 = new javax.swing.JPopupMenu.Separator();
         jmiFileExit = new javax.swing.JMenuItem();
         jmCfg = new javax.swing.JMenu();
-        jmiCfgItemPf = new javax.swing.JMenuItem();
-        jmiCfgItemPb = new javax.swing.JMenuItem();
-        jsCfg1 = new javax.swing.JPopupMenu.Separator();
-        jmiCfgItemRmi = new javax.swing.JMenuItem();
-        jmiCfgItemRmp = new javax.swing.JMenuItem();
-        jmiCfgItemMi = new javax.swing.JMenuItem();
+        jmiCfgLine = new javax.swing.JMenuItem();
+        jmiCfgDepart = new javax.swing.JMenuItem();
+        jsCfg = new javax.swing.JPopupMenu.Separator();
+        jmiCfgWarehouse = new javax.swing.JMenuItem();
+        jmiCfgCompany = new javax.swing.JMenuItem();
         jsCfg2 = new javax.swing.JPopupMenu.Separator();
-        jmiCfgItemEm = new javax.swing.JMenuItem();
-        jmiCfgItemEo = new javax.swing.JMenuItem();
+        jmiCfgYear = new javax.swing.JMenuItem();
         jsCfg3 = new javax.swing.JPopupMenu.Separator();
-        jmiCfgItem = new javax.swing.JMenuItem();
-        jmiCfgItemGroup = new javax.swing.JMenuItem();
-        jmiCfgItemFamily = new javax.swing.JMenuItem();
-        jsCfg4 = new javax.swing.JPopupMenu.Separator();
-        jmiCfgUnit = new javax.swing.JMenuItem();
-        jmiCfgPresent = new javax.swing.JMenuItem();
-        jsCfg5 = new javax.swing.JPopupMenu.Separator();
         jmiCfgUser = new javax.swing.JMenuItem();
+        jmiCfgUserModule = new javax.swing.JMenuItem();
+        jsCfg4 = new javax.swing.JPopupMenu.Separator();
         jmiCfgConfig = new javax.swing.JMenuItem();
+        jmCat = new javax.swing.JMenu();
+        jmiCatItemPf = new javax.swing.JMenuItem();
+        jmiCatItemPb = new javax.swing.JMenuItem();
+        jmiCatItemP = new javax.swing.JMenuItem();
+        jsCat1 = new javax.swing.JPopupMenu.Separator();
+        jmiCatItemBp = new javax.swing.JMenuItem();
+        jmiCatItemSc = new javax.swing.JMenuItem();
+        jsCat2 = new javax.swing.JPopupMenu.Separator();
+        jmiCatItemRmi = new javax.swing.JMenuItem();
+        jmiCatItemRmp = new javax.swing.JMenuItem();
+        jmiCatItemMi = new javax.swing.JMenuItem();
+        jsCat3 = new javax.swing.JPopupMenu.Separator();
+        jmiCatItemMo = new javax.swing.JMenuItem();
+        jsCat4 = new javax.swing.JPopupMenu.Separator();
+        jmiCatFamily = new javax.swing.JMenuItem();
+        jmiCatUnit = new javax.swing.JMenuItem();
+        jmiCatPresent = new javax.swing.JMenuItem();
+        jsCat5 = new javax.swing.JPopupMenu.Separator();
+        jmiCatBizPartnerCus = new javax.swing.JMenuItem();
+        jmiCatBizPartnerSup = new javax.swing.JMenuItem();
         jmMfg = new javax.swing.JMenu();
         jmiMfgJob = new javax.swing.JMenuItem();
         jsMfg1 = new javax.swing.JPopupMenu.Separator();
         jmiMfgFormula = new javax.swing.JMenuItem();
         jmiMfgFormulaComp = new javax.swing.JMenuItem();
+        jmiMfgFormulaByproduct = new javax.swing.JMenuItem();
         jsMfg2 = new javax.swing.JPopupMenu.Separator();
-        jmiMfgDepartment = new javax.swing.JMenuItem();
-        jmiMfgLinePrep = new javax.swing.JMenuItem();
-        jmiMfgLinePack = new javax.swing.JMenuItem();
-        jsMfg3 = new javax.swing.JPopupMenu.Separator();
-        jmiMfgYear = new javax.swing.JMenuItem();
-        jmiMfgYearWeek = new javax.swing.JMenuItem();
-        jmQas = new javax.swing.JMenu();
+        jmiMfgVariable = new javax.swing.JMenuItem();
+        jmQty = new javax.swing.JMenu();
+        jmiQtyTestApp = new javax.swing.JMenuItem();
+        jmiQtyTestAppResult = new javax.swing.JMenuItem();
+        jsQty1 = new javax.swing.JPopupMenu.Separator();
+        jmiQtyTest = new javax.swing.JMenuItem();
+        jmiQtyParam = new javax.swing.JMenuItem();
         jmInv = new javax.swing.JMenu();
+        jmiInvWsm = new javax.swing.JMenuItem();
+        jmiInvWsmRow = new javax.swing.JMenuItem();
+        jsInv1 = new javax.swing.JPopupMenu.Separator();
+        jmiInvStock = new javax.swing.JMenuItem();
+        jmiInvStockLot = new javax.swing.JMenuItem();
         jmRep = new javax.swing.JMenu();
         jmHelp = new javax.swing.JMenu();
         jmiHelpHelp = new javax.swing.JMenuItem();
@@ -295,62 +311,90 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
 
         jmCfg.setText("Configuración");
 
-        jmiCfgItemPf.setText("Productos terminados");
-        jmCfg.add(jmiCfgItemPf);
+        jmiCfgLine.setText("Líneas de producción");
+        jmCfg.add(jmiCfgLine);
 
-        jmiCfgItemPb.setText("Productos base");
-        jmCfg.add(jmiCfgItemPb);
-        jmCfg.add(jsCfg1);
+        jmiCfgDepart.setText("Departamentos de producción");
+        jmCfg.add(jmiCfgDepart);
+        jmCfg.add(jsCfg);
 
-        jmiCfgItemRmi.setText("Materiales directos insumo");
-        jmCfg.add(jmiCfgItemRmi);
+        jmiCfgWarehouse.setText("Almacenes");
+        jmCfg.add(jmiCfgWarehouse);
 
-        jmiCfgItemRmp.setText("Materiales directos empaque");
-        jmCfg.add(jmiCfgItemRmp);
-
-        jmiCfgItemMi.setText("Materiales indirectos");
-        jmiCfgItemMi.setEnabled(false);
-        jmCfg.add(jmiCfgItemMi);
+        jmiCfgCompany.setText("Empresa");
+        jmCfg.add(jmiCfgCompany);
         jmCfg.add(jsCfg2);
 
-        jmiCfgItemEm.setText("Gastos producción");
-        jmiCfgItemEm.setEnabled(false);
-        jmCfg.add(jmiCfgItemEm);
-
-        jmiCfgItemEo.setText("Gastos operación");
-        jmiCfgItemEo.setEnabled(false);
-        jmCfg.add(jmiCfgItemEo);
+        jmiCfgYear.setText("Años");
+        jmCfg.add(jmiCfgYear);
         jmCfg.add(jsCfg3);
-
-        jmiCfgItem.setText("Ítems");
-        jmCfg.add(jmiCfgItem);
-
-        jmiCfgItemGroup.setText("Grupos ítems");
-        jmCfg.add(jmiCfgItemGroup);
-
-        jmiCfgItemFamily.setText("Familias ítems");
-        jmCfg.add(jmiCfgItemFamily);
-        jmCfg.add(jsCfg4);
-
-        jmiCfgUnit.setText("Unidades");
-        jmCfg.add(jmiCfgUnit);
-
-        jmiCfgPresent.setText("Presentaciones");
-        jmCfg.add(jmiCfgPresent);
-        jmCfg.add(jsCfg5);
 
         jmiCfgUser.setText("Usuarios");
         jmCfg.add(jmiCfgUser);
 
-        jmiCfgConfig.setText("Configuración");
-        jmiCfgConfig.setEnabled(false);
+        jmiCfgUserModule.setText("Accesos de usuarios");
+        jmCfg.add(jmiCfgUserModule);
+        jmCfg.add(jsCfg4);
+
+        jmiCfgConfig.setText("Configuración del sistema");
         jmCfg.add(jmiCfgConfig);
 
         jMenuBar1.add(jmCfg);
 
+        jmCat.setText("Catálogos");
+
+        jmiCatItemPf.setText("Productos terminados");
+        jmCat.add(jmiCatItemPf);
+
+        jmiCatItemPb.setText("Productos base");
+        jmCat.add(jmiCatItemPb);
+
+        jmiCatItemP.setText("Productos");
+        jmCat.add(jmiCatItemP);
+        jmCat.add(jsCat1);
+
+        jmiCatItemBp.setText("Subproductos");
+        jmCat.add(jmiCatItemBp);
+
+        jmiCatItemSc.setText("Desechos");
+        jmCat.add(jmiCatItemSc);
+        jmCat.add(jsCat2);
+
+        jmiCatItemRmi.setText("Materiales directos insumo");
+        jmCat.add(jmiCatItemRmi);
+
+        jmiCatItemRmp.setText("Materiales directos empaque");
+        jmCat.add(jmiCatItemRmp);
+
+        jmiCatItemMi.setText("Materiales indirectos");
+        jmCat.add(jmiCatItemMi);
+        jmCat.add(jsCat3);
+
+        jmiCatItemMo.setText("Gastos indirectos");
+        jmCat.add(jmiCatItemMo);
+        jmCat.add(jsCat4);
+
+        jmiCatFamily.setText("Familias");
+        jmCat.add(jmiCatFamily);
+
+        jmiCatUnit.setText("Unidades");
+        jmCat.add(jmiCatUnit);
+
+        jmiCatPresent.setText("Presentaciones");
+        jmCat.add(jmiCatPresent);
+        jmCat.add(jsCat5);
+
+        jmiCatBizPartnerCus.setText("Clientes");
+        jmCat.add(jmiCatBizPartnerCus);
+
+        jmiCatBizPartnerSup.setText("Proveedores");
+        jmCat.add(jmiCatBizPartnerSup);
+
+        jMenuBar1.add(jmCat);
+
         jmMfg.setText("Producción");
 
-        jmiMfgJob.setText("Órdenes producción");
+        jmiMfgJob.setText("Órdenes de producción");
         jmMfg.add(jmiMfgJob);
         jmMfg.add(jsMfg1);
 
@@ -359,30 +403,48 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
 
         jmiMfgFormulaComp.setText("Fórmulas y componentes");
         jmMfg.add(jmiMfgFormulaComp);
+
+        jmiMfgFormulaByproduct.setText("Fórmulas y colaterales");
+        jmMfg.add(jmiMfgFormulaByproduct);
         jmMfg.add(jsMfg2);
 
-        jmiMfgDepartment.setText("Departamentos");
-        jmMfg.add(jmiMfgDepartment);
-
-        jmiMfgLinePrep.setText("Líneas preparación");
-        jmMfg.add(jmiMfgLinePrep);
-
-        jmiMfgLinePack.setText("Líneas envasado");
-        jmMfg.add(jmiMfgLinePack);
-        jmMfg.add(jsMfg3);
-
-        jmiMfgYear.setText("Años");
-        jmMfg.add(jmiMfgYear);
-
-        jmiMfgYearWeek.setText("Años y semanas");
-        jmMfg.add(jmiMfgYearWeek);
+        jmiMfgVariable.setText("Variables de producción");
+        jmMfg.add(jmiMfgVariable);
 
         jMenuBar1.add(jmMfg);
 
-        jmQas.setText("Calidad");
-        jMenuBar1.add(jmQas);
+        jmQty.setText("Calidad");
+
+        jmiQtyTestApp.setText("Aplicaciones de pruebas de calidad");
+        jmQty.add(jmiQtyTestApp);
+
+        jmiQtyTestAppResult.setText("Resultados de aplicaciones de pruebas de calidad");
+        jmQty.add(jmiQtyTestAppResult);
+        jmQty.add(jsQty1);
+
+        jmiQtyTest.setText("Pruebas de calidad");
+        jmQty.add(jmiQtyTest);
+
+        jmiQtyParam.setText("Parámetros de calidad");
+        jmQty.add(jmiQtyParam);
+
+        jMenuBar1.add(jmQty);
 
         jmInv.setText("Inventarios");
+
+        jmiInvWsm.setText("Documentos de almacén");
+        jmInv.add(jmiInvWsm);
+
+        jmiInvWsmRow.setText("Documentos de almacén a detalle");
+        jmInv.add(jmiInvWsmRow);
+        jmInv.add(jsInv1);
+
+        jmiInvStock.setText("Existencias");
+        jmInv.add(jmiInvStock);
+
+        jmiInvStockLot.setText("Existencias por lote");
+        jmInv.add(jmiInvStockLot);
+
         jMenuBar1.add(jmInv);
 
         jmRep.setText("Reportes");
@@ -401,7 +463,7 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
 
         setJMenuBar(jMenuBar1);
 
-        setBounds(0, 0, 656, 439);
+        setBounds(0, 0, 816, 539);
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
@@ -509,26 +571,19 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
         jmiFileCloseViewsOther.addActionListener(this);
         jmiFileCloseSession.addActionListener(this);
         jmiFileExit.addActionListener(this);
-        jmiCfgItemPf.addActionListener(this);
-        jmiCfgItemPb.addActionListener(this);
-        jmiCfgItemRmi.addActionListener(this);
-        jmiCfgItemRmp.addActionListener(this);
-        jmiCfgItemMi.addActionListener(this);
-        jmiCfgItemEm.addActionListener(this);
-        jmiCfgItemEo.addActionListener(this);
-        jmiCfgItem.addActionListener(this);
-        jmiCfgItemGroup.addActionListener(this);
-        jmiCfgItemFamily.addActionListener(this);
-        jmiCfgUnit.addActionListener(this);
-        jmiCfgPresent.addActionListener(this);
+        jmiCatItemPf.addActionListener(this);
+        jmiCatItemPb.addActionListener(this);
+        jmiCatItemRmi.addActionListener(this);
+        jmiCatItemRmp.addActionListener(this);
+        jmiCatItemMi.addActionListener(this);
+        jmiCatItemMo.addActionListener(this);
+        jmiCatFamily.addActionListener(this);
+        jmiCatUnit.addActionListener(this);
+        jmiCatPresent.addActionListener(this);
         jmiMfgJob.addActionListener(this);
         jmiMfgFormula.addActionListener(this);
         jmiMfgFormulaComp.addActionListener(this);
-        jmiMfgDepartment.addActionListener(this);
-        jmiMfgLinePack.addActionListener(this);
-        jmiMfgLinePrep.addActionListener(this);
-        jmiMfgYear.addActionListener(this);
-        jmiMfgYearWeek.addActionListener(this);
+        jmiMfgVariable.addActionListener(this);
         jmiHelpHelp.addActionListener(this);
         jmiHelpAbout.addActionListener(this);
 
@@ -563,9 +618,9 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
         jtfUserTs.setText("");
 
         jmFile.setEnabled(false);
-        jmCfg.setEnabled(false);
+        jmCat.setEnabled(false);
         jmMfg.setEnabled(false);
-        jmQas.setEnabled(false);
+        jmQty.setEnabled(false);
         jmInv.setEnabled(false);
         jmRep.setEnabled(false);
         jmHelp.setEnabled(false);
@@ -609,7 +664,7 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
                 moSession.setDatabase(loginDlg.getDatabase());
 
                 config = new DDbConfig();
-                config.read(moSession, new int[] { DModSysConsts.C_CFG_CFG });
+                config.read(moSession, new int[] { DUtilConsts.BPR_CO_ID });
 
                 user = new DDbUser();
                 user.read(moSession, loginDlg.getUserKey());
@@ -630,8 +685,6 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
                 
                 msCompany = loginDlg.getCompany();
                 setTitle(APP_NAME + " - " + msCompany);
-                msMassCode = (String) moSession.readField(DModConsts.CU_UNT, new int[] { DModSysConsts.CU_UNT_KG }, DDbRegistry.FIELD_CODE);
-                msVar1 = !config.isVar1() ? "Var 1" : config.getVar1();
 
                 jtfSystemDate.setText(DLibUtils.DateFormatDate.format(moSession.getSystemDate()));
                 jtfWorkingDate.setText(DLibUtils.DateFormatDate.format(moSession.getWorkingDate()));
@@ -639,7 +692,7 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
                 jtfUserTs.setText(DLibUtils.DateFormatDatetimeTimeZone.format(date));
 
                 jmFile.setEnabled(true);
-                jmCfg.setEnabled(user.hasModuleAccess(DModSysConsts.CS_MOD_CFG));
+                jmCat.setEnabled(user.hasModuleAccess(DModSysConsts.CS_MOD_CFG));
                 jmMfg.setEnabled(user.hasModuleAccess(DModSysConsts.CS_MOD_MFG));
                 //jmQas.setEnabled(user.hasModuleAccess(DModSysConsts.CS_MOD_QAS));
                 //jmInv.setEnabled(user.hasModuleAccess(DModSysConsts.CS_MOD_OPE));
@@ -738,14 +791,6 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
 
     }
     
-    public String getMassCode() {
-        return msMassCode;
-    }
-
-    public String getVar1() {
-        return msVar1;
-    }
-
     /**
      * @param args the command line arguments
      */
@@ -776,27 +821,36 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
     private javax.swing.JPanel jPanel2;
     private javax.swing.JButton jbWorkingDate;
     private javax.swing.JLabel jlAppRelease;
+    private javax.swing.JMenu jmCat;
     private javax.swing.JMenu jmCfg;
     private javax.swing.JMenu jmFile;
     private javax.swing.JMenu jmHelp;
     private javax.swing.JMenu jmInv;
     private javax.swing.JMenu jmMfg;
-    private javax.swing.JMenu jmQas;
+    private javax.swing.JMenu jmQty;
     private javax.swing.JMenu jmRep;
+    private javax.swing.JMenuItem jmiCatBizPartnerCus;
+    private javax.swing.JMenuItem jmiCatBizPartnerSup;
+    private javax.swing.JMenuItem jmiCatFamily;
+    private javax.swing.JMenuItem jmiCatItemBp;
+    private javax.swing.JMenuItem jmiCatItemMi;
+    private javax.swing.JMenuItem jmiCatItemMo;
+    private javax.swing.JMenuItem jmiCatItemP;
+    private javax.swing.JMenuItem jmiCatItemPb;
+    private javax.swing.JMenuItem jmiCatItemPf;
+    private javax.swing.JMenuItem jmiCatItemRmi;
+    private javax.swing.JMenuItem jmiCatItemRmp;
+    private javax.swing.JMenuItem jmiCatItemSc;
+    private javax.swing.JMenuItem jmiCatPresent;
+    private javax.swing.JMenuItem jmiCatUnit;
+    private javax.swing.JMenuItem jmiCfgCompany;
     private javax.swing.JMenuItem jmiCfgConfig;
-    private javax.swing.JMenuItem jmiCfgItem;
-    private javax.swing.JMenuItem jmiCfgItemEm;
-    private javax.swing.JMenuItem jmiCfgItemEo;
-    private javax.swing.JMenuItem jmiCfgItemFamily;
-    private javax.swing.JMenuItem jmiCfgItemGroup;
-    private javax.swing.JMenuItem jmiCfgItemMi;
-    private javax.swing.JMenuItem jmiCfgItemPb;
-    private javax.swing.JMenuItem jmiCfgItemPf;
-    private javax.swing.JMenuItem jmiCfgItemRmi;
-    private javax.swing.JMenuItem jmiCfgItemRmp;
-    private javax.swing.JMenuItem jmiCfgPresent;
-    private javax.swing.JMenuItem jmiCfgUnit;
+    private javax.swing.JMenuItem jmiCfgDepart;
+    private javax.swing.JMenuItem jmiCfgLine;
     private javax.swing.JMenuItem jmiCfgUser;
+    private javax.swing.JMenuItem jmiCfgUserModule;
+    private javax.swing.JMenuItem jmiCfgWarehouse;
+    private javax.swing.JMenuItem jmiCfgYear;
     private javax.swing.JMenuItem jmiFileCloseSession;
     private javax.swing.JMenuItem jmiFileCloseViewsAll;
     private javax.swing.JMenuItem jmiFileCloseViewsOther;
@@ -805,27 +859,37 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
     private javax.swing.JMenuItem jmiFileWorkingDate;
     private javax.swing.JMenuItem jmiHelpAbout;
     private javax.swing.JMenuItem jmiHelpHelp;
-    private javax.swing.JMenuItem jmiMfgDepartment;
+    private javax.swing.JMenuItem jmiInvStock;
+    private javax.swing.JMenuItem jmiInvStockLot;
+    private javax.swing.JMenuItem jmiInvWsm;
+    private javax.swing.JMenuItem jmiInvWsmRow;
     private javax.swing.JMenuItem jmiMfgFormula;
+    private javax.swing.JMenuItem jmiMfgFormulaByproduct;
     private javax.swing.JMenuItem jmiMfgFormulaComp;
     private javax.swing.JMenuItem jmiMfgJob;
-    private javax.swing.JMenuItem jmiMfgLinePack;
-    private javax.swing.JMenuItem jmiMfgLinePrep;
-    private javax.swing.JMenuItem jmiMfgYear;
-    private javax.swing.JMenuItem jmiMfgYearWeek;
+    private javax.swing.JMenuItem jmiMfgVariable;
+    private javax.swing.JMenuItem jmiQtyParam;
+    private javax.swing.JMenuItem jmiQtyTest;
+    private javax.swing.JMenuItem jmiQtyTestApp;
+    private javax.swing.JMenuItem jmiQtyTestAppResult;
     private javax.swing.JPanel jpStatus;
-    private javax.swing.JPopupMenu.Separator jsCfg1;
+    private javax.swing.JPopupMenu.Separator jsCat1;
+    private javax.swing.JPopupMenu.Separator jsCat2;
+    private javax.swing.JPopupMenu.Separator jsCat3;
+    private javax.swing.JPopupMenu.Separator jsCat4;
+    private javax.swing.JPopupMenu.Separator jsCat5;
+    private javax.swing.JPopupMenu.Separator jsCfg;
     private javax.swing.JPopupMenu.Separator jsCfg2;
     private javax.swing.JPopupMenu.Separator jsCfg3;
     private javax.swing.JPopupMenu.Separator jsCfg4;
-    private javax.swing.JPopupMenu.Separator jsCfg5;
     private javax.swing.JPopupMenu.Separator jsFile1;
     private javax.swing.JPopupMenu.Separator jsFile2;
     private javax.swing.JPopupMenu.Separator jsFile3;
     private javax.swing.JPopupMenu.Separator jsHlp1;
+    private javax.swing.JPopupMenu.Separator jsInv1;
     private javax.swing.JPopupMenu.Separator jsMfg1;
     private javax.swing.JPopupMenu.Separator jsMfg2;
-    private javax.swing.JPopupMenu.Separator jsMfg3;
+    private javax.swing.JPopupMenu.Separator jsQty1;
     private javax.swing.JTextField jtfSystemDate;
     private javax.swing.JTextField jtfUser;
     private javax.swing.JTextField jtfUserTs;
@@ -1115,65 +1179,35 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
             else if (menuItem == jmiFileExit) {
                 actionFileExit();
             }
-            else if (menuItem == jmiCfgItemPf) {
+            else if (menuItem == jmiCatItemPf) {
                 moSession.showView(DModConsts.CU_ITM, DModSysConsts.CS_ITM_TP_PF, null);
             }
-            else if (menuItem == jmiCfgItemPb) {
+            else if (menuItem == jmiCatItemPb) {
                 moSession.showView(DModConsts.CU_ITM, DModSysConsts.CS_ITM_TP_PB, null);
             }
-            else if (menuItem == jmiCfgItemRmi) {
+            else if (menuItem == jmiCatItemRmi) {
                 moSession.showView(DModConsts.CU_ITM, DModSysConsts.CS_ITM_TP_RMI, null);
             }
-            else if (menuItem == jmiCfgItemRmp) {
+            else if (menuItem == jmiCatItemRmp) {
                 moSession.showView(DModConsts.CU_ITM, DModSysConsts.CS_ITM_TP_RMP, null);
             }
-            else if (menuItem == jmiCfgItemMi) {
+            else if (menuItem == jmiCatItemMi) {
                 moSession.showView(DModConsts.CU_ITM, DModSysConsts.CS_ITM_TP_MI, null);
             }
-            else if (menuItem == jmiCfgItemEm) {
-                moSession.showView(DModConsts.CU_ITM, DModSysConsts.CS_ITM_TP_EM, null);
-            }
-            else if (menuItem == jmiCfgItemEo) {
-                moSession.showView(DModConsts.CU_ITM, DModSysConsts.CS_ITM_TP_EO, null);
-            }
-            else if (menuItem == jmiCfgItem) {
-                moSession.showView(DModConsts.CU_ITM, DLibConsts.UNDEFINED, null);
-            }
-            else if (menuItem == jmiCfgItemGroup) {
-                moSession.showView(DModConsts.CU_GRP, DLibConsts.UNDEFINED, null);
-            }
-            else if (menuItem == jmiCfgItemFamily) {
+            else if (menuItem == jmiCatFamily) {
                 moSession.showView(DModConsts.CU_FAM, DLibConsts.UNDEFINED, null);
             }
-            else if (menuItem == jmiCfgUnit) {
-                moSession.showView(DModConsts.CU_UNT, DLibConsts.UNDEFINED, null);
+            else if (menuItem == jmiCatUnit) {
+                moSession.showView(DModConsts.CU_UOM, DLibConsts.UNDEFINED, null);
             }
-            else if (menuItem == jmiCfgPresent) {
-                moSession.showView(DModConsts.CU_PRS, DLibConsts.UNDEFINED, null);
+            else if (menuItem == jmiCatPresent) {
+                moSession.showView(DModConsts.CU_PRE, DLibConsts.UNDEFINED, null);
             }
             else if (menuItem == jmiMfgJob) {
                 moSession.showView(DModConsts.M_JOB, DLibConsts.UNDEFINED, null);
             }
             else if (menuItem == jmiMfgFormula) {
                 moSession.showView(DModConsts.MU_FRM, DLibConsts.UNDEFINED, null);
-            }
-            else if (menuItem == jmiMfgFormulaComp) {
-                moSession.showView(DModConsts.MU_FRM_CMP, DLibConsts.UNDEFINED, null);
-            }
-            else if (menuItem == jmiMfgDepartment) {
-                moSession.showView(DModConsts.MU_DPT, DLibConsts.UNDEFINED, null);
-            }
-            else if (menuItem == jmiMfgLinePack) {
-                moSession.showView(DModConsts.MU_LIN_PCK, DLibConsts.UNDEFINED, null);
-            }
-            else if (menuItem == jmiMfgLinePrep) {
-                moSession.showView(DModConsts.MU_LIN_PRP, DLibConsts.UNDEFINED, null);
-            }
-            else if (menuItem == jmiMfgYear) {
-                moSession.showView(DModConsts.M_YER, DLibConsts.UNDEFINED, null);
-            }
-            else if (menuItem == jmiMfgYearWeek) {
-                moSession.showView(DModConsts.M_YER_WEK, DLibConsts.UNDEFINED, null);
             }
             else if (menuItem == jmiHelpHelp) {
                 actionHelpHelp();

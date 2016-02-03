@@ -4,16 +4,15 @@
  */
 
 /*
- * DFormItemGroup.java
+ * DFormWarehouse.java
  *
  * Created on 29/08/2011, 08:02:13 PM
  */
 
-package ft.mod.cfg.form;
+package ft.mod.stk.form;
 
 import ft.mod.DModConsts;
-import ft.mod.DModSysConsts;
-import ft.mod.cfg.db.DDbItemGroup;
+import ft.mod.stk.db.DDbWarehouse;
 import sba.lib.DLibConsts;
 import sba.lib.DLibUtils;
 import sba.lib.db.DDbRegistry;
@@ -27,13 +26,13 @@ import sba.lib.gui.bean.DBeanForm;
  *
  * @author Sergio Flores
  */
-public class DFormItemGroup extends DBeanForm {
+public class DFormWarehouse extends DBeanForm {
 
-    private DDbItemGroup moRegistry;
+    private DDbWarehouse moRegistry;
 
-    /** Creates new form DFormItemGroup */
-    public DFormItemGroup(DGuiClient client, String title) {
-        setFormSettings(client, DGuiConsts.BEAN_FORM_EDIT, DModConsts.CU_GRP, DLibConsts.UNDEFINED, title);
+    /** Creates new form DFormWarehouse */
+    public DFormWarehouse(DGuiClient client, String title) {
+        setFormSettings(client, DGuiConsts.BEAN_FORM_EDIT, DModConsts.SU_WHS, DLibConsts.UNDEFINED, title);
         initComponents();
         initComponentsCustom();
     }
@@ -49,37 +48,35 @@ public class DFormItemGroup extends DBeanForm {
 
         jpContainer = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
-        jPanel7 = new javax.swing.JPanel();
-        jlItemFamily = new javax.swing.JLabel();
-        moKeyItemFamily = new sba.lib.gui.bean.DBeanFieldKey();
+        jPanel5 = new javax.swing.JPanel();
+        jlWarehouseType = new javax.swing.JLabel();
+        moKeyWarehouseType = new sba.lib.gui.bean.DBeanFieldKey();
         jPanel3 = new javax.swing.JPanel();
         jlCode = new javax.swing.JLabel();
         moTextCode = new sba.lib.gui.bean.DBeanFieldText();
         jPanel4 = new javax.swing.JPanel();
         jlName = new javax.swing.JLabel();
         moTextName = new sba.lib.gui.bean.DBeanFieldText();
-        jPanel8 = new javax.swing.JPanel();
-        jlLotCode = new javax.swing.JLabel();
-        moTextLotCode = new sba.lib.gui.bean.DBeanFieldText();
 
         jpContainer.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos del registro:"));
         jpContainer.setLayout(new java.awt.BorderLayout());
 
-        jPanel1.setLayout(new java.awt.GridLayout(4, 1, 0, 5));
+        jPanel1.setLayout(new java.awt.GridLayout(3, 1, 0, 5));
 
-        jPanel7.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
+        jPanel5.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
-        jlItemFamily.setText("Familia ítem:*");
-        jlItemFamily.setPreferredSize(new java.awt.Dimension(100, 23));
-        jPanel7.add(jlItemFamily);
+        jlWarehouseType.setText("Tipo almacén:*");
+        jlWarehouseType.setPreferredSize(new java.awt.Dimension(100, 23));
+        jPanel5.add(jlWarehouseType);
 
-        moKeyItemFamily.setPreferredSize(new java.awt.Dimension(200, 23));
-        jPanel7.add(moKeyItemFamily);
+        moKeyWarehouseType.setPreferredSize(new java.awt.Dimension(200, 23));
+        jPanel5.add(moKeyWarehouseType);
 
-        jPanel1.add(jPanel7);
+        jPanel1.add(jPanel5);
 
         jPanel3.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
+        jlCode.setForeground(new java.awt.Color(0, 102, 102));
         jlCode.setText("Código:*");
         jlCode.setPreferredSize(new java.awt.Dimension(100, 23));
         jPanel3.add(jlCode);
@@ -100,17 +97,6 @@ public class DFormItemGroup extends DBeanForm {
 
         jPanel1.add(jPanel4);
 
-        jPanel8.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
-
-        jlLotCode.setText("Código para lote:");
-        jlLotCode.setPreferredSize(new java.awt.Dimension(100, 23));
-        jPanel8.add(jlLotCode);
-
-        moTextLotCode.setPreferredSize(new java.awt.Dimension(50, 23));
-        jPanel8.add(moTextLotCode);
-
-        jPanel1.add(jPanel8);
-
         jpContainer.add(jPanel1, java.awt.BorderLayout.NORTH);
 
         getContentPane().add(jpContainer, java.awt.BorderLayout.CENTER);
@@ -120,16 +106,13 @@ public class DFormItemGroup extends DBeanForm {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel7;
-    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JLabel jlCode;
-    private javax.swing.JLabel jlItemFamily;
-    private javax.swing.JLabel jlLotCode;
     private javax.swing.JLabel jlName;
+    private javax.swing.JLabel jlWarehouseType;
     private javax.swing.JPanel jpContainer;
-    private sba.lib.gui.bean.DBeanFieldKey moKeyItemFamily;
+    private sba.lib.gui.bean.DBeanFieldKey moKeyWarehouseType;
     private sba.lib.gui.bean.DBeanFieldText moTextCode;
-    private sba.lib.gui.bean.DBeanFieldText moTextLotCode;
     private sba.lib.gui.bean.DBeanFieldText moTextName;
     // End of variables declaration//GEN-END:variables
 
@@ -140,15 +123,13 @@ public class DFormItemGroup extends DBeanForm {
     private void initComponentsCustom() {
         DGuiUtils.setWindowBounds(this, 400, 250);
         
-        moKeyItemFamily.setKeySettings(miClient, DGuiUtils.getLabelName(jlItemFamily), true);
+        moKeyWarehouseType.setKeySettings(miClient, DGuiUtils.getLabelName(jlWarehouseType), true);
         moTextCode.setTextSettings(DGuiUtils.getLabelName(jlCode), 5);
         moTextName.setTextSettings(DGuiUtils.getLabelName(jlName), 50);
-        moTextLotCode.setTextSettings(DGuiUtils.getLabelName(jlLotCode), 5, 0);
         
-        moFields.addField(moKeyItemFamily);
+        moFields.addField(moKeyWarehouseType);
         moFields.addField(moTextCode);
         moFields.addField(moTextName);
-        moFields.addField(moTextLotCode);
         
         moFields.setFormButton(jbSave);
     }
@@ -163,22 +144,22 @@ public class DFormItemGroup extends DBeanForm {
     
     @Override
     public void addAllListeners() {
-        
+
     }
 
     @Override
     public void removeAllListeners() {
-        
+
     }
 
     @Override
     public void reloadCatalogues() {
-        miClient.getSession().populateCatalogue(moKeyItemFamily, DModConsts.CU_FAM, DModSysConsts.CS_ITM_TP_PB, null);
+        miClient.getSession().populateCatalogue(moKeyWarehouseType, DModConsts.SS_WHS_TP, DLibConsts.UNDEFINED, null);
     }
 
     @Override
     public void setRegistry(DDbRegistry registry) throws Exception {
-        moRegistry = (DDbItemGroup) registry;
+        moRegistry = (DDbWarehouse) registry;
 
         mnFormResult = DLibConsts.UNDEFINED;
         mbFirstActivation = true;
@@ -189,33 +170,42 @@ public class DFormItemGroup extends DBeanForm {
         if (moRegistry.isRegistryNew()) {
             moRegistry.setCode("");
             moRegistry.initPrimaryKey();
+            
             jtfRegistryKey.setText("");
         }
         else {
             jtfRegistryKey.setText(DLibUtils.textKey(moRegistry.getPrimaryKey()));
         }
 
-        moKeyItemFamily.setValue(new int[] { moRegistry.getFkItemFamilyId()});
+        moKeyWarehouseType.setValue(new int[] { moRegistry.getFkWarehouseTypeId()});
         moTextCode.setValue(moRegistry.getCode());
         moTextName.setValue(moRegistry.getName());
-        moTextLotCode.setValue(moRegistry.getLotCode());
-
+        
         setFormEditable(true);
-        moTextCode.setEnabled(false);
 
+        moTextCode.setEnabled(false);
+        
+        if (moRegistry.isRegistryNew()) {
+            
+        }
+        else {
+            
+        }
+        
         addAllListeners();
     }
 
     @Override
-    public DDbItemGroup getRegistry() throws Exception {
-        DDbItemGroup registry = moRegistry.clone();
+    public DDbWarehouse getRegistry() throws Exception {
+        DDbWarehouse registry = moRegistry.clone();
 
         if (registry.isRegistryNew()) { }
 
-        registry.setFkItemFamilyId(moKeyItemFamily.getValue()[0]);
         registry.setCode(moTextCode.getValue());
         registry.setName(moTextName.getValue());
-        registry.setLotCode(moTextLotCode.getValue());
+        //registry.setDeleted(...);
+        //registry.setSystem(...);
+        registry.setFkWarehouseTypeId(moKeyWarehouseType.getValue()[0]);
 
         return registry;
     }

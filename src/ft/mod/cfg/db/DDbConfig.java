@@ -28,15 +28,15 @@ public class DDbConfig extends DDbRegistryUser implements DGuiConfigCompany {
     protected int mnPkConfigId;
     protected int mnVersion;
     protected Date mtVersionTs;
-    protected String msNameSeparator;
-    protected String msLotFormat;
-    protected boolean mbVar1;
-    protected String msVar1;
+    protected String msLotFormatProductBase;
+    protected String msLotFormatProductFinished;
+    protected boolean mbLotRawMaterialIngredient;
+    protected boolean mbLotRawMaterialPackage;
     protected boolean mbModuleCfg;
+    protected boolean mbModuleStk;
     protected boolean mbModuleMfg;
-    protected boolean mbModuleQas;
-    protected boolean mbModuleOpe;
-    protected boolean mbModuleFin;
+    protected boolean mbModuleQty;
+    protected boolean mbModuleCst;
     /*
     protected boolean mbDeleted;
     protected boolean mbSystem;
@@ -45,7 +45,7 @@ public class DDbConfig extends DDbRegistryUser implements DGuiConfigCompany {
     protected Date mtTsUserInsert;
     protected Date mtTsUserUpdate;
     */
-
+    
     public DDbConfig() {
         super(DModConsts.C_CFG);
         initRegistry();
@@ -54,15 +54,15 @@ public class DDbConfig extends DDbRegistryUser implements DGuiConfigCompany {
     public void setPkConfigId(int n) { mnPkConfigId = n; }
     public void setVersion(int n) { mnVersion = n; }
     public void setVersionTs(Date t) { mtVersionTs = t; }
-    public void setNameSeparator(String s) { msNameSeparator = s; }
-    public void setLotFormat(String s) { msLotFormat = s; }
-    public void setVar1(boolean b) { mbVar1 = b; }
-    public void setVar1(String s) { msVar1 = s; }
+    public void setLotFormatProductBase(String s) { msLotFormatProductBase = s; }
+    public void setLotFormatProductFinished(String s) { msLotFormatProductFinished = s; }
+    public void setLotRawMaterialIngredient(boolean b) { mbLotRawMaterialIngredient = b; }
+    public void setLotRawMaterialPackage(boolean b) { mbLotRawMaterialPackage = b; }
     public void setModuleCfg(boolean b) { mbModuleCfg = b; }
+    public void setModuleStk(boolean b) { mbModuleStk = b; }
     public void setModuleMfg(boolean b) { mbModuleMfg = b; }
-    public void setModuleQas(boolean b) { mbModuleQas = b; }
-    public void setModuleOpe(boolean b) { mbModuleOpe = b; }
-    public void setModuleFin(boolean b) { mbModuleFin = b; }
+    public void setModuleQty(boolean b) { mbModuleQty = b; }
+    public void setModuleCst(boolean b) { mbModuleCst = b; }
     public void setDeleted(boolean b) { mbDeleted = b; }
     public void setSystem(boolean b) { mbSystem = b; }
     public void setFkUserInsertId(int n) { mnFkUserInsertId = n; }
@@ -73,23 +73,21 @@ public class DDbConfig extends DDbRegistryUser implements DGuiConfigCompany {
     public int getPkConfigId() { return mnPkConfigId; }
     public int getVersion() { return mnVersion; }
     public Date getVersionTs() { return mtVersionTs; }
-    public String getNameSeparator() { return msNameSeparator; }
-    public String getLotFormat() { return msLotFormat; }
-    public boolean isVar1() { return mbVar1; }
-    public String getVar1() { return msVar1; }
+    public String getLotFormatProductBase() { return msLotFormatProductBase; }
+    public String getLotFormatProductFinished() { return msLotFormatProductFinished; }
+    public boolean isLotRawMaterialIngredient() { return mbLotRawMaterialIngredient; }
+    public boolean isLotRawMaterialPackage() { return mbLotRawMaterialPackage; }
     public boolean isModuleCfg() { return mbModuleCfg; }
+    public boolean isModuleStk() { return mbModuleStk; }
     public boolean isModuleMfg() { return mbModuleMfg; }
-    public boolean isModuleQas() { return mbModuleQas; }
-    public boolean isModuleOpe() { return mbModuleOpe; }
-    public boolean isModuleFin() { return mbModuleFin; }
+    public boolean isModuleQty() { return mbModuleQty; }
+    public boolean isModuleCst() { return mbModuleCst; }
     public boolean isDeleted() { return mbDeleted; }
     public boolean isSystem() { return mbSystem; }
     public int getFkUserInsertId() { return mnFkUserInsertId; }
     public int getFkUserUpdateId() { return mnFkUserUpdateId; }
     public Date getTsUserInsert() { return mtTsUserInsert; }
     public Date getTsUserUpdate() { return mtTsUserUpdate; }
-    
-    public String getNameSeparatorFormatted() { return msNameSeparator.replaceAll("_", " "); }
 
     @Override
     public void setPrimaryKey(int[] pk) {
@@ -108,15 +106,15 @@ public class DDbConfig extends DDbRegistryUser implements DGuiConfigCompany {
         mnPkConfigId = 0;
         mnVersion = 0;
         mtVersionTs = null;
-        msNameSeparator = "";
-        msLotFormat = "";
-        mbVar1 = false;
-        msVar1 = "";
+        msLotFormatProductBase = "";
+        msLotFormatProductFinished = "";
+        mbLotRawMaterialIngredient = false;
+        mbLotRawMaterialPackage = false;
         mbModuleCfg = false;
+        mbModuleStk = false;
         mbModuleMfg = false;
-        mbModuleQas = false;
-        mbModuleOpe = false;
-        mbModuleFin = false;
+        mbModuleQty = false;
+        mbModuleCst = false;
         mbDeleted = false;
         mbSystem = false;
         mnFkUserInsertId = 0;
@@ -170,15 +168,15 @@ public class DDbConfig extends DDbRegistryUser implements DGuiConfigCompany {
             mnPkConfigId = resultSet.getInt("id_cfg");
             mnVersion = resultSet.getInt("ver");
             mtVersionTs = resultSet.getTimestamp("ver_ts");
-            msNameSeparator = resultSet.getString("name_sep");
-            msLotFormat = resultSet.getString("lot_fmt");
-            mbVar1 = resultSet.getBoolean("b_var_1");
-            msVar1 = resultSet.getString("var_1");
+            msLotFormatProductBase = resultSet.getString("lot_fmt_pb");
+            msLotFormatProductFinished = resultSet.getString("lot_fmt_pf");
+            mbLotRawMaterialIngredient = resultSet.getBoolean("b_lot_rmi");
+            mbLotRawMaterialPackage = resultSet.getBoolean("b_lot_rmp");
             mbModuleCfg = resultSet.getBoolean("b_mod_cfg");
+            mbModuleStk = resultSet.getBoolean("b_mod_stk");
             mbModuleMfg = resultSet.getBoolean("b_mod_mfg");
-            mbModuleQas = resultSet.getBoolean("b_mod_qas");
-            mbModuleOpe = resultSet.getBoolean("b_mod_ope");
-            mbModuleFin = resultSet.getBoolean("b_mod_fin");
+            mbModuleQty = resultSet.getBoolean("b_mod_qty");
+            mbModuleCst = resultSet.getBoolean("b_mod_cst");
             mbDeleted = resultSet.getBoolean("b_del");
             mbSystem = resultSet.getBoolean("b_sys");
             mnFkUserInsertId = resultSet.getInt("fk_usr_ins");
@@ -207,15 +205,15 @@ public class DDbConfig extends DDbRegistryUser implements DGuiConfigCompany {
                     mnPkConfigId + ", " + 
                     mnVersion + ", " + 
                     "NOW()" + ", " + 
-                    "'" + msNameSeparator + "', " + 
-                    "'" + msLotFormat + "', " + 
-                    (mbVar1 ? 1 : 0) + ", " + 
-                    "'" + msVar1 + "', " + 
+                    "'" + msLotFormatProductBase + "', " + 
+                    "'" + msLotFormatProductFinished + "', " + 
+                    (mbLotRawMaterialIngredient ? 1 : 0) + ", " + 
+                    (mbLotRawMaterialPackage ? 1 : 0) + ", " + 
                     (mbModuleCfg ? 1 : 0) + ", " + 
+                    (mbModuleStk ? 1 : 0) + ", " + 
                     (mbModuleMfg ? 1 : 0) + ", " + 
-                    (mbModuleQas ? 1 : 0) + ", " + 
-                    (mbModuleOpe ? 1 : 0) + ", " + 
-                    (mbModuleFin ? 1 : 0) + ", " + 
+                    (mbModuleQty ? 1 : 0) + ", " + 
+                    (mbModuleCst ? 1 : 0) + ", " + 
                     (mbDeleted ? 1 : 0) + ", " + 
                     (mbSystem ? 1 : 0) + ", " + 
                     mnFkUserInsertId + ", " + 
@@ -231,15 +229,15 @@ public class DDbConfig extends DDbRegistryUser implements DGuiConfigCompany {
                     //"id_cfg = " + mnPkConfigId + ", " +
                     "ver = " + mnVersion + ", " +
                     "ver_ts = " + "NOW()" + ", " +
-                    "name_sep = '" + msNameSeparator + "', " +
-                    "lot_fmt = '" + msLotFormat + "', " +
-                    "b_var_1 = " + (mbVar1 ? 1 : 0) + ", " +
-                    "var_1 = '" + msVar1 + "', " +
+                    "lot_fmt_pb = '" + msLotFormatProductBase + "', " +
+                    "lot_fmt_pf = '" + msLotFormatProductFinished + "', " +
+                    "b_lot_rmi = " + (mbLotRawMaterialIngredient ? 1 : 0) + ", " +
+                    "b_lot_rmp = " + (mbLotRawMaterialPackage ? 1 : 0) + ", " +
                     "b_mod_cfg = " + (mbModuleCfg ? 1 : 0) + ", " +
+                    "b_mod_stk = " + (mbModuleStk ? 1 : 0) + ", " +
                     "b_mod_mfg = " + (mbModuleMfg ? 1 : 0) + ", " +
-                    "b_mod_qas = " + (mbModuleQas ? 1 : 0) + ", " +
-                    "b_mod_ope = " + (mbModuleOpe ? 1 : 0) + ", " +
-                    "b_mod_fin = " + (mbModuleFin ? 1 : 0) + ", " +
+                    "b_mod_qty = " + (mbModuleQty ? 1 : 0) + ", " +
+                    "b_mod_cst = " + (mbModuleCst ? 1 : 0) + ", " +
                     "b_del = " + (mbDeleted ? 1 : 0) + ", " +
                     "b_sys = " + (mbSystem ? 1 : 0) + ", " +
                     //"fk_usr_ins = " + mnFkUserInsertId + ", " +
@@ -262,15 +260,15 @@ public class DDbConfig extends DDbRegistryUser implements DGuiConfigCompany {
         registry.setPkConfigId(this.getPkConfigId());
         registry.setVersion(this.getVersion());
         registry.setVersionTs(this.getVersionTs());
-        registry.setNameSeparator(this.getNameSeparator());
-        registry.setLotFormat(this.getLotFormat());
-        registry.setVar1(this.isVar1());
-        registry.setVar1(this.getVar1());
+        registry.setLotFormatProductBase(this.getLotFormatProductBase());
+        registry.setLotFormatProductFinished(this.getLotFormatProductFinished());
+        registry.setLotRawMaterialIngredient(this.isLotRawMaterialIngredient());
+        registry.setLotRawMaterialPackage(this.isLotRawMaterialPackage());
         registry.setModuleCfg(this.isModuleCfg());
+        registry.setModuleStk(this.isModuleStk());
         registry.setModuleMfg(this.isModuleMfg());
-        registry.setModuleQas(this.isModuleQas());
-        registry.setModuleOpe(this.isModuleOpe());
-        registry.setModuleFin(this.isModuleFin());
+        registry.setModuleQty(this.isModuleQty());
+        registry.setModuleCst(this.isModuleCst());
         registry.setDeleted(this.isDeleted());
         registry.setSystem(this.isSystem());
         registry.setFkUserInsertId(this.getFkUserInsertId());

@@ -5,6 +5,8 @@
 
 package ft.mod.cfg.db;
 
+import ft.mod.DModConsts;
+import ft.mod.DModSysConsts;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -21,8 +23,6 @@ import sba.lib.gui.DGuiClient;
 import sba.lib.gui.DGuiSession;
 import sba.lib.gui.DGuiSessionCustom;
 import sba.lib.gui.DGuiUser;
-import ft.mod.DModConsts;
-import ft.mod.DModSysConsts;
 
 /**
  *
@@ -47,12 +47,12 @@ public class DDbUser extends DDbRegistryUser implements DGuiUser {
     protected Date mtTsUserUpdate;
     */
 
-    protected ArrayList<DDbUserModule> maChildModules;
+    protected ArrayList<DDbUserModuleAccess> maChildModuleAccesses;
     protected HashSet<Integer> moSetModules;
 
     public DDbUser() {
         super(DModConsts.CU_USR);
-        maChildModules = new ArrayList<>();
+        maChildModuleAccesses = new ArrayList<>();
         moSetModules = new HashSet<>();
         initRegistry();
     }
@@ -79,7 +79,7 @@ public class DDbUser extends DDbRegistryUser implements DGuiUser {
     public Date getTsUserInsert() { return mtTsUserInsert; }
     public Date getTsUserUpdate() { return mtTsUserUpdate; }
 
-    public ArrayList<DDbUserModule> getChildModules() { return maChildModules; }
+    public ArrayList<DDbUserModuleAccess> getChildModuleAccesses() { return maChildModuleAccesses; }
 
     @Override
     public boolean isAdministrator() {
@@ -166,7 +166,7 @@ public class DDbUser extends DDbRegistryUser implements DGuiUser {
         mtTsUserInsert = null;
         mtTsUserUpdate = null;
 
-        maChildModules.clear();
+        maChildModuleAccesses.clear();
         moSetModules.clear();
     }
 
@@ -231,9 +231,9 @@ public class DDbUser extends DDbRegistryUser implements DGuiUser {
             msSql = "SELECT id_mod FROM " + DModConsts.TablesMap.get(DModConsts.CU_USR_MOD) + " " + getSqlWhere();
             resultSet = statement.executeQuery(msSql);
             while (resultSet.next()) {
-                DDbUserModule child = new DDbUserModule();
+                DDbUserModuleAccess child = new DDbUserModuleAccess();
                 child.read(session, new int[] { mnPkUserId, resultSet.getInt(1) });
-                maChildModules.add(child);
+                maChildModuleAccesses.add(child);
                 moSetModules.add(resultSet.getInt(1));
             }
 
@@ -294,7 +294,7 @@ public class DDbUser extends DDbRegistryUser implements DGuiUser {
         msSql = "DELETE FROM " + DModConsts.TablesMap.get(DModConsts.CU_USR_MOD) + " " + getSqlWhere();
         session.getStatement().execute(msSql);
 
-        for (DDbUserModule child : maChildModules) {
+        for (DDbUserModuleAccess child : maChildModuleAccesses) {
             child.setPkUserId(mnPkUserId);
             child.setRegistryNew(true);
             child.save(session);
@@ -321,8 +321,8 @@ public class DDbUser extends DDbRegistryUser implements DGuiUser {
         registry.setTsUserInsert(this.getTsUserInsert());
         registry.setTsUserUpdate(this.getTsUserUpdate());
 
-        for (DDbUserModule child : maChildModules) {
-            registry.getChildModules().add(child.clone());
+        for (DDbUserModuleAccess child : maChildModuleAccesses) {
+            registry.getChildModuleAccesses().add(child.clone());
         }
 
         for (Integer item : moSetModules) {

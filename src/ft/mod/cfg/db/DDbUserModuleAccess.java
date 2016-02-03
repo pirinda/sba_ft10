@@ -3,13 +3,11 @@
  * and open the template in the editor.
  */
 
-package ft.mod.mfg.db;
+package ft.mod.cfg.db;
 
 import ft.mod.DModConsts;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
-import sba.lib.DLibUtils;
 import sba.lib.db.DDbConsts;
 import sba.lib.db.DDbRegistryUser;
 import sba.lib.gui.DGuiSession;
@@ -18,43 +16,43 @@ import sba.lib.gui.DGuiSession;
  *
  * @author Sergio Flores
  */
-public class DDbYearWeek extends DDbRegistryUser {
+public class DDbUserModuleAccess extends DDbRegistryUser {
 
-    protected int mnPkYearId;
-    protected int mnPkWeekId;
-    protected Date mtStart;
+    protected int mnPkUserId;
+    protected int mnPkModuleId;
+    protected int mnPkAccessTypeId;
 
-    public DDbYearWeek() {
-        super(DModConsts.M_YER_WEK);
+    public DDbUserModuleAccess() {
+        super(DModConsts.CU_USR_MOD);
         initRegistry();
     }
 
-    public void setPkYearId(int n) { mnPkYearId = n; }
-    public void setPkWeekId(int n) { mnPkWeekId = n; }
-    public void setStart(Date t) { mtStart = t; }
+    public void setPkUserId(int n) { mnPkUserId = n; }
+    public void setPkModuleId(int n) { mnPkModuleId = n; }
+    public void setPkAccessTypeId(int n) { mnPkAccessTypeId = n; }
 
-    public int getPkYearId() { return mnPkYearId; }
-    public int getPkWeekId() { return mnPkWeekId; }
-    public Date getStart() { return mtStart; }
+    public int getPkUserId() { return mnPkUserId; }
+    public int getPkModuleId() { return mnPkModuleId; }
+    public int getPkAccessTypeId() { return mnPkAccessTypeId; }
 
     @Override
     public void setPrimaryKey(int[] pk) {
-        mnPkYearId = pk[0];
-        mnPkWeekId = pk[1];
+        mnPkUserId = pk[0];
+        mnPkModuleId = pk[1];
     }
 
     @Override
     public int[] getPrimaryKey() {
-        return new int[] { mnPkYearId, mnPkWeekId };
+        return new int[] { mnPkUserId, mnPkModuleId };
     }
 
     @Override
     public void initRegistry() {
         initBaseRegistry();
 
-        mnPkYearId = 0;
-        mnPkWeekId = 0;
-        mtStart = null;
+        mnPkUserId = 0;
+        mnPkModuleId = 0;
+        mnPkAccessTypeId = 0;
     }
 
     @Override
@@ -64,26 +62,17 @@ public class DDbYearWeek extends DDbRegistryUser {
 
     @Override
     public String getSqlWhere() {
-        return "WHERE id_yer = " + mnPkYearId + " AND id_wek = " + mnPkWeekId + " ";
+        return "WHERE id_usr = " + mnPkUserId+ " AND id_mod = " + mnPkModuleId + " ";
     }
 
     @Override
     public String getSqlWhere(int[] pk) {
-        return "WHERE id_yer = " + pk[0] + " AND id_wek = " + pk[1] + " ";
+        return "WHERE id_usr = " + pk[0] + " AND id_mod = " + pk[1] + " ";
     }
 
     @Override
     public void computePrimaryKey(DGuiSession session) throws SQLException, Exception {
-        ResultSet resultSet = null;
-
-        mnPkWeekId = 0;
-
-        msSql = "SELECT COALESCE(MAX(id_wek), 0) + 1 FROM " + getSqlTable() + " " +
-                "WHERE id_yer = " + mnPkYearId + " ";
-        resultSet = session.getStatement().executeQuery(msSql);
-        if (resultSet.next()) {
-            mnPkWeekId = resultSet.getInt(1);
-        }
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
@@ -100,9 +89,9 @@ public class DDbYearWeek extends DDbRegistryUser {
             throw new Exception(DDbConsts.ERR_MSG_REG_NOT_FOUND);
         }
         else {
-            mnPkYearId = resultSet.getInt("id_yer");
-            mnPkWeekId = resultSet.getInt("id_wek");
-            mtStart = resultSet.getDate("sta");
+            mnPkUserId = resultSet.getInt("id_usr");
+            mnPkModuleId = resultSet.getInt("id_mod");
+            mnPkAccessTypeId = resultSet.getInt("fk_acs_tp");
 
             mbRegistryNew = false;
         }
@@ -116,17 +105,21 @@ public class DDbYearWeek extends DDbRegistryUser {
         mnQueryResultId = DDbConsts.SAVE_ERROR;
         
         if (mbRegistryNew) {
+            verifyRegistryNew(session);
+        }
+
+        if (mbRegistryNew) {
             msSql = "INSERT INTO " + getSqlTable() + " VALUES (" +
-                    mnPkYearId + ", " + 
-                    mnPkWeekId + ", " + 
-                    "'" + DLibUtils.DbmsDateFormatDate.format(mtStart) + "' " + 
+                    mnPkUserId + ", " + 
+                    mnPkModuleId + ", " + 
+                    mnPkAccessTypeId + " " + 
                     ")";
         }
         else {
             msSql = "UPDATE " + getSqlTable() + " SET " +
-                    //"id_yer = " + mnPkYearId + ", " +
-                    //"id_wek = " + mnPkWeekId + ", " +
-                    "sta = '" + DLibUtils.DbmsDateFormatDate.format(mtStart) + "', " +
+                    //"id_usr = " + mnPkUserId + ", " +
+                    //"id_mod = " + mnPkModuleId + ", " +
+                    "fk_acs_tp = " + mnPkAccessTypeId + " " +
                     getSqlWhere();
         }
 
@@ -137,12 +130,12 @@ public class DDbYearWeek extends DDbRegistryUser {
     }
 
     @Override
-    public DDbYearWeek clone() throws CloneNotSupportedException {
-        DDbYearWeek registry = new DDbYearWeek();
+    public DDbUserModuleAccess clone() throws CloneNotSupportedException {
+        DDbUserModuleAccess registry = new DDbUserModuleAccess();
 
-        registry.setPkYearId(this.getPkYearId());
-        registry.setPkWeekId(this.getPkWeekId());
-        registry.setStart(this.getStart());
+        registry.setPkUserId(this.getPkUserId());
+        registry.setPkModuleId(this.getPkModuleId());
+        registry.setPkAccessTypeId(this.getPkAccessTypeId());
 
         registry.setRegistryNew(this.isRegistryNew());
         return registry;

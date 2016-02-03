@@ -18,9 +18,9 @@ import sba.lib.gui.DGuiClient;
  *
  * @author Sergio Flores
  */
-public class DViewItemFamily extends DGridPaneView {
+public class DViewFamily extends DGridPaneView {
 
-    public DViewItemFamily(DGuiClient client, String title) {
+    public DViewFamily(DGuiClient client, String title) {
         super(client, DGridConsts.GRID_VIEW_TAB, DModConsts.CU_FAM, DLibConsts.UNDEFINED, title);
         setRowButtonsEnabled(true, true, true, false, true);
     }
@@ -46,27 +46,31 @@ public class DViewItemFamily extends DGridPaneView {
                 "v.code AS " + DDbConsts.FIELD_CODE + ", " +
                 "v.name AS " + DDbConsts.FIELD_NAME + ", " +
                 "v.lot_code, " +
+                "it.code, " +
+                "it.name, " +
+                "u.code, " +
+                "u.name, " +
+                "fb.code, " +
+                "fb.name, " +
                 "v.b_del AS " + DDbConsts.FIELD_IS_DEL + ", " +
                 "v.b_sys AS " + DDbConsts.FIELD_IS_SYS + ", " +
                 "v.fk_usr_ins AS " + DDbConsts.FIELD_USER_INS_ID + ", " +
                 "v.fk_usr_upd AS " + DDbConsts.FIELD_USER_UPD_ID + ", " +
                 "v.ts_usr_ins AS " + DDbConsts.FIELD_USER_INS_TS + ", " +
                 "v.ts_usr_upd AS " + DDbConsts.FIELD_USER_UPD_TS + ", " +
-                "it.code, " +
-                "it.name, " +
-                "fb.code, " +
-                "fb.name, " +
                 "ui.name AS " + DDbConsts.FIELD_USER_INS_NAME + ", " +
                 "uu.name AS " + DDbConsts.FIELD_USER_UPD_NAME + " " +
                 "FROM " + DModConsts.TablesMap.get(DModConsts.CU_FAM) + " AS v " +
                 "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CS_ITM_TP) + " AS it ON " +
                 "v.fk_itm_tp = it.id_itm_tp " +
+                "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_UOM) + " AS u ON " +
+                "v.fk_uom = u.id_uom " +
                 "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_USR) + " AS ui ON " +
                 "v.fk_usr_ins = ui.id_usr " +
                 "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_USR) + " AS uu ON " +
                 "v.fk_usr_upd = uu.id_usr " +
                 "LEFT OUTER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_FAM) + " AS fb ON " +
-                "v.fk_fam_n = fb.id_fam " +
+                "v.fk_fam_bas_n = fb.id_fam " +
                 (sql.length() == 0 ? "" : "WHERE " + sql) +
                 "ORDER BY v.name, v.code, v.id_fam ";
     }
@@ -74,13 +78,14 @@ public class DViewItemFamily extends DGridPaneView {
     @Override
     public void createGridColumns() {
         int col = 0;
-        DGridColumnView[] columns = new DGridColumnView[11];
+        DGridColumnView[] columns = new DGridColumnView[12];
 
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_CAT_M, DDbConsts.FIELD_NAME, DGridConsts.COL_TITLE_NAME);
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_CODE_CAT, DDbConsts.FIELD_CODE, DGridConsts.COL_TITLE_CODE);
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_CODE_CAT, "it.code", DGridConsts.COL_TITLE_TYPE + " ítem");
+        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_CAT_S, "u.name", "Unidad");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_CAT_S, "fb.name", "Familia base");
-        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_CODE_CAT, "v.lot_code", DGridConsts.COL_TITLE_CODE + " lote");
+        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_CODE_CAT, "v.lot_code", DGridConsts.COL_TITLE_CODE + " lotes");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_BOOL_S, DDbConsts.FIELD_IS_DEL, DGridConsts.COL_TITLE_IS_DEL);
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_BOOL_S, DDbConsts.FIELD_IS_SYS, DGridConsts.COL_TITLE_IS_SYS);
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_USR, DDbConsts.FIELD_USER_INS_NAME, DGridConsts.COL_TITLE_USER_INS_NAME);
@@ -96,6 +101,7 @@ public class DViewItemFamily extends DGridPaneView {
     @Override
     public void defineSuscriptions() {
         moSuscriptionsSet.add(mnGridType);
+        moSuscriptionsSet.add(DModConsts.CU_UOM);
         moSuscriptionsSet.add(DModConsts.CU_USR);
     }
 }

@@ -5,7 +5,6 @@
 
 package ft.mod.mfg.view;
 
-import ft.gui.DGuiClientApp;
 import ft.mod.DModConsts;
 import sba.lib.DLibConsts;
 import sba.lib.db.DDbConsts;
@@ -22,7 +21,7 @@ import sba.lib.gui.DGuiClient;
 public class DViewFormulaComp extends DGridPaneView {
 
     public DViewFormulaComp(DGuiClient client, String title) {
-        super(client, DGridConsts.GRID_VIEW_TAB, DModConsts.MU_FRM_CMP, DLibConsts.UNDEFINED, title);
+        super(client, DGridConsts.GRID_VIEW_TAB, /*XXXDModConsts.MU_FRM_CMP*/0, DLibConsts.UNDEFINED, title);
         setRowButtonsEnabled(false);
     }
 
@@ -85,21 +84,21 @@ public class DViewFormulaComp extends DGridPaneView {
                 "v.fk_itm_tp = it.id_itm_tp " +
                 "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_ITM) + " AS i ON " +
                 "v.fk_itm = i.id_itm " +
-                "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_UNT) + " AS u ON " +
+                "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_UOM) + " AS u ON " +
                 "v.fk_unt = u.id_unt " +
-                "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_PRS) + " AS p ON " +
+                "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_PRE) + " AS p ON " +
                 "v.fk_prs = p.id_prs " +
                 "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_USR) + " AS ui ON " +
                 "v.fk_usr_ins = ui.id_usr " +
                 "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_USR) + " AS uu ON " +
                 "v.fk_usr_upd = uu.id_usr " +
-                "LEFT OUTER JOIN " + DModConsts.TablesMap.get(DModConsts.MU_FRM_CMP) + " AS vc ON " +
+                "LEFT OUTER JOIN " + DModConsts.TablesMap.get(/*XXXDModConsts.MU_FRM_CMP*/0) + " AS vc ON " +
                 "v.id_frm = vc.id_frm " +
                 "LEFT OUTER JOIN " + DModConsts.TablesMap.get(DModConsts.CS_ITM_TP) + " AS cit ON " +
                 "vc.fk_itm_tp = cit.id_itm_tp " +
                 "LEFT OUTER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_ITM) + " AS ci ON " +
                 "vc.fk_itm = ci.id_itm " +
-                "LEFT OUTER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_UNT) + " AS cu ON " +
+                "LEFT OUTER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_UOM) + " AS cu ON " +
                 "vc.fk_unt = cu.id_unt " +
                 (sql.length() == 0 ? "" : "WHERE " + sql) +
                 "ORDER BY v.name, v.code, vc.id_frm, vc.id_cmp ";
@@ -126,7 +125,9 @@ public class DViewFormulaComp extends DGridPaneView {
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_BOOL_M, "vc.b_std", "Estándar comp");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_DEC_QTY, "vc.qty", "Cantidad comp");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_CODE_UNT, "cu.code", "Unidad comp");
+/*XXX
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_BOOL_M, "vc.b_con_var_1", "Consumo " + ((DGuiClientApp) miClient).getVar1() + " comp");
+*/
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT, "vc.sta_ref", "Ref. estadísticas comp");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_BOOL_S, DDbConsts.FIELD_IS_DEL, DGridConsts.COL_TITLE_IS_DEL);
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_BOOL_S, DDbConsts.FIELD_IS_SYS, DGridConsts.COL_TITLE_IS_SYS);
@@ -145,8 +146,8 @@ public class DViewFormulaComp extends DGridPaneView {
         moSuscriptionsSet.add(mnGridType);
         moSuscriptionsSet.add(DModConsts.MU_FRM);
         moSuscriptionsSet.add(DModConsts.CU_ITM);
-        moSuscriptionsSet.add(DModConsts.CU_UNT);
-        moSuscriptionsSet.add(DModConsts.CU_PRS);
+        moSuscriptionsSet.add(DModConsts.CU_UOM);
+        moSuscriptionsSet.add(DModConsts.CU_PRE);
         moSuscriptionsSet.add(DModConsts.CU_USR);
     }
 }

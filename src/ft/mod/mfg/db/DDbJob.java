@@ -194,7 +194,7 @@ public class DDbJob extends DDbRegistryUser {
             // Read aswell child registries:
 
             statement = session.getStatement().getConnection().createStatement();
-
+/*XXX
             msSql = "SELECT id_prp FROM " + DModConsts.TablesMap.get(DModConsts.M_JOB_PRP) + " " + getSqlWhere();
             resultSet = statement.executeQuery(msSql);
             while (resultSet.next()) {
@@ -210,7 +210,7 @@ public class DDbJob extends DDbRegistryUser {
                 child.read(session, new int[] { mnPkJobId, resultSet.getInt(1) });
                 maChildPacks.add(child);
             }
-
+*/
             // Finish registry reading:
             
             mbRegistryNew = false;
@@ -276,7 +276,7 @@ public class DDbJob extends DDbRegistryUser {
         }
 
         // Save aswell child registries:
-
+/*XXX
         msSql = "DELETE FROM " + DModConsts.TablesMap.get(DModConsts.M_JOB_PRP_MFG) + " " + getSqlWhere();
         session.getStatement().execute(msSql);
 
@@ -306,7 +306,7 @@ public class DDbJob extends DDbRegistryUser {
 
         msSql = "DELETE FROM " + DModConsts.TablesMap.get(DModConsts.M_JOB_PCK) + " " + getSqlWhere();
         session.getStatement().execute(msSql);
-
+*/
         for (DDbJobLinePack child : maChildPacks) {
             child.setPkJobId(mnPkJobId);
             child.setRegistryNew(true);

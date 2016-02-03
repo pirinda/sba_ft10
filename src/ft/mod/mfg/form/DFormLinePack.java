@@ -44,7 +44,7 @@ public class DFormLinePack extends DBeanForm {
 
     /** Creates new form DFormLinePack */
     public DFormLinePack(DGuiClient client, String title) {
-        setFormSettings(client, DGuiConsts.BEAN_FORM_EDIT, DModConsts.MU_LIN_PCK, DLibConsts.UNDEFINED, title);
+        setFormSettings(client, DGuiConsts.BEAN_FORM_EDIT, /*XXXDModConsts.MU_LIN_PCK*/0, DLibConsts.UNDEFINED, title);
         initComponents();
         initComponentsCustom();
     }
@@ -150,7 +150,7 @@ public class DFormLinePack extends DBeanForm {
         
         moFields.setFormButton(jbSave);
         
-        moGridPresents = new DGridPaneForm(miClient, mnFormType, DModConsts.CU_PRS, DGuiUtils.getLabelName(((TitledBorder) jpPresents.getBorder()).getTitle())) {
+        moGridPresents = new DGridPaneForm(miClient, mnFormType, DModConsts.CU_PRE, DGuiUtils.getLabelName(((TitledBorder) jpPresents.getBorder()).getTitle())) {
             
             @Override
             public void initGrid() {

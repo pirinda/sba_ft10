@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package ft.mod.cfg.db;
+package ft.mod.mfg.db;
 
 import ft.mod.DModConsts;
 import java.sql.ResultSet;
@@ -18,51 +18,40 @@ import sba.lib.gui.DGuiSession;
  *
  * @author Sergio Flores
  */
-public class DDbPresent extends DDbRegistryUser {
+public class DDbDepart extends DDbRegistryUser {
 
-    protected int mnPkPresentId;
+    protected int mnPkDepartId;
     protected String msCode;
     protected String msName;
-    protected String msLotCode;
-    protected double mdContentUnit;
     /*
     protected boolean mbDeleted;
     protected boolean mbSystem;
-    */
-    protected int mnFkUnitId;
-    /*
     protected int mnFkUserInsertId;
     protected int mnFkUserUpdateId;
     protected Date mtTsUserInsert;
     protected Date mtTsUserUpdate;
     */
-    
-    public DDbPresent() {
-        super(DModConsts.CU_PRE);
+
+    public DDbDepart() {
+        super(DModConsts.MU_DPT);
         initRegistry();
     }
 
-    public void setPkPresentId(int n) { mnPkPresentId = n; }
+    public void setPkDepartId(int n) { mnPkDepartId = n; }
     public void setCode(String s) { msCode = s; }
     public void setName(String s) { msName = s; }
-    public void setLotCode(String s) { msLotCode = s; }
-    public void setContentUnit(double d) { mdContentUnit = d; }
     public void setDeleted(boolean b) { mbDeleted = b; }
     public void setSystem(boolean b) { mbSystem = b; }
-    public void setFkUnitId(int n) { mnFkUnitId = n; }
     public void setFkUserInsertId(int n) { mnFkUserInsertId = n; }
     public void setFkUserUpdateId(int n) { mnFkUserUpdateId = n; }
     public void setTsUserInsert(Date t) { mtTsUserInsert = t; }
     public void setTsUserUpdate(Date t) { mtTsUserUpdate = t; }
 
-    public int getPkPresentId() { return mnPkPresentId; }
+    public int getPkDepartId() { return mnPkDepartId; }
     public String getCode() { return msCode; }
     public String getName() { return msName; }
-    public String getLotCode() { return msLotCode; }
-    public double getContentUnit() { return mdContentUnit; }
     public boolean isDeleted() { return mbDeleted; }
     public boolean isSystem() { return mbSystem; }
-    public int getFkUnitId() { return mnFkUnitId; }
     public int getFkUserInsertId() { return mnFkUserInsertId; }
     public int getFkUserUpdateId() { return mnFkUserUpdateId; }
     public Date getTsUserInsert() { return mtTsUserInsert; }
@@ -70,26 +59,23 @@ public class DDbPresent extends DDbRegistryUser {
 
     @Override
     public void setPrimaryKey(int[] pk) {
-        mnPkPresentId = pk[0];
+        mnPkDepartId = pk[0];
     }
 
     @Override
     public int[] getPrimaryKey() {
-        return new int[] { mnPkPresentId };
+        return new int[] { mnPkDepartId };
     }
 
     @Override
     public void initRegistry() {
         initBaseRegistry();
 
-        mnPkPresentId = 0;
+        mnPkDepartId = 0;
         msCode = "";
         msName = "";
-        msLotCode = "";
-        mdContentUnit = 0;
         mbDeleted = false;
         mbSystem = false;
-        mnFkUnitId = 0;
         mnFkUserInsertId = 0;
         mnFkUserUpdateId = 0;
         mtTsUserInsert = null;
@@ -103,24 +89,24 @@ public class DDbPresent extends DDbRegistryUser {
 
     @Override
     public String getSqlWhere() {
-        return "WHERE id_pre = " + mnPkPresentId + " ";
+        return "WHERE id_dpt = " + mnPkDepartId + " ";
     }
 
     @Override
     public String getSqlWhere(int[] pk) {
-        return "WHERE id_pre = " + pk[0] + " ";
+        return "WHERE id_dpt = " + pk[0] + " ";
     }
 
     @Override
     public void computePrimaryKey(DGuiSession session) throws SQLException, Exception {
         ResultSet resultSet = null;
 
-        mnPkPresentId = 0;
+        mnPkDepartId = 0;
 
-        msSql = "SELECT COALESCE(MAX(id_pre), 0) + 1 FROM " + getSqlTable();
+        msSql = "SELECT COALESCE(MAX(id_dpt), 0) + 1 FROM " + getSqlTable();
         resultSet = session.getStatement().executeQuery(msSql);
         if (resultSet.next()) {
-            mnPkPresentId = resultSet.getInt(1);
+            mnPkDepartId = resultSet.getInt(1);
         }
     }
 
@@ -138,14 +124,11 @@ public class DDbPresent extends DDbRegistryUser {
             throw new Exception(DDbConsts.ERR_MSG_REG_NOT_FOUND);
         }
         else {
-            mnPkPresentId = resultSet.getInt("id_pre");
+            mnPkDepartId = resultSet.getInt("id_dpt");
             msCode = resultSet.getString("code");
             msName = resultSet.getString("name");
-            msLotCode = resultSet.getString("lot_code");
-            mdContentUnit = resultSet.getDouble("cont_unt");
             mbDeleted = resultSet.getBoolean("b_del");
             mbSystem = resultSet.getBoolean("b_sys");
-            mnFkUnitId = resultSet.getInt("fk_unt");
             mnFkUserInsertId = resultSet.getInt("fk_usr_ins");
             mnFkUserUpdateId = resultSet.getInt("fk_usr_upd");
             mtTsUserInsert = resultSet.getTimestamp("ts_usr_ins");
@@ -161,7 +144,7 @@ public class DDbPresent extends DDbRegistryUser {
     public void save(DGuiSession session) throws SQLException, Exception {
         initQueryMembers();
         mnQueryResultId = DDbConsts.SAVE_ERROR;
-        
+
         if (mbRegistryNew) {
             computePrimaryKey(session);
             mbDeleted = false;
@@ -170,36 +153,30 @@ public class DDbPresent extends DDbRegistryUser {
             mnFkUserUpdateId = DUtilConsts.USR_NA_ID;
 
             if (msCode.isEmpty()) {
-                msCode = "" + mnPkPresentId;
+                msCode = "" + mnPkDepartId;
             }
 
             msSql = "INSERT INTO " + getSqlTable() + " VALUES (" +
-                    mnPkPresentId + ", " + 
-                    "'" + msCode + "', " + 
-                    "'" + msName + "', " + 
-                    "'" + msLotCode + "', " + 
-                    mdContentUnit + ", " + 
-                    (mbDeleted ? 1 : 0) + ", " + 
-                    (mbSystem ? 1 : 0) + ", " + 
-                    mnFkUnitId + ", " + 
-                    mnFkUserInsertId + ", " + 
-                    mnFkUserUpdateId + ", " + 
-                    "NOW()" + ", " + 
-                    "NOW()" + " " + 
+                    mnPkDepartId + ", " +
+                    "'" + msCode + "', " +
+                    "'" + msName + "', " +
+                    (mbDeleted ? 1 : 0) + ", " +
+                    (mbSystem ? 1 : 0) + ", " +
+                    mnFkUserInsertId + ", " +
+                    mnFkUserUpdateId + ", " +
+                    "NOW()" + ", " +
+                    "NOW()" + " " +
                     ")";
         }
         else {
             mnFkUserUpdateId = session.getUser().getPkUserId();
 
             msSql = "UPDATE " + getSqlTable() + " SET " +
-                    //"id_pre = " + mnPkPresentId + ", " +
-                    "code = '" + msCode + "', " +
+                    //"id_dpt = " + mnPkDepartId + ", " +
+                    "code = '" + (msCode.length() > 0 ? msCode : "" + mnPkDepartId) + "', " +
                     "name = '" + msName + "', " +
-                    "lot_code = '" + msLotCode + "', " +
-                    "cont_unt = " + mdContentUnit + ", " +
                     "b_del = " + (mbDeleted ? 1 : 0) + ", " +
                     "b_sys = " + (mbSystem ? 1 : 0) + ", " +
-                    "fk_unt = " + mnFkUnitId + ", " +
                     //"fk_usr_ins = " + mnFkUserInsertId + ", " +
                     "fk_usr_upd = " + mnFkUserUpdateId + ", " +
                     //"ts_usr_ins = " + "NOW()" + ", " +
@@ -213,22 +190,19 @@ public class DDbPresent extends DDbRegistryUser {
     }
 
     @Override
-    public DDbPresent clone() throws CloneNotSupportedException {
-        DDbPresent registry = new DDbPresent();
+    public DDbDepart clone() throws CloneNotSupportedException {
+        DDbDepart registry = new DDbDepart();
 
-        registry.setPkPresentId(this.getPkPresentId());
+        registry.setPkDepartId(this.getPkDepartId());
         registry.setCode(this.getCode());
         registry.setName(this.getName());
-        registry.setLotCode(this.getLotCode());
-        registry.setContentUnit(this.getContentUnit());
         registry.setDeleted(this.isDeleted());
         registry.setSystem(this.isSystem());
-        registry.setFkUnitId(this.getFkUnitId());
         registry.setFkUserInsertId(this.getFkUserInsertId());
         registry.setFkUserUpdateId(this.getFkUserUpdateId());
         registry.setTsUserInsert(this.getTsUserInsert());
         registry.setTsUserUpdate(this.getTsUserUpdate());
-        
+
         registry.setRegistryNew(this.isRegistryNew());
         return registry;
     }

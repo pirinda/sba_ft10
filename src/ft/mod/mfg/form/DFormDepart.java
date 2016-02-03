@@ -4,7 +4,7 @@
  */
 
 /*
- * DFormDepartment.java
+ * DFormDepart.java
  *
  * Created on 29/08/2011, 08:02:13 PM
  */
@@ -12,7 +12,7 @@
 package ft.mod.mfg.form;
 
 import ft.mod.DModConsts;
-import ft.mod.mfg.db.DDbDepartment;
+import ft.mod.mfg.db.DDbDepart;
 import sba.lib.DLibConsts;
 import sba.lib.DLibUtils;
 import sba.lib.db.DDbRegistry;
@@ -26,12 +26,12 @@ import sba.lib.gui.bean.DBeanForm;
  *
  * @author Sergio Flores
  */
-public class DFormDepartment extends DBeanForm {
+public class DFormDepart extends DBeanForm {
 
-    private DDbDepartment moRegistry;
+    private DDbDepart moRegistry;
 
-    /** Creates new form DFormDepartment */
-    public DFormDepartment(DGuiClient client, String title) {
+    /** Creates new form DFormDepart */
+    public DFormDepart(DGuiClient client, String title) {
         setFormSettings(client, DGuiConsts.BEAN_FORM_EDIT, DModConsts.MU_DPT, DLibConsts.UNDEFINED, title);
         initComponents();
         initComponentsCustom();
@@ -139,8 +139,6 @@ public class DFormDepartment extends DBeanForm {
 
     @Override
     public void setRegistry(DDbRegistry registry) throws Exception {
-        moRegistry = (DDbDepartment) registry;
-
         mnFormResult = DLibConsts.UNDEFINED;
         mbFirstActivation = true;
 
@@ -166,8 +164,8 @@ public class DFormDepartment extends DBeanForm {
     }
 
     @Override
-    public DDbDepartment getRegistry() throws Exception {
-        DDbDepartment registry = moRegistry.clone();
+    public DDbDepart getRegistry() throws Exception {
+        DDbDepart registry = moRegistry.clone();
 
         if (registry.isRegistryNew()) { }
 

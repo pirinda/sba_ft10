@@ -5,44 +5,15 @@
 
 package ft.mod;
 
-import ft.mod.mfg.db.DDbDepartment;
-import ft.mod.mfg.db.DDbFormula;
-import ft.mod.mfg.db.DDbFormulaComp;
-import ft.mod.mfg.db.DDbJob;
-import ft.mod.mfg.db.DDbJobLinePack;
-import ft.mod.mfg.db.DDbJobLinePackCons;
-import ft.mod.mfg.db.DDbJobLinePackMfg;
-import ft.mod.mfg.db.DDbJobLinePackRqmt;
-import ft.mod.mfg.db.DDbJobLinePrep;
-import ft.mod.mfg.db.DDbJobLinePrepCons;
-import ft.mod.mfg.db.DDbJobLinePrepMfg;
-import ft.mod.mfg.db.DDbJobLinePrepRqmt;
-import ft.mod.mfg.db.DDbLinePack;
-import ft.mod.mfg.db.DDbLinePackPresent;
-import ft.mod.mfg.db.DDbLinePrep;
-import ft.mod.mfg.db.DDbLinePrepItemFamily;
-import ft.mod.mfg.db.DDbLinePrepLinePack;
-import ft.mod.mfg.db.DDbYear;
-import ft.mod.mfg.db.DDbYearWeek;
-import ft.mod.mfg.form.DFormDepartment;
+import ft.mod.mfg.form.DFormDepart;
 import ft.mod.mfg.form.DFormFormula;
 import ft.mod.mfg.form.DFormJob;
+import ft.mod.mfg.form.DFormLine;
 import ft.mod.mfg.form.DFormLinePack;
 import ft.mod.mfg.form.DFormLinePrep;
-import ft.mod.mfg.form.DFormYear;
-import ft.mod.mfg.view.DViewDepartment;
-import ft.mod.mfg.view.DViewFormula;
-import ft.mod.mfg.view.DViewFormulaComp;
-import ft.mod.mfg.view.DViewJob;
-import ft.mod.mfg.view.DViewLinePack;
-import ft.mod.mfg.view.DViewLinePrep;
-import ft.mod.mfg.view.DViewYear;
-import ft.mod.mfg.view.DViewYearWeek;
 import javax.swing.JMenu;
 import sba.lib.DLibConsts;
-import sba.lib.db.DDbConsts;
 import sba.lib.db.DDbRegistry;
-import sba.lib.db.DDbRegistrySysFly;
 import sba.lib.grid.DGridPaneView;
 import sba.lib.gui.DGuiCatalogueSettings;
 import sba.lib.gui.DGuiClient;
@@ -58,11 +29,11 @@ import sba.lib.gui.DGuiReport;
  */
 public class DModModuleMfg extends DGuiModule {
     
-    private DFormDepartment moFormDepartment;
+    private DFormDepart moFormDepartment;
+    private DFormLine moFormLine;
     private DFormLinePack moFormLinePack;
     private DFormLinePrep moFormLinePrep;
     private DFormFormula moFormFormula;
-    private DFormYear moFormYear;
     private DFormJob moFormJob;
 
     public DModModuleMfg(DGuiClient client) {
@@ -77,8 +48,17 @@ public class DModModuleMfg extends DGuiModule {
     @Override
     public DDbRegistry getRegistry(final int type) {
         DDbRegistry registry = null;
-
+/*
         switch (type) {
+            case DModConsts.MS_REF_TP:
+                registry = new DDbRegistrySysFly(type) {
+                    @Override
+                    public String getSqlTable() { return DModConsts.TablesMap.get(type); }
+                    
+                    @Override
+                    public String getSqlWhere(int[] pk) { return "WHERE id_ref_tp = " + pk[0] + " "; }
+                };
+                break;
             case DModConsts.MS_FRM_TP:
                 registry = new DDbRegistrySysFly(type) {
                     @Override
@@ -166,7 +146,7 @@ public class DModModuleMfg extends DGuiModule {
             default:
                 miClient.showMsgBoxError(DLibConsts.ERR_MSG_OPTION_UNKNOWN);
         }
-
+*/
         return registry;
     }
 
@@ -174,8 +154,13 @@ public class DModModuleMfg extends DGuiModule {
     public DGuiCatalogueSettings getCatalogueSettings(final int type, final int subtype, final DGuiParams params) {
         String sql = "";
         DGuiCatalogueSettings settings = null;
-
+/*
         switch (type) {
+            case DModConsts.MS_REF_TP:
+                settings = new DGuiCatalogueSettings("Tipo referencia", 1);
+                sql = "SELECT id_ref_tp AS " + DDbConsts.FIELD_ID + "1, name AS " + DDbConsts.FIELD_ITEM + " " +
+                        "FROM " + DModConsts.TablesMap.get(type) + " WHERE b_del = 0 ORDER BY sort ";
+                break;
             case DModConsts.MS_FRM_TP:
                 settings = new DGuiCatalogueSettings("Tipo fórmula", 1);
                 sql = "SELECT id_frm_tp AS " + DDbConsts.FIELD_ID + "1, name AS " + DDbConsts.FIELD_ITEM + " " +
@@ -258,7 +243,7 @@ public class DModModuleMfg extends DGuiModule {
                 settings = new DGuiCatalogueSettings("Ítem", 1, 0, DLibConsts.DATA_TYPE_TEXT);
                 sql = "SELECT i.id_itm AS " + DDbConsts.FIELD_ID + "1, i.name AS " + DDbConsts.FIELD_ITEM + ", u.code AS " + DDbConsts.FIELD_COMP + " " +
                         "FROM " + DModConsts.TablesMap.get(DModConsts.CU_ITM) + " AS i " +
-                        "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_UNT) + " AS u ON i.fk_unt = u.id_unt " +
+                        "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_UOM) + " AS u ON i.fk_unt = u.id_unt " +
                         "WHERE i.b_del = 0 AND i.id_itm IN (" +
                             "SELECT f.fk_itm " +
                             "FROM " + DModConsts.TablesMap.get(DModConsts.MU_FRM) + " AS f " +
@@ -289,15 +274,17 @@ public class DModModuleMfg extends DGuiModule {
         if (settings != null) {
             settings.setSql(sql);
         }
-
+*/
         return settings;
     }
 
     @Override
     public DGridPaneView getView(final int type, final int subtype, final DGuiParams params) {
         DGridPaneView view = null;
-
+/*
         switch (type) {
+            case DModConsts.MS_REF_TP:
+                break;
             case DModConsts.MS_FRM_TP:
                 break;
             case DModConsts.MS_JOB_TP:
@@ -353,7 +340,7 @@ public class DModModuleMfg extends DGuiModule {
             default:
                 miClient.showMsgBoxError(DLibConsts.ERR_MSG_OPTION_UNKNOWN);
         }
-
+*/
         return view;
     }
 
@@ -365,8 +352,10 @@ public class DModModuleMfg extends DGuiModule {
     @Override
     public DGuiForm getForm(final int type, final int subtype, final DGuiParams params) {
         DGuiForm form = null;
-
+/*
         switch (type) {
+            case DModConsts.MS_REF_TP:
+                break;
             case DModConsts.MS_FRM_TP:
                 break;
             case DModConsts.MS_JOB_TP:
@@ -426,7 +415,7 @@ public class DModModuleMfg extends DGuiModule {
             default:
                 miClient.showMsgBoxError(DLibConsts.ERR_MSG_OPTION_UNKNOWN);
         }
-
+*/
         return form;
     }
 

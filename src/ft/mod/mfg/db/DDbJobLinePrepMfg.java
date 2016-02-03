@@ -9,7 +9,6 @@ import ft.mod.DModConsts;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import sba.lib.db.DDbConsts;
-import sba.lib.db.DDbRegistry;
 import sba.lib.db.DDbRegistryUser;
 import sba.lib.gui.DGuiSession;
 
@@ -39,7 +38,7 @@ public class DDbJobLinePrepMfg extends DDbRegistryUser implements DRowJobMfgMask
     protected String msXtaUnitName;
     
     public DDbJobLinePrepMfg() {
-        super(DModConsts.M_JOB_PRP_MFG);
+        super(/*XXXDModConsts.M_JOB_PRP_MFG*/0);
         initRegistry();
     }
 
@@ -174,14 +173,14 @@ public class DDbJobLinePrepMfg extends DDbRegistryUser implements DRowJobMfgMask
             mnFkUnitId = resultSet.getInt("fk_unt");
 
             // Read aswell extra data:
-            
+/*XXX
             msXtaLinePrepCode = (String) session.readField(DModConsts.MU_LIN_PRP, new int[] { mnPkLinePrepId }, DDbRegistry.FIELD_CODE);
             msXtaLinePrepName = (String) session.readField(DModConsts.MU_LIN_PRP, new int[] { mnPkLinePrepId }, DDbRegistry.FIELD_NAME);
             msXtaProductCode = (String) session.readField(DModConsts.CU_ITM, new int[] { mnFkItemId }, DDbRegistry.FIELD_CODE);
             msXtaProductName = (String) session.readField(DModConsts.CU_ITM, new int[] { mnFkItemId }, DDbRegistry.FIELD_NAME);
-            msXtaUnitCode = (String) session.readField(DModConsts.CU_UNT, new int[] { mnFkUnitId }, DDbRegistry.FIELD_CODE);
-            msXtaUnitName = (String) session.readField(DModConsts.CU_UNT, new int[] { mnFkUnitId }, DDbRegistry.FIELD_NAME);
-
+            msXtaUnitCode = (String) session.readField(DModConsts.CU_UOM, new int[] { mnFkUnitId }, DDbRegistry.FIELD_CODE);
+            msXtaUnitName = (String) session.readField(DModConsts.CU_UOM, new int[] { mnFkUnitId }, DDbRegistry.FIELD_NAME);
+*/
             // Finish registry reading:
 
             mbRegistryNew = false;

@@ -41,7 +41,7 @@ public class DDbLinePrep extends DDbRegistryUser {
     protected ArrayList<DDbLinePrepLinePack> maChildLinePacks;
     
     public DDbLinePrep() {
-        super(DModConsts.MU_LIN_PRP);
+        super(/*XXXDModConsts.MU_LIN_PRP*/0);
         maChildItemFamilies = new ArrayList<>();
         maChildLinePacks = new ArrayList<>();
         initRegistry();
@@ -158,7 +158,7 @@ public class DDbLinePrep extends DDbRegistryUser {
             // Read aswell child registries:
 
             statement = session.getStatement().getConnection().createStatement();
-
+/*XXX
             msSql = "SELECT id_fam FROM " + DModConsts.TablesMap.get(DModConsts.MU_LIN_PRP_FAM) + " " + getSqlWhere();
             resultSet = statement.executeQuery(msSql);
             while (resultSet.next()) {
@@ -174,7 +174,7 @@ public class DDbLinePrep extends DDbRegistryUser {
                 child.read(session, new int[] { mnPkLinePrepId, resultSet.getInt(1) });
                 maChildLinePacks.add(child);
             }
-
+*/
             // Finish registry reading:
 
             mbRegistryNew = false;
@@ -232,7 +232,7 @@ public class DDbLinePrep extends DDbRegistryUser {
         session.getStatement().execute(msSql);
         
         // Save aswell child registries:
-
+/*XXX
         msSql = "DELETE FROM " + DModConsts.TablesMap.get(DModConsts.MU_LIN_PRP_FAM) + " " + getSqlWhere();
         session.getStatement().execute(msSql);
 
@@ -250,7 +250,7 @@ public class DDbLinePrep extends DDbRegistryUser {
             child.setRegistryNew(true);
             child.save(session);
         }
-
+*/
         // Finish registry updating:
 
         mbRegistryNew = false;

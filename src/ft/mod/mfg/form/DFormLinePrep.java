@@ -12,8 +12,6 @@
 package ft.mod.mfg.form;
 
 import ft.mod.DModConsts;
-import ft.mod.DModSysConsts;
-import ft.mod.cfg.db.DDbItemFamily;
 import ft.mod.mfg.db.DDbLinePack;
 import ft.mod.mfg.db.DDbLinePrep;
 import ft.mod.mfg.db.DDbLinePrepItemFamily;
@@ -48,7 +46,7 @@ public class DFormLinePrep extends DBeanForm {
 
     /** Creates new form DFormLinePack */
     public DFormLinePrep(DGuiClient client, String title) {
-        setFormSettings(client, DGuiConsts.BEAN_FORM_EDIT, DModConsts.MU_LIN_PRP, DLibConsts.UNDEFINED, title);
+        setFormSettings(client, DGuiConsts.BEAN_FORM_EDIT, /*XXXDModConsts.MU_LIN_PRP*/0, DLibConsts.UNDEFINED, title);
         initComponents();
         initComponentsCustom();
     }
@@ -191,7 +189,7 @@ public class DFormLinePrep extends DBeanForm {
         
         jpFamilies.add(moGridFamilies, BorderLayout.CENTER);
         mvFormGrids.add(moGridFamilies);
-        
+/*XXX
         moGridLinePacks = new DGridPaneForm(miClient, mnFormType, DModConsts.MU_LIN_PCK, DGuiUtils.getLabelName(((TitledBorder) jpLinePacks.getBorder()).getTitle())) {
             
             @Override
@@ -214,7 +212,7 @@ public class DFormLinePrep extends DBeanForm {
                 }
             }
         };
-        
+*/
         jpLinePacks.add(moGridLinePacks, BorderLayout.CENTER);
         mvFormGrids.add(moGridLinePacks);
     }
@@ -267,11 +265,11 @@ public class DFormLinePrep extends DBeanForm {
         moTextCode.setValue(moRegistry.getCode());
         moTextName.setValue(moRegistry.getName());
         moKeyDepartment.setValue(new int[] { moRegistry.getFkDepartmentId() });
-        
-        for (DDbItemFamily itemFamily : DMfgUtils.readItemFamilies(miClient.getSession(), DModSysConsts.CS_ITM_TP_PB)) {
+/*XXX        
+        for (DDbFamily itemFamily : DMfgUtils.readItemFamilies(miClient.getSession(), DModSysConsts.CS_ITM_TP_PB)) {
             optionFamilies.add(new DRowOption(itemFamily.getPkItemFamilyId(), itemFamily.getCode(), itemFamily.getName(), false));
         }
-
+*/
         for (DDbLinePrepItemFamily linePrepItemFamily : moRegistry.getChildItemFamilies()) {
             for (DGridRow row : optionFamilies) {
                 if (((DRowOption) row).OptionId == linePrepItemFamily.getPkItemFamilyId()) {

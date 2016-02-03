@@ -6,13 +6,11 @@
 package ft.mod.cfg.db;
 
 import ft.mod.DModConsts;
-import ft.mod.DModSysConsts;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 import sba.gui.util.DUtilConsts;
 import sba.lib.DLibConsts;
-import sba.lib.DLibUtils;
 import sba.lib.db.DDbConsts;
 import sba.lib.db.DDbRegistry;
 import sba.lib.db.DDbRegistryUser;
@@ -27,17 +25,16 @@ public class DDbItem extends DDbRegistryUser {
     protected int mnPkItemId;
     protected String msCode;
     protected String msName;
-    protected String msNameRaw;
     protected String msLotCode;
     protected double mdMassUnit;
     /*
     protected boolean mbDeleted;
     protected boolean mbSystem;
     */
-    protected int mnFkItemGroupId;
+    protected int mnFkFamilyId;
     protected int mnFkUnitId;
     protected int mnFkPresentId;
-    protected int mnFkItemId_n;
+    protected int mnFkItemBaseId_n;
     /*
     protected int mnFkUserInsertId;
     protected int mnFkUserUpdateId;
@@ -45,9 +42,9 @@ public class DDbItem extends DDbRegistryUser {
     protected Date mtTsUserUpdate;
     */
     
-    protected int mnXtaFkItemFamilyId;
     protected int mnXtaFkItemTypeId;
     protected String msXtaItemTypeCode;
+    protected String msXtaItemTypeName;
     protected String msXtaUnitCode;
     protected String msXtaUnitName;
     protected String msXtaPresentCode;
@@ -59,15 +56,13 @@ public class DDbItem extends DDbRegistryUser {
     }
 
     public void readXtaData(final DGuiSession session) {
-        DDbItemGroup group = null;
-        DDbItemFamily family = null;
+        DDbFamily family = null;
         
         // Reset extra data:
         
-        mnXtaFkItemFamilyId = DLibConsts.UNDEFINED;
-        mnXtaFkItemTypeId = DLibConsts.UNDEFINED;
+        mnXtaFkItemTypeId = 0;
         msXtaItemTypeCode = "";
-        
+        msXtaItemTypeName = "";
         msXtaUnitCode = "";
         msXtaUnitName = "";
         msXtaPresentCode = "";
@@ -75,37 +70,28 @@ public class DDbItem extends DDbRegistryUser {
         
         // Read extra data:
         
-        group = (DDbItemGroup) session.readRegistry(DModConsts.CU_GRP, new int[] { mnFkItemGroupId }, DDbConsts.MODE_STEALTH);
-        family = (DDbItemFamily) session.readRegistry(DModConsts.CU_FAM, new int[] { group.getFkItemFamilyId() }, DDbConsts.MODE_STEALTH);
+        family = (DDbFamily) session.readRegistry(DModConsts.CU_FAM, new int[] { mnFkFamilyId }, DDbConsts.MODE_STEALTH);
         
-        mnXtaFkItemFamilyId = group.getFkItemFamilyId();
         mnXtaFkItemTypeId = family.getFkItemTypeId();
         msXtaItemTypeCode = (String) session.readField(DModConsts.CS_ITM_TP, new int[] { family.getFkItemTypeId() }, DDbRegistry.FIELD_CODE);
-
-        msXtaUnitCode = (String) session.readField(DModConsts.CU_UNT, new int[] { mnFkUnitId }, DDbRegistry.FIELD_CODE);
-        msXtaUnitName = (String) session.readField(DModConsts.CU_UNT, new int[] { mnFkUnitId }, DDbRegistry.FIELD_NAME);
-        msXtaPresentCode = (String) session.readField(DModConsts.CU_PRS, new int[] { mnFkPresentId }, DDbRegistry.FIELD_CODE);
-        msXtaPresentName = (String) session.readField(DModConsts.CU_PRS, new int[] { mnFkPresentId }, DDbRegistry.FIELD_NAME);
-    }
-    
-    public static String computeName(final DGuiSession session, final String nameRaw, final int presentationId, final String presentationName, final String unitCode) {
-        String separator = ((DDbConfig) session.getConfigCompany()).getNameSeparatorFormatted();
-        
-        return DLibUtils.textTrim((nameRaw.isEmpty() ? "?" : nameRaw) + separator + (presentationId == DModSysConsts.CU_PRS_NA ? "" : presentationName + separator) + unitCode);
+        msXtaItemTypeName = (String) session.readField(DModConsts.CS_ITM_TP, new int[] { family.getFkItemTypeId() }, DDbRegistry.FIELD_NAME);
+        msXtaUnitCode = (String) session.readField(DModConsts.CU_UOM, new int[] { mnFkUnitId }, DDbRegistry.FIELD_CODE);
+        msXtaUnitName = (String) session.readField(DModConsts.CU_UOM, new int[] { mnFkUnitId }, DDbRegistry.FIELD_NAME);
+        msXtaPresentCode = (String) session.readField(DModConsts.CU_PRE, new int[] { mnFkPresentId }, DDbRegistry.FIELD_CODE);
+        msXtaPresentName = (String) session.readField(DModConsts.CU_PRE, new int[] { mnFkPresentId }, DDbRegistry.FIELD_NAME);
     }
     
     public void setPkItemId(int n) { mnPkItemId = n; }
     public void setCode(String s) { msCode = s; }
     public void setName(String s) { msName = s; }
-    public void setNameRaw(String s) { msNameRaw = s; }
     public void setLotCode(String s) { msLotCode = s; }
     public void setMassUnit(double d) { mdMassUnit = d; }
     public void setDeleted(boolean b) { mbDeleted = b; }
     public void setSystem(boolean b) { mbSystem = b; }
-    public void setFkItemGroupId(int n) { mnFkItemGroupId = n; }
+    public void setFkFamilyId(int n) { mnFkFamilyId = n; }
     public void setFkUnitId(int n) { mnFkUnitId = n; }
     public void setFkPresentId(int n) { mnFkPresentId = n; }
-    public void setFkItemId_n(int n) { mnFkItemId_n = n; }
+    public void setFkItemBaseId_n(int n) { mnFkItemBaseId_n = n; }
     public void setFkUserInsertId(int n) { mnFkUserInsertId = n; }
     public void setFkUserUpdateId(int n) { mnFkUserUpdateId = n; }
     public void setTsUserInsert(Date t) { mtTsUserInsert = t; }
@@ -114,31 +100,30 @@ public class DDbItem extends DDbRegistryUser {
     public int getPkItemId() { return mnPkItemId; }
     public String getCode() { return msCode; }
     public String getName() { return msName; }
-    public String getNameRaw() { return msNameRaw; }
     public String getLotCode() { return msLotCode; }
     public double getMassUnit() { return mdMassUnit; }
     public boolean isDeleted() { return mbDeleted; }
     public boolean isSystem() { return mbSystem; }
-    public int getFkItemGroupId() { return mnFkItemGroupId; }
+    public int getFkFamilyId() { return mnFkFamilyId; }
     public int getFkUnitId() { return mnFkUnitId; }
     public int getFkPresentId() { return mnFkPresentId; }
-    public int getFkItemId_n() { return mnFkItemId_n; }
+    public int getFkItemBaseId_n() { return mnFkItemBaseId_n; }
     public int getFkUserInsertId() { return mnFkUserInsertId; }
     public int getFkUserUpdateId() { return mnFkUserUpdateId; }
     public Date getTsUserInsert() { return mtTsUserInsert; }
     public Date getTsUserUpdate() { return mtTsUserUpdate; }
 
-    public void setXtaFkItemFamilyId(int n) { mnXtaFkItemFamilyId = n; }
     public void setXtaFkItemTypeId(int n) { mnXtaFkItemTypeId = n; }
     public void setXtaItemTypeCode(String s) { msXtaItemTypeCode = s; }
+    public void setXtaItemTypeName(String s) { msXtaItemTypeName = s; }
     public void setXtaUnitCode(String s) { msXtaUnitCode = s; }
     public void setXtaUnitName(String s) { msXtaUnitName = s; }
     public void setXtaPresentCode(String s) { msXtaPresentCode = s; }
     public void setXtaPresentName(String s) { msXtaPresentName = s; }
 
-    public int getXtaFkItemFamilyId() { return mnXtaFkItemFamilyId; }
     public int getXtaFkItemTypeId() { return mnXtaFkItemTypeId; }
     public String getXtaItemTypeCode() { return msXtaItemTypeCode; }
+    public String getXtaItemTypeName() { return msXtaItemTypeName; }
     public String getXtaUnitCode() { return msXtaUnitCode; }
     public String getXtaUnitName() { return msXtaUnitName; }
     public String getXtaPresentCode() { return msXtaPresentCode; }
@@ -161,23 +146,22 @@ public class DDbItem extends DDbRegistryUser {
         mnPkItemId = 0;
         msCode = "";
         msName = "";
-        msNameRaw = "";
         msLotCode = "";
         mdMassUnit = 0;
         mbDeleted = false;
         mbSystem = false;
-        mnFkItemGroupId = 0;
+        mnFkFamilyId = 0;
         mnFkUnitId = 0;
         mnFkPresentId = 0;
-        mnFkItemId_n = 0;
+        mnFkItemBaseId_n = 0;
         mnFkUserInsertId = 0;
         mnFkUserUpdateId = 0;
         mtTsUserInsert = null;
         mtTsUserUpdate = null;
         
-        mnXtaFkItemFamilyId = 0;
         mnXtaFkItemTypeId = 0;
         msXtaItemTypeCode = "";
+        msXtaItemTypeName = "";
         msXtaUnitCode = "";
         msXtaUnitName = "";
         msXtaPresentCode = "";
@@ -229,15 +213,14 @@ public class DDbItem extends DDbRegistryUser {
             mnPkItemId = resultSet.getInt("id_itm");
             msCode = resultSet.getString("code");
             msName = resultSet.getString("name");
-            msNameRaw = resultSet.getString("name_raw");
             msLotCode = resultSet.getString("lot_code");
             mdMassUnit = resultSet.getDouble("mss_unt");
             mbDeleted = resultSet.getBoolean("b_del");
             mbSystem = resultSet.getBoolean("b_sys");
-            mnFkItemGroupId = resultSet.getInt("fk_grp");
+            mnFkFamilyId = resultSet.getInt("fk_grp");
             mnFkUnitId = resultSet.getInt("fk_unt");
             mnFkPresentId = resultSet.getInt("fk_prs");
-            mnFkItemId_n = resultSet.getInt("fk_itm_n");
+            mnFkItemBaseId_n = resultSet.getInt("fk_itm_n");
             mnFkUserInsertId = resultSet.getInt("fk_usr_ins");
             mnFkUserUpdateId = resultSet.getInt("fk_usr_upd");
             mtTsUserInsert = resultSet.getTimestamp("ts_usr_ins");
@@ -262,13 +245,6 @@ public class DDbItem extends DDbRegistryUser {
 
         readXtaData(session);
         
-        msName = computeName(
-                session,
-                msNameRaw,
-                mnFkPresentId,
-                msXtaPresentName,
-                msXtaUnitCode);
-
         if (mbRegistryNew) {
             computePrimaryKey(session);
             mbDeleted = false;
@@ -284,15 +260,14 @@ public class DDbItem extends DDbRegistryUser {
                     mnPkItemId + ", " + 
                     "'" + msCode + "', " + 
                     "'" + msName + "', " + 
-                    "'" + msNameRaw + "', " + 
                     "'" + msLotCode + "', " + 
                     mdMassUnit + ", " + 
                     (mbDeleted ? 1 : 0) + ", " + 
                     (mbSystem ? 1 : 0) + ", " + 
-                    mnFkItemGroupId + ", " + 
+                    mnFkFamilyId + ", " + 
                     mnFkUnitId + ", " + 
                     mnFkPresentId + ", " + 
-                    (mnFkItemId_n == DLibConsts.UNDEFINED ? "NULL" : "" + mnFkItemId_n) + ", " + 
+                    (mnFkItemBaseId_n == DLibConsts.UNDEFINED ? "NULL" : "" + mnFkItemBaseId_n) + ", " + 
                     mnFkUserInsertId + ", " + 
                     mnFkUserUpdateId + ", " + 
                     "NOW()" + ", " + 
@@ -306,15 +281,14 @@ public class DDbItem extends DDbRegistryUser {
                     //"id_itm = " + mnPkItemId + ", " +
                     "code = '" + msCode + "', " +
                     "name = '" + msName + "', " +
-                    "name_raw = '" + msNameRaw + "', " +
                     "lot_code = '" + msLotCode + "', " +
                     "mss_unt = " + mdMassUnit + ", " +
                     "b_del = " + (mbDeleted ? 1 : 0) + ", " +
                     "b_sys = " + (mbSystem ? 1 : 0) + ", " +
-                    "fk_grp = " + mnFkItemGroupId + ", " +
+                    "fk_grp = " + mnFkFamilyId + ", " +
                     "fk_unt = " + mnFkUnitId + ", " +
                     "fk_prs = " + mnFkPresentId + ", " +
-                    "fk_itm_n = " + (mnFkItemId_n == DLibConsts.UNDEFINED ? "NULL" : "" + mnFkItemId_n) + ", " +
+                    "fk_itm_n = " + (mnFkItemBaseId_n == DLibConsts.UNDEFINED ? "NULL" : "" + mnFkItemBaseId_n) + ", " +
                     //"fk_usr_ins = " + mnFkUserInsertId + ", " +
                     "fk_usr_upd = " + mnFkUserUpdateId + ", " +
                     //"ts_usr_ins = " + "NOW()" + ", " +
@@ -334,23 +308,22 @@ public class DDbItem extends DDbRegistryUser {
         registry.setPkItemId(this.getPkItemId());
         registry.setCode(this.getCode());
         registry.setName(this.getName());
-        registry.setNameRaw(this.getNameRaw());
         registry.setLotCode(this.getLotCode());
         registry.setMassUnit(this.getMassUnit());
         registry.setDeleted(this.isDeleted());
         registry.setSystem(this.isSystem());
-        registry.setFkItemGroupId(this.getFkItemGroupId());
+        registry.setFkFamilyId(this.getFkFamilyId());
         registry.setFkUnitId(this.getFkUnitId());
         registry.setFkPresentId(this.getFkPresentId());
-        registry.setFkItemId_n(this.getFkItemId_n());
+        registry.setFkItemBaseId_n(this.getFkItemBaseId_n());
         registry.setFkUserInsertId(this.getFkUserInsertId());
         registry.setFkUserUpdateId(this.getFkUserUpdateId());
         registry.setTsUserInsert(this.getTsUserInsert());
         registry.setTsUserUpdate(this.getTsUserUpdate());
 
-        registry.setXtaFkItemFamilyId(this.getXtaFkItemFamilyId());
         registry.setXtaFkItemTypeId(this.getXtaFkItemTypeId());
         registry.setXtaItemTypeCode(this.getXtaItemTypeCode());
+        registry.setXtaItemTypeName(this.getXtaItemTypeName());
         registry.setXtaUnitCode(this.getXtaUnitCode());
         registry.setXtaUnitName(this.getXtaUnitName());
         registry.setXtaPresentCode(this.getXtaPresentCode());

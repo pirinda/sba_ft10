@@ -13,8 +13,6 @@ package ft.mod.cfg.form;
 
 import ft.mod.DModConsts;
 import ft.mod.cfg.db.DDbPresent;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import sba.lib.DLibConsts;
@@ -24,22 +22,20 @@ import sba.lib.gui.DGuiClient;
 import sba.lib.gui.DGuiConsts;
 import sba.lib.gui.DGuiUtils;
 import sba.lib.gui.DGuiValidation;
-import sba.lib.gui.bean.DBeanFieldDecimal;
 import sba.lib.gui.bean.DBeanFieldKey;
-import sba.lib.gui.bean.DBeanFieldText;
 import sba.lib.gui.bean.DBeanForm;
 
 /**
  *
  * @author Sergio Flores
  */
-public class DFormPresent extends DBeanForm implements ItemListener, FocusListener {
+public class DFormPresent extends DBeanForm implements ItemListener {
 
     private DDbPresent moRegistry;
 
     /** Creates new form DFormPresent */
     public DFormPresent(DGuiClient client, String title) {
-        setFormSettings(client, DGuiConsts.BEAN_FORM_EDIT, DModConsts.CU_PRS, DLibConsts.UNDEFINED, title);
+        setFormSettings(client, DGuiConsts.BEAN_FORM_EDIT, DModConsts.CU_PRE, DLibConsts.UNDEFINED, title);
         initComponents();
         initComponentsCustom();
     }
@@ -59,17 +55,14 @@ public class DFormPresent extends DBeanForm implements ItemListener, FocusListen
         jlCode = new javax.swing.JLabel();
         moTextCode = new sba.lib.gui.bean.DBeanFieldText();
         jPanel4 = new javax.swing.JPanel();
-        jlNameRaw = new javax.swing.JLabel();
-        moTextNameRaw = new sba.lib.gui.bean.DBeanFieldText();
+        jlName = new javax.swing.JLabel();
+        moTextName = new sba.lib.gui.bean.DBeanFieldText();
         jPanel5 = new javax.swing.JPanel();
         jlUnit = new javax.swing.JLabel();
         moKeyUnit = new sba.lib.gui.bean.DBeanFieldKey();
         jPanel6 = new javax.swing.JPanel();
         jlContentUnit = new javax.swing.JLabel();
         moCompContentUnit = new sba.lib.gui.bean.DBeanCompoundField();
-        jPanel8 = new javax.swing.JPanel();
-        jlName = new javax.swing.JLabel();
-        jtfName = new javax.swing.JTextField();
         jPanel7 = new javax.swing.JPanel();
         jlLotCode = new javax.swing.JLabel();
         moTextLotCode = new sba.lib.gui.bean.DBeanFieldText();
@@ -77,7 +70,7 @@ public class DFormPresent extends DBeanForm implements ItemListener, FocusListen
         jpContainer.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos del registro:"));
         jpContainer.setLayout(new java.awt.BorderLayout());
 
-        jPanel1.setLayout(new java.awt.GridLayout(6, 1, 0, 5));
+        jPanel1.setLayout(new java.awt.GridLayout(5, 1, 0, 5));
 
         jPanel3.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
@@ -92,12 +85,12 @@ public class DFormPresent extends DBeanForm implements ItemListener, FocusListen
 
         jPanel4.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
-        jlNameRaw.setText("Nombre simple:*");
-        jlNameRaw.setPreferredSize(new java.awt.Dimension(100, 23));
-        jPanel4.add(jlNameRaw);
+        jlName.setText("Nombre:*");
+        jlName.setPreferredSize(new java.awt.Dimension(100, 23));
+        jPanel4.add(jlName);
 
-        moTextNameRaw.setPreferredSize(new java.awt.Dimension(200, 23));
-        jPanel4.add(moTextNameRaw);
+        moTextName.setPreferredSize(new java.awt.Dimension(200, 23));
+        jPanel4.add(moTextName);
 
         jPanel1.add(jPanel4);
 
@@ -121,22 +114,9 @@ public class DFormPresent extends DBeanForm implements ItemListener, FocusListen
 
         jPanel1.add(jPanel6);
 
-        jPanel8.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
-
-        jlName.setText("Nombre:");
-        jlName.setPreferredSize(new java.awt.Dimension(100, 23));
-        jPanel8.add(jlName);
-
-        jtfName.setEditable(false);
-        jtfName.setFocusable(false);
-        jtfName.setPreferredSize(new java.awt.Dimension(250, 23));
-        jPanel8.add(jtfName);
-
-        jPanel1.add(jPanel8);
-
         jPanel7.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
-        jlLotCode.setText("Código para lote:");
+        jlLotCode.setText("Código lotes:");
         jlLotCode.setPreferredSize(new java.awt.Dimension(100, 23));
         jPanel7.add(jlLotCode);
 
@@ -157,20 +137,17 @@ public class DFormPresent extends DBeanForm implements ItemListener, FocusListen
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
-    private javax.swing.JPanel jPanel8;
     private javax.swing.JLabel jlCode;
     private javax.swing.JLabel jlContentUnit;
     private javax.swing.JLabel jlLotCode;
     private javax.swing.JLabel jlName;
-    private javax.swing.JLabel jlNameRaw;
     private javax.swing.JLabel jlUnit;
     private javax.swing.JPanel jpContainer;
-    private javax.swing.JTextField jtfName;
     private sba.lib.gui.bean.DBeanCompoundField moCompContentUnit;
     private sba.lib.gui.bean.DBeanFieldKey moKeyUnit;
     private sba.lib.gui.bean.DBeanFieldText moTextCode;
     private sba.lib.gui.bean.DBeanFieldText moTextLotCode;
-    private sba.lib.gui.bean.DBeanFieldText moTextNameRaw;
+    private sba.lib.gui.bean.DBeanFieldText moTextName;
     // End of variables declaration//GEN-END:variables
 
     /*
@@ -181,14 +158,14 @@ public class DFormPresent extends DBeanForm implements ItemListener, FocusListen
         DGuiUtils.setWindowBounds(this, 400, 250);
         
         moTextCode.setTextSettings(DGuiUtils.getLabelName(jlCode), 5);
-        moTextNameRaw.setTextSettings(DGuiUtils.getLabelName(jlNameRaw), 50);
+        moTextName.setTextSettings(DGuiUtils.getLabelName(jlName), 50);
         moKeyUnit.setKeySettings(miClient, DGuiUtils.getLabelName(jlUnit), true);
         moCompContentUnit.setCompoundFieldSettings(miClient);
         moCompContentUnit.getField().setDecimalSettings(DGuiUtils.getLabelName(jlContentUnit), DGuiConsts.GUI_TYPE_DEC_AMT_UNIT, true);
         moTextLotCode.setTextSettings(DGuiUtils.getLabelName(jlLotCode), 5, 0);
         
         moFields.addField(moTextCode);
-        moFields.addField(moTextNameRaw);
+        moFields.addField(moTextName);
         moFields.addField(moKeyUnit);
         moFields.addField(moCompContentUnit.getField());
         moFields.addField(moTextLotCode);
@@ -204,14 +181,6 @@ public class DFormPresent extends DBeanForm implements ItemListener, FocusListen
         displayUnitCode();
     }
     
-    private void computeName() {
-        jtfName.setText(DDbPresent.computeName(
-                miClient.getSession(),
-                moTextNameRaw.getValue(),
-                moCompContentUnit.getField().getValue(),
-                moKeyUnit.getSelectedIndex() <= 0 ? "" : (String) moKeyUnit.getSelectedItem().getComplement()));
-    }
-    
     /*
      * Public methods
      */
@@ -222,27 +191,23 @@ public class DFormPresent extends DBeanForm implements ItemListener, FocusListen
     
     @Override
     public void addAllListeners() {
-        moTextNameRaw.addFocusListener(this);
-        moCompContentUnit.getField().getComponent().addFocusListener(this);
         moKeyUnit.addItemListener(this);
     }
 
     @Override
     public void removeAllListeners() {
-        moTextNameRaw.removeFocusListener(this);
-        moCompContentUnit.getField().getComponent().removeFocusListener(this);
         moKeyUnit.removeItemListener(this);
     }
 
     @Override
     public void reloadCatalogues() {
-        miClient.getSession().populateCatalogue(moKeyUnit, DModConsts.CU_UNT, DLibConsts.UNDEFINED, null);
+        miClient.getSession().populateCatalogue(moKeyUnit, DModConsts.CU_UOM, DLibConsts.UNDEFINED, null);
     }
 
     @Override
     public void setRegistry(DDbRegistry registry) throws Exception {
         moRegistry = (DDbPresent) registry;
-
+        
         mnFormResult = DLibConsts.UNDEFINED;
         mbFirstActivation = true;
 
@@ -252,6 +217,7 @@ public class DFormPresent extends DBeanForm implements ItemListener, FocusListen
         if (moRegistry.isRegistryNew()) {
             moRegistry.setCode("");
             moRegistry.initPrimaryKey();
+            
             jtfRegistryKey.setText("");
         }
         else {
@@ -259,16 +225,23 @@ public class DFormPresent extends DBeanForm implements ItemListener, FocusListen
         }
 
         moTextCode.setValue(moRegistry.getCode());
-        moTextNameRaw.setValue(moRegistry.getNameRaw());
+        moTextName.setValue(moRegistry.getName());
         moKeyUnit.setValue(new int[] { moRegistry.getFkUnitId()});
         moCompContentUnit.getField().setValue(moRegistry.getContentUnit());
         moTextLotCode.setValue(moRegistry.getLotCode());
         
-        computeName();
         displayUnitCode();
 
         setFormEditable(true);
+        
         moTextCode.setEnabled(false);
+        
+        if (moRegistry.isRegistryNew()) {
+            
+        }
+        else {
+            
+        }
         
         addAllListeners();
     }
@@ -280,10 +253,11 @@ public class DFormPresent extends DBeanForm implements ItemListener, FocusListen
         if (registry.isRegistryNew()) { }
 
         registry.setCode(moTextCode.getValue());
-        //registry.setName(...);
-        registry.setNameRaw(moTextNameRaw.getValue());
+        registry.setName(moTextName.getValue());
         registry.setLotCode(moTextLotCode.getValue());
         registry.setContentUnit(moCompContentUnit.getField().getValue());
+        //registry.setDeleted(...);
+        //registry.setSystem(...);
         registry.setFkUnitId(moKeyUnit.getValue()[0]);
 
         return registry;
@@ -301,32 +275,8 @@ public class DFormPresent extends DBeanForm implements ItemListener, FocusListen
                 DBeanFieldKey field = (DBeanFieldKey) e.getSource();
                 
                 if (field == moKeyUnit) {
-                    computeName();
                     itemStateChangeUnit();
                 }
-            }
-        }
-    }
-
-    @Override
-    public void focusGained(FocusEvent e) {
-        
-    }
-
-    @Override
-    public void focusLost(FocusEvent e) {
-        if (e.getSource() instanceof DBeanFieldText) {
-            DBeanFieldText field = (DBeanFieldText) e.getSource();
-            
-            if (field == moTextNameRaw) {
-                computeName();
-            }
-        }
-        else if (e.getSource() instanceof DBeanFieldDecimal) {
-            DBeanFieldDecimal field = (DBeanFieldDecimal) e.getSource();
-            
-            if (field == moCompContentUnit.getField()) {
-                computeName();
             }
         }
     }

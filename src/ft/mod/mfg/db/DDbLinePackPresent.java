@@ -22,7 +22,7 @@ public class DDbLinePackPresent extends DDbRegistryUser {
     protected int mnPkPresentId;
 
     public DDbLinePackPresent() {
-        super(DModConsts.MU_LIN_PCK_PRS);
+        super(/*XXXDModConsts.MU_LIN_PCK_PRS*/0);
         initRegistry();
     }
 

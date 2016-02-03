@@ -39,7 +39,7 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow {
     protected String msXtaUnitName;
 
     public DDbFormulaComp() {
-        super(DModConsts.MU_FRM_CMP);
+        super(/*XXXDModConsts.MU_FRM_CMP*/0);
         initRegistry();
     }
 
@@ -93,8 +93,8 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow {
         msXtaItemTypeName = (String) session.readField(DModConsts.CS_ITM_TP, new int[] { mnFkItemTypeId }, DDbRegistry.FIELD_NAME);
         msXtaItemCode = (String) session.readField(DModConsts.CU_ITM, new int[] { mnFkItemId }, DDbRegistry.FIELD_CODE);
         msXtaItemName = (String) session.readField(DModConsts.CU_ITM, new int[] { mnFkItemId }, DDbRegistry.FIELD_NAME);
-        msXtaUnitCode = (String) session.readField(DModConsts.CU_UNT, new int[] { mnFkUnitId }, DDbRegistry.FIELD_CODE);
-        msXtaUnitName = (String) session.readField(DModConsts.CU_UNT, new int[] { mnFkUnitId }, DDbRegistry.FIELD_NAME);
+        msXtaUnitCode = (String) session.readField(DModConsts.CU_UOM, new int[] { mnFkUnitId }, DDbRegistry.FIELD_CODE);
+        msXtaUnitName = (String) session.readField(DModConsts.CU_UOM, new int[] { mnFkUnitId }, DDbRegistry.FIELD_NAME);
     }
     
     public void updateSnapshotData(final DGuiSession session) {
