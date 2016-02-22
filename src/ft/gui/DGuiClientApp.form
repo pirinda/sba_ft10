@@ -197,14 +197,14 @@
             <Property name="text" type="java.lang.String" value="Inventarios"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jmiInvWsm">
+            <MenuItem class="javax.swing.JMenuItem" name="jmiInvWsmIn">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Documentos de almac&#xe9;n"/>
+                <Property name="text" type="java.lang.String" value="Documentos de almac&#xe9;n de entradas"/>
               </Properties>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jmiInvWsmRow">
+            <MenuItem class="javax.swing.JMenuItem" name="jmiInvWsmOut">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Documentos de almac&#xe9;n a detalle"/>
+                <Property name="text" type="java.lang.String" value="Documentos de almac&#xe9;n de salidas"/>
               </Properties>
             </MenuItem>
             <MenuItem class="javax.swing.JPopupMenu$Separator" name="jsInv1">

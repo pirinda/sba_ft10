@@ -7,6 +7,7 @@ package ft.mod.stk.db;
 
 import ft.mod.DModConsts;
 import ft.mod.DModSysConsts;
+import ft.mod.cfg.db.DCfgUtils;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -18,6 +19,7 @@ import sba.lib.DLibUtils;
 import sba.lib.db.DDbConsts;
 import sba.lib.db.DDbRegistryUser;
 import sba.lib.gui.DGuiConsts;
+import sba.lib.gui.DGuiParams;
 import sba.lib.gui.DGuiSession;
 
 /**
@@ -25,6 +27,13 @@ import sba.lib.gui.DGuiSession;
  * @author Sergio Flores
  */
 public class DDbWsd extends DDbRegistryUser {
+    
+    public static final int PARAM_MOV_TP = 11;
+    public static final int PARAM_TRN_TP = 12;
+    public static final int PARAM_MFG_TP = 13;
+    public static final int PARAM_DPT = 21;
+    public static final int PARAM_LIN = 22;
+    public static final int PARAM_JOB = 23;
 
     protected int mnPkWsdId;
     protected int mnNumber;
@@ -410,6 +419,42 @@ public class DDbWsd extends DDbRegistryUser {
         return registry;
     }
     
+    @Override
+    public void postInitMembers(final DGuiParams params) {
+        Object value = null;
+        
+        value = params.getPostInitValuesMap().get(PARAM_MOV_TP);
+        if (value != null) {
+            mnFkMoveClassId = ((int[]) value)[0];
+            mnFkMoveTypeId = ((int[]) value)[0];
+        }
+        
+        value = params.getPostInitValuesMap().get(PARAM_TRN_TP);
+        if (value != null) {
+            mnFkTransactMoveTypeId = (int) value;
+        }
+        
+        value = params.getPostInitValuesMap().get(PARAM_MFG_TP);
+        if (value != null) {
+            mnFkMfgMoveTypeId = (int) value;
+        }
+        
+        value = params.getPostInitValuesMap().get(PARAM_DPT);
+        if (value != null) {
+            mnFkDepartId_n = (int) value;
+        }
+        
+        value = params.getPostInitValuesMap().get(PARAM_LIN);
+        if (value != null) {
+            mnFkLineId_n = (int) value;
+        }
+        
+        value = params.getPostInitValuesMap().get(PARAM_JOB);
+        if (value != null) {
+            mnFkJobId_n = (int) value;
+        }
+    }
+    
     public void validateNewRegistry() throws Exception {
         if (DLibUtils.belongsTo(mnFkMoveTypeId, new int[] { DModSysConsts.SS_MOV_TP_IN_SAL[1], DModSysConsts.SS_MOV_TP_IN_PUR[1] })) {
             if (mnFkTransactMoveTypeId == DLibConsts.UNDEFINED) {
@@ -459,19 +504,7 @@ public class DDbWsd extends DDbRegistryUser {
     }
     
     public int getUtilBizPartnerType() {
-        int type = DLibConsts.UNDEFINED;
-        
-        switch (mnFkMoveClassId) {
-            case DModSysConsts.SS_MOV_CL_IN:
-                type = mnFkMoveTypeId == DModSysConsts.SS_MOV_TP_IN_SAL[1] ? DModSysConsts.CS_BPR_TP_CUS : DModSysConsts.CS_BPR_TP_SUP;
-                break;
-            case DModSysConsts.SS_MOV_CL_OUT:
-                type = mnFkMoveTypeId == DModSysConsts.SS_MOV_TP_OUT_SAL[1] ? DModSysConsts.CS_BPR_TP_CUS : DModSysConsts.CS_BPR_TP_SUP;
-                break;
-            default:
-        }
-        
-        return type;
+        return DCfgUtils.getBizPartnerTypeForWhsMoveType(getKeyMoveType());
     }
     
     public void computeWsd() {

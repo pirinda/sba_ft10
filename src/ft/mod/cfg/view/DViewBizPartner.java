@@ -19,8 +19,8 @@ import sba.lib.gui.DGuiClient;
  */
 public class DViewBizPartner extends DGridPaneView {
 
-    public DViewBizPartner(DGuiClient client, int personType, String title) {
-        super(client, DGridConsts.GRID_VIEW_TAB, DModConsts.CU_BPR, personType, title);
+    public DViewBizPartner(DGuiClient client, int bizPartnerType, String title) {
+        super(client, DGridConsts.GRID_VIEW_TAB, DModConsts.CU_BPR, bizPartnerType, title);
         setRowButtonsEnabled(true, true, true, false, true);
     }
 

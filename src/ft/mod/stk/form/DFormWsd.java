@@ -6,6 +6,7 @@
 package ft.mod.stk.form;
 
 import ft.mod.DModConsts;
+import ft.mod.cfg.db.DCfgUtils;
 import ft.mod.cfg.db.DDbItem;
 import ft.mod.stk.db.DDbWsd;
 import ft.mod.stk.db.DDbWsdRow;
@@ -508,6 +509,8 @@ public class DFormWsd extends DBeanForm implements DGridPaneFormOwner, ActionLis
         
         moFields.setFormButton(jbRowAdd);
         
+        moCompMass.setCompoundText(DCfgUtils.getSystemUnitCodeMass(miClient.getSession()));
+        
         moKeyGroupItem = new DGuiFieldKeyGroup(miClient);
         maRowFields = new ArrayList<>();
         maRowFields.add(moKeyRowItem);
@@ -580,7 +583,6 @@ public class DFormWsd extends DBeanForm implements DGridPaneFormOwner, ActionLis
         }
         else {
             DDbWsdRow row = new DDbWsdRow();
-            DDbItem item = (DDbItem) miClient.getSession().readRegistry(DModConsts.CU_ITM, moKeyRowItem.getValue());
             int index = moKeyRowItem.getSelectedIndex();
             
             //row.setPkWsdId(...);

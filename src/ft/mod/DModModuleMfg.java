@@ -46,7 +46,7 @@ public class DModModuleMfg extends DGuiModule {
     }
 
     @Override
-    public DDbRegistry getRegistry(final int type) {
+    public DDbRegistry getRegistry(final int type, DGuiParams params) {
         DDbRegistry registry = null;
         
         switch (type) {

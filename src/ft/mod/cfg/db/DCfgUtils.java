@@ -7,6 +7,7 @@ package ft.mod.cfg.db;
 
 import ft.mod.DModConsts;
 import ft.mod.DModSysConsts;
+import sba.lib.DLibConsts;
 import sba.lib.DLibUtils;
 import sba.lib.db.DDbRegistry;
 import sba.lib.gui.DGuiSession;
@@ -39,5 +40,33 @@ public abstract class DCfgUtils {
     
     public static String getSystemUnitCodeMass(final DGuiSession session) {
         return (String) session.readField(DModConsts.CS_UOM_TP, new int[] { DModSysConsts.CS_UOM_TP_MSS }, DDbRegistry.FIELD_CODE);
+    }
+    
+    private static String getBizPartnerType(final DGuiSession session, final int bizPartnerType, final int field) {
+        return (String) session.readField(DModConsts.CS_BPR_TP, new int[] { bizPartnerType }, field);
+    }
+    
+    public static String getBizPartnerTypeCode(final DGuiSession session, final int bizPartnerType) {
+        return getBizPartnerType(session, bizPartnerType, DDbRegistry.FIELD_CODE);
+    }
+    
+    public static String getBizPartnerClassName(final DGuiSession session, final int bizPartnerType) {
+        return getBizPartnerType(session, bizPartnerType, DDbRegistry.FIELD_NAME);
+    }
+    
+    public static int getBizPartnerTypeForWhsMoveType(final int[] keyWhsMoveClass) {
+        int type = DLibConsts.UNDEFINED;
+        
+        switch (keyWhsMoveClass[0]) {
+            case DModSysConsts.SS_MOV_CL_IN:
+                type = keyWhsMoveClass[1] == DModSysConsts.SS_MOV_TP_IN_SAL[1] ? DModSysConsts.CS_BPR_TP_CUS : DModSysConsts.CS_BPR_TP_SUP;
+                break;
+            case DModSysConsts.SS_MOV_CL_OUT:
+                type = keyWhsMoveClass[1] == DModSysConsts.SS_MOV_TP_OUT_SAL[1] ? DModSysConsts.CS_BPR_TP_CUS : DModSysConsts.CS_BPR_TP_SUP;
+                break;
+            default:
+        }
+        
+        return type;
     }
 }

@@ -185,8 +185,8 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
         jmiCatBizPartnerCus = new javax.swing.JMenuItem();
         jmiCatBizPartnerSup = new javax.swing.JMenuItem();
         jmStk = new javax.swing.JMenu();
-        jmiInvWsm = new javax.swing.JMenuItem();
-        jmiInvWsmRow = new javax.swing.JMenuItem();
+        jmiInvWsmIn = new javax.swing.JMenuItem();
+        jmiInvWsmOut = new javax.swing.JMenuItem();
         jsInv1 = new javax.swing.JPopupMenu.Separator();
         jmiInvStock = new javax.swing.JMenuItem();
         jmiInvStockLot = new javax.swing.JMenuItem();
@@ -396,11 +396,11 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
 
         jmStk.setText("Inventarios");
 
-        jmiInvWsm.setText("Documentos de almacén");
-        jmStk.add(jmiInvWsm);
+        jmiInvWsmIn.setText("Documentos de almacén de entradas");
+        jmStk.add(jmiInvWsmIn);
 
-        jmiInvWsmRow.setText("Documentos de almacén a detalle");
-        jmStk.add(jmiInvWsmRow);
+        jmiInvWsmOut.setText("Documentos de almacén de salidas");
+        jmStk.add(jmiInvWsmOut);
         jmStk.add(jsInv1);
 
         jmiInvStock.setText("Existencias");
@@ -595,6 +595,8 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
         jmiCatPresent.addActionListener(this);
         jmiCatBizPartnerCus.addActionListener(this);
         jmiCatBizPartnerSup.addActionListener(this);
+        jmiInvWsmIn.addActionListener(this);
+        jmiInvWsmOut.addActionListener(this);
         jmiMfgJob.addActionListener(this);
         jmiMfgFormula.addActionListener(this);
         jmiMfgFormulaComp.addActionListener(this);
@@ -877,8 +879,8 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
     private javax.swing.JMenuItem jmiHelpHelp;
     private javax.swing.JMenuItem jmiInvStock;
     private javax.swing.JMenuItem jmiInvStockLot;
-    private javax.swing.JMenuItem jmiInvWsm;
-    private javax.swing.JMenuItem jmiInvWsmRow;
+    private javax.swing.JMenuItem jmiInvWsmIn;
+    private javax.swing.JMenuItem jmiInvWsmOut;
     private javax.swing.JMenuItem jmiMfgFormula;
     private javax.swing.JMenuItem jmiMfgFormulaByproduct;
     private javax.swing.JMenuItem jmiMfgFormulaComp;
@@ -1252,14 +1254,20 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
             else if (menuItem == jmiCatUnit) {
                 moSession.showView(DModConsts.CU_UOM, DLibConsts.UNDEFINED, null);
             }
+            else if (menuItem == jmiCatPresent) {
+                moSession.showView(DModConsts.CU_PRE, DLibConsts.UNDEFINED, null);
+            }
             else if (menuItem == jmiCatBizPartnerCus) {
                 moSession.showView(DModConsts.CU_BPR, DModSysConsts.CS_BPR_TP_CUS, null);
             }
             else if (menuItem == jmiCatBizPartnerSup) {
                 moSession.showView(DModConsts.CU_BPR, DModSysConsts.CS_BPR_TP_SUP, null);
             }
-            else if (menuItem == jmiCatPresent) {
-                moSession.showView(DModConsts.CU_PRE, DLibConsts.UNDEFINED, null);
+            else if (menuItem == jmiInvWsmIn) {
+                moSession.showView(DModConsts.S_WSD, DModSysConsts.SS_MOV_CL_IN, null);
+            }
+            else if (menuItem == jmiInvWsmOut) {
+                moSession.showView(DModConsts.S_WSD, DModSysConsts.SS_MOV_CL_OUT, null);
             }
             else if (menuItem == jmiMfgJob) {
                 moSession.showView(DModConsts.M_JOB, DLibConsts.UNDEFINED, null);

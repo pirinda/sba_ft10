@@ -88,6 +88,13 @@ public abstract class DModSysConsts {
     public static final int[] SS_MOV_TP_OUT_TRN = new int[] { 2, 5 };
     public static final int[] SS_MOV_TP_OUT_CNV = new int[] { 2, 6 };
 
+    public static final int SX_MOV_TP_SAL = 1;
+    public static final int SX_MOV_TP_PUR = 2;
+    public static final int SX_MOV_TP_MFG = 3;
+    public static final int SX_MOV_TP_ADJ = 4;
+    public static final int SX_MOV_TP_TRN = 5;
+    public static final int SX_MOV_TP_CNV = 6;
+    
     public static final int SS_TRN_TP_NA = 1;
     public static final int SS_TRN_TP_SR = 2;
     public static final int SS_TRN_TP_CHA = 3;
