@@ -3,12 +3,6 @@
  * and open the template in the editor.
  */
 
-/*
- * DFormUnit.java
- *
- * Created on 29/08/2011, 08:02:13 PM
- */
-
 package ft.mod.cfg.form;
 
 import ft.mod.DModConsts;
@@ -119,7 +113,7 @@ public class DFormUnit extends DBeanForm implements ItemListener {
 
         jPanel6.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
-        jlConversionFactor.setText("Equivalencia base:*");
+        jlConversionFactor.setText("Factor conversión:*");
         jlConversionFactor.setPreferredSize(new java.awt.Dimension(100, 23));
         jPanel6.add(jlConversionFactor);
         jPanel6.add(moCompConversionFactor);
@@ -226,7 +220,7 @@ public class DFormUnit extends DBeanForm implements ItemListener {
             jtfRegistryKey.setText(DLibUtils.textKey(moRegistry.getPrimaryKey()));
         }
 
-        moKeyUnitType.setValue(new int[] { moRegistry.getFkUnitTypeId()});
+        moKeyUnitType.setValue(new int[] { moRegistry.getFkUnitTypeId() });
         moTextCode.setValue(moRegistry.getCode());
         moTextName.setValue(moRegistry.getName());
         moIntSortingPos.setValue(moRegistry.getSortingPos());
@@ -252,7 +246,9 @@ public class DFormUnit extends DBeanForm implements ItemListener {
     public DDbUnit getRegistry() throws Exception {
         DDbUnit registry = moRegistry.clone();
 
-        if (registry.isRegistryNew()) { }
+        if (registry.isRegistryNew()) {
+            //registry.setPkUnitId(...);
+        }
 
         registry.setCode(moTextCode.getValue());
         registry.setName(moTextName.getValue());

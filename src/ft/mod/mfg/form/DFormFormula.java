@@ -3,12 +3,6 @@
  * and open the template in the editor.
  */
 
-/*
- * DFormFormula.java
- *
- * Created on 29/08/2011, 08:02:13 PM
- */
-
 package ft.mod.mfg.form;
 
 import ft.mod.DModConsts;
@@ -772,8 +766,8 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
         }
 
         moKeyFormulaType.setValue(new int[] { moRegistry.getFkFormulaTypeId() });
-        moKeyItemType.setValue(new int[] { moRegistry.getFkItemTypeId()});
-        //moKeyReference.setValue(new int[] { moRegistry.getFkItemId()});   XXX
+        moKeyItemType.setValue(new int[] { moRegistry.getFkItemTypeId() });
+        //moKeyReference.setValue(new int[] { moRegistry.getFkItemId() });   XXX
         moTextNameReference.setValue(moRegistry.getNameReference());
         moCompQuantity.getField().setValue(moRegistry.getQuantity());
 /*XXX

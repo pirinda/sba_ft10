@@ -3,12 +3,6 @@
  * and open the template in the editor.
  */
 
-/*
- * DFormPresent.java
- *
- * Created on 29/08/2011, 08:02:13 PM
- */
-
 package ft.mod.cfg.form;
 
 import ft.mod.DModConsts;
@@ -226,7 +220,7 @@ public class DFormPresent extends DBeanForm implements ItemListener {
 
         moTextCode.setValue(moRegistry.getCode());
         moTextName.setValue(moRegistry.getName());
-        moKeyUnit.setValue(new int[] { moRegistry.getFkUnitId()});
+        moKeyUnit.setValue(new int[] { moRegistry.getFkUnitId() });
         moCompContentUnit.getField().setValue(moRegistry.getContentUnit());
         moTextLotCode.setValue(moRegistry.getLotCode());
         
@@ -250,7 +244,9 @@ public class DFormPresent extends DBeanForm implements ItemListener {
     public DDbPresent getRegistry() throws Exception {
         DDbPresent registry = moRegistry.clone();
 
-        if (registry.isRegistryNew()) { }
+        if (registry.isRegistryNew()) {
+            //registry.setPkPresentId(...);
+        }
 
         registry.setCode(moTextCode.getValue());
         registry.setName(moTextName.getValue());

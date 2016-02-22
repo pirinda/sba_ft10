@@ -13,13 +13,15 @@ import ft.mod.cfg.db.DDbPresent;
 import ft.mod.cfg.db.DDbUnit;
 import ft.mod.cfg.db.DDbUser;
 import ft.mod.cfg.db.DDbUserGui;
-import ft.mod.cfg.db.DDbUserModuleAccess;
+import ft.mod.cfg.db.DDbUserModule;
 import ft.mod.cfg.db.DDbYear;
+import ft.mod.cfg.form.DFormBizPartner;
 import ft.mod.cfg.form.DFormFamily;
 import ft.mod.cfg.form.DFormItem;
 import ft.mod.cfg.form.DFormPresent;
 import ft.mod.cfg.form.DFormUnit;
 import ft.mod.cfg.form.DFormYear;
+import ft.mod.cfg.view.DViewBizPartner;
 import ft.mod.cfg.view.DViewFamily;
 import ft.mod.cfg.view.DViewItem;
 import ft.mod.cfg.view.DViewPresent;
@@ -45,6 +47,9 @@ import sba.lib.gui.DGuiReport;
  */
 public class DModModuleCfg extends DGuiModule {
     
+    private DFormBizPartner moFormBizPartnerCom;
+    private DFormBizPartner moFormBizPartnerCus;
+    private DFormBizPartner moFormBizPartnerSup;
     private DFormUnit moFormUnit;
     private DFormPresent moFormPresent;
     private DFormFamily moFormFamily;
@@ -140,7 +145,7 @@ public class DModModuleCfg extends DGuiModule {
                 registry = new DDbUser();
                 break;
             case DModConsts.CU_USR_MOD:
-                registry = new DDbUserModuleAccess();
+                registry = new DDbUserModule();
                 break;
             case DModConsts.CU_BPR:
                 registry = new DDbBizPartner();
@@ -176,6 +181,7 @@ public class DModModuleCfg extends DGuiModule {
     @Override
     public DGuiCatalogueSettings getCatalogueSettings(final int type, final int subtype, final DGuiParams params) {
         String sql = "";
+        String label = "";
         DGuiCatalogueSettings settings = null;
 
         switch (type) {
@@ -196,7 +202,7 @@ public class DModModuleCfg extends DGuiModule {
                 break;
             case DModConsts.CS_PER_TP:
                 settings = new DGuiCatalogueSettings("Tipo persona", 1);
-                sql = "SELECT id_acs_tp AS " + DDbConsts.FIELD_ID + "1, name AS " + DDbConsts.FIELD_ITEM + " " +
+                sql = "SELECT id_per_tp AS " + DDbConsts.FIELD_ID + "1, name AS " + DDbConsts.FIELD_ITEM + " " +
                         "FROM " + DModConsts.TablesMap.get(type) + " WHERE b_del = 0 ORDER BY sort ";
                 break;
             case DModConsts.CS_BPR_TP:
@@ -206,7 +212,7 @@ public class DModModuleCfg extends DGuiModule {
                 break;
             case DModConsts.CS_UOM_TP:
                 settings = new DGuiCatalogueSettings("Tipo unidad", 1, 0, DLibConsts.DATA_TYPE_TEXT);
-                sql = "SELECT id_uom_tp AS " + DDbConsts.FIELD_ID + "1, CONCAT(name, ' [', base, ']') AS " + DDbConsts.FIELD_ITEM + ", base AS " + DDbConsts.FIELD_COMP + " " +
+                sql = "SELECT id_uom_tp AS " + DDbConsts.FIELD_ID + "1, CONCAT(name, ' (', base, ')') AS " + DDbConsts.FIELD_ITEM + ", base AS " + DDbConsts.FIELD_COMP + " " +
                         "FROM " + DModConsts.TablesMap.get(type) + " WHERE b_del = 0 ORDER BY sort ";
                 break;
             case DModConsts.CS_ITM_TP:
@@ -219,10 +225,26 @@ public class DModModuleCfg extends DGuiModule {
             case DModConsts.CU_USR_MOD:
                 break;
             case DModConsts.CU_BPR:
+                switch (subtype) {
+                    case DModSysConsts.CS_BPR_TP_COM:
+                        label = "Empresa";
+                        break;
+                    case DModSysConsts.CS_BPR_TP_CUS:
+                        label = "Cliente";
+                        break;
+                    case DModSysConsts.CS_BPR_TP_SUP:
+                        label = "Proveedor";
+                        break;
+                    default:
+                        miClient.showMsgBoxError(DLibConsts.ERR_MSG_OPTION_UNKNOWN);
+                }
+                settings = new DGuiCatalogueSettings(label, 1);
+                sql = "SELECT id_bpr AS " + DDbConsts.FIELD_ID + "1, CONCAT(name, ' (', code, ')') AS " + DDbConsts.FIELD_ITEM + " " +
+                        "FROM " + DModConsts.TablesMap.get(type) + " WHERE b_del = 0 AND fk_bpr_tp = " + subtype + " ORDER BY name, code, id_bpr ";
                 break;
             case DModConsts.CU_UOM:
                 settings = new DGuiCatalogueSettings("Unidad", 1, 0, DLibConsts.DATA_TYPE_TEXT);
-                sql = "SELECT id_uom AS " + DDbConsts.FIELD_ID + "1, CONCAT(name, ' [', code, ']') AS " + DDbConsts.FIELD_ITEM + ", code AS " + DDbConsts.FIELD_COMP + " " +
+                sql = "SELECT id_uom AS " + DDbConsts.FIELD_ID + "1, CONCAT(name, ' (', code, ')') AS " + DDbConsts.FIELD_ITEM + ", code AS " + DDbConsts.FIELD_COMP + " " +
                         "FROM " + DModConsts.TablesMap.get(type) + " WHERE b_del = 0 " + (subtype == DLibConsts.UNDEFINED ? "" : "AND fk_uom_tp = " + subtype + " ") + "ORDER BY fk_uom_tp, sort ";
                 break;
             case DModConsts.CU_PRE:
@@ -231,16 +253,30 @@ public class DModModuleCfg extends DGuiModule {
                         "FROM " + DModConsts.TablesMap.get(type) + " WHERE b_del = 0 ORDER BY name, id_pre ";
                 break;
             case DModConsts.CU_FAM:
-                settings = new DGuiCatalogueSettings("Familia ítem", 1);
+                settings = new DGuiCatalogueSettings("Familia", 1);
                 sql = "SELECT id_fam AS " + DDbConsts.FIELD_ID + "1, name AS " + DDbConsts.FIELD_ITEM + " " +
                         "FROM " + DModConsts.TablesMap.get(type) + " WHERE b_del = 0 " + (subtype == DLibConsts.UNDEFINED ? "" : "AND fk_itm_tp = " + subtype + " ") + "ORDER BY name, id_fam ";
                 break;
             case DModConsts.CU_ITM:
-                settings = new DGuiCatalogueSettings("Ítem", 1, 1, DLibConsts.DATA_TYPE_TEXT);
-                sql = "SELECT i.id_itm AS " + DDbConsts.FIELD_ID + "1, i.name AS " + DDbConsts.FIELD_ITEM + ", i.fk_fam AS " + DDbConsts.FIELD_FK + "1, u.code AS " + DDbConsts.FIELD_COMP + " " +
-                        "FROM " + DModConsts.TablesMap.get(type) + " AS i " +
-                        "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_UOM) + " AS u ON i.fk_unt = u.id_unt " +
-                        "WHERE i.b_del = 0 " + (params == null ? "" : "AND i.fk_fam = " + params.getKey()[0] + " ") +
+            case DModConsts.CX_ITM_BY_FAM:
+            case DModConsts.CX_ITM_BY_ITM_TP:
+                settings = new DGuiCatalogueSettings("Ítem", 1, type == DModConsts.CU_ITM ? 0 : 1, DLibConsts.DATA_TYPE_TEXT);
+                sql = "SELECT i.id_itm AS " + DDbConsts.FIELD_ID + "1, i.name AS " + DDbConsts.FIELD_ITEM + ", u.code AS " + DDbConsts.FIELD_COMP + ", ";
+                
+                switch (subtype) {
+                    case DModConsts.CX_ITM_BY_FAM:
+                        sql += "f.id_fam AS " + DDbConsts.FIELD_FK + "1 ";
+                        break;
+                    case DModConsts.CX_ITM_BY_ITM_TP:
+                        sql += "f.fk_itm_tp AS " + DDbConsts.FIELD_FK + "1 ";
+                        break;
+                    default:
+                }
+                
+                sql += "FROM " + DModConsts.TablesMap.get(type) + " AS i " +
+                        "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_FAM) + " AS f ON i.fk_fam = f.id_fam " +
+                        "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_UOM) + " AS u ON i.fk_uom = u.id_uom " +
+                        "WHERE i.b_del = 0 " +
                         "ORDER BY i.name, i.id_itm ";
                 break;
             case DModConsts.C_CFG:
@@ -263,15 +299,6 @@ public class DModModuleCfg extends DGuiModule {
                         "WHERE b_del = 0 AND id_itm_tp IN (" + DModSysConsts.CS_ITM_TP_RMI + ", " + DModSysConsts.CS_ITM_TP_RMP + ", " + DModSysConsts.CS_ITM_TP_PB + ", " + DModSysConsts.CS_ITM_TP_PF + ") " +
                         "ORDER BY sort ";
                 break;
-            case DModConsts.CX_ITM_BY_ITM_TP:
-                settings = new DGuiCatalogueSettings("Ítem", 1, 1, DLibConsts.DATA_TYPE_TEXT);
-                sql = "SELECT i.id_itm AS " + DDbConsts.FIELD_ID + "1, i.name AS " + DDbConsts.FIELD_ITEM + ", f.fk_itm_tp AS " + DDbConsts.FIELD_FK + "1, u.code AS " + DDbConsts.FIELD_COMP + " " +
-                        "FROM " + DModConsts.TablesMap.get(DModConsts.CU_ITM) + " AS i " +
-                        "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_FAM) + " AS f ON i.fk_fam = f.id_fam " +
-                        "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_UOM) + " AS u ON i.fk_unt = u.id_unt " +
-                        "WHERE i.b_del = 0 " +
-                        "ORDER BY i.name, i.id_itm ";
-                break;
             default:
                 miClient.showMsgBoxError(DLibConsts.ERR_MSG_OPTION_UNKNOWN);
         }
@@ -285,8 +312,8 @@ public class DModModuleCfg extends DGuiModule {
 
     @Override
     public DGridPaneView getView(final int type, final int subtype, final DGuiParams params) {
+        String label = "";
         DGridPaneView view = null;
-        String title = "";
 
         switch (type) {
             case DModConsts.CS_MOD:
@@ -308,6 +335,20 @@ public class DModModuleCfg extends DGuiModule {
             case DModConsts.CU_USR_MOD:
                 break;
             case DModConsts.CU_BPR:
+                switch (subtype) {
+                    case DModSysConsts.CS_BPR_TP_COM:
+                        label = "Empresa";
+                        break;
+                    case DModSysConsts.CS_BPR_TP_CUS:
+                        label = "Clientes";
+                        break;
+                    case DModSysConsts.CS_BPR_TP_SUP:
+                        label = "Proveedores";
+                        break;
+                    default:
+                        miClient.showMsgBoxError(DLibConsts.ERR_MSG_OPTION_UNKNOWN);
+                }
+                view = new DViewBizPartner(miClient, subtype, label);
                 break;
             case DModConsts.CU_UOM:
                 view = new DViewUnit(miClient, "Unidades");
@@ -316,44 +357,41 @@ public class DModModuleCfg extends DGuiModule {
                 view = new DViewPresent(miClient, "Presentaciones");
                 break;
             case DModConsts.CU_FAM:
-                view = new DViewFamily(miClient, "Familias ítems");
+                view = new DViewFamily(miClient, "Familias");
                 break;
             case DModConsts.CU_ITM:
                 switch (subtype) {
                     case DModSysConsts.CS_ITM_TP_RMI:
-                        title = "Mats. directos insumo";
+                        label = "Materiales directos insumo";
                         break;
                     case DModSysConsts.CS_ITM_TP_RMP:
-                        title = "Mats. directos empaque";
+                        label = "Materiales directos empaque";
                         break;
                     case DModSysConsts.CS_ITM_TP_MI:
-                        title = "Mats. indirectos";
+                        label = "Materiales indirectos";
                         break;
                     case DModSysConsts.CS_ITM_TP_P:
-                        title = "Prods.";
+                        label = "Productos";
                         break;
                     case DModSysConsts.CS_ITM_TP_PB:
-                        title = "Prods. base";
+                        label = "Productos base";
                         break;
                     case DModSysConsts.CS_ITM_TP_PF:
-                        title = "Prods. terminados";
+                        label = "Productos terminados";
                         break;
                     case DModSysConsts.CS_ITM_TP_BP:
-                        title = "Subproductos";
+                        label = "Subproductos";
                         break;
                     case DModSysConsts.CS_ITM_TP_SC:
-                        title = "Desechos";
+                        label = "Desechos";
                         break;
                     case DModSysConsts.CS_ITM_TP_MO:
-                        title = "GIF";
-                        break;
-                    case DLibConsts.UNDEFINED:
-                        title = "Ítems";
+                        label = "GIF";
                         break;
                     default:
                         miClient.showMsgBoxError(DLibConsts.ERR_MSG_OPTION_UNKNOWN);
                 }
-                view = new DViewItem(miClient, subtype, title);
+                view = new DViewItem(miClient, subtype, label);
                 break;
             case DModConsts.C_CFG:
                 break;
@@ -398,6 +436,22 @@ public class DModModuleCfg extends DGuiModule {
             case DModConsts.CU_USR_MOD:
                 break;
             case DModConsts.CU_BPR:
+                switch (subtype) {
+                    case DModSysConsts.CS_BPR_TP_COM:
+                        if (moFormBizPartnerCom == null) moFormBizPartnerCom = new DFormBizPartner(miClient, subtype, "Empresa");
+                        form = moFormBizPartnerCom;
+                        break;
+                    case DModSysConsts.CS_BPR_TP_CUS:
+                        if (moFormBizPartnerCus == null) moFormBizPartnerCus = new DFormBizPartner(miClient, subtype, "Cliente");
+                        form = moFormBizPartnerCus;
+                        break;
+                    case DModSysConsts.CS_BPR_TP_SUP:
+                        if (moFormBizPartnerSup == null) moFormBizPartnerSup = new DFormBizPartner(miClient, subtype, "Proveedor");
+                        form = moFormBizPartnerSup;
+                        break;
+                    default:
+                        miClient.showMsgBoxError(DLibConsts.ERR_MSG_OPTION_UNKNOWN);
+                }
                 break;
             case DModConsts.CU_UOM:
                 if (moFormUnit == null) moFormUnit = new DFormUnit(miClient, "Unidad");
@@ -446,7 +500,7 @@ public class DModModuleCfg extends DGuiModule {
                         form = moFormItemSc;
                         break;
                     case DModSysConsts.CS_ITM_TP_MO:
-                        if (moFormItemMo == null) moFormItemMo = new DFormItem(miClient, subtype, "Gasto indirecto de fabricación");
+                        if (moFormItemMo == null) moFormItemMo = new DFormItem(miClient, subtype, "GIF");
                         form = moFormItemMo;
                         break;
                     default:

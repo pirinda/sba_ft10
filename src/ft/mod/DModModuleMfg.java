@@ -5,15 +5,17 @@
 
 package ft.mod;
 
+import ft.mod.mfg.db.DDbDepart;
+import ft.mod.mfg.db.DDbLine;
 import ft.mod.mfg.form.DFormDepart;
-import ft.mod.mfg.form.DFormFormula;
-import ft.mod.mfg.form.DFormJob;
 import ft.mod.mfg.form.DFormLine;
-import ft.mod.mfg.form.DFormLinePack;
-import ft.mod.mfg.form.DFormLinePrep;
+import ft.mod.mfg.view.DViewDepart;
+import ft.mod.mfg.view.DViewLine;
 import javax.swing.JMenu;
 import sba.lib.DLibConsts;
+import sba.lib.db.DDbConsts;
 import sba.lib.db.DDbRegistry;
+import sba.lib.db.DDbRegistrySysFly;
 import sba.lib.grid.DGridPaneView;
 import sba.lib.gui.DGuiCatalogueSettings;
 import sba.lib.gui.DGuiClient;
@@ -29,12 +31,10 @@ import sba.lib.gui.DGuiReport;
  */
 public class DModModuleMfg extends DGuiModule {
     
-    private DFormDepart moFormDepartment;
+    private DFormDepart moFormDepart;
     private DFormLine moFormLine;
-    private DFormLinePack moFormLinePack;
-    private DFormLinePrep moFormLinePrep;
-    private DFormFormula moFormFormula;
-    private DFormJob moFormJob;
+    //private DFormFormula moFormFormula;
+    //private DFormJob moFormJob;
 
     public DModModuleMfg(DGuiClient client) {
         super(client, DModSysConsts.CS_MOD_MFG, DLibConsts.UNDEFINED);
@@ -48,6 +48,67 @@ public class DModModuleMfg extends DGuiModule {
     @Override
     public DDbRegistry getRegistry(final int type) {
         DDbRegistry registry = null;
+        
+        switch (type) {
+            case DModConsts.MS_FRM_TP:
+                registry = new DDbRegistrySysFly(type) {
+                    @Override
+                    public String getSqlTable() { return DModConsts.TablesMap.get(type); }
+                    
+                    @Override
+                    public String getSqlWhere(int[] pk) { return "WHERE id_frm_tp = " + pk[0] + " "; }
+                };
+                break;
+            case DModConsts.MS_JOB_TP:
+                registry = new DDbRegistrySysFly(type) {
+                    @Override
+                    public String getSqlTable() { return DModConsts.TablesMap.get(type); }
+                    
+                    @Override
+                    public String getSqlWhere(int[] pk) { return "WHERE id_job_tp = " + pk[0] + " "; }
+                };
+                break;
+            case DModConsts.MS_JOB_ST:
+                registry = new DDbRegistrySysFly(type) {
+                    @Override
+                    public String getSqlTable() { return DModConsts.TablesMap.get(type); }
+                    
+                    @Override
+                    public String getSqlWhere(int[] pk) { return "WHERE id_job_st = " + pk[0] + " "; }
+                };
+                break;
+            case DModConsts.MU_DPT:
+                registry = new DDbDepart();
+                break;
+            case DModConsts.MU_LIN:
+                registry = new DDbLine();
+                break;
+            case DModConsts.MU_FRM:
+                break;
+            case DModConsts.MU_FRM_CMP_FAM:
+                break;
+            case DModConsts.MU_FRM_CMP_ITM:
+                break;
+            case DModConsts.MU_FRM_BYP:
+                break;
+            case DModConsts.MU_VAR:
+                break;
+            case DModConsts.MU_VAR_FAM:
+                break;
+            case DModConsts.M_JOB:
+                break;
+            case DModConsts.M_JOB_REQ_FAM:
+                break;
+            case DModConsts.M_JOB_REQ_ITM:
+                break;
+            case DModConsts.M_JOB_CON:
+                break;
+            case DModConsts.M_JOB_MFG:
+                break;
+            case DModConsts.M_JOB_VAR:
+                break;
+            default:
+        }
 /*
         switch (type) {
             case DModConsts.MS_REF_TP:
@@ -154,6 +215,59 @@ public class DModModuleMfg extends DGuiModule {
     public DGuiCatalogueSettings getCatalogueSettings(final int type, final int subtype, final DGuiParams params) {
         String sql = "";
         DGuiCatalogueSettings settings = null;
+        
+        switch (type) {
+            case DModConsts.MS_FRM_TP:
+                settings = new DGuiCatalogueSettings("Tipo fórmula", 1);
+                sql = "SELECT id_frm_tp AS " + DDbConsts.FIELD_ID + "1, name AS " + DDbConsts.FIELD_ITEM + " " +
+                        "FROM " + DModConsts.TablesMap.get(type) + " WHERE b_del = 0 ORDER BY sort ";
+                break;
+            case DModConsts.MS_JOB_TP:
+                settings = new DGuiCatalogueSettings("Tipo orden", 1);
+                sql = "SELECT id_job_tp AS " + DDbConsts.FIELD_ID + "1, name AS " + DDbConsts.FIELD_ITEM + " " +
+                        "FROM " + DModConsts.TablesMap.get(type) + " WHERE b_del = 0 ORDER BY sort ";
+                break;
+            case DModConsts.MS_JOB_ST:
+                settings = new DGuiCatalogueSettings("Estatus orden", 1);
+                sql = "SELECT id_job_st AS " + DDbConsts.FIELD_ID + "1, name AS " + DDbConsts.FIELD_ITEM + " " +
+                        "FROM " + DModConsts.TablesMap.get(type) + " WHERE b_del = 0 ORDER BY sort ";
+                break;
+            case DModConsts.MU_DPT:
+                settings = new DGuiCatalogueSettings("Departamento producción", 1);
+                sql = "SELECT id_dpt AS " + DDbConsts.FIELD_ID + "1, name AS " + DDbConsts.FIELD_ITEM + " " +
+                        "FROM " + DModConsts.TablesMap.get(type) + " WHERE b_del = 0 ORDER BY name, id_dpt ";
+                break;
+            case DModConsts.MU_LIN:
+                settings = new DGuiCatalogueSettings("Línea producción", 1, 1);
+                sql = "SELECT id_lin AS " + DDbConsts.FIELD_ID + "1, name AS " + DDbConsts.FIELD_ITEM + ", fk_dpt AS " + DDbConsts.FIELD_FK + "1 " +
+                        "FROM " + DModConsts.TablesMap.get(type) + " WHERE b_del = 0 ORDER BY fk_dpt, name, id_lin ";
+                break;
+            case DModConsts.MU_FRM:
+                break;
+            case DModConsts.MU_FRM_CMP_FAM:
+                break;
+            case DModConsts.MU_FRM_CMP_ITM:
+                break;
+            case DModConsts.MU_FRM_BYP:
+                break;
+            case DModConsts.MU_VAR:
+                break;
+            case DModConsts.MU_VAR_FAM:
+                break;
+            case DModConsts.M_JOB:
+                break;
+            case DModConsts.M_JOB_REQ_FAM:
+                break;
+            case DModConsts.M_JOB_REQ_ITM:
+                break;
+            case DModConsts.M_JOB_CON:
+                break;
+            case DModConsts.M_JOB_MFG:
+                break;
+            case DModConsts.M_JOB_VAR:
+                break;
+            default:
+        }
 /*
         switch (type) {
             case DModConsts.MS_REF_TP:
@@ -243,7 +357,7 @@ public class DModModuleMfg extends DGuiModule {
                 settings = new DGuiCatalogueSettings("Ítem", 1, 0, DLibConsts.DATA_TYPE_TEXT);
                 sql = "SELECT i.id_itm AS " + DDbConsts.FIELD_ID + "1, i.name AS " + DDbConsts.FIELD_ITEM + ", u.code AS " + DDbConsts.FIELD_COMP + " " +
                         "FROM " + DModConsts.TablesMap.get(DModConsts.CU_ITM) + " AS i " +
-                        "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_UOM) + " AS u ON i.fk_unt = u.id_unt " +
+                        "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_UOM) + " AS u ON i.fk_uom = u.id_uom " +
                         "WHERE i.b_del = 0 AND i.id_itm IN (" +
                             "SELECT f.fk_itm " +
                             "FROM " + DModConsts.TablesMap.get(DModConsts.MU_FRM) + " AS f " +
@@ -270,17 +384,58 @@ public class DModModuleMfg extends DGuiModule {
             default:
                 miClient.showMsgBoxError(DLibConsts.ERR_MSG_OPTION_UNKNOWN);
         }
+*/
 
         if (settings != null) {
             settings.setSql(sql);
         }
-*/
+        
         return settings;
     }
 
     @Override
     public DGridPaneView getView(final int type, final int subtype, final DGuiParams params) {
         DGridPaneView view = null;
+        
+        switch (type) {
+            case DModConsts.MS_FRM_TP:
+                break;
+            case DModConsts.MS_JOB_TP:
+                break;
+            case DModConsts.MS_JOB_ST:
+                break;
+            case DModConsts.MU_DPT:
+                view = new DViewDepart(miClient, "Departamentos producción");
+                break;
+            case DModConsts.MU_LIN:
+                view = new DViewLine(miClient, "Líneas producción");
+                break;
+            case DModConsts.MU_FRM:
+                break;
+            case DModConsts.MU_FRM_CMP_FAM:
+                break;
+            case DModConsts.MU_FRM_CMP_ITM:
+                break;
+            case DModConsts.MU_FRM_BYP:
+                break;
+            case DModConsts.MU_VAR:
+                break;
+            case DModConsts.MU_VAR_FAM:
+                break;
+            case DModConsts.M_JOB:
+                break;
+            case DModConsts.M_JOB_REQ_FAM:
+                break;
+            case DModConsts.M_JOB_REQ_ITM:
+                break;
+            case DModConsts.M_JOB_CON:
+                break;
+            case DModConsts.M_JOB_MFG:
+                break;
+            case DModConsts.M_JOB_VAR:
+                break;
+            default:
+        }
 /*
         switch (type) {
             case DModConsts.MS_REF_TP:
@@ -352,6 +507,48 @@ public class DModModuleMfg extends DGuiModule {
     @Override
     public DGuiForm getForm(final int type, final int subtype, final DGuiParams params) {
         DGuiForm form = null;
+        
+        switch (type) {
+            case DModConsts.MS_FRM_TP:
+                break;
+            case DModConsts.MS_JOB_TP:
+                break;
+            case DModConsts.MS_JOB_ST:
+                break;
+            case DModConsts.MU_DPT:
+                if (moFormDepart == null) moFormDepart = new DFormDepart(miClient, "Departamento de producción");
+                form = moFormDepart;
+                break;
+            case DModConsts.MU_LIN:
+                if (moFormLine == null) moFormLine = new DFormLine(miClient, "Línea de producción");
+                form = moFormLine;
+                break;
+            case DModConsts.MU_FRM:
+                break;
+            case DModConsts.MU_FRM_CMP_FAM:
+                break;
+            case DModConsts.MU_FRM_CMP_ITM:
+                break;
+            case DModConsts.MU_FRM_BYP:
+                break;
+            case DModConsts.MU_VAR:
+                break;
+            case DModConsts.MU_VAR_FAM:
+                break;
+            case DModConsts.M_JOB:
+                break;
+            case DModConsts.M_JOB_REQ_FAM:
+                break;
+            case DModConsts.M_JOB_REQ_ITM:
+                break;
+            case DModConsts.M_JOB_CON:
+                break;
+            case DModConsts.M_JOB_MFG:
+                break;
+            case DModConsts.M_JOB_VAR:
+                break;
+            default:
+        }
 /*
         switch (type) {
             case DModConsts.MS_REF_TP:

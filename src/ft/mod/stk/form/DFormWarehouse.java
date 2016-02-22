@@ -3,12 +3,6 @@
  * and open the template in the editor.
  */
 
-/*
- * DFormWarehouse.java
- *
- * Created on 29/08/2011, 08:02:13 PM
- */
-
 package ft.mod.stk.form;
 
 import ft.mod.DModConsts;
@@ -177,7 +171,7 @@ public class DFormWarehouse extends DBeanForm {
             jtfRegistryKey.setText(DLibUtils.textKey(moRegistry.getPrimaryKey()));
         }
 
-        moKeyWarehouseType.setValue(new int[] { moRegistry.getFkWarehouseTypeId()});
+        moKeyWarehouseType.setValue(new int[] { moRegistry.getFkWarehouseTypeId() });
         moTextCode.setValue(moRegistry.getCode());
         moTextName.setValue(moRegistry.getName());
         
@@ -199,7 +193,9 @@ public class DFormWarehouse extends DBeanForm {
     public DDbWarehouse getRegistry() throws Exception {
         DDbWarehouse registry = moRegistry.clone();
 
-        if (registry.isRegistryNew()) { }
+        if (registry.isRegistryNew()) {
+            //registry.setPkWarehouseId(...);
+        }
 
         registry.setCode(moTextCode.getValue());
         registry.setName(moTextName.getValue());

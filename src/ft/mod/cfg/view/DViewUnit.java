@@ -42,7 +42,7 @@ public class DViewUnit extends DGridPaneView {
         }
 
         msSql = "SELECT " +
-                "v.id_unt AS " + DDbConsts.FIELD_ID + "1, " +
+                "v.id_uom AS " + DDbConsts.FIELD_ID + "1, " +
                 "v.code AS " + DDbConsts.FIELD_CODE + ", " +
                 "v.name AS " + DDbConsts.FIELD_NAME + ", " +
                 "v.sort, " +
@@ -59,7 +59,7 @@ public class DViewUnit extends DGridPaneView {
                 "uu.name AS " + DDbConsts.FIELD_USER_UPD_NAME + " " +
                 "FROM " + DModConsts.TablesMap.get(DModConsts.CU_UOM) + " AS v " +
                 "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CS_UOM_TP) + " AS ut ON " +
-                "v.fk_unt_tp = ut.id_unt_tp " +
+                "v.fk_uom_tp = ut.id_uom_tp " +
                 "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_USR) + " AS ui ON " +
                 "v.fk_usr_ins = ui.id_usr " +
                 "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_USR) + " AS uu ON " +
@@ -77,7 +77,7 @@ public class DViewUnit extends DGridPaneView {
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_INT_RAW, "v.sort", "Pos. ordenamiento");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_CAT_M, DDbConsts.FIELD_NAME, DGridConsts.COL_TITLE_NAME);
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_CODE_CAT, DDbConsts.FIELD_CODE, DGridConsts.COL_TITLE_CODE);
-        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_DEC_AMT_UNIT, "v.bas_eqv", "Equivalencia base");
+        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_DEC_AMT_UNIT, "v.conv", "Factor conversión");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_BOOL_S, DDbConsts.FIELD_IS_DEL, DGridConsts.COL_TITLE_IS_DEL);
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_BOOL_S, DDbConsts.FIELD_IS_SYS, DGridConsts.COL_TITLE_IS_SYS);
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_USR, DDbConsts.FIELD_USER_INS_NAME, DGridConsts.COL_TITLE_USER_INS_NAME);

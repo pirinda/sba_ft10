@@ -199,7 +199,7 @@ public class DDbJobLinePack extends DDbRegistryUser implements DRowJobProgMask {
             mdMass_r = resultSet.getDouble("mss_r");
             mnFkItemTypeId = resultSet.getInt("fk_itm_tp");
             mnFkItemId = resultSet.getInt("fk_itm");
-            mnFkUnitId = resultSet.getInt("fk_unt");
+            mnFkUnitId = resultSet.getInt("fk_uom");
             mnFkPresentId = resultSet.getInt("fk_prs");
             mnFkFormulaTypeId = resultSet.getInt("fk_frm_tp");
             mnFkFormulaId = resultSet.getInt("fk_frm");
@@ -286,7 +286,7 @@ public class DDbJobLinePack extends DDbRegistryUser implements DRowJobProgMask {
                     "mss_r = " + mdMass_r + ", " +
                     "fk_itm_tp = " + mnFkItemTypeId + ", " +
                     "fk_itm = " + mnFkItemId + ", " +
-                    "fk_unt = " + mnFkUnitId + ", " +
+                    "fk_uom = " + mnFkUnitId + ", " +
                     "fk_prs = " + mnFkPresentId + ", " +
                     "fk_frm_tp = " + mnFkFormulaTypeId + ", " +
                     "fk_frm = " + mnFkFormulaId + " " +

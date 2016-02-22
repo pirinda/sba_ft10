@@ -85,7 +85,7 @@ public class DViewFormulaComp extends DGridPaneView {
                 "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_ITM) + " AS i ON " +
                 "v.fk_itm = i.id_itm " +
                 "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_UOM) + " AS u ON " +
-                "v.fk_unt = u.id_unt " +
+                "v.fk_uom = u.id_uom " +
                 "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_PRE) + " AS p ON " +
                 "v.fk_prs = p.id_prs " +
                 "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_USR) + " AS ui ON " +
@@ -99,7 +99,7 @@ public class DViewFormulaComp extends DGridPaneView {
                 "LEFT OUTER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_ITM) + " AS ci ON " +
                 "vc.fk_itm = ci.id_itm " +
                 "LEFT OUTER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_UOM) + " AS cu ON " +
-                "vc.fk_unt = cu.id_unt " +
+                "vc.fk_uom = cu.id_uom " +
                 (sql.length() == 0 ? "" : "WHERE " + sql) +
                 "ORDER BY v.name, v.code, vc.id_frm, vc.id_cmp ";
     }

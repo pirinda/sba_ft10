@@ -158,7 +158,7 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jmiCatItemMo">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Gastos indirectos"/>
+                <Property name="text" type="java.lang.String" value="Gastos indirectos de fabricaci&#xf3;n (GIF)"/>
               </Properties>
             </MenuItem>
             <MenuItem class="javax.swing.JPopupMenu$Separator" name="jsCat4">
@@ -188,6 +188,35 @@
             <MenuItem class="javax.swing.JMenuItem" name="jmiCatBizPartnerSup">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Proveedores"/>
+              </Properties>
+            </MenuItem>
+          </SubComponents>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="jmStk">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Inventarios"/>
+          </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="jmiInvWsm">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Documentos de almac&#xe9;n"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jmiInvWsmRow">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Documentos de almac&#xe9;n a detalle"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JPopupMenu$Separator" name="jsInv1">
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jmiInvStock">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Existencias"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jmiInvStockLot">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Existencias por lote"/>
               </Properties>
             </MenuItem>
           </SubComponents>
@@ -253,35 +282,6 @@
             <MenuItem class="javax.swing.JMenuItem" name="jmiQtyParam">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Par&#xe1;metros de calidad"/>
-              </Properties>
-            </MenuItem>
-          </SubComponents>
-        </Menu>
-        <Menu class="javax.swing.JMenu" name="jmInv">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Inventarios"/>
-          </Properties>
-          <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jmiInvWsm">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Documentos de almac&#xe9;n"/>
-              </Properties>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jmiInvWsmRow">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Documentos de almac&#xe9;n a detalle"/>
-              </Properties>
-            </MenuItem>
-            <MenuItem class="javax.swing.JPopupMenu$Separator" name="jsInv1">
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jmiInvStock">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Existencias"/>
-              </Properties>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jmiInvStockLot">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Existencias por lote"/>
               </Properties>
             </MenuItem>
           </SubComponents>

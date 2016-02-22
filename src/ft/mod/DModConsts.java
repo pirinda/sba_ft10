@@ -21,66 +21,68 @@ public abstract class DModConsts {
     public static final int CS_ACS_TP = 111106;
     public static final int CS_PER_TP = 111201;
     public static final int CS_BPR_TP = 111206;
-    public static final int CS_UOM_TP = 111301;
-    public static final int CS_ITM_TP = 111316;
+    public static final int CS_UOM_TP = 111311;
+    public static final int CS_ITM_TP = 111326;
 
     public static final int CU_USR = 112101;
     public static final int CU_USR_MOD = 112106;
-    public static final int CU_BPR = 112201;
-    public static final int CU_UOM = 112301;
-    public static final int CU_PRE = 112306;
-    public static final int CU_FAM = 112311;
-    public static final int CU_ITM = 112316;
+    public static final int CU_BPR = 112206;
+    public static final int CU_UOM = 112311;
+    public static final int CU_PRE = 112316;
+    public static final int CU_FAM = 112321;
+    public static final int CU_ITM = 112326;
 
     public static final int C_CFG = 113001;
-    public static final int C_YEA = 113101;
-    public static final int C_USR_GUI = 113201;
+    public static final int C_YEA = 113011;
+    public static final int C_USR_GUI = 113101;
 
     public static final int CX_ITM_TP_PRO = 115316;
     public static final int CX_ITM_TP_CMP = 115317;
-    public static final int CX_ITM_BY_ITM_TP = 115318;
+    public static final int CX_ITM_BY_FAM = 115326;
+    public static final int CX_ITM_BY_ITM_TP = 115327;
     
-    public static final int SS_WHS_TP = 111001;
-    public static final int SS_MOV_CL = 111101;
-    public static final int SS_MOV_TP = 111106;
-    public static final int SS_TRN_TP = 111201;
-    public static final int SS_ADJ_TP = 111206;
+    public static final int SS_WHS_TP = 211001;
+    public static final int SS_MOV_CL = 211101;
+    public static final int SS_MOV_TP = 211106;
+    public static final int SS_TRN_TP = 211201;
+    public static final int SS_ADJ_TP = 211206;
+    public static final int SS_MFG_TP = 211211;
 
-    public static final int SU_WHS = 112001;
+    public static final int SU_WHS = 212001;
 
-    public static final int S_WSD = 113001;
-    public static final int S_WSD_ROW = 113101;
-    public static final int S_STK = 113201;
+    public static final int S_WSD = 213101;
+    public static final int S_WSD_ROW = 213106;
+    public static final int S_STK = 213121;
 
-    public static final int MS_FRM_TP = 211041;
-    public static final int MS_JOB_TP = 211061;
-    public static final int MS_JOB_ST = 211062;
+    public static final int MS_FRM_TP = 311041;
+    public static final int MS_JOB_TP = 311061;
+    public static final int MS_JOB_ST = 311066;
 
-    public static final int MU_DPT = 212011;
-    public static final int MU_LIN = 212021;
-    public static final int MU_FRM = 212041;
-    public static final int MU_FRM_CMP_FAM = 212046;
-    public static final int MU_FRM_CMP_ITM = 212047;
-    public static final int MU_FRM_BYP = 212049;
-    public static final int MU_VAR = 212051;
-    public static final int MU_VAR_FAM = 212052;
+    public static final int MU_DPT = 312011;
+    public static final int MU_LIN = 312021;
+    public static final int MU_FRM = 312041;
+    public static final int MU_FRM_CMP_FAM = 312046;
+    public static final int MU_FRM_CMP_ITM = 312047;
+    public static final int MU_FRM_BYP = 312049;
+    public static final int MU_VAR = 312051;
+    public static final int MU_VAR_FAM = 312052;
 
-    public static final int M_JOB = 213061;
-    public static final int M_JOB_REQ_FAM = 213066;
-    public static final int M_JOB_REQ_ITM = 213067;
-    public static final int M_JOB_CON = 213071;
-    public static final int M_JOB_MFG = 213076;
-    public static final int M_JOB_VAR = 213081;
+    public static final int M_JOB = 313061;
+    public static final int M_JOB_REQ_FAM = 313066;
+    public static final int M_JOB_REQ_ITM = 313067;
+    public static final int M_JOB_CON = 313071;
+    public static final int M_JOB_MFG = 313076;
+    public static final int M_JOB_VAR = 313081;
 
-    public static final int QS_RES_TP = 311011;
+    public static final int QS_RES_TP = 411011;
 
-    public static final int QU_PAR = 312011;
-    public static final int QU_TST = 312021;
-    public static final int QU_TST_PAR = 312022;
-    public static final int QU_TST_FAM = 312026;
+    public static final int QU_PAR = 412011;
+    public static final int QU_TST = 412021;
+    public static final int QU_TST_PAR = 412022;
+    public static final int QU_TST_FAM = 412026;
 
-    public static final int Q_APP = 313021;
-    public static final int Q_APP_RES = 313026;
+    public static final int Q_APP = 413021;
+    public static final int Q_APP_RES = 413026;
 
     public static final HashMap<Integer, String> TablesMap = new HashMap<Integer, String>();
 
@@ -113,6 +115,7 @@ public abstract class DModConsts {
         TablesMap.put(SS_MOV_TP, "ss_mov_tp");
         TablesMap.put(SS_TRN_TP, "ss_trn_tp");
         TablesMap.put(SS_ADJ_TP, "ss_adj_tp");
+        TablesMap.put(SS_MFG_TP, "ss_mfg_tp");
 
         TablesMap.put(SU_WHS, "su_whs");
 

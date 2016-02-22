@@ -6,6 +6,7 @@
 package ft.mod.cfg.db;
 
 import ft.mod.DModConsts;
+import ft.mod.DModSysConsts;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
@@ -217,12 +218,27 @@ public class DDbBizPartner extends DDbRegistryUser {
         initQueryMembers();
         mnQueryResultId = DDbConsts.SAVE_ERROR;
 
+        switch (mnFkPersonTypeId) {
+            case DModSysConsts.CS_PER_TP_PER:
+                msName = msNameLast + ", " + msNameFirst;
+                break;
+            case DModSysConsts.CS_PER_TP_ORG:
+                msNameLast = "";
+                msNameFirst = "";
+                break;
+            default:
+        }
+
         if (mbRegistryNew) {
             computePrimaryKey(session);
             mbDeleted = false;
             mbSystem = false;
             mnFkUserInsertId = session.getUser().getPkUserId();
             mnFkUserUpdateId = DUtilConsts.USR_NA_ID;
+            
+            if (msCode.isEmpty()) {
+                msCode = "" + mnPkBizPartnerId;
+            }
 
             msSql = "INSERT INTO " + getSqlTable() + " VALUES (" +
                     mnPkBizPartnerId + ", " + 

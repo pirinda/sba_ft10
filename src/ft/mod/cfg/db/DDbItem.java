@@ -218,7 +218,7 @@ public class DDbItem extends DDbRegistryUser {
             mbDeleted = resultSet.getBoolean("b_del");
             mbSystem = resultSet.getBoolean("b_sys");
             mnFkFamilyId = resultSet.getInt("fk_grp");
-            mnFkUnitId = resultSet.getInt("fk_unt");
+            mnFkUnitId = resultSet.getInt("fk_uom");
             mnFkPresentId = resultSet.getInt("fk_prs");
             mnFkItemBaseId_n = resultSet.getInt("fk_itm_n");
             mnFkUserInsertId = resultSet.getInt("fk_usr_ins");
@@ -286,7 +286,7 @@ public class DDbItem extends DDbRegistryUser {
                     "b_del = " + (mbDeleted ? 1 : 0) + ", " +
                     "b_sys = " + (mbSystem ? 1 : 0) + ", " +
                     "fk_grp = " + mnFkFamilyId + ", " +
-                    "fk_unt = " + mnFkUnitId + ", " +
+                    "fk_uom = " + mnFkUnitId + ", " +
                     "fk_prs = " + mnFkPresentId + ", " +
                     "fk_itm_n = " + (mnFkItemBaseId_n == DLibConsts.UNDEFINED ? "NULL" : "" + mnFkItemBaseId_n) + ", " +
                     //"fk_usr_ins = " + mnFkUserInsertId + ", " +

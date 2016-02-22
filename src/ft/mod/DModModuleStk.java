@@ -89,6 +89,15 @@ public class DModModuleStk extends DGuiModule {
                     public String getSqlWhere(int[] pk) { return "WHERE id_adj_tp = " + pk[0] + " "; }
                 };
                 break;
+            case DModConsts.SS_MFG_TP:
+                registry = new DDbRegistrySysFly(type) {
+                    @Override
+                    public String getSqlTable() { return DModConsts.TablesMap.get(type); }
+                    
+                    @Override
+                    public String getSqlWhere(int[] pk) { return "WHERE id_mfg_tp = " + pk[0] + " "; }
+                };
+                break;
             case DModConsts.SU_WHS:
                 registry = new DDbWarehouse();
                 break;
@@ -124,10 +133,24 @@ public class DModModuleStk extends DGuiModule {
             case DModConsts.SS_MOV_TP:
                 break;
             case DModConsts.SS_TRN_TP:
+                settings = new DGuiCatalogueSettings("Tipo mov. transacción", 1);
+                sql = "SELECT id_trn_tp AS " + DDbConsts.FIELD_ID + "1, name AS " + DDbConsts.FIELD_ITEM + " " +
+                        "FROM " + DModConsts.TablesMap.get(type) + " WHERE b_del = 0 ORDER BY sort ";
                 break;
             case DModConsts.SS_ADJ_TP:
+                settings = new DGuiCatalogueSettings("Tipo ajuste", 1);
+                sql = "SELECT id_adj_tp AS " + DDbConsts.FIELD_ID + "1, name AS " + DDbConsts.FIELD_ITEM + " " +
+                        "FROM " + DModConsts.TablesMap.get(type) + " WHERE b_del = 0 ORDER BY sort ";
+                break;
+            case DModConsts.SS_MFG_TP:
+                settings = new DGuiCatalogueSettings("Tipo mov. producción", 1);
+                sql = "SELECT id_mfg_tp AS " + DDbConsts.FIELD_ID + "1, name AS " + DDbConsts.FIELD_ITEM + " " +
+                        "FROM " + DModConsts.TablesMap.get(type) + " WHERE b_del = 0 ORDER BY sort ";
                 break;
             case DModConsts.SU_WHS:
+                settings = new DGuiCatalogueSettings("Almacén", 1);
+                sql = "SELECT id_whs AS " + DDbConsts.FIELD_ID + "1, name AS " + DDbConsts.FIELD_ITEM + " " +
+                        "FROM " + DModConsts.TablesMap.get(type) + " WHERE b_del = 0 ORDER BY name, id_whs ";
                 break;
             case DModConsts.S_WSD:
                 break;
@@ -161,6 +184,8 @@ public class DModModuleStk extends DGuiModule {
             case DModConsts.SS_TRN_TP:
                 break;
             case DModConsts.SS_ADJ_TP:
+                break;
+            case DModConsts.SS_MFG_TP:
                 break;
             case DModConsts.SU_WHS:
                 view = new DViewWarehouse(miClient, "Almacenes");
@@ -197,6 +222,8 @@ public class DModModuleStk extends DGuiModule {
             case DModConsts.SS_TRN_TP:
                 break;
             case DModConsts.SS_ADJ_TP:
+                break;
+            case DModConsts.SS_MFG_TP:
                 break;
             case DModConsts.SU_WHS:
                 if (moFormWarehouse == null) moFormWarehouse = new DFormWarehouse(miClient, "Almacén");

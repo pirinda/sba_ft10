@@ -3,19 +3,17 @@
  * and open the template in the editor.
  */
 
-/*
- * DFormBizPartner.java
- *
- * Created on 29/08/2011, 08:02:13 PM
- */
-
 package ft.mod.cfg.form;
 
 import ft.mod.DModConsts;
 import ft.mod.DModSysConsts;
+import ft.mod.cfg.db.DCfgConsts;
 import ft.mod.cfg.db.DDbBizPartner;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import javax.swing.JButton;
 import sba.lib.DLibConsts;
 import sba.lib.DLibUtils;
 import sba.lib.db.DDbRegistry;
@@ -30,7 +28,7 @@ import sba.lib.gui.bean.DBeanForm;
  *
  * @author Sergio Flores
  */
-public class DFormBizPartner extends DBeanForm implements ItemListener {
+public class DFormBizPartner extends DBeanForm implements ActionListener, ItemListener {
 
     private DDbBizPartner moRegistry;
 
@@ -73,6 +71,7 @@ public class DFormBizPartner extends DBeanForm implements ItemListener {
         jPanel11 = new javax.swing.JPanel();
         jlTaxId = new javax.swing.JLabel();
         moTextTaxId = new sba.lib.gui.bean.DBeanFieldText();
+        jbSetDefaultTax = new javax.swing.JButton();
         jPanel15 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jPanel12 = new javax.swing.JPanel();
@@ -133,7 +132,7 @@ public class DFormBizPartner extends DBeanForm implements ItemListener {
         jlNameLast.setPreferredSize(new java.awt.Dimension(100, 23));
         jPanel4.add(jlNameLast);
 
-        moTextNameLast.setPreferredSize(new java.awt.Dimension(300, 23));
+        moTextNameLast.setPreferredSize(new java.awt.Dimension(200, 23));
         jPanel4.add(moTextNameLast);
 
         jPanel1.add(jPanel4);
@@ -144,7 +143,7 @@ public class DFormBizPartner extends DBeanForm implements ItemListener {
         jlNameFirst.setPreferredSize(new java.awt.Dimension(100, 23));
         jPanel8.add(jlNameFirst);
 
-        moTextNameFirst.setPreferredSize(new java.awt.Dimension(300, 23));
+        moTextNameFirst.setPreferredSize(new java.awt.Dimension(200, 23));
         jPanel8.add(moTextNameFirst);
 
         jPanel1.add(jPanel8);
@@ -162,7 +161,7 @@ public class DFormBizPartner extends DBeanForm implements ItemListener {
 
         jPanel10.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
-        jlNameShort.setText("Alias:*");
+        jlNameShort.setText("Alias:");
         jlNameShort.setPreferredSize(new java.awt.Dimension(100, 23));
         jPanel10.add(jlNameShort);
 
@@ -179,6 +178,10 @@ public class DFormBizPartner extends DBeanForm implements ItemListener {
 
         moTextTaxId.setPreferredSize(new java.awt.Dimension(150, 23));
         jPanel11.add(moTextTaxId);
+
+        jbSetDefaultTax.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sba/lib/img/cmd_std_ok.gif"))); // NOI18N
+        jbSetDefaultTax.setPreferredSize(new java.awt.Dimension(23, 23));
+        jPanel11.add(jbSetDefaultTax);
 
         jPanel1.add(jPanel11);
 
@@ -260,6 +263,7 @@ public class DFormBizPartner extends DBeanForm implements ItemListener {
 
         jPanel21.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
+        jlMail.setForeground(new java.awt.Color(0, 102, 102));
         jlMail.setText("Correo(s):");
         jlMail.setPreferredSize(new java.awt.Dimension(100, 23));
         jPanel21.add(jlMail);
@@ -310,6 +314,7 @@ public class DFormBizPartner extends DBeanForm implements ItemListener {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
+    private javax.swing.JButton jbSetDefaultTax;
     private javax.swing.JLabel jlAddress1;
     private javax.swing.JLabel jlAddress2;
     private javax.swing.JLabel jlAddress3;
@@ -348,23 +353,24 @@ public class DFormBizPartner extends DBeanForm implements ItemListener {
      */
 
     private void initComponentsCustom() {
-        DGuiUtils.setWindowBounds(this, 400, 250);
+        DGuiUtils.setWindowBounds(this, 720, 450);
         
         moKeyPersonType.setKeySettings(miClient, DGuiUtils.getLabelName(jlPersonType), true);
         moTextCode.setTextSettings(DGuiUtils.getLabelName(jlCode), 10);
         moTextNameLast.setTextSettings(DGuiUtils.getLabelName(jlNameLast), 50);
         moTextNameFirst.setTextSettings(DGuiUtils.getLabelName(jlNameFirst), 50);
-        moTextName.setTextSettings(DGuiUtils.getLabelName(jlName), 101);
-        moTextNameShort.setTextSettings(DGuiUtils.getLabelName(jlNameShort), 50);
+        moTextName.setTextSettings(DGuiUtils.getLabelName(jlName), 102);
+        moTextNameShort.setTextSettings(DGuiUtils.getLabelName(jlNameShort), 50, 0);
         moTextTaxId.setTextSettings(DGuiUtils.getLabelName(jlTaxId), 25);
-        moTextAddress1.setTextSettings(DGuiUtils.getLabelName(jlAddress1), 100);
-        moTextAddress2.setTextSettings(DGuiUtils.getLabelName(jlAddress2), 100);
-        moTextAddress3.setTextSettings(DGuiUtils.getLabelName(jlAddress3), 100);
-        moTextZip.setTextSettings(DGuiUtils.getLabelName(jlZip), 10);
-        moTextContact.setTextSettings(DGuiUtils.getLabelName(jlContact), 100);
-        moTextTelephone.setTextSettings(DGuiUtils.getLabelName(jlTelephone), 100);
-        moTextMail.setTextSettings(DGuiUtils.getLabelName(jlMail), 255);
-        moTextNotes.setTextSettings(DGuiUtils.getLabelName(jlNotes), 255);
+        moTextAddress1.setTextSettings(DGuiUtils.getLabelName(jlAddress1), 100, 0);
+        moTextAddress2.setTextSettings(DGuiUtils.getLabelName(jlAddress2), 100, 0);
+        moTextAddress3.setTextSettings(DGuiUtils.getLabelName(jlAddress3), 100, 0);
+        moTextZip.setTextSettings(DGuiUtils.getLabelName(jlZip), 10, 0);
+        moTextContact.setTextSettings(DGuiUtils.getLabelName(jlContact), 100, 0);
+        moTextTelephone.setTextSettings(DGuiUtils.getLabelName(jlTelephone), 100, 0);
+        moTextMail.setTextSettings(DGuiUtils.getLabelName(jlMail), 255, 0);
+        moTextMail.setTextCaseType(DLibConsts.UNDEFINED);
+        moTextNotes.setTextSettings(DGuiUtils.getLabelName(jlNotes), 255, 0);
         
         moFields.addField(moKeyPersonType);
         moFields.addField(moTextCode);
@@ -398,6 +404,11 @@ public class DFormBizPartner extends DBeanForm implements ItemListener {
         }
     }
     
+    private void actionSetDefaultTax() {
+        moTextTaxId.setValue(DCfgConsts.TAX_ID_DEFAULT);
+        moTextTaxId.requestFocus();
+    }
+    
     private void itemStateChangePersonType() {
         updatePersonType();
     }
@@ -412,11 +423,13 @@ public class DFormBizPartner extends DBeanForm implements ItemListener {
     
     @Override
     public void addAllListeners() {
+        jbSetDefaultTax.addActionListener(this);
         moKeyPersonType.addItemListener(this);
     }
 
     @Override
     public void removeAllListeners() {
+        jbSetDefaultTax.removeActionListener(this);
         moKeyPersonType.removeItemListener(this);
     }
 
@@ -445,7 +458,7 @@ public class DFormBizPartner extends DBeanForm implements ItemListener {
             jtfRegistryKey.setText(DLibUtils.textKey(moRegistry.getPrimaryKey()));
         }
 
-        moKeyPersonType.setValue(new int[] { moRegistry.getFkPersonTypeId()});
+        moKeyPersonType.setValue(new int[] { moRegistry.getFkPersonTypeId() });
         moTextCode.setValue(moRegistry.getCode());
         moTextNameLast.setValue(moRegistry.getNameLast());
         moTextNameFirst.setValue(moRegistry.getNameFirst());
@@ -481,10 +494,12 @@ public class DFormBizPartner extends DBeanForm implements ItemListener {
     public DDbBizPartner getRegistry() throws Exception {
         DDbBizPartner registry = moRegistry.clone();
 
-        if (registry.isRegistryNew()) { }
+        if (registry.isRegistryNew()) {
+            //registry.setPkBizPartnerId(...);
+        }
 
         registry.setCode(moTextCode.getValue());
-        registry.setName(moTextNameLast.getValue());
+        registry.setName(moTextName.getValue());
         registry.setNameShort(moTextNameShort.getValue());
         registry.setNameLast(moTextNameLast.getValue());
         registry.setNameFirst(moTextNameFirst.getValue());
@@ -508,6 +523,17 @@ public class DFormBizPartner extends DBeanForm implements ItemListener {
     @Override
     public DGuiValidation validateForm() {
         return moFields.validateFields();
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() instanceof JButton) {
+            JButton button = (JButton) e.getSource();
+            
+            if (button == jbSetDefaultTax) {
+                actionSetDefaultTax();
+            }
+        }
     }
 
     @Override

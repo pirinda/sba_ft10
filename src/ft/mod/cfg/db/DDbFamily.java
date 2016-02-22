@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 import sba.gui.util.DUtilConsts;
+import sba.lib.DLibConsts;
 import sba.lib.db.DDbConsts;
 import sba.lib.db.DDbRegistryUser;
 import sba.lib.gui.DGuiSession;
@@ -187,7 +188,7 @@ public class DDbFamily extends DDbRegistryUser {
                     (mbSystem ? 1 : 0) + ", " + 
                     mnFkItemTypeId + ", " + 
                     mnFkUnitId + ", " + 
-                    mnFkFamilyBaseId_n + ", " + 
+                    (mnFkFamilyBaseId_n == DLibConsts.UNDEFINED ? "NULL" : "" + mnFkFamilyBaseId_n) + ", " + 
                     mnFkUserInsertId + ", " + 
                     mnFkUserUpdateId + ", " + 
                     "NOW()" + ", " + 
@@ -206,7 +207,7 @@ public class DDbFamily extends DDbRegistryUser {
                     "b_sys = " + (mbSystem ? 1 : 0) + ", " +
                     "fk_itm_tp = " + mnFkItemTypeId + ", " +
                     "fk_uom = " + mnFkUnitId + ", " +
-                    "fk_fam_bas_n = " + mnFkFamilyBaseId_n + ", " +
+                    "fk_fam_bas_n = " + (mnFkFamilyBaseId_n == DLibConsts.UNDEFINED ? "NULL" : "" + mnFkFamilyBaseId_n) + ", " +
                     //"fk_usr_ins = " + mnFkUserInsertId + ", " +
                     "fk_usr_upd = " + mnFkUserUpdateId + ", " +
                     //"ts_usr_ins = " + "NOW()" + ", " +

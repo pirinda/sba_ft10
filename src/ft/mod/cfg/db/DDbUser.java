@@ -47,7 +47,7 @@ public class DDbUser extends DDbRegistryUser implements DGuiUser {
     protected Date mtTsUserUpdate;
     */
 
-    protected ArrayList<DDbUserModuleAccess> maChildModuleAccesses;
+    protected ArrayList<DDbUserModule> maChildModuleAccesses;
     protected HashSet<Integer> moSetModules;
 
     public DDbUser() {
@@ -79,7 +79,7 @@ public class DDbUser extends DDbRegistryUser implements DGuiUser {
     public Date getTsUserInsert() { return mtTsUserInsert; }
     public Date getTsUserUpdate() { return mtTsUserUpdate; }
 
-    public ArrayList<DDbUserModuleAccess> getChildModuleAccesses() { return maChildModuleAccesses; }
+    public ArrayList<DDbUserModule> getChildModuleAccesses() { return maChildModuleAccesses; }
 
     @Override
     public boolean isAdministrator() {
@@ -231,7 +231,7 @@ public class DDbUser extends DDbRegistryUser implements DGuiUser {
             msSql = "SELECT id_mod FROM " + DModConsts.TablesMap.get(DModConsts.CU_USR_MOD) + " " + getSqlWhere();
             resultSet = statement.executeQuery(msSql);
             while (resultSet.next()) {
-                DDbUserModuleAccess child = new DDbUserModuleAccess();
+                DDbUserModule child = new DDbUserModule();
                 child.read(session, new int[] { mnPkUserId, resultSet.getInt(1) });
                 maChildModuleAccesses.add(child);
                 moSetModules.add(resultSet.getInt(1));
@@ -294,7 +294,7 @@ public class DDbUser extends DDbRegistryUser implements DGuiUser {
         msSql = "DELETE FROM " + DModConsts.TablesMap.get(DModConsts.CU_USR_MOD) + " " + getSqlWhere();
         session.getStatement().execute(msSql);
 
-        for (DDbUserModuleAccess child : maChildModuleAccesses) {
+        for (DDbUserModule child : maChildModuleAccesses) {
             child.setPkUserId(mnPkUserId);
             child.setRegistryNew(true);
             child.save(session);
@@ -321,7 +321,7 @@ public class DDbUser extends DDbRegistryUser implements DGuiUser {
         registry.setTsUserInsert(this.getTsUserInsert());
         registry.setTsUserUpdate(this.getTsUserUpdate());
 
-        for (DDbUserModuleAccess child : maChildModuleAccesses) {
+        for (DDbUserModule child : maChildModuleAccesses) {
             registry.getChildModuleAccesses().add(child.clone());
         }
 

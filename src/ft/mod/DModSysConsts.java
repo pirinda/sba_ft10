@@ -89,18 +89,22 @@ public abstract class DModSysConsts {
     public static final int[] SS_MOV_TP_OUT_CNV = new int[] { 2, 6 };
 
     public static final int SS_TRN_TP_NA = 1;
-    public static final int SS_TRN_TP_SUP = 2;
-    public static final int SS_TRN_TP_RET = 3;
-    public static final int SS_TRN_TP_CAN = 4;
-    public static final int SS_TRN_TP_CHA = 5;
-    public static final int SS_TRN_TP_CON = 6;
+    public static final int SS_TRN_TP_SR = 2;
+    public static final int SS_TRN_TP_CHA = 3;
+    public static final int SS_TRN_TP_WAR = 4;
+    public static final int SS_TRN_TP_CON = 5;
 
+    public static final int SS_MFG_TP_NA = 1;
+    public static final int SS_MFG_TP_M = 2;
+    public static final int SS_MFG_TP_P = 3;
+    
     public static final int SS_ADJ_TP_NA = 1;
     public static final int SS_ADJ_TP_DAM = 2;
     public static final int SS_ADJ_TP_EXP = 3;
-    public static final int SS_ADJ_TP_COR = 4;
-    public static final int SS_ADJ_TP_DIS = 5;
-    public static final int SS_ADJ_TP_INV = 6;
+    public static final int SS_ADJ_TP_MIS = 4;
+    public static final int SS_ADJ_TP_STK = 5;
+    public static final int SS_ADJ_TP_PRO = 6;
+    public static final int SS_ADJ_TP_DIS = 7;
 
     public static final int SU_WHS_MAT = 1;
     public static final int SU_WHS_PRO = 2;

@@ -169,7 +169,7 @@ public class DDbJobLinePackMfg extends DDbRegistryUser implements DRowJobMfgMask
             mdMass_r = resultSet.getDouble("mss_r");
             mnFkItemTypeId = resultSet.getInt("fk_itm_tp");
             mnFkItemId = resultSet.getInt("fk_itm");
-            mnFkUnitId = resultSet.getInt("fk_unt");
+            mnFkUnitId = resultSet.getInt("fk_uom");
             mnFkPresentId = resultSet.getInt("fk_prs");
 
             // Read aswell extra data:
@@ -223,7 +223,7 @@ public class DDbJobLinePackMfg extends DDbRegistryUser implements DRowJobMfgMask
                     "mss_r = " + mdMass_r + ", " +
                     "fk_itm_tp = " + mnFkItemTypeId + ", " +
                     "fk_itm = " + mnFkItemId + ", " +
-                    "fk_unt = " + mnFkUnitId + ", " +
+                    "fk_uom = " + mnFkUnitId + ", " +
                     "fk_prs = " + mnFkPresentId + " " +
                     getSqlWhere();
         }

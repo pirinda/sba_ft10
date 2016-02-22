@@ -42,10 +42,10 @@ public class DViewYear extends DGridPaneView {
         }
 
         msSql = "SELECT " +
-                "v.id_yer AS " + DDbConsts.FIELD_ID + "1, " +
-                "v.id_yer AS " + DDbConsts.FIELD_CODE + ", " +
-                "v.id_yer AS " + DDbConsts.FIELD_NAME + ", " +
-                "v.sta, " +
+                "v.id_yea AS " + DDbConsts.FIELD_ID + "1, " +
+                "v.id_yea AS " + DDbConsts.FIELD_CODE + ", " +
+                "v.id_yea AS " + DDbConsts.FIELD_NAME + ", " +
+                "v.yea_sta, " +
                 "v.b_del AS " + DDbConsts.FIELD_IS_DEL + ", " +
                 "v.b_sys AS " + DDbConsts.FIELD_IS_SYS + ", " +
                 "v.fk_usr_ins AS " + DDbConsts.FIELD_USER_INS_ID + ", " +
@@ -61,7 +61,7 @@ public class DViewYear extends DGridPaneView {
                 "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_USR) + " AS uu ON " +
                 "v.fk_usr_upd = uu.id_usr " +
                 (sql.length() == 0 ? "" : "WHERE " + sql) +
-                "ORDER BY v.id_yer ";
+                "ORDER BY v.id_yea ";
     }
 
     @Override
@@ -70,7 +70,7 @@ public class DViewYear extends DGridPaneView {
         DGridColumnView[] columns = new DGridColumnView[8];
 
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_INT_CAL_YEAR, DDbConsts.FIELD_ID + "1", "Año");
-        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_DATE, "v.sta", "Inicio");
+        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_DATE, "v.yea_sta", "Inicio");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_BOOL_S, DDbConsts.FIELD_IS_DEL, DGridConsts.COL_TITLE_IS_DEL);
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_BOOL_S, DDbConsts.FIELD_IS_SYS, DGridConsts.COL_TITLE_IS_SYS);
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_USR, DDbConsts.FIELD_USER_INS_NAME, DGridConsts.COL_TITLE_USER_INS_NAME);

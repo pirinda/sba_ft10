@@ -67,7 +67,7 @@ public class DViewItem extends DGridPaneView {
                 "uu.name AS " + DDbConsts.FIELD_USER_UPD_NAME + " " +
                 "FROM " + DModConsts.TablesMap.get(DModConsts.CU_ITM) + " AS v " +
                 "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_FAM) + " AS f ON " +
-                "i.fk_fam = f.id_fam AND f.fk_itm_tp = " + mnGridSubtype + " " +
+                "v.fk_fam = f.id_fam AND f.fk_itm_tp = " + mnGridSubtype + " " +
                 "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CS_ITM_TP) + " AS it ON " +
                 "f.fk_itm_tp = it.id_itm_tp " +
                 "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_UOM) + " AS u ON " +

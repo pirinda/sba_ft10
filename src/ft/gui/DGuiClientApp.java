@@ -3,11 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package ft.gui;
 
 import ft.mod.DModConsts;
 import ft.mod.DModModuleCfg;
 import ft.mod.DModModuleMfg;
+import ft.mod.DModModuleStk;
 import ft.mod.DModSysConsts;
 import ft.mod.DModUtils;
 import ft.mod.cfg.db.DDbConfig;
@@ -64,8 +66,8 @@ import sba.lib.xml.DXmlUtils;
 public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener  {
 
     public static final String APP_NAME = "FoodTrace 1.0";
-    public static final String APP_RELEASE = "FoodTrace 1.0 003.01";
-    public static final String APP_COPYRIGHT = "Copyright © FoodTrace SA de CV";
+    public static final String APP_RELEASE = "FoodTrace 1.0 005.01";
+    public static final String APP_COPYRIGHT = "Copyright © FoodTrace Co.";
     public static final String APP_PROVIDER = "http://www.foodtrace.com";
     
     private boolean mbFirstActivation;
@@ -182,6 +184,12 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
         jsCat5 = new javax.swing.JPopupMenu.Separator();
         jmiCatBizPartnerCus = new javax.swing.JMenuItem();
         jmiCatBizPartnerSup = new javax.swing.JMenuItem();
+        jmStk = new javax.swing.JMenu();
+        jmiInvWsm = new javax.swing.JMenuItem();
+        jmiInvWsmRow = new javax.swing.JMenuItem();
+        jsInv1 = new javax.swing.JPopupMenu.Separator();
+        jmiInvStock = new javax.swing.JMenuItem();
+        jmiInvStockLot = new javax.swing.JMenuItem();
         jmMfg = new javax.swing.JMenu();
         jmiMfgJob = new javax.swing.JMenuItem();
         jsMfg1 = new javax.swing.JPopupMenu.Separator();
@@ -196,12 +204,6 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
         jsQty1 = new javax.swing.JPopupMenu.Separator();
         jmiQtyTest = new javax.swing.JMenuItem();
         jmiQtyParam = new javax.swing.JMenuItem();
-        jmInv = new javax.swing.JMenu();
-        jmiInvWsm = new javax.swing.JMenuItem();
-        jmiInvWsmRow = new javax.swing.JMenuItem();
-        jsInv1 = new javax.swing.JPopupMenu.Separator();
-        jmiInvStock = new javax.swing.JMenuItem();
-        jmiInvStockLot = new javax.swing.JMenuItem();
         jmRep = new javax.swing.JMenu();
         jmHelp = new javax.swing.JMenu();
         jmiHelpHelp = new javax.swing.JMenuItem();
@@ -370,7 +372,7 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
         jmCat.add(jmiCatItemMi);
         jmCat.add(jsCat3);
 
-        jmiCatItemMo.setText("Gastos indirectos");
+        jmiCatItemMo.setText("Gastos indirectos de fabricación (GIF)");
         jmCat.add(jmiCatItemMo);
         jmCat.add(jsCat4);
 
@@ -391,6 +393,23 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
         jmCat.add(jmiCatBizPartnerSup);
 
         jMenuBar1.add(jmCat);
+
+        jmStk.setText("Inventarios");
+
+        jmiInvWsm.setText("Documentos de almacén");
+        jmStk.add(jmiInvWsm);
+
+        jmiInvWsmRow.setText("Documentos de almacén a detalle");
+        jmStk.add(jmiInvWsmRow);
+        jmStk.add(jsInv1);
+
+        jmiInvStock.setText("Existencias");
+        jmStk.add(jmiInvStock);
+
+        jmiInvStockLot.setText("Existencias por lote");
+        jmStk.add(jmiInvStockLot);
+
+        jMenuBar1.add(jmStk);
 
         jmMfg.setText("Producción");
 
@@ -429,23 +448,6 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
         jmQty.add(jmiQtyParam);
 
         jMenuBar1.add(jmQty);
-
-        jmInv.setText("Inventarios");
-
-        jmiInvWsm.setText("Documentos de almacén");
-        jmInv.add(jmiInvWsm);
-
-        jmiInvWsmRow.setText("Documentos de almacén a detalle");
-        jmInv.add(jmiInvWsmRow);
-        jmInv.add(jsInv1);
-
-        jmiInvStock.setText("Existencias");
-        jmInv.add(jmiInvStock);
-
-        jmiInvStockLot.setText("Existencias por lote");
-        jmInv.add(jmiInvStockLot);
-
-        jMenuBar1.add(jmInv);
 
         jmRep.setText("Reportes");
         jMenuBar1.add(jmRep);
@@ -571,8 +573,19 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
         jmiFileCloseViewsOther.addActionListener(this);
         jmiFileCloseSession.addActionListener(this);
         jmiFileExit.addActionListener(this);
+        jmiCfgLine.addActionListener(this);
+        jmiCfgDepart.addActionListener(this);
+        jmiCfgWarehouse.addActionListener(this);
+        jmiCfgCompany.addActionListener(this);
+        jmiCfgYear.addActionListener(this);
+        jmiCfgUser.addActionListener(this);
+        jmiCfgUserModule.addActionListener(this);
+        jmiCfgConfig.addActionListener(this);
         jmiCatItemPf.addActionListener(this);
         jmiCatItemPb.addActionListener(this);
+        jmiCatItemP.addActionListener(this);
+        jmiCatItemBp.addActionListener(this);
+        jmiCatItemSc.addActionListener(this);
         jmiCatItemRmi.addActionListener(this);
         jmiCatItemRmp.addActionListener(this);
         jmiCatItemMi.addActionListener(this);
@@ -580,6 +593,8 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
         jmiCatFamily.addActionListener(this);
         jmiCatUnit.addActionListener(this);
         jmiCatPresent.addActionListener(this);
+        jmiCatBizPartnerCus.addActionListener(this);
+        jmiCatBizPartnerSup.addActionListener(this);
         jmiMfgJob.addActionListener(this);
         jmiMfgFormula.addActionListener(this);
         jmiMfgFormulaComp.addActionListener(this);
@@ -621,7 +636,7 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
         jmCat.setEnabled(false);
         jmMfg.setEnabled(false);
         jmQty.setEnabled(false);
-        jmInv.setEnabled(false);
+        jmStk.setEnabled(false);
         jmRep.setEnabled(false);
         jmHelp.setEnabled(false);
 
@@ -675,6 +690,7 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
                 moSession.setUser(user);
                 moSession.setModuleUtils(new DModUtils());
                 moSession.getModules().add(new DModModuleCfg(this));
+                moSession.getModules().add(new DModModuleStk(this));
                 moSession.getModules().add(new DModModuleMfg(this));
 
                 /*
@@ -693,9 +709,9 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
 
                 jmFile.setEnabled(true);
                 jmCat.setEnabled(user.hasModuleAccess(DModSysConsts.CS_MOD_CFG));
+                jmStk.setEnabled(user.hasModuleAccess(DModSysConsts.CS_MOD_STK));
                 jmMfg.setEnabled(user.hasModuleAccess(DModSysConsts.CS_MOD_MFG));
-                //jmQas.setEnabled(user.hasModuleAccess(DModSysConsts.CS_MOD_QAS));
-                //jmInv.setEnabled(user.hasModuleAccess(DModSysConsts.CS_MOD_OPE));
+                jmQty.setEnabled(user.hasModuleAccess(DModSysConsts.CS_MOD_QTY));
                 //jmRep.setEnabled(true);
                 jmHelp.setEnabled(true);
 
@@ -825,10 +841,10 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
     private javax.swing.JMenu jmCfg;
     private javax.swing.JMenu jmFile;
     private javax.swing.JMenu jmHelp;
-    private javax.swing.JMenu jmInv;
     private javax.swing.JMenu jmMfg;
     private javax.swing.JMenu jmQty;
     private javax.swing.JMenu jmRep;
+    private javax.swing.JMenu jmStk;
     private javax.swing.JMenuItem jmiCatBizPartnerCus;
     private javax.swing.JMenuItem jmiCatBizPartnerSup;
     private javax.swing.JMenuItem jmiCatFamily;
@@ -1179,11 +1195,44 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
             else if (menuItem == jmiFileExit) {
                 actionFileExit();
             }
+            else if (menuItem == jmiCfgLine) {
+                moSession.showView(DModConsts.MU_LIN, DLibConsts.UNDEFINED, null);
+            }
+            else if (menuItem == jmiCfgDepart) {
+                moSession.showView(DModConsts.MU_DPT, DLibConsts.UNDEFINED, null);
+            }
+            else if (menuItem == jmiCfgWarehouse) {
+                moSession.showView(DModConsts.SU_WHS, DLibConsts.UNDEFINED, null);
+            }
+            else if (menuItem == jmiCfgCompany) {
+                moSession.showView(DModConsts.CU_BPR, DModSysConsts.CS_BPR_TP_COM, null);
+            }
+            else if (menuItem == jmiCfgYear) {
+                moSession.showView(DModConsts.C_YEA, DLibConsts.UNDEFINED, null);
+            }
+            else if (menuItem == jmiCfgUser) {
+                moSession.showView(DModConsts.CU_USR, DLibConsts.UNDEFINED, null);
+            }
+            else if (menuItem == jmiCfgUserModule) {
+                moSession.showView(DModConsts.CU_USR_MOD, DLibConsts.UNDEFINED, null);
+            }
+            else if (menuItem == jmiCfgConfig) {
+                moSession.showView(DModConsts.C_CFG, DLibConsts.UNDEFINED, null);
+            }
             else if (menuItem == jmiCatItemPf) {
                 moSession.showView(DModConsts.CU_ITM, DModSysConsts.CS_ITM_TP_PF, null);
             }
             else if (menuItem == jmiCatItemPb) {
                 moSession.showView(DModConsts.CU_ITM, DModSysConsts.CS_ITM_TP_PB, null);
+            }
+            else if (menuItem == jmiCatItemP) {
+                moSession.showView(DModConsts.CU_ITM, DModSysConsts.CS_ITM_TP_P, null);
+            }
+            else if (menuItem == jmiCatItemBp) {
+                moSession.showView(DModConsts.CU_ITM, DModSysConsts.CS_ITM_TP_BP, null);
+            }
+            else if (menuItem == jmiCatItemSc) {
+                moSession.showView(DModConsts.CU_ITM, DModSysConsts.CS_ITM_TP_SC, null);
             }
             else if (menuItem == jmiCatItemRmi) {
                 moSession.showView(DModConsts.CU_ITM, DModSysConsts.CS_ITM_TP_RMI, null);
@@ -1194,11 +1243,20 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
             else if (menuItem == jmiCatItemMi) {
                 moSession.showView(DModConsts.CU_ITM, DModSysConsts.CS_ITM_TP_MI, null);
             }
+            else if (menuItem == jmiCatItemMo) {
+                moSession.showView(DModConsts.CU_ITM, DModSysConsts.CS_ITM_TP_MO, null);
+            }
             else if (menuItem == jmiCatFamily) {
                 moSession.showView(DModConsts.CU_FAM, DLibConsts.UNDEFINED, null);
             }
             else if (menuItem == jmiCatUnit) {
                 moSession.showView(DModConsts.CU_UOM, DLibConsts.UNDEFINED, null);
+            }
+            else if (menuItem == jmiCatBizPartnerCus) {
+                moSession.showView(DModConsts.CU_BPR, DModSysConsts.CS_BPR_TP_CUS, null);
+            }
+            else if (menuItem == jmiCatBizPartnerSup) {
+                moSession.showView(DModConsts.CU_BPR, DModSysConsts.CS_BPR_TP_SUP, null);
             }
             else if (menuItem == jmiCatPresent) {
                 moSession.showView(DModConsts.CU_PRE, DLibConsts.UNDEFINED, null);

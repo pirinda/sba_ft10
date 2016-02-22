@@ -185,7 +185,7 @@ public class DDbJob extends DDbRegistryUser {
             mnFkJobStatusId = resultSet.getInt("fk_job_st");
             mnFkItemTypeId = resultSet.getInt("fk_itm_tp");
             mnFkItemId = resultSet.getInt("fk_itm");
-            mnFkUnitId = resultSet.getInt("fk_unt");
+            mnFkUnitId = resultSet.getInt("fk_uom");
             mnFkUserInsertId = resultSet.getInt("fk_usr_ins");
             mnFkUserUpdateId = resultSet.getInt("fk_usr_upd");
             mtTsUserInsert = resultSet.getTimestamp("ts_usr_ins");
@@ -267,7 +267,7 @@ public class DDbJob extends DDbRegistryUser {
                     "fk_job_st = " + mnFkJobStatusId + ", " +
                     "fk_itm_tp = " + mnFkItemTypeId + ", " +
                     "fk_itm = " + mnFkItemId + ", " +
-                    "fk_unt = " + mnFkUnitId + ", " +
+                    "fk_uom = " + mnFkUnitId + ", " +
                     //"fk_usr_ins = " + mnFkUserInsertId + ", " +
                     "fk_usr_upd = " + mnFkUserUpdateId + ", " +
                     //"ts_usr_ins = " + "NOW()" + ", " +

@@ -348,11 +348,11 @@ public class DFormItem extends DBeanForm implements ItemListener {
 
         moKeyFamily.setValue(new int[] { moRegistry.getFkFamilyId() });
         itemStateChangeFamily();
-        moKeyItemBase.setValue(new int[] { moRegistry.getFkItemBaseId_n()});
+        moKeyItemBase.setValue(new int[] { moRegistry.getFkItemBaseId_n() });
         moTextCode.setValue(moRegistry.getCode());
         moTextName.setValue(moRegistry.getName());
-        moKeyUnit.setValue(new int[] { moRegistry.getFkUnitId()});
-        moKeyPresent.setValue(new int[] { moRegistry.getFkPresentId()});
+        moKeyUnit.setValue(new int[] { moRegistry.getFkUnitId() });
+        moKeyPresent.setValue(new int[] { moRegistry.getFkPresentId() });
         moCompMassUnit.getField().setValue(moRegistry.getMassUnit());
         moTextLotCode.setValue(moRegistry.getLotCode());
         
@@ -379,7 +379,9 @@ public class DFormItem extends DBeanForm implements ItemListener {
     public DDbItem getRegistry() throws Exception {
         DDbItem registry = moRegistry.clone();
 
-        if (registry.isRegistryNew()) { }
+        if (registry.isRegistryNew()) {
+            //registry.setPkItemId(...);
+        }
 
         registry.setCode(moTextCode.getValue());
         registry.setName(moTextName.getValue());

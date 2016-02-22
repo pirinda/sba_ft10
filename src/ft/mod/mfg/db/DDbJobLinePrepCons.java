@@ -191,7 +191,7 @@ public class DDbJobLinePrepCons extends DDbRegistryUser implements DRowJobConsMa
             msLot = resultSet.getString("lot");
             mnFkItemTypeId = resultSet.getInt("fk_itm_tp");
             mnFkItemId = resultSet.getInt("fk_itm");
-            mnFkUnitId = resultSet.getInt("fk_unt");
+            mnFkUnitId = resultSet.getInt("fk_uom");
 
             // Read aswell extra data:
 /*XXX
@@ -260,7 +260,7 @@ public class DDbJobLinePrepCons extends DDbRegistryUser implements DRowJobConsMa
                     "lot = '" + msLot + "', " +
                     "fk_itm_tp = " + mnFkItemTypeId + ", " +
                     "fk_itm = " + mnFkItemId + ", " +
-                    "fk_unt = " + mnFkUnitId + " " +
+                    "fk_uom = " + mnFkUnitId + " " +
                     getSqlWhere();
         }
 

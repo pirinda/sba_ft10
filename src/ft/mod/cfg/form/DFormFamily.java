@@ -3,12 +3,6 @@
  * and open the template in the editor.
  */
 
-/*
- * DFormFamily.java
- *
- * Created on 29/08/2011, 08:02:13 PM
- */
-
 package ft.mod.cfg.form;
 
 import ft.mod.DModConsts;
@@ -176,7 +170,7 @@ public class DFormFamily extends DBeanForm implements ItemListener {
      */
 
     private void initComponentsCustom() {
-        DGuiUtils.setWindowBounds(this, 400, 250);
+        DGuiUtils.setWindowBounds(this, 480, 300);
         
         moKeyItemType.setKeySettings(miClient, DGuiUtils.getLabelName(jlItemType), true);
         moTextCode.setTextSettings(DGuiUtils.getLabelName(jlCode), 5);
@@ -236,6 +230,7 @@ public class DFormFamily extends DBeanForm implements ItemListener {
     @Override
     public void reloadCatalogues() {
         miClient.getSession().populateCatalogue(moKeyItemType, DModConsts.CS_ITM_TP, DLibConsts.UNDEFINED, null);
+        miClient.getSession().populateCatalogue(moKeyUnit, DModConsts.CU_UOM, DLibConsts.UNDEFINED, null);
         miClient.getSession().populateCatalogue(moKeyFamilyBase, DModConsts.CU_FAM, DModSysConsts.CS_ITM_TP_PB, null);
     }
 
@@ -262,8 +257,8 @@ public class DFormFamily extends DBeanForm implements ItemListener {
         moKeyItemType.setValue(new int[] { moRegistry.getFkItemTypeId() });
         moTextCode.setValue(moRegistry.getCode());
         moTextName.setValue(moRegistry.getName());
-        moKeyUnit.setValue(new int[] { moRegistry.getFkUnitId()});
-        moKeyFamilyBase.setValue(new int[] { moRegistry.getFkFamilyBaseId_n()});
+        moKeyUnit.setValue(new int[] { moRegistry.getFkUnitId() });
+        moKeyFamilyBase.setValue(new int[] { moRegistry.getFkFamilyBaseId_n() });
         moTextLotCode.setValue(moRegistry.getLotCode());
 
         setFormEditable(true);
@@ -286,7 +281,9 @@ public class DFormFamily extends DBeanForm implements ItemListener {
     public DDbFamily getRegistry() throws Exception {
         DDbFamily registry = moRegistry.clone();
 
-        if (registry.isRegistryNew()) { }
+        if (registry.isRegistryNew()) {
+            //registry.setPkFamilyId(...);
+        }
 
         registry.setCode(moTextCode.getValue());
         registry.setName(moTextName.getValue());
@@ -302,7 +299,16 @@ public class DFormFamily extends DBeanForm implements ItemListener {
 
     @Override
     public DGuiValidation validateForm() {
-        return moFields.validateFields();
+        DGuiValidation validation = moFields.validateFields();
+        
+        if (validation.isValid()) {
+            if (moKeyFamilyBase.isEnabled() && moRegistry.getPkFamilyId() == moKeyFamilyBase.getValue()[0]) {
+                validation.setMessage(DGuiConsts.ERR_MSG_FIELD_DIF + "'" + moKeyFamilyBase.getFieldName() + ".'");
+                validation.setComponent(moKeyFamilyBase);
+            }
+        }
+        
+        return validation;
     }
 
     @Override

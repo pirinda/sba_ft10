@@ -190,7 +190,7 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow {
             mbConsByVar1 = resultSet.getBoolean("b_con_var_1");
             mnFkItemTypeId = resultSet.getInt("fk_itm_tp");
             mnFkItemId = resultSet.getInt("fk_itm");
-            mnFkUnitId = resultSet.getInt("fk_unt");
+            mnFkUnitId = resultSet.getInt("fk_uom");
 
             // Read aswell extra data:
             
@@ -236,7 +236,7 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow {
                     "b_con_var_1 = " + (mbConsByVar1 ? 1 : 0) + ", " +
                     "fk_itm_tp = " + mnFkItemTypeId + ", " +
                     "fk_itm = " + mnFkItemId + ", " +
-                    "fk_unt = " + mnFkUnitId + ", " +
+                    "fk_uom = " + mnFkUnitId + ", " +
                     getSqlWhere();
         }
 

@@ -16,13 +16,13 @@ import sba.lib.gui.DGuiSession;
  *
  * @author Sergio Flores
  */
-public class DDbUserModuleAccess extends DDbRegistryUser {
+public class DDbUserModule extends DDbRegistryUser {
 
     protected int mnPkUserId;
     protected int mnPkModuleId;
     protected int mnPkAccessTypeId;
 
-    public DDbUserModuleAccess() {
+    public DDbUserModule() {
         super(DModConsts.CU_USR_MOD);
         initRegistry();
     }
@@ -117,8 +117,10 @@ public class DDbUserModuleAccess extends DDbRegistryUser {
         }
         else {
             msSql = "UPDATE " + getSqlTable() + " SET " +
-                    //"id_usr = " + mnPkUserId + ", " +
-                    //"id_mod = " + mnPkModuleId + ", " +
+                    /*
+                    "id_usr = " + mnPkUserId + ", " +
+                    "id_mod = " + mnPkModuleId + ", " +
+                    */
                     "fk_acs_tp = " + mnPkAccessTypeId + " " +
                     getSqlWhere();
         }
@@ -130,8 +132,8 @@ public class DDbUserModuleAccess extends DDbRegistryUser {
     }
 
     @Override
-    public DDbUserModuleAccess clone() throws CloneNotSupportedException {
-        DDbUserModuleAccess registry = new DDbUserModuleAccess();
+    public DDbUserModule clone() throws CloneNotSupportedException {
+        DDbUserModule registry = new DDbUserModule();
 
         registry.setPkUserId(this.getPkUserId());
         registry.setPkModuleId(this.getPkModuleId());

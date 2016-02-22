@@ -44,6 +44,7 @@ public class DViewBizPartner extends DGridPaneView {
                 "v.id_bpr AS " + DDbConsts.FIELD_ID + "1, " +
                 "v.code AS " + DDbConsts.FIELD_CODE + ", " +
                 "v.name AS " + DDbConsts.FIELD_NAME + ", " +
+                "v.name_sht, " +
                 "v.tax_id, " +
                 "v.add_1, " +
                 "v.add_2, " +
@@ -73,10 +74,11 @@ public class DViewBizPartner extends DGridPaneView {
     @Override
     public void createGridColumns() {
         int col = 0;
-        DGridColumnView[] columns = new DGridColumnView[16];
+        DGridColumnView[] columns = new DGridColumnView[17];
 
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_CAT_L, DDbConsts.FIELD_NAME, DGridConsts.COL_TITLE_NAME);
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_CODE_CAT, DDbConsts.FIELD_CODE, DGridConsts.COL_TITLE_CODE);
+        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_CAT_S, "v.name_sht", "Alias");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_CAT_S, "v.tax_id", "RFC");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_CAT_S, "v.add_1", "Calle");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_CAT_S, "v.add_2", "Colonia");

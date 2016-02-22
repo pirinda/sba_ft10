@@ -74,7 +74,7 @@ public class DViewFormula extends DGridPaneView {
                 "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_ITM) + " AS i ON " +
                 "v.fk_itm = i.id_itm " +
                 "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_UOM) + " AS u ON " +
-                "v.fk_unt = u.id_unt " +
+                "v.fk_uom = u.id_uom " +
                 "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_PRE) + " AS p ON " +
                 "v.fk_prs = p.id_prs " +
                 "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_USR) + " AS ui ON " +

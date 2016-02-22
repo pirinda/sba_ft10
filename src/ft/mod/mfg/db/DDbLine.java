@@ -95,12 +95,12 @@ public class DDbLine extends DDbRegistryUser {
 
     @Override
     public String getSqlWhere() {
-        return "WHERE id_dpt = " + mnPkLineId + " ";
+        return "WHERE id_lin = " + mnPkLineId + " ";
     }
 
     @Override
     public String getSqlWhere(int[] pk) {
-        return "WHERE id_dpt = " + pk[0] + " ";
+        return "WHERE id_lin = " + pk[0] + " ";
     }
 
     @Override
@@ -109,7 +109,7 @@ public class DDbLine extends DDbRegistryUser {
 
         mnPkLineId = 0;
 
-        msSql = "SELECT COALESCE(MAX(id_dpt), 0) + 1 FROM " + getSqlTable();
+        msSql = "SELECT COALESCE(MAX(id_lin), 0) + 1 FROM " + getSqlTable();
         resultSet = session.getStatement().executeQuery(msSql);
         if (resultSet.next()) {
             mnPkLineId = resultSet.getInt(1);
@@ -130,7 +130,7 @@ public class DDbLine extends DDbRegistryUser {
             throw new Exception(DDbConsts.ERR_MSG_REG_NOT_FOUND);
         }
         else {
-            mnPkLineId = resultSet.getInt("id_dpt");
+            mnPkLineId = resultSet.getInt("id_lin");
             msCode = resultSet.getString("code");
             msName = resultSet.getString("name");
             mbDeleted = resultSet.getBoolean("b_del");
@@ -180,7 +180,7 @@ public class DDbLine extends DDbRegistryUser {
             mnFkUserUpdateId = session.getUser().getPkUserId();
 
             msSql = "UPDATE " + getSqlTable() + " SET " +
-                    //"id_dpt = " + mnPkLineId + ", " +
+                    //"id_lin = " + mnPkLineId + ", " +
                     "code = '" + (msCode.length() > 0 ? msCode : "" + mnPkLineId) + "', " +
                     "name = '" + msName + "', " +
                     "b_del = " + (mbDeleted ? 1 : 0) + ", " +

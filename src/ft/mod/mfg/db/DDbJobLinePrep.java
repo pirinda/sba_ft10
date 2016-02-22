@@ -210,7 +210,7 @@ public class DDbJobLinePrep extends DDbRegistryUser implements DRowJobProgMask {
             mbQuantityByVar1 = resultSet.getBoolean("b_qty_var_1");
             mnFkItemTypeId = resultSet.getInt("fk_itm_tp");
             mnFkItemId = resultSet.getInt("fk_itm");
-            mnFkUnitId = resultSet.getInt("fk_unt");
+            mnFkUnitId = resultSet.getInt("fk_uom");
             mnFkFormulaTypeId = resultSet.getInt("fk_frm_tp");
             mnFkFormulaId = resultSet.getInt("fk_frm");
 
@@ -301,7 +301,7 @@ public class DDbJobLinePrep extends DDbRegistryUser implements DRowJobProgMask {
                     "b_qty_var_1 = " + (mbQuantityByVar1 ? 1 : 0) + ", " +
                     "fk_itm_tp = " + mnFkItemTypeId + ", " +
                     "fk_itm = " + mnFkItemId + ", " +
-                    "fk_unt = " + mnFkUnitId + ", " +
+                    "fk_uom = " + mnFkUnitId + ", " +
                     "fk_frm_tp = " + mnFkFormulaTypeId + ", " +
                     "fk_frm = " + mnFkFormulaId + " " +
                     getSqlWhere();

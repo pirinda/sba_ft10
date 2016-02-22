@@ -199,7 +199,7 @@ public class DDbJobLinePackRqmt extends DDbRegistryUser implements DRowJobRqmtMa
             mbStandard = resultSet.getBoolean("b_std");
             mnFkItemTypeId = resultSet.getInt("fk_itm_tp");
             mnFkItemId = resultSet.getInt("fk_itm");
-            mnFkUnitId = resultSet.getInt("fk_unt");
+            mnFkUnitId = resultSet.getInt("fk_uom");
 
             // Read aswell extra data:
 /*XXX
@@ -268,7 +268,7 @@ public class DDbJobLinePackRqmt extends DDbRegistryUser implements DRowJobRqmtMa
                     "b_std = " + (mbStandard ? 1 : 0) + ", " +
                     "fk_itm_tp = " + mnFkItemTypeId + ", " +
                     "fk_itm = " + mnFkItemId + ", " +
-                    "fk_unt = " + mnFkUnitId + " " +
+                    "fk_uom = " + mnFkUnitId + " " +
                     getSqlWhere();
         }
 

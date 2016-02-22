@@ -3,12 +3,6 @@
  * and open the template in the editor.
  */
 
-/*
- * DFormJob.java
- *
- * Created on 29/08/2011, 08:02:13 PM
- */
-
 package ft.mod.mfg.form;
 
 import ft.mod.DModConsts;

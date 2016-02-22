@@ -242,7 +242,7 @@ public class DDbFormula extends DDbRegistryUser {
             mnFkItemFamilyId_n = resultSet.getInt("fk_fam_n");
             mnFkItemGroupId_n = resultSet.getInt("fk_grp_n");
             mnFkItemId_n = resultSet.getInt("fk_itm");
-            mnFkUnitId = resultSet.getInt("fk_unt");
+            mnFkUnitId = resultSet.getInt("fk_uom");
             mnFkPresentId = resultSet.getInt("fk_prs");
             mnFkUserInsertId = resultSet.getInt("fk_usr_ins");
             mnFkUserUpdateId = resultSet.getInt("fk_usr_upd");
@@ -326,7 +326,7 @@ public class DDbFormula extends DDbRegistryUser {
                     "fk_fam_n = " + (mnFkItemFamilyId_n == DLibConsts.UNDEFINED ? "" : "" + mnFkItemFamilyId_n) + ", " +
                     "fk_grp_n = " + (mnFkItemGroupId_n == DLibConsts.UNDEFINED ? "" : "" + mnFkItemGroupId_n) + ", " +
                     "fk_itm = " + (mnFkItemId_n == DLibConsts.UNDEFINED ? "" : "" + mnFkItemId_n) + ", " +
-                    "fk_unt = " + mnFkUnitId + ", " +
+                    "fk_uom = " + mnFkUnitId + ", " +
                     "fk_prs = " + mnFkPresentId + ", " +
                     //"fk_usr_ins = " + mnFkUserInsertId + ", " +
                     "fk_usr_upd = " + mnFkUserUpdateId + ", " +

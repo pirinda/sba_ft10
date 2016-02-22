@@ -3,12 +3,6 @@
  * and open the template in the editor.
  */
 
-/*
- * DFormDepart.java
- *
- * Created on 29/08/2011, 08:02:13 PM
- */
-
 package ft.mod.mfg.form;
 
 import ft.mod.DModConsts;
@@ -139,6 +133,8 @@ public class DFormDepart extends DBeanForm {
 
     @Override
     public void setRegistry(DDbRegistry registry) throws Exception {
+        moRegistry = (DDbDepart) registry;
+        
         mnFormResult = DLibConsts.UNDEFINED;
         mbFirstActivation = true;
 
@@ -148,6 +144,7 @@ public class DFormDepart extends DBeanForm {
         if (moRegistry.isRegistryNew()) {
             moRegistry.setCode("");
             moRegistry.initPrimaryKey();
+            
             jtfRegistryKey.setText("");
         }
         else {

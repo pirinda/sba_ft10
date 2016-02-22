@@ -3,12 +3,6 @@
  * and open the template in the editor.
  */
 
-/*
- * DFormYear.java
- *
- * Created on 29/08/2011, 08:02:13 PM
- */
-
 package ft.mod.cfg.form;
 
 import ft.mod.DModConsts;
