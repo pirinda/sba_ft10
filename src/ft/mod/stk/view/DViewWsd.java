@@ -14,8 +14,6 @@ import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import sba.gui.util.DUtilConsts;
-import sba.lib.DLibConsts;
-import sba.lib.DLibUtils;
 import sba.lib.db.DDbConsts;
 import sba.lib.db.DDbRegistry;
 import sba.lib.grid.DGridColumnView;
@@ -38,18 +36,18 @@ public class DViewWsd extends DGridPaneView implements ActionListener {
     private JButton mjNewAdj;
 
     public DViewWsd(DGuiClient client, int moveClass, String title) {
-        super(client, DGridConsts.GRID_VIEW_TAB, DModConsts.SU_WHS, moveClass, title);
+        super(client, DGridConsts.GRID_VIEW_TAB, DModConsts.S_WSD, moveClass, title);
         setRowButtonsEnabled(false, true, true, false, true);
         
         mjNewSal = DGridUtils.createButton(new ImageIcon(getClass().getResource("/ft/gui/img/ico_new_sal.gif")), 
-                DUtilConsts.TXT_CREATE + " " + DLibUtils.textProperCase((String) miClient.getSession().readField(DModConsts.SS_MOV_TP, 
-                        new int[] { mnGridSubtype, DModSysConsts.SX_MOV_TP_SAL }, DDbRegistry.FIELD_NAME)), this);
+                DUtilConsts.TXT_CREATE + " " + ((String) miClient.getSession().readField(DModConsts.SS_MOV_TP, 
+                        new int[] { mnGridSubtype, DModSysConsts.SX_MOV_TP_SAL }, DDbRegistry.FIELD_NAME)).toLowerCase(), this);
         mjNewPur = DGridUtils.createButton(new ImageIcon(getClass().getResource("/ft/gui/img/ico_new_pur.gif")), 
-                DUtilConsts.TXT_CREATE + " " + DLibUtils.textProperCase((String) miClient.getSession().readField(DModConsts.SS_MOV_TP, 
-                        new int[] { mnGridSubtype, DModSysConsts.SX_MOV_TP_PUR }, DDbRegistry.FIELD_NAME)), this);
+                DUtilConsts.TXT_CREATE + " " + ((String) miClient.getSession().readField(DModConsts.SS_MOV_TP, 
+                        new int[] { mnGridSubtype, DModSysConsts.SX_MOV_TP_PUR }, DDbRegistry.FIELD_NAME)).toLowerCase(), this);
         mjNewAdj = DGridUtils.createButton(new ImageIcon(getClass().getResource("/ft/gui/img/ico_new_adj.gif")), 
-                DUtilConsts.TXT_CREATE + " " + DLibUtils.textProperCase((String) miClient.getSession().readField(DModConsts.SS_MOV_TP, 
-                        new int[] { mnGridSubtype, DModSysConsts.SX_MOV_TP_ADJ }, DDbRegistry.FIELD_NAME)), this);
+                DUtilConsts.TXT_CREATE + " " + ((String) miClient.getSession().readField(DModConsts.SS_MOV_TP, 
+                        new int[] { mnGridSubtype, DModSysConsts.SX_MOV_TP_ADJ }, DDbRegistry.FIELD_NAME)).toLowerCase(), this);
         
         getPanelCommandsSys(DGuiConsts.PANEL_CENTER).add(mjNewSal);
         getPanelCommandsSys(DGuiConsts.PANEL_CENTER).add(mjNewPur);
@@ -91,7 +89,7 @@ public class DViewWsd extends DGridPaneView implements ActionListener {
                 "adjt.name, " +
                 "whs.code, " +
                 "whs.name, " +
-                "CONCAT(wsd.code, '-', wsd.num) AS " + DDbConsts.FIELD_NAME + ", " +
+                "CONCAT(wsdmovt.code, '-', wsd.num) AS f_wsd, " +
                 "wsdmovt.code, " +
                 "wsdmovt.name, " +
                 "bpr.code, " +
@@ -127,7 +125,7 @@ public class DViewWsd extends DGridPaneView implements ActionListener {
                 "v.fk_usr_upd = uu.id_usr " +
                 "LEFT OUTER JOIN " + DModConsts.TablesMap.get(DModConsts.S_WSD) + " AS wsd ON " +
                 "v.fk_wsd_n = wsd.id_wsd " +
-                "LEFT OUTER JOIN " + DModConsts.TablesMap.get(DModConsts.S_WSD) + " AS wsdmovt ON " +
+                "LEFT OUTER JOIN " + DModConsts.TablesMap.get(DModConsts.SS_MOV_TP) + " AS wsdmovt ON " +
                 "wsd.fk_mov_cl = wsdmovt.id_mov_cl AND wsd.fk_mov_tp = wsdmovt.id_mov_tp " +
                 "LEFT OUTER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_BPR) + " AS bpr ON " +
                 "v.fk_bpr_n = bpr.id_bpr " +
@@ -145,10 +143,10 @@ public class DViewWsd extends DGridPaneView implements ActionListener {
     @Override
     public void createGridColumns() {
         int col = 0;
-        DGridColumnView[] columns = new DGridColumnView[21];
+        DGridColumnView[] columns = new DGridColumnView[22];
 
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_CODE_CAT, "movt.code", DGridConsts.COL_TITLE_TYPE + " doc");
-        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_REG_NUM, "v.num", DGridConsts.COL_TITLE_TYPE + " doc");
+        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_REG_NUM, "v.num", DGridConsts.COL_TITLE_NUM + " doc");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_DATE, "v.dat", DGridConsts.COL_TITLE_DATE + " doc");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_DEC_AMT, "v.amt_r", "Valor $");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_DEC_QTY, "v.mass_r", "Masa (" + DCfgUtils.getSystemUnitCodeMass(miClient.getSession()) + ")");
@@ -157,6 +155,7 @@ public class DViewWsd extends DGridPaneView implements ActionListener {
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_CAT_S, "trnt.name", DGridConsts.COL_TITLE_TYPE + " mov transacción");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_CAT_S, "mfgt.name", DGridConsts.COL_TITLE_TYPE + " mov producción");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_CAT_S, "adjt.name", DGridConsts.COL_TITLE_TYPE + " ajuste");
+        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_CAT_S, "f_wsd", DGridConsts.COL_TITLE_NUM + " doc contraparte");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_CAT_M, "bpr.name", "Asociado negocios");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_CAT_S, "bpr.tax_id", "RFC");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_CAT_S, "dpt.name", "Depto producción");
@@ -185,7 +184,7 @@ public class DViewWsd extends DGridPaneView implements ActionListener {
         
         params.getPostInitValuesMap().put(DDbWsd.PARAM_MOV_TP, new int[] { mnGridSubtype, DModSysConsts.SX_MOV_TP_SAL });
         params.getPostInitValuesMap().put(DDbWsd.PARAM_TRN_TP, DModSysConsts.SS_TRN_TP_SR);
-        params.getPostInitValuesMap().put(DDbWsd.PARAM_MFG_TP, DLibConsts.UNDEFINED);
+        params.getPostInitValuesMap().put(DDbWsd.PARAM_MFG_TP, DModSysConsts.SS_MFG_TP_NA);
         
         miClient.getSession().getModule(mnModuleType, mnModuleSubtype).showForm(mnGridType, mnGridSubtype, params);
     }
@@ -195,7 +194,7 @@ public class DViewWsd extends DGridPaneView implements ActionListener {
         
         params.getPostInitValuesMap().put(DDbWsd.PARAM_MOV_TP, new int[] { mnGridSubtype, DModSysConsts.SX_MOV_TP_PUR });
         params.getPostInitValuesMap().put(DDbWsd.PARAM_TRN_TP, DModSysConsts.SS_TRN_TP_SR);
-        params.getPostInitValuesMap().put(DDbWsd.PARAM_MFG_TP, DLibConsts.UNDEFINED);
+        params.getPostInitValuesMap().put(DDbWsd.PARAM_MFG_TP, DModSysConsts.SS_MFG_TP_NA);
         
         miClient.getSession().getModule(mnModuleType, mnModuleSubtype).showForm(mnGridType, mnGridSubtype, params);
     }
@@ -205,7 +204,7 @@ public class DViewWsd extends DGridPaneView implements ActionListener {
         
         params.getPostInitValuesMap().put(DDbWsd.PARAM_MOV_TP, new int[] { mnGridSubtype, DModSysConsts.SX_MOV_TP_ADJ });
         params.getPostInitValuesMap().put(DDbWsd.PARAM_TRN_TP, DModSysConsts.SS_TRN_TP_NA);
-        params.getPostInitValuesMap().put(DDbWsd.PARAM_MFG_TP, DLibConsts.UNDEFINED);
+        params.getPostInitValuesMap().put(DDbWsd.PARAM_MFG_TP, DModSysConsts.SS_MFG_TP_NA);
         
         miClient.getSession().getModule(mnModuleType, mnModuleSubtype).showForm(mnGridType, mnGridSubtype, params);
     }

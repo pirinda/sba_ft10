@@ -316,7 +316,7 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
         jmiCfgLine.setText("Líneas de producción");
         jmCfg.add(jmiCfgLine);
 
-        jmiCfgDepart.setText("Departamentos de producción");
+        jmiCfgDepart.setText("Deptos. de producción");
         jmCfg.add(jmiCfgDepart);
         jmCfg.add(jsCfg);
 
@@ -396,10 +396,10 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
 
         jmStk.setText("Inventarios");
 
-        jmiInvWsmIn.setText("Documentos de almacén de entradas");
+        jmiInvWsmIn.setText("Doctos. de almacén de entradas");
         jmStk.add(jmiInvWsmIn);
 
-        jmiInvWsmOut.setText("Documentos de almacén de salidas");
+        jmiInvWsmOut.setText("Doctos. de almacén de salidas");
         jmStk.add(jmiInvWsmOut);
         jmStk.add(jsInv1);
 
@@ -697,7 +697,9 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
 
                 /*
                 moSession.getUser().computeAccess(moSession);
-                moSession.setSessionCustom(null);
+                */
+                moSession.setSessionCustom(new DGuiClientSessionCustom(moSession));
+                /*
                 moSession.setEdsSignature(null);
                 */
                 

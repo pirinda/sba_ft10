@@ -263,7 +263,7 @@ public class DModModuleCfg extends DGuiModule {
                 settings = new DGuiCatalogueSettings("Ítem", 1, type == DModConsts.CU_ITM ? 0 : 1, DLibConsts.DATA_TYPE_TEXT);
                 sql = "SELECT i.id_itm AS " + DDbConsts.FIELD_ID + "1, i.name AS " + DDbConsts.FIELD_ITEM + ", u.code AS " + DDbConsts.FIELD_COMP + ", ";
                 
-                switch (subtype) {
+                switch (type) {
                     case DModConsts.CX_ITM_BY_FAM:
                         sql += "f.id_fam AS " + DDbConsts.FIELD_FK + "1 ";
                         break;
@@ -273,7 +273,7 @@ public class DModModuleCfg extends DGuiModule {
                     default:
                 }
                 
-                sql += "FROM " + DModConsts.TablesMap.get(type) + " AS i " +
+                sql += "FROM " + DModConsts.TablesMap.get(DModConsts.CU_ITM) + " AS i " +
                         "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_FAM) + " AS f ON i.fk_fam = f.id_fam " +
                         "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_UOM) + " AS u ON i.fk_uom = u.id_uom " +
                         "WHERE i.b_del = 0 " +

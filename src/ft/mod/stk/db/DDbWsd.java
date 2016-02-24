@@ -68,8 +68,8 @@ public class DDbWsd extends DDbRegistryUser {
 
     public DDbWsd() {
         super(DModConsts.S_WSD);
-        initRegistry();
         maRows = new ArrayList<>();
+        initRegistry();
     }
     
     /*
@@ -423,35 +423,37 @@ public class DDbWsd extends DDbRegistryUser {
     public void postInitMembers(final DGuiParams params) {
         Object value = null;
         
-        value = params.getPostInitValuesMap().get(PARAM_MOV_TP);
-        if (value != null) {
-            mnFkMoveClassId = ((int[]) value)[0];
-            mnFkMoveTypeId = ((int[]) value)[0];
-        }
-        
-        value = params.getPostInitValuesMap().get(PARAM_TRN_TP);
-        if (value != null) {
-            mnFkTransactMoveTypeId = (int) value;
-        }
-        
-        value = params.getPostInitValuesMap().get(PARAM_MFG_TP);
-        if (value != null) {
-            mnFkMfgMoveTypeId = (int) value;
-        }
-        
-        value = params.getPostInitValuesMap().get(PARAM_DPT);
-        if (value != null) {
-            mnFkDepartId_n = (int) value;
-        }
-        
-        value = params.getPostInitValuesMap().get(PARAM_LIN);
-        if (value != null) {
-            mnFkLineId_n = (int) value;
-        }
-        
-        value = params.getPostInitValuesMap().get(PARAM_JOB);
-        if (value != null) {
-            mnFkJobId_n = (int) value;
+        if (params != null) {
+            value = params.getPostInitValuesMap().get(PARAM_MOV_TP);
+            if (value != null) {
+                mnFkMoveClassId = ((int[]) value)[0];
+                mnFkMoveTypeId = ((int[]) value)[0];
+            }
+
+            value = params.getPostInitValuesMap().get(PARAM_TRN_TP);
+            if (value != null) {
+                mnFkTransactMoveTypeId = (int) value;
+            }
+
+            value = params.getPostInitValuesMap().get(PARAM_MFG_TP);
+            if (value != null) {
+                mnFkMfgMoveTypeId = (int) value;
+            }
+
+            value = params.getPostInitValuesMap().get(PARAM_DPT);
+            if (value != null) {
+                mnFkDepartId_n = (int) value;
+            }
+
+            value = params.getPostInitValuesMap().get(PARAM_LIN);
+            if (value != null) {
+                mnFkLineId_n = (int) value;
+            }
+
+            value = params.getPostInitValuesMap().get(PARAM_JOB);
+            if (value != null) {
+                mnFkJobId_n = (int) value;
+            }
         }
     }
     

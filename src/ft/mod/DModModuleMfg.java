@@ -233,7 +233,7 @@ public class DModModuleMfg extends DGuiModule {
                         "FROM " + DModConsts.TablesMap.get(type) + " WHERE b_del = 0 ORDER BY sort ";
                 break;
             case DModConsts.MU_DPT:
-                settings = new DGuiCatalogueSettings("Departamento producción", 1);
+                settings = new DGuiCatalogueSettings("Depto. producción", 1);
                 sql = "SELECT id_dpt AS " + DDbConsts.FIELD_ID + "1, name AS " + DDbConsts.FIELD_ITEM + " " +
                         "FROM " + DModConsts.TablesMap.get(type) + " WHERE b_del = 0 ORDER BY name, id_dpt ";
                 break;
@@ -405,7 +405,7 @@ public class DModModuleMfg extends DGuiModule {
             case DModConsts.MS_JOB_ST:
                 break;
             case DModConsts.MU_DPT:
-                view = new DViewDepart(miClient, "Departamentos producción");
+                view = new DViewDepart(miClient, "Deptos. producción");
                 break;
             case DModConsts.MU_LIN:
                 view = new DViewLine(miClient, "Líneas producción");
@@ -516,7 +516,7 @@ public class DModModuleMfg extends DGuiModule {
             case DModConsts.MS_JOB_ST:
                 break;
             case DModConsts.MU_DPT:
-                if (moFormDepart == null) moFormDepart = new DFormDepart(miClient, "Departamento de producción");
+                if (moFormDepart == null) moFormDepart = new DFormDepart(miClient, "Depto. de producción");
                 form = moFormDepart;
                 break;
             case DModConsts.MU_LIN:

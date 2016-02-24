@@ -62,7 +62,7 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jmiCfgDepart">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Departamentos de producci&#xf3;n"/>
+                <Property name="text" type="java.lang.String" value="Deptos. de producci&#xf3;n"/>
               </Properties>
             </MenuItem>
             <MenuItem class="javax.swing.JPopupMenu$Separator" name="jsCfg">
@@ -199,12 +199,12 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="jmiInvWsmIn">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Documentos de almac&#xe9;n de entradas"/>
+                <Property name="text" type="java.lang.String" value="Doctos. de almac&#xe9;n de entradas"/>
               </Properties>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jmiInvWsmOut">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Documentos de almac&#xe9;n de salidas"/>
+                <Property name="text" type="java.lang.String" value="Doctos. de almac&#xe9;n de salidas"/>
               </Properties>
             </MenuItem>
             <MenuItem class="javax.swing.JPopupMenu$Separator" name="jsInv1">

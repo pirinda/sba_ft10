@@ -5,9 +5,14 @@
 
 package ft.mod;
 
+import ft.mod.stk.db.DDbStock;
 import ft.mod.stk.db.DDbWarehouse;
+import ft.mod.stk.db.DDbWsd;
+import ft.mod.stk.db.DDbWsdRow;
 import ft.mod.stk.form.DFormWarehouse;
+import ft.mod.stk.form.DFormWsd;
 import ft.mod.stk.view.DViewWarehouse;
+import ft.mod.stk.view.DViewWsd;
 import javax.swing.JMenu;
 import sba.lib.DLibConsts;
 import sba.lib.db.DDbConsts;
@@ -29,6 +34,8 @@ import sba.lib.gui.DGuiReport;
 public class DModModuleStk extends DGuiModule {
     
     private DFormWarehouse moFormWarehouse;
+    private DFormWsd moFormWsdIn;
+    private DFormWsd moFormWsdOut;
 
     public DModModuleStk(DGuiClient client) {
         super(client, DModSysConsts.CS_MOD_STK, DLibConsts.UNDEFINED);
@@ -102,13 +109,14 @@ public class DModModuleStk extends DGuiModule {
                 registry = new DDbWarehouse();
                 break;
             case DModConsts.S_WSD:
-                //registry = new DDbWsd();
+                registry = new DDbWsd();
+                registry.postInitMembers(params);
                 break;
             case DModConsts.S_WSD_ROW:
-                //registry = new DDbWsdRow();
+                registry = new DDbWsdRow();
                 break;
             case DModConsts.S_STK:
-                //registry = new DDbStock();
+                registry = new DDbStock();
                 break;
             default:
                 miClient.showMsgBoxError(DLibConsts.ERR_MSG_OPTION_UNKNOWN);
@@ -191,6 +199,8 @@ public class DModModuleStk extends DGuiModule {
                 view = new DViewWarehouse(miClient, "Almacenes");
                 break;
             case DModConsts.S_WSD:
+                title = (String) miClient.getSession().readField(DModConsts.SS_MOV_CL, new int[] { subtype }, DDbRegistry.FIELD_NAME);
+                view = new DViewWsd(miClient, subtype, "Doctos. almacén " + title.toLowerCase());
                 break;
             case DModConsts.S_WSD_ROW:
                 break;
@@ -211,6 +221,7 @@ public class DModModuleStk extends DGuiModule {
     @Override
     public DGuiForm getForm(final int type, final int subtype, final DGuiParams params) {
         DGuiForm form = null;
+        String title = "";
 
         switch (type) {
             case DModConsts.SS_WHS_TP:
@@ -230,6 +241,18 @@ public class DModModuleStk extends DGuiModule {
                 form = moFormWarehouse;
                 break;
             case DModConsts.S_WSD:
+                title = (String) miClient.getSession().readField(DModConsts.SS_MOV_CL, new int[] { subtype }, DDbRegistry.FIELD_NAME);
+                switch (subtype) {
+                    case DModSysConsts.SS_MOV_CL_IN:
+                        if (moFormWsdIn == null) moFormWsdIn = new DFormWsd(miClient, subtype, "Docto. almacén " + title.toLowerCase());
+                        form = moFormWsdIn;
+                        break;
+                    case DModSysConsts.SS_MOV_CL_OUT:
+                        if (moFormWsdOut == null) moFormWsdOut = new DFormWsd(miClient, subtype, "Docto. almacén " + title.toLowerCase());
+                        form = moFormWsdOut;
+                        break;
+                    default:
+                }
                 break;
             case DModConsts.S_WSD_ROW:
                 break;

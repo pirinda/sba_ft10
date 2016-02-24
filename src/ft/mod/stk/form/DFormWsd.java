@@ -149,6 +149,7 @@ public class DFormWsd extends DBeanForm implements DGridPaneFormOwner, ActionLis
         jPanel5.add(jlMoveType);
 
         jtfMoveType.setEditable(false);
+        jtfMoveType.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jtfMoveType.setFocusable(false);
         jtfMoveType.setPreferredSize(new java.awt.Dimension(225, 23));
         jPanel5.add(jtfMoveType);
@@ -472,7 +473,7 @@ public class DFormWsd extends DBeanForm implements DGridPaneFormOwner, ActionLis
      */
 
     private void initComponentsCustom() {
-        DGuiUtils.setWindowBounds(this, 400, 250);
+        DGuiUtils.setWindowBounds(this, 960, 600);
         
         moKeyWarehouse.setKeySettings(miClient, DGuiUtils.getLabelName(jlWarehouse), true);
         moKeyStockAdjustType.setKeySettings(miClient, DGuiUtils.getLabelName(jlStockAdjustType), true);
@@ -560,6 +561,7 @@ public class DFormWsd extends DBeanForm implements DGridPaneFormOwner, ActionLis
         }
         else {
             jtfMoveType.setText((String) miClient.getSession().readField(DModConsts.SS_MOV_TP, moRegistry.getKeyMoveType(), DDbRegistry.FIELD_NAME));
+            jtfSeries.setText((String) miClient.getSession().readField(DModConsts.SS_MOV_TP, moRegistry.getKeyMoveType(), DDbRegistry.FIELD_CODE));
             jtfTransactMoveType.setText((String) miClient.getSession().readField(DModConsts.SS_TRN_TP, new int[] { moRegistry.getFkTransactMoveTypeId() }, DDbRegistry.FIELD_NAME));
             jtfMfgMoveType.setText((String) miClient.getSession().readField(DModConsts.SS_MFG_TP, new int[] { moRegistry.getFkMfgMoveTypeId() }, DDbRegistry.FIELD_NAME));
             jtfDepart.setText(moRegistry.getFkDepartId_n() == DLibConsts.UNDEFINED ? "" : (String) miClient.getSession().readField(DModConsts.MU_DPT, new int[] { moRegistry.getFkDepartId_n() }, DDbRegistry.FIELD_NAME));
@@ -684,7 +686,7 @@ public class DFormWsd extends DBeanForm implements DGridPaneFormOwner, ActionLis
         displayRegistry();
 
         if (moRegistry.isRegistryNew()) {
-            moRegistry.setCode("");
+            moRegistry.setNumber(0);
             moRegistry.initPrimaryKey();
             
             moRegistry.setDate(miClient.getSession().getWorkingDate());
@@ -714,7 +716,7 @@ public class DFormWsd extends DBeanForm implements DGridPaneFormOwner, ActionLis
         moCompMass.setEditable(false);
         
         if (moRegistry.isRegistryNew()) {
-            
+            moKeyGroupItem.resetGroup();
         }
         else {
             
