@@ -185,11 +185,11 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
         jmiCatBizPartnerCus = new javax.swing.JMenuItem();
         jmiCatBizPartnerSup = new javax.swing.JMenuItem();
         jmStk = new javax.swing.JMenu();
-        jmiInvWsmIn = new javax.swing.JMenuItem();
-        jmiInvWsmOut = new javax.swing.JMenuItem();
-        jsInv1 = new javax.swing.JPopupMenu.Separator();
-        jmiInvStock = new javax.swing.JMenuItem();
-        jmiInvStockLot = new javax.swing.JMenuItem();
+        jmiStkWsmIn = new javax.swing.JMenuItem();
+        jmiStkWsmOut = new javax.swing.JMenuItem();
+        jsStk1 = new javax.swing.JPopupMenu.Separator();
+        jmiStkStock = new javax.swing.JMenuItem();
+        jmiStkStockLot = new javax.swing.JMenuItem();
         jmMfg = new javax.swing.JMenu();
         jmiMfgJob = new javax.swing.JMenuItem();
         jsMfg1 = new javax.swing.JPopupMenu.Separator();
@@ -332,13 +332,16 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
         jmCfg.add(jsCfg3);
 
         jmiCfgUser.setText("Usuarios");
+        jmiCfgUser.setEnabled(false);
         jmCfg.add(jmiCfgUser);
 
         jmiCfgUserModule.setText("Accesos de usuarios");
+        jmiCfgUserModule.setEnabled(false);
         jmCfg.add(jmiCfgUserModule);
         jmCfg.add(jsCfg4);
 
         jmiCfgConfig.setText("Configuración del sistema");
+        jmiCfgConfig.setEnabled(false);
         jmCfg.add(jmiCfgConfig);
 
         jMenuBar1.add(jmCfg);
@@ -396,18 +399,18 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
 
         jmStk.setText("Inventarios");
 
-        jmiInvWsmIn.setText("Doctos. de almacén de entradas");
-        jmStk.add(jmiInvWsmIn);
+        jmiStkWsmIn.setText("Doctos. de almacén de entradas");
+        jmStk.add(jmiStkWsmIn);
 
-        jmiInvWsmOut.setText("Doctos. de almacén de salidas");
-        jmStk.add(jmiInvWsmOut);
-        jmStk.add(jsInv1);
+        jmiStkWsmOut.setText("Doctos. de almacén de salidas");
+        jmStk.add(jmiStkWsmOut);
+        jmStk.add(jsStk1);
 
-        jmiInvStock.setText("Existencias");
-        jmStk.add(jmiInvStock);
+        jmiStkStock.setText("Existencias");
+        jmStk.add(jmiStkStock);
 
-        jmiInvStockLot.setText("Existencias por lote");
-        jmStk.add(jmiInvStockLot);
+        jmiStkStockLot.setText("Existencias por lote");
+        jmStk.add(jmiStkStockLot);
 
         jMenuBar1.add(jmStk);
 
@@ -595,8 +598,10 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
         jmiCatPresent.addActionListener(this);
         jmiCatBizPartnerCus.addActionListener(this);
         jmiCatBizPartnerSup.addActionListener(this);
-        jmiInvWsmIn.addActionListener(this);
-        jmiInvWsmOut.addActionListener(this);
+        jmiStkWsmIn.addActionListener(this);
+        jmiStkWsmOut.addActionListener(this);
+        jmiStkStock.addActionListener(this);
+        jmiStkStockLot.addActionListener(this);
         jmiMfgJob.addActionListener(this);
         jmiMfgFormula.addActionListener(this);
         jmiMfgFormulaComp.addActionListener(this);
@@ -680,6 +685,11 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
                 moSession.setUserTs(date);
                 moSession.setDatabase(loginDlg.getDatabase());
 
+                moSession.setModuleUtils(new DModUtils());
+                moSession.getModules().add(new DModModuleCfg(this));
+                moSession.getModules().add(new DModModuleStk(this));
+                moSession.getModules().add(new DModModuleMfg(this));
+                
                 config = new DDbConfig();
                 config.read(moSession, new int[] { DUtilConsts.BPR_CO_ID });
 
@@ -690,10 +700,6 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
                 moSession.setConfigCompany(config);
                 moSession.setConfigBranch(null);
                 moSession.setUser(user);
-                moSession.setModuleUtils(new DModUtils());
-                moSession.getModules().add(new DModModuleCfg(this));
-                moSession.getModules().add(new DModModuleStk(this));
-                moSession.getModules().add(new DModModuleMfg(this));
 
                 /*
                 moSession.getUser().computeAccess(moSession);
@@ -879,10 +885,6 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
     private javax.swing.JMenuItem jmiFileWorkingDate;
     private javax.swing.JMenuItem jmiHelpAbout;
     private javax.swing.JMenuItem jmiHelpHelp;
-    private javax.swing.JMenuItem jmiInvStock;
-    private javax.swing.JMenuItem jmiInvStockLot;
-    private javax.swing.JMenuItem jmiInvWsmIn;
-    private javax.swing.JMenuItem jmiInvWsmOut;
     private javax.swing.JMenuItem jmiMfgFormula;
     private javax.swing.JMenuItem jmiMfgFormulaByproduct;
     private javax.swing.JMenuItem jmiMfgFormulaComp;
@@ -892,6 +894,10 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
     private javax.swing.JMenuItem jmiQtyTest;
     private javax.swing.JMenuItem jmiQtyTestApp;
     private javax.swing.JMenuItem jmiQtyTestAppResult;
+    private javax.swing.JMenuItem jmiStkStock;
+    private javax.swing.JMenuItem jmiStkStockLot;
+    private javax.swing.JMenuItem jmiStkWsmIn;
+    private javax.swing.JMenuItem jmiStkWsmOut;
     private javax.swing.JPanel jpStatus;
     private javax.swing.JPopupMenu.Separator jsCat1;
     private javax.swing.JPopupMenu.Separator jsCat2;
@@ -906,10 +912,10 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
     private javax.swing.JPopupMenu.Separator jsFile2;
     private javax.swing.JPopupMenu.Separator jsFile3;
     private javax.swing.JPopupMenu.Separator jsHlp1;
-    private javax.swing.JPopupMenu.Separator jsInv1;
     private javax.swing.JPopupMenu.Separator jsMfg1;
     private javax.swing.JPopupMenu.Separator jsMfg2;
     private javax.swing.JPopupMenu.Separator jsQty1;
+    private javax.swing.JPopupMenu.Separator jsStk1;
     private javax.swing.JTextField jtfSystemDate;
     private javax.swing.JTextField jtfUser;
     private javax.swing.JTextField jtfUserTs;
@@ -1265,11 +1271,17 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
             else if (menuItem == jmiCatBizPartnerSup) {
                 moSession.showView(DModConsts.CU_BPR, DModSysConsts.CS_BPR_TP_SUP, null);
             }
-            else if (menuItem == jmiInvWsmIn) {
+            else if (menuItem == jmiStkWsmIn) {
                 moSession.showView(DModConsts.S_WSD, DModSysConsts.SS_MOV_CL_IN, null);
             }
-            else if (menuItem == jmiInvWsmOut) {
+            else if (menuItem == jmiStkWsmOut) {
                 moSession.showView(DModConsts.S_WSD, DModSysConsts.SS_MOV_CL_OUT, null);
+            }
+            else if (menuItem == jmiStkStock) {
+                moSession.showView(DModConsts.S_STK, DModSysConsts.SX_STK, null);
+            }
+            else if (menuItem == jmiStkStockLot) {
+                moSession.showView(DModConsts.S_STK, DModSysConsts.SX_STK_LOT, null);
             }
             else if (menuItem == jmiMfgJob) {
                 moSession.showView(DModConsts.M_JOB, DLibConsts.UNDEFINED, null);

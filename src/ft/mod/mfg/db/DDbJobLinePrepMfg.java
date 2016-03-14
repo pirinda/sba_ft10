@@ -172,7 +172,7 @@ public class DDbJobLinePrepMfg extends DDbRegistryUser implements DRowJobMfgMask
             mnFkItemId = resultSet.getInt("fk_itm");
             mnFkUnitId = resultSet.getInt("fk_uom");
 
-            // Read aswell extra data:
+            // Read aswell extra members:
 /*XXX
             msXtaLinePrepCode = (String) session.readField(DModConsts.MU_LIN_PRP, new int[] { mnPkLinePrepId }, DDbRegistry.FIELD_CODE);
             msXtaLinePrepName = (String) session.readField(DModConsts.MU_LIN_PRP, new int[] { mnPkLinePrepId }, DDbRegistry.FIELD_NAME);

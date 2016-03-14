@@ -38,8 +38,12 @@ public abstract class DCfgUtils {
         return itemType == DModSysConsts.CS_ITM_TP_PF;
     }
     
-    public static String getSystemUnitCodeMass(final DGuiSession session) {
-        return (String) session.readField(DModConsts.CS_UOM_TP, new int[] { DModSysConsts.CS_UOM_TP_MSS }, DDbRegistry.FIELD_CODE);
+    public static String getMassUnitCode(final DGuiSession session) {
+        return ((DDbConfig) session.getConfigCompany()).getRegMassUnit().getCode();
+    }
+    
+    public static String getMassUnitName(final DGuiSession session) {
+        return ((DDbConfig) session.getConfigCompany()).getRegMassUnit().getName();
     }
     
     private static String getBizPartnerType(final DGuiSession session, final int bizPartnerType, final int field) {

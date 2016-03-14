@@ -40,15 +40,24 @@ public class DDbConfig extends DDbRegistryUser implements DGuiConfigCompany {
     /*
     protected boolean mbDeleted;
     protected boolean mbSystem;
+    */
+    protected int mnFkMassUnitId;
+    /*
     protected int mnFkUserInsertId;
     protected int mnFkUserUpdateId;
     protected Date mtTsUserInsert;
     protected Date mtTsUserUpdate;
     */
     
+    protected DDbUnit moRegMassUnit;
+    
     public DDbConfig() {
         super(DModConsts.C_CFG);
         initRegistry();
+    }
+    
+    private void readRegMembers(final DGuiSession session) {
+        moRegMassUnit = (DDbUnit) session.readRegistry(DModConsts.CU_UOM, new int[] { mnFkMassUnitId });
     }
 
     public void setPkConfigId(int n) { mnPkConfigId = n; }
@@ -65,6 +74,7 @@ public class DDbConfig extends DDbRegistryUser implements DGuiConfigCompany {
     public void setModuleCst(boolean b) { mbModuleCst = b; }
     public void setDeleted(boolean b) { mbDeleted = b; }
     public void setSystem(boolean b) { mbSystem = b; }
+    public void setFkMassUnitId(int n) { mnFkMassUnitId = n; }
     public void setFkUserInsertId(int n) { mnFkUserInsertId = n; }
     public void setFkUserUpdateId(int n) { mnFkUserUpdateId = n; }
     public void setTsUserInsert(Date t) { mtTsUserInsert = t; }
@@ -84,11 +94,16 @@ public class DDbConfig extends DDbRegistryUser implements DGuiConfigCompany {
     public boolean isModuleCst() { return mbModuleCst; }
     public boolean isDeleted() { return mbDeleted; }
     public boolean isSystem() { return mbSystem; }
+    public int getFkMassUnitId() { return mnFkMassUnitId; }
     public int getFkUserInsertId() { return mnFkUserInsertId; }
     public int getFkUserUpdateId() { return mnFkUserUpdateId; }
     public Date getTsUserInsert() { return mtTsUserInsert; }
     public Date getTsUserUpdate() { return mtTsUserUpdate; }
 
+    public void setRegMassUnit(DDbUnit o) { moRegMassUnit = o; }
+    
+    public DDbUnit getRegMassUnit() { return moRegMassUnit; }
+    
     @Override
     public void setPrimaryKey(int[] pk) {
         mnPkConfigId = pk[0];
@@ -117,10 +132,13 @@ public class DDbConfig extends DDbRegistryUser implements DGuiConfigCompany {
         mbModuleCst = false;
         mbDeleted = false;
         mbSystem = false;
+        mnFkMassUnitId = 0;
         mnFkUserInsertId = 0;
         mnFkUserUpdateId = 0;
         mtTsUserInsert = null;
         mtTsUserUpdate = null;
+        
+        moRegMassUnit = null;
     }
 
     @Override
@@ -179,11 +197,14 @@ public class DDbConfig extends DDbRegistryUser implements DGuiConfigCompany {
             mbModuleCst = resultSet.getBoolean("b_mod_cst");
             mbDeleted = resultSet.getBoolean("b_del");
             mbSystem = resultSet.getBoolean("b_sys");
+            mnFkMassUnitId = resultSet.getInt("fk_mass_uom");
             mnFkUserInsertId = resultSet.getInt("fk_usr_ins");
             mnFkUserUpdateId = resultSet.getInt("fk_usr_upd");
             mtTsUserInsert = resultSet.getTimestamp("ts_usr_ins");
             mtTsUserUpdate = resultSet.getTimestamp("ts_usr_upd");
-
+            
+            readRegMembers(session);
+            
             mbRegistryNew = false;
         }
 
@@ -195,6 +216,8 @@ public class DDbConfig extends DDbRegistryUser implements DGuiConfigCompany {
         initQueryMembers();
         mnQueryResultId = DDbConsts.SAVE_ERROR;
 
+        readRegMembers(session);
+        
         if (mbRegistryNew) {
             mbDeleted = false;
             mbSystem = false;
@@ -216,6 +239,7 @@ public class DDbConfig extends DDbRegistryUser implements DGuiConfigCompany {
                     (mbModuleCst ? 1 : 0) + ", " + 
                     (mbDeleted ? 1 : 0) + ", " + 
                     (mbSystem ? 1 : 0) + ", " + 
+                    mnFkMassUnitId + ", " + 
                     mnFkUserInsertId + ", " + 
                     mnFkUserUpdateId + ", " + 
                     "NOW()" + ", " + 
@@ -240,6 +264,7 @@ public class DDbConfig extends DDbRegistryUser implements DGuiConfigCompany {
                     "b_mod_cst = " + (mbModuleCst ? 1 : 0) + ", " +
                     "b_del = " + (mbDeleted ? 1 : 0) + ", " +
                     "b_sys = " + (mbSystem ? 1 : 0) + ", " +
+                    "fk_mass_uom = " + mnFkMassUnitId + ", " +
                     //"fk_usr_ins = " + mnFkUserInsertId + ", " +
                     "fk_usr_upd = " + mnFkUserUpdateId + ", " +
                     //"ts_usr_ins = " + "NOW()" + ", " +
@@ -271,10 +296,13 @@ public class DDbConfig extends DDbRegistryUser implements DGuiConfigCompany {
         registry.setModuleCst(this.isModuleCst());
         registry.setDeleted(this.isDeleted());
         registry.setSystem(this.isSystem());
+        registry.setFkMassUnitId(this.getFkMassUnitId());
         registry.setFkUserInsertId(this.getFkUserInsertId());
         registry.setFkUserUpdateId(this.getFkUserUpdateId());
         registry.setTsUserInsert(this.getTsUserInsert());
         registry.setTsUserUpdate(this.getTsUserUpdate());
+        
+        registry.setRegMassUnit(this.getRegMassUnit().clone());
 
         registry.setRegistryNew(this.isRegistryNew());
         return registry;

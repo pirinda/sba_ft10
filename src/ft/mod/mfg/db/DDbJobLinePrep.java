@@ -242,7 +242,7 @@ public class DDbJobLinePrep extends DDbRegistryUser implements DRowJobProgMask {
                 maChildMfgs.add(child);
             }
 
-            // Read aswell extra data:
+            // Read aswell extra members:
             
             msXtaLinePrepCode = (String) session.readField(DModConsts.MU_LIN_PRP, new int[] { mnPkLinePrepId }, DDbRegistry.FIELD_CODE);
             msXtaLinePrepName = (String) session.readField(DModConsts.MU_LIN_PRP, new int[] { mnPkLinePrepId }, DDbRegistry.FIELD_NAME);
@@ -437,7 +437,7 @@ public class DDbJobLinePrep extends DDbRegistryUser implements DRowJobProgMask {
         DDbFormula formula = (DDbFormula) session.readRegistry(DModConsts.MU_FRM, new int[] { mnFkFormulaId });
         
         for (DDbFormulaComp comp : formula.maChildComps) {
-            itemRqmt = (DDbItem) session.readRegistry(DModConsts.CU_ITM, new int[] { comp.getFkItemId() });
+//XXX            itemRqmt = (DDbItem) session.readRegistry(DModConsts.CU_ITM, new int[] { comp.getFkItemId() });
             
             rqmt = new DDbJobLinePrepRqmt();
             rqmt.setPkJobId(mnPkJobId);
@@ -447,11 +447,11 @@ public class DDbJobLinePrep extends DDbRegistryUser implements DRowJobProgMask {
             rqmt.setQuantity(comp.getQuantity() * mdLoads);
             rqmt.setMassUnit(itemRqmt.getMassUnit());
             rqmt.setMass_r(itemRqmt.getMassUnit() * comp.getQuantity() * mdLoads);
-            rqmt.setStatisticsReference(comp.getStatisticsReference());
+//XXX            rqmt.setStatisticsReference(comp.getStatisticsReference());
             rqmt.setStandard(comp.isStandard());
-            rqmt.setConsByVar1(comp.isConsByVar1());
+//XXX            rqmt.setConsByVar1(comp.isConsByVar1());
             rqmt.setFkItemTypeId(comp.getFkItemTypeId());
-            rqmt.setFkItemId(comp.getFkItemId());
+//XXX            rqmt.setFkItemId(comp.getFkItemId());
             rqmt.setFkUnitId(comp.getFkUnitId());
             rqmt.setXtaLinePrepCode(msXtaLinePrepCode);
             rqmt.setXtaLinePrepName(msXtaLinePrepName);
@@ -461,8 +461,8 @@ public class DDbJobLinePrep extends DDbRegistryUser implements DRowJobProgMask {
             rqmt.setXtaRqmtTypeCode(itemRqmt.getXtaItemTypeCode());
             rqmt.setXtaRqmtCode(itemRqmt.getCode());
             rqmt.setXtaRqmtName(itemRqmt.getName());
-            rqmt.setXtaUnitCode(itemRqmt.getXtaUnitCode());
-            rqmt.setXtaUnitName(itemRqmt.getXtaUnitName());
+//XXX            rqmt.setXtaUnitCode(itemRqmt.getXtaUnitCode());
+//XXX            rqmt.setXtaUnitName(itemRqmt.getXtaUnitName());
             masks.add(rqmt);
         }
         

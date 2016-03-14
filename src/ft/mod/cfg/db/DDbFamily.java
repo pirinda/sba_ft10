@@ -12,6 +12,7 @@ import java.util.Date;
 import sba.gui.util.DUtilConsts;
 import sba.lib.DLibConsts;
 import sba.lib.db.DDbConsts;
+import sba.lib.db.DDbRegistry;
 import sba.lib.db.DDbRegistryUser;
 import sba.lib.gui.DGuiSession;
 
@@ -39,9 +40,17 @@ public class DDbFamily extends DDbRegistryUser {
     protected Date mtTsUserUpdate;
     */
 
+    protected String msXtaItemTypeCode;
+    protected String msXtaItemTypeName;
+    
     public DDbFamily() {
         super(DModConsts.CU_FAM);
         initRegistry();
+    }
+    
+    private void readXtaMembers(final DGuiSession session) {
+        msXtaItemTypeCode = (String) session.readField(DModConsts.CS_ITM_TP, new int[] { mnFkItemTypeId }, DDbRegistry.FIELD_CODE);
+        msXtaItemTypeName = (String) session.readField(DModConsts.CS_ITM_TP, new int[] { mnFkItemTypeId }, DDbRegistry.FIELD_NAME);
     }
 
     public void setPkFamilyId(int n) { mnPkFamilyId = n; }
@@ -72,6 +81,12 @@ public class DDbFamily extends DDbRegistryUser {
     public Date getTsUserInsert() { return mtTsUserInsert; }
     public Date getTsUserUpdate() { return mtTsUserUpdate; }
 
+    public void setXtaItemTypeCode(String s) { msXtaItemTypeCode = s; }
+    public void setXtaItemTypeName(String s) { msXtaItemTypeName = s; }
+
+    public String getXtaItemTypeCode() { return msXtaItemTypeCode; }
+    public String getXtaItemTypeName() { return msXtaItemTypeName; }
+    
     @Override
     public void setPrimaryKey(int[] pk) {
         mnPkFamilyId = pk[0];
@@ -99,6 +114,9 @@ public class DDbFamily extends DDbRegistryUser {
         mnFkUserUpdateId = 0;
         mtTsUserInsert = null;
         mtTsUserUpdate = null;
+        
+        msXtaItemTypeCode = "";
+        msXtaItemTypeName = "";
     }
 
     @Override
@@ -157,6 +175,8 @@ public class DDbFamily extends DDbRegistryUser {
             mtTsUserInsert = resultSet.getTimestamp("ts_usr_ins");
             mtTsUserUpdate = resultSet.getTimestamp("ts_usr_upd");
 
+            readXtaMembers(session);
+
             mbRegistryNew = false;
         }
 
@@ -168,6 +188,8 @@ public class DDbFamily extends DDbRegistryUser {
         initQueryMembers();
         mnQueryResultId = DDbConsts.SAVE_ERROR;
         
+        readXtaMembers(session);
+
         if (mbRegistryNew) {
             computePrimaryKey(session);
             mbDeleted = false;
@@ -238,6 +260,9 @@ public class DDbFamily extends DDbRegistryUser {
         registry.setTsUserInsert(this.getTsUserInsert());
         registry.setTsUserUpdate(this.getTsUserUpdate());
 
+        registry.setXtaItemTypeCode(this.getXtaItemTypeCode());
+        registry.setXtaItemTypeName(this.getXtaItemTypeName());
+        
         registry.setRegistryNew(this.isRegistryNew());
         return registry;
     }

@@ -6,17 +6,20 @@
 package ft.mod.stk.form;
 
 import ft.mod.DModConsts;
+import ft.mod.DModSysConsts;
 import ft.mod.cfg.db.DCfgUtils;
-import ft.mod.cfg.db.DDbItem;
 import ft.mod.stk.db.DDbWsd;
 import ft.mod.stk.db.DDbWsdRow;
 import ft.mod.stk.db.DStkConsts;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
+import java.util.Vector;
 import javax.swing.JButton;
 import javax.swing.border.TitledBorder;
 import sba.lib.DLibConsts;
@@ -31,8 +34,10 @@ import sba.lib.gui.DGuiClient;
 import sba.lib.gui.DGuiConsts;
 import sba.lib.gui.DGuiField;
 import sba.lib.gui.DGuiFieldKeyGroup;
+import sba.lib.gui.DGuiFields;
 import sba.lib.gui.DGuiUtils;
 import sba.lib.gui.DGuiValidation;
+import sba.lib.gui.bean.DBeanFieldDecimal;
 import sba.lib.gui.bean.DBeanFieldKey;
 import sba.lib.gui.bean.DBeanForm;
 
@@ -40,12 +45,15 @@ import sba.lib.gui.bean.DBeanForm;
  *
  * @author Sergio Flores
  */
-public class DFormWsd extends DBeanForm implements DGridPaneFormOwner, ActionListener, ItemListener {
+public class DFormWsd extends DBeanForm implements DGridPaneFormOwner, ActionListener, ItemListener, FocusListener {
 
     private DDbWsd moRegistry;
     private DGuiFieldKeyGroup moKeyGroupItem;
-    private ArrayList<DGuiField> maRowFields;
+    private DGuiFields moFieldsRow;
+    private ArrayList<DGuiField> maFieldsWsd;
     private DGridPaneForm moPaneFormRows;
+    private boolean mbIsStockAdjustTypeReq;
+    private boolean mbIsBizPartnerReq;
 
     /** Creates new form DFormWsd */
     public DFormWsd(DGuiClient client, int moveClass, String title) {
@@ -288,11 +296,13 @@ public class DFormWsd extends DBeanForm implements DGridPaneFormOwner, ActionLis
         jPanel19.add(jlNumber);
 
         jtfSeries.setEditable(false);
+        jtfSeries.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jtfSeries.setFocusable(false);
         jtfSeries.setPreferredSize(new java.awt.Dimension(35, 23));
         jPanel19.add(jtfSeries);
 
         jtfNumber.setEditable(false);
+        jtfNumber.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jtfNumber.setFocusable(false);
         jtfNumber.setPreferredSize(new java.awt.Dimension(100, 23));
         jPanel19.add(jtfNumber);
@@ -475,12 +485,12 @@ public class DFormWsd extends DBeanForm implements DGridPaneFormOwner, ActionLis
     private void initComponentsCustom() {
         DGuiUtils.setWindowBounds(this, 960, 600);
         
+        moDateDate.setDateSettings(miClient, DGuiUtils.getLabelName(jlDate), true);
+        moTextReference.setTextSettings(DGuiUtils.getLabelName(jlReference), 25, 0);
         moKeyWarehouse.setKeySettings(miClient, DGuiUtils.getLabelName(jlWarehouse), true);
         moKeyStockAdjustType.setKeySettings(miClient, DGuiUtils.getLabelName(jlStockAdjustType), true);
         moKeyBizPartner.setKeySettings(miClient, DGuiUtils.getLabelName(jlBizPartner), true);
         moKeyItemType.setKeySettings(miClient, DGuiUtils.getLabelName(jlItemType), true);
-        moDateDate.setDateSettings(miClient, DGuiUtils.getLabelName(jlDate), true);
-        moTextReference.setTextSettings(DGuiUtils.getLabelName(jlReference), 5);
         moCurAmount.setCompoundFieldSettings(miClient);
         moCurAmount.getField().setDecimalSettings(DGuiUtils.getLabelName(jlAmount), DGuiConsts.GUI_TYPE_DEC_AMT, true);
         moCompMass.setCompoundFieldSettings(miClient);
@@ -490,35 +500,39 @@ public class DFormWsd extends DBeanForm implements DGridPaneFormOwner, ActionLis
         moCompRowUnits.getField().setDecimalSettings(DGuiUtils.getLabelName(jlRowUnits), DGuiConsts.GUI_TYPE_DEC_QTY, true);
         moTextRowLot.setTextSettings(DGuiUtils.getLabelName(jlRowLot), 25);
         moCurRowAmountUnit.setCompoundFieldSettings(miClient);
-        moCurRowAmountUnit.getField().setDecimalSettings(DGuiUtils.getLabelName(jlRowAmountUnit), DGuiConsts.GUI_TYPE_DEC_AMT_UNIT, false);
+        moCurRowAmountUnit.getField().setDecimalSettings(DGuiUtils.getLabelName(jlRowAmountUnit), DGuiConsts.GUI_TYPE_DEC_AMT_UNIT, true);
         moCurRowAmount.setCompoundFieldSettings(miClient);
-        moCurRowAmount.getField().setDecimalSettings(DGuiUtils.getLabelName(jlRowAmount), DGuiConsts.GUI_TYPE_DEC_AMT, false);
+        moCurRowAmount.getField().setDecimalSettings(DGuiUtils.getLabelName(jlRowAmount), DGuiConsts.GUI_TYPE_DEC_AMT, true);
         
+        moFields.addField(moDateDate);
+        moFields.addField(moTextReference);
         moFields.addField(moKeyWarehouse);
         moFields.addField(moKeyStockAdjustType);
         moFields.addField(moKeyBizPartner);
         moFields.addField(moKeyItemType);
-        moFields.addField(moDateDate);
-        moFields.addField(moTextReference);
-        moFields.addField(moCurAmount.getField());
-        moFields.addField(moCompMass.getField());
-        moFields.addField(moKeyRowItem);
-        moFields.addField(moCompRowUnits.getField());
-        moFields.addField(moTextRowLot);
-        moFields.addField(moCurRowAmountUnit.getField());
-        moFields.addField(moCurRowAmount.getField());
+        //moFields.addField(moCurAmount.getField()); // always disabled
+        //moFields.addField(moCompMass.getField()); // always disabled
+        //moFields.setFormButton(jbSave); // not required
         
-        moFields.setFormButton(jbRowAdd);
+        moKeyItemType.setNextField(moKeyRowItem);
         
-        moCompMass.setCompoundText(DCfgUtils.getSystemUnitCodeMass(miClient.getSession()));
+        moFieldsRow = new DGuiFields();
+        moFieldsRow.addField(moKeyRowItem);
+        moFieldsRow.addField(moCompRowUnits.getField());
+        moFieldsRow.addField(moTextRowLot);
+        moFieldsRow.addField(moCurRowAmountUnit.getField());
+        moFieldsRow.addField(moCurRowAmount.getField());
+        moFieldsRow.setFormButton(jbRowAdd);
+        
+        moCompMass.setCompoundText(DCfgUtils.getMassUnitCode(miClient.getSession()));
+        moCompRowUnits.setCompoundText("");
         
         moKeyGroupItem = new DGuiFieldKeyGroup(miClient);
-        maRowFields = new ArrayList<>();
-        maRowFields.add(moKeyRowItem);
-        maRowFields.add(moCompRowUnits.getField());
-        maRowFields.add(moTextRowLot);
-        maRowFields.add(moCurRowAmountUnit.getField());
-        maRowFields.add(moCurRowAmount.getField());
+        
+        maFieldsWsd = new ArrayList<>();
+        maFieldsWsd.add(moKeyWarehouse);
+        maFieldsWsd.add(moKeyBizPartner);
+        maFieldsWsd.add(moKeyItemType);
         
         moPaneFormRows = new DGridPaneForm(miClient, DModConsts.S_WSD_ROW, DLibConsts.UNDEFINED, DGuiUtils.getLabelName(((TitledBorder) jpWsdRows.getBorder()).getTitle())) {
             
@@ -533,7 +547,7 @@ public class DFormWsd extends DBeanForm implements DGridPaneFormOwner, ActionLis
                 DGridColumnForm[] columns = new DGridColumnForm[9];
 
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_NAME_ITM_L, DGridConsts.COL_TITLE_NAME);
-                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_CODE_ITM, DGridConsts.COL_TITLE_TYPE);
+                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_CODE_ITM, DGridConsts.COL_TITLE_CODE);
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_DEC_QTY, "Cantidad");
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_CODE_UNT, "Unidad");
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_NAME_CAT_S, "Lote");
@@ -555,7 +569,7 @@ public class DFormWsd extends DBeanForm implements DGridPaneFormOwner, ActionLis
         mvFormGrids.add(moPaneFormRows);
     }
     
-    private void displayRegistry() throws Exception {
+    private void displayFieldsRegistry() throws Exception {
         if (mnFormSubtype != moRegistry.getFkMoveClassId()) {
             throw new Exception(DStkConsts.ERR_MSG_WSD_CLASS);
         }
@@ -570,54 +584,103 @@ public class DFormWsd extends DBeanForm implements DGridPaneFormOwner, ActionLis
         }
     }
     
+    private void updateFieldsRegistry() {
+        if (moRegistry != null) {
+            mbIsStockAdjustTypeReq = moRegistry.isUtilStockAdjustTypeReq();
+            mbIsBizPartnerReq = moRegistry.isUtilBizPartnerReq();
+        }
+        
+        moKeyStockAdjustType.setEnabled(mbIsStockAdjustTypeReq);
+        moKeyBizPartner.setEnabled(mbIsBizPartnerReq);
+
+        if (!mbIsStockAdjustTypeReq) {
+            moKeyStockAdjustType.setValue(new int[] { DModSysConsts.SS_ADJ_TP_NA });
+        }
+        
+        if (!mbIsBizPartnerReq) {
+            moKeyBizPartner.resetField();
+        }
+    }
+    
+    private void setFieldsWsdEditable(final boolean editable) {
+        moDateDate.setEditable(editable);
+        moKeyWarehouse.setEnabled(editable);
+        moKeyBizPartner.setEnabled(editable && mbIsBizPartnerReq);
+    }
+    
+    private void compute() {
+        double amount = 0d;
+        double mass = 0d;
+        
+        for (DGridRow row : moPaneFormRows.getModel().getGridRows()) {
+            amount += ((DDbWsdRow) row).getAmount_r();
+            mass += ((DDbWsdRow) row).getMass_r();
+        }
+        
+        moCurAmount.getField().setValue(amount);
+        moCompMass.getField().setValue(mass);
+    }
+    
     private void doRowAdd() {
         DGuiValidation validation = null;
         
-        for (DGuiField field : maRowFields) {
-            validation = field.validateField();
-            if (!validation.isValid()) {
-                break;
+        for (DGuiField field : maFieldsWsd) {
+            if (field.isEnabled()) {
+                validation = field.validateField();
+                if (!validation.isValid()) {
+                    break;
+                }
+            }
+        }
+        
+        if (validation.isValid()) {
+            validation = moFieldsRow.validateFields();
+            
+            if (validation.isValid()) {
+                DDbWsdRow row = new DDbWsdRow();
+                int index = moKeyRowItem.getSelectedIndex();
+
+                //row.setPkWsdId(...);
+                //row.setPkRowId(...);
+                row.setUnits(moCompRowUnits.getField().getValue());
+                row.setAmountUnit(moCurRowAmountUnit.getField().getValue());
+                //row.setAmount_r(...);
+                row.setLot(moTextRowLot.getValue());
+                //row.setMassUnit(...);
+                //row.setMass_r(...);
+                //row.setDeleted(...);
+                //row.setSystem(...);
+                row.setFkItemId(moKeyRowItem.getValue()[0]);
+                //row.setFkItemTypeId(...);
+                //row.setFkUnitId(...);
+                //row.setFkWsdWsdId_n(...);
+                //row.setFkWsdRowId_n(...);
+
+                row.compute(miClient.getSession());
+
+                moPaneFormRows.addGridRow(row);
+                moPaneFormRows.renderGridRows();
+                moPaneFormRows.setSelectedGridRow(moPaneFormRows.getTable().getRowCount() - 1);
+
+                compute();
+                setFieldsWsdEditable(false);
+                actionPerformedRowClear();
+                moKeyRowItem.setSelectedIndex(index);
             }
         }
         
         if (!validation.isValid()) {
             DGuiUtils.computeValidation(miClient, validation);
         }
-        else {
-            DDbWsdRow row = new DDbWsdRow();
-            int index = moKeyRowItem.getSelectedIndex();
-            
-            //row.setPkWsdId(...);
-            //row.setPkRowId(...);
-            row.setUnits(moCompRowUnits.getField().getValue());
-            row.setAmountUnit(moCurRowAmountUnit.getField().getValue());
-            //row.setAmount_r(...);
-            row.setLot(moTextRowLot.getValue());
-            //row.setMassUnit(...);
-            //row.setMass_r(...);
-            //row.setDeleted(...);
-            //row.setSystem(...);
-            //row.setFkItemTypeId(...);
-            row.setFkItemId(moKeyRowItem.getValue()[0]);
-            //row.setFkUnitId(...);
-            //row.setFkWsdWsdId_n(...);
-            //row.setFkWsdRowId_n(...);
-            
-            row.computeWsdRow(miClient.getSession());
-            
-            moPaneFormRows.addGridRow(row);
-            moPaneFormRows.renderGridRows();
-            moPaneFormRows.setSelectedGridRow(moPaneFormRows.getTable().getRowCount());
-            
-            actionPerformedRowClear();
-            moKeyRowItem.setSelectedIndex(index);
-        }
+    }
+    
+    private void doRowDelete() {
+        compute();
+        setFieldsWsdEditable(moPaneFormRows.getTable().getRowCount() == 0);
     }
     
     private void doRowClear() {
-        for (DGuiField field : maRowFields) {
-            field.resetField();
-        }
+        moFieldsRow.resetFields();
     }
     
     private void actionPerformedRowAdd() {
@@ -634,8 +697,19 @@ public class DFormWsd extends DBeanForm implements DGridPaneFormOwner, ActionLis
             moCompRowUnits.setCompoundText("");
         }
         else {
-            DDbItem item = (DDbItem) miClient.getSession().readRegistry(DModConsts.CU_ITM, moKeyRowItem.getValue());
-            moCompRowUnits.setCompoundText(item.getXtaUnitCode());
+            moCompRowUnits.setCompoundText((String) moKeyRowItem.getSelectedItem().getComplement());
+        }
+    }
+    
+    private void focusLostCurRowAmountUnit() {
+        if (moCurRowAmountUnit.getField().getValue() != 0d && moCompRowUnits.getField().getValue() != 0) {
+            moCurRowAmount.getField().setValue(DLibUtils.round(moCurRowAmountUnit.getField().getValue() * moCompRowUnits.getField().getValue(), DLibUtils.getDecimalFormatAmount().getMaximumFractionDigits()));
+        }
+    }
+    
+    private void focusLostCurRowAmount() {
+        if (moCurRowAmountUnit.getField().getValue() == 0d && moCurRowAmount.getField().getValue() != 0d && moCompRowUnits.getField().getValue() != 0) {
+            moCurRowAmountUnit.getField().setValue(DLibUtils.round(moCurRowAmount.getField().getValue() / moCompRowUnits.getField().getValue(), DLibUtils.getDecimalFormatAmountUnitary().getMaximumFractionDigits()));
         }
     }
     
@@ -652,6 +726,8 @@ public class DFormWsd extends DBeanForm implements DGridPaneFormOwner, ActionLis
         jbRowAdd.addActionListener(this);
         jbRowClear.addActionListener(this);
         moKeyRowItem.addItemListener(this);
+        moCurRowAmountUnit.getField().getComponent().addFocusListener(this);
+        moCurRowAmount.getField().getComponent().addFocusListener(this);
     }
 
     @Override
@@ -659,6 +735,8 @@ public class DFormWsd extends DBeanForm implements DGridPaneFormOwner, ActionLis
         jbRowAdd.removeActionListener(this);
         jbRowClear.removeActionListener(this);
         moKeyRowItem.removeItemListener(this);
+        moCurRowAmountUnit.getField().getComponent().removeFocusListener(this);
+        moCurRowAmount.getField().getComponent().removeFocusListener(this);
     }
 
     @Override
@@ -669,7 +747,7 @@ public class DFormWsd extends DBeanForm implements DGridPaneFormOwner, ActionLis
         
         moKeyGroupItem.initGroup();
         moKeyGroupItem.addFieldKey(moKeyItemType, DModConsts.CS_ITM_TP, DLibConsts.UNDEFINED, null);
-        moKeyGroupItem.addFieldKey(moKeyRowItem, DModConsts.CX_ITM_BY_ITM_TP, DLibConsts.UNDEFINED, null);
+        moKeyGroupItem.addFieldKey(moKeyRowItem, DModConsts.CX_ITM_FK_ITM_TP, DLibConsts.UNDEFINED, null);
         moKeyGroupItem.populateCatalogues();
     }
 
@@ -683,7 +761,7 @@ public class DFormWsd extends DBeanForm implements DGridPaneFormOwner, ActionLis
         removeAllListeners();
         reloadCatalogues();
         
-        displayRegistry();
+        displayFieldsRegistry();
 
         if (moRegistry.isRegistryNew()) {
             moRegistry.setNumber(0);
@@ -697,21 +775,24 @@ public class DFormWsd extends DBeanForm implements DGridPaneFormOwner, ActionLis
             jtfRegistryKey.setText(DLibUtils.textKey(moRegistry.getPrimaryKey()));
         }
 
-        moKeyWarehouse.setValue(new int[] { moRegistry.getFkWarehouseId() });
-        moKeyStockAdjustType.setValue(new int[] { moRegistry.getFkStockAdjustTypeId() });
-        moKeyBizPartner.setValue(new int[] { moRegistry.getFkBizPartnerId_n() });
-        moKeyItemType.resetField();
         jtfSeries.setText((String) miClient.getSession().readField(DModConsts.SS_MOV_TP, moRegistry.getKeyMoveType(), DDbRegistry.FIELD_CODE));
         jtfNumber.setText("" + moRegistry.getNumber());
         moDateDate.setValue(moRegistry.getDate());
         moTextReference.setValue(moRegistry.getReference());
+        moKeyWarehouse.setValue(new int[] { moRegistry.getFkWarehouseId() });
+        moKeyStockAdjustType.setValue(new int[] { moRegistry.getFkStockAdjustTypeId() });
+        moKeyBizPartner.setValue(new int[] { moRegistry.getFkBizPartnerId_n() });
+        moKeyItemType.setValue(new int[] { moRegistry.getFkItemTypeId() });
         moCurAmount.getField().setValue(moRegistry.getAmount_r());
         moCompMass.getField().setValue(moRegistry.getMass_r());
+        
+        moPaneFormRows.populateGrid(new Vector<>(moRegistry.getRows()));
         
         doRowClear();
         
         setFormEditable(true);
 
+        updateFieldsRegistry();
         moCurAmount.setEditable(false);
         moCompMass.setEditable(false);
         
@@ -719,7 +800,7 @@ public class DFormWsd extends DBeanForm implements DGridPaneFormOwner, ActionLis
             moKeyGroupItem.resetGroup();
         }
         else {
-            
+            setFieldsWsdEditable(false);
         }
         
         addAllListeners();
@@ -740,18 +821,18 @@ public class DFormWsd extends DBeanForm implements DGridPaneFormOwner, ActionLis
         //registry.setMass_r(...);
         //registry.setDeleted(...);
         //registry.setSystem(...);
-        //registry.setFkMoveClassId(...);
-        //registry.setFkMoveTypeId(...);
-        //registry.setFkTransactMoveTypeId(...);
-        //registry.setFkMfgMoveTypeId(...);
+        //registry.setFkMoveClassId(...); // already set
+        //registry.setFkMoveTypeId(...); // already set
+        //registry.setFkTransactMoveTypeId(...); // already set
+        //registry.setFkMfgMoveTypeId(...); // already set
         registry.setFkStockAdjustTypeId(moKeyStockAdjustType.getValue()[0]);
         registry.setFkItemTypeId(moKeyItemType.getValue()[0]);
         registry.setFkWarehouseId(moKeyWarehouse.getValue()[0]);
-        //registry.setFkWsdId_n(...);
-        registry.setFkBizPartnerId_n(moKeyBizPartner.getValue()[0]);
-        //registry.setFkDepartId_n(...);
-        //registry.setFkLineId_n(...);
-        //registry.setFkJobId_n(...);
+        //registry.setFkWsdId_n(...); // not implemented yet
+        registry.setFkBizPartnerId_n(moKeyBizPartner.getSelectedIndex() <= 0 ? DLibConsts.UNDEFINED : moKeyBizPartner.getValue()[0]);
+        //registry.setFkDepartId_n(...); // already set
+        //registry.setFkLineId_n(...); // already set
+        //registry.setFkJobId_n(...); // already set
         
         registry.getRows().clear();
         for (DGridRow row : moPaneFormRows.getModel().getGridRows()) {
@@ -778,7 +859,7 @@ public class DFormWsd extends DBeanForm implements DGridPaneFormOwner, ActionLis
 
     @Override
     public void notifyRowDelete(int gridType, int gridSubtype, int row, DGridRow gridRow) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        doRowDelete();
     }
 
     @Override
@@ -802,6 +883,25 @@ public class DFormWsd extends DBeanForm implements DGridPaneFormOwner, ActionLis
             
             if (field == moKeyRowItem) {
                 itemStateChangedRowItem();
+            }
+        }
+    }
+
+    @Override
+    public void focusGained(FocusEvent e) {
+        
+    }
+
+    @Override
+    public void focusLost(FocusEvent e) {
+        if (e.getSource() instanceof DBeanFieldDecimal) {
+            DBeanFieldDecimal field = (DBeanFieldDecimal) e.getSource();
+            
+            if (field == moCurRowAmountUnit.getField()) {
+                focusLostCurRowAmountUnit();
+            }
+            else if (field == moCurRowAmount.getField()) {
+                focusLostCurRowAmount();
             }
         }
     }

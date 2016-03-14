@@ -85,9 +85,7 @@ public class DModModuleMfg extends DGuiModule {
                 break;
             case DModConsts.MU_FRM:
                 break;
-            case DModConsts.MU_FRM_CMP_FAM:
-                break;
-            case DModConsts.MU_FRM_CMP_ITM:
+            case DModConsts.MU_FRM_CMP:
                 break;
             case DModConsts.MU_FRM_BYP:
                 break;
@@ -97,9 +95,7 @@ public class DModModuleMfg extends DGuiModule {
                 break;
             case DModConsts.M_JOB:
                 break;
-            case DModConsts.M_JOB_REQ_FAM:
-                break;
-            case DModConsts.M_JOB_REQ_ITM:
+            case DModConsts.M_JOB_REQ:
                 break;
             case DModConsts.M_JOB_CON:
                 break;
@@ -244,9 +240,7 @@ public class DModModuleMfg extends DGuiModule {
                 break;
             case DModConsts.MU_FRM:
                 break;
-            case DModConsts.MU_FRM_CMP_FAM:
-                break;
-            case DModConsts.MU_FRM_CMP_ITM:
+            case DModConsts.MU_FRM_CMP:
                 break;
             case DModConsts.MU_FRM_BYP:
                 break;
@@ -256,9 +250,7 @@ public class DModModuleMfg extends DGuiModule {
                 break;
             case DModConsts.M_JOB:
                 break;
-            case DModConsts.M_JOB_REQ_FAM:
-                break;
-            case DModConsts.M_JOB_REQ_ITM:
+            case DModConsts.M_JOB_REQ:
                 break;
             case DModConsts.M_JOB_CON:
                 break;
@@ -412,9 +404,7 @@ public class DModModuleMfg extends DGuiModule {
                 break;
             case DModConsts.MU_FRM:
                 break;
-            case DModConsts.MU_FRM_CMP_FAM:
-                break;
-            case DModConsts.MU_FRM_CMP_ITM:
+            case DModConsts.MU_FRM_CMP:
                 break;
             case DModConsts.MU_FRM_BYP:
                 break;
@@ -424,9 +414,7 @@ public class DModModuleMfg extends DGuiModule {
                 break;
             case DModConsts.M_JOB:
                 break;
-            case DModConsts.M_JOB_REQ_FAM:
-                break;
-            case DModConsts.M_JOB_REQ_ITM:
+            case DModConsts.M_JOB_REQ:
                 break;
             case DModConsts.M_JOB_CON:
                 break;
@@ -525,9 +513,7 @@ public class DModModuleMfg extends DGuiModule {
                 break;
             case DModConsts.MU_FRM:
                 break;
-            case DModConsts.MU_FRM_CMP_FAM:
-                break;
-            case DModConsts.MU_FRM_CMP_ITM:
+            case DModConsts.MU_FRM_CMP:
                 break;
             case DModConsts.MU_FRM_BYP:
                 break;
@@ -537,9 +523,7 @@ public class DModModuleMfg extends DGuiModule {
                 break;
             case DModConsts.M_JOB:
                 break;
-            case DModConsts.M_JOB_REQ_FAM:
-                break;
-            case DModConsts.M_JOB_REQ_ITM:
+            case DModConsts.M_JOB_REQ:
                 break;
             case DModConsts.M_JOB_CON:
                 break;

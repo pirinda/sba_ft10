@@ -253,30 +253,34 @@ public class DModModuleCfg extends DGuiModule {
                         "FROM " + DModConsts.TablesMap.get(type) + " WHERE b_del = 0 ORDER BY name, id_pre ";
                 break;
             case DModConsts.CU_FAM:
-                settings = new DGuiCatalogueSettings("Familia", 1);
-                sql = "SELECT id_fam AS " + DDbConsts.FIELD_ID + "1, name AS " + DDbConsts.FIELD_ITEM + " " +
-                        "FROM " + DModConsts.TablesMap.get(type) + " WHERE b_del = 0 " + (subtype == DLibConsts.UNDEFINED ? "" : "AND fk_itm_tp = " + subtype + " ") + "ORDER BY name, id_fam ";
+            case DModConsts.CX_FAM_BY_ITM_TP:
+                settings = new DGuiCatalogueSettings("Familia", 1, 1, DLibConsts.DATA_TYPE_TEXT);
+                sql = "SELECT f.id_fam AS " + DDbConsts.FIELD_ID + "1, f.name AS " + DDbConsts.FIELD_ITEM + ", "
+                        + "u.code AS " + DDbConsts.FIELD_COMP + ", f.fk_itm_tp AS " + DDbConsts.FIELD_FK + "1 " + // default FK: item type, even when not requested
+                        "FROM " + DModConsts.TablesMap.get(type) + " AS f " +
+                        "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_UOM) + " AS u ON  f.fk_uom = u.id_uom " +
+                        "WHERE f.b_del = 0 " + (subtype == DModConsts.CX_FAM_BY_ITM_TP ? "AND f.fk_itm_tp = " + subtype : "") + " " +
+                        "ORDER BY f.name, f.id_fam ";
                 break;
             case DModConsts.CU_ITM:
-            case DModConsts.CX_ITM_BY_FAM:
             case DModConsts.CX_ITM_BY_ITM_TP:
-                settings = new DGuiCatalogueSettings("Ítem", 1, type == DModConsts.CU_ITM ? 0 : 1, DLibConsts.DATA_TYPE_TEXT);
-                sql = "SELECT i.id_itm AS " + DDbConsts.FIELD_ID + "1, i.name AS " + DDbConsts.FIELD_ITEM + ", u.code AS " + DDbConsts.FIELD_COMP + ", ";
+            case DModConsts.CX_ITM_FK_ITM_TP:
+            case DModConsts.CX_ITM_FK_FAM:
+                settings = new DGuiCatalogueSettings("Ítem", 1, 1, DLibConsts.DATA_TYPE_TEXT);
+                sql = "SELECT i.id_itm AS " + DDbConsts.FIELD_ID + "1, i.name AS " + DDbConsts.FIELD_ITEM + ", " +
+                        "u.code AS " + DDbConsts.FIELD_COMP + ", ";
                 
-                switch (type) {
-                    case DModConsts.CX_ITM_BY_FAM:
-                        sql += "f.id_fam AS " + DDbConsts.FIELD_FK + "1 ";
-                        break;
-                    case DModConsts.CX_ITM_BY_ITM_TP:
-                        sql += "f.fk_itm_tp AS " + DDbConsts.FIELD_FK + "1 ";
-                        break;
-                    default:
+                if (type == DModConsts.CX_ITM_FK_FAM) {
+                    sql += "f.id_fam AS " + DDbConsts.FIELD_FK + "1 ";
+                }
+                else {
+                    sql += "f.fk_itm_tp AS " + DDbConsts.FIELD_FK + "1 "; // default FK: item type, even when not requested
                 }
                 
                 sql += "FROM " + DModConsts.TablesMap.get(DModConsts.CU_ITM) + " AS i " +
                         "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_FAM) + " AS f ON i.fk_fam = f.id_fam " +
                         "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_UOM) + " AS u ON i.fk_uom = u.id_uom " +
-                        "WHERE i.b_del = 0 " +
+                        "WHERE i.b_del = 0 " + (subtype == DModConsts.CX_ITM_BY_ITM_TP ? "AND f.fk_itm_tp = " + subtype : "") + " " +
                         "ORDER BY i.name, i.id_itm ";
                 break;
             case DModConsts.C_CFG:

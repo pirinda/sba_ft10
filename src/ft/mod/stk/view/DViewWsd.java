@@ -149,7 +149,7 @@ public class DViewWsd extends DGridPaneView implements ActionListener {
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_REG_NUM, "v.num", DGridConsts.COL_TITLE_NUM + " doc");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_DATE, "v.dat", DGridConsts.COL_TITLE_DATE + " doc");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_DEC_AMT, "v.amt_r", "Valor $");
-        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_DEC_QTY, "v.mass_r", "Masa (" + DCfgUtils.getSystemUnitCodeMass(miClient.getSession()) + ")");
+        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_DEC_QTY, "v.mass_r", "Masa (" + DCfgUtils.getMassUnitCode(miClient.getSession()) + ")");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_CAT_S, "whs.name", "Almacén");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_CAT_S, "movt.name", DGridConsts.COL_TITLE_TYPE + " mov almacén");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_CAT_S, "trnt.name", DGridConsts.COL_TITLE_TYPE + " mov transacción");

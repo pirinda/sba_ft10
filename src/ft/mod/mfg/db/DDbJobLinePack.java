@@ -195,8 +195,8 @@ public class DDbJobLinePack extends DDbRegistryUser implements DRowJobProgMask {
             mnPkPackId = resultSet.getInt("id_pck");
             mdLoads = resultSet.getDouble("lds");
             mdQuantity = resultSet.getDouble("qty");
-            mdMassUnit = resultSet.getDouble("mss_unt");
-            mdMass_r = resultSet.getDouble("mss_r");
+            mdMassUnit = resultSet.getDouble("mass_unt");
+            mdMass_r = resultSet.getDouble("mass_r");
             mnFkItemTypeId = resultSet.getInt("fk_itm_tp");
             mnFkItemId = resultSet.getInt("fk_itm");
             mnFkUnitId = resultSet.getInt("fk_uom");
@@ -232,7 +232,7 @@ public class DDbJobLinePack extends DDbRegistryUser implements DRowJobProgMask {
                 maChildMfgs.add(child);
             }
 
-            // Read aswell extra data:
+            // Read aswell extra members:
             
             msXtaLinePackCode = (String) session.readField(DModConsts.MU_LIN_PCK, new int[] { mnPkLinePackId }, DDbRegistry.FIELD_CODE);
             msXtaLinePackName = (String) session.readField(DModConsts.MU_LIN_PCK, new int[] { mnPkLinePackId }, DDbRegistry.FIELD_NAME);
@@ -282,8 +282,8 @@ public class DDbJobLinePack extends DDbRegistryUser implements DRowJobProgMask {
                     //"id_pck = " + mnPkPackId + ", " +
                     "lds = " + mdLoads + ", " +
                     "qty = " + mdQuantity + ", " +
-                    "mss_unt = " + mdMassUnit + ", " +
-                    "mss_r = " + mdMass_r + ", " +
+                    "mass_unt = " + mdMassUnit + ", " +
+                    "mass_r = " + mdMass_r + ", " +
                     "fk_itm_tp = " + mnFkItemTypeId + ", " +
                     "fk_itm = " + mnFkItemId + ", " +
                     "fk_uom = " + mnFkUnitId + ", " +
@@ -431,7 +431,7 @@ public class DDbJobLinePack extends DDbRegistryUser implements DRowJobProgMask {
         DDbFormula formula = (DDbFormula) session.readRegistry(DModConsts.MU_FRM, new int[] { mnFkFormulaId });
         
         for (DDbFormulaComp comp : formula.maChildComps) {
-            itemRqmt = (DDbItem) session.readRegistry(DModConsts.CU_ITM, new int[] { comp.getFkItemId() });
+//XXX            itemRqmt = (DDbItem) session.readRegistry(DModConsts.CU_ITM, new int[] { comp.getFkItemId() });
             
             rqmt = new DDbJobLinePackRqmt();
             rqmt.setPkJobId(mnPkJobId);
@@ -441,10 +441,10 @@ public class DDbJobLinePack extends DDbRegistryUser implements DRowJobProgMask {
             rqmt.setQuantity(comp.getQuantity() * mdLoads);
             rqmt.setMassUnit(itemRqmt.getMassUnit());
             rqmt.setMass_r(itemRqmt.getMassUnit() * comp.getQuantity() * mdLoads);
-            rqmt.setStatisticsReference(comp.getStatisticsReference());
+//XXX            rqmt.setStatisticsReference(comp.getStatisticsReference());
             rqmt.setStandard(comp.isStandard());
             rqmt.setFkItemTypeId(comp.getFkItemTypeId());
-            rqmt.setFkItemId(comp.getFkItemId());
+//XXX            rqmt.setFkItemId(comp.getFkItemId());
             rqmt.setFkUnitId(comp.getFkUnitId());
             rqmt.setXtaLinePackCode(msXtaLinePackCode);
             rqmt.setXtaLinePackName(msXtaLinePackName);
@@ -454,8 +454,8 @@ public class DDbJobLinePack extends DDbRegistryUser implements DRowJobProgMask {
             rqmt.setXtaRqmtTypeCode(itemRqmt.getXtaItemTypeCode());
             rqmt.setXtaRqmtCode(itemRqmt.getCode());
             rqmt.setXtaRqmtName(itemRqmt.getName());
-            rqmt.setXtaUnitCode(itemRqmt.getXtaUnitCode());
-            rqmt.setXtaUnitName(itemRqmt.getXtaUnitName());
+//XXX            rqmt.setXtaUnitCode(itemRqmt.getXtaUnitCode());
+//XXX            rqmt.setXtaUnitName(itemRqmt.getXtaUnitName());
             masks.add(rqmt);
         }
         

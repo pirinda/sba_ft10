@@ -11,6 +11,7 @@ import ft.mod.stk.db.DDbWsd;
 import ft.mod.stk.db.DDbWsdRow;
 import ft.mod.stk.form.DFormWarehouse;
 import ft.mod.stk.form.DFormWsd;
+import ft.mod.stk.view.DViewStock;
 import ft.mod.stk.view.DViewWarehouse;
 import ft.mod.stk.view.DViewWsd;
 import javax.swing.JMenu;
@@ -205,6 +206,17 @@ public class DModModuleStk extends DGuiModule {
             case DModConsts.S_WSD_ROW:
                 break;
             case DModConsts.S_STK:
+                switch (subtype) {
+                    case DModSysConsts.SX_STK:
+                        title = "Existencias";
+                        break;
+                    case DModSysConsts.SX_STK_LOT:
+                        title = "Existencias lote";
+                        break;
+                    default:
+                        miClient.showMsgBoxError(DLibConsts.ERR_MSG_OPTION_UNKNOWN);
+                }
+                view = new DViewStock(miClient, subtype, title);
                 break;
             default:
                 miClient.showMsgBoxError(DLibConsts.ERR_MSG_OPTION_UNKNOWN);

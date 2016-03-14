@@ -6,8 +6,6 @@
 package ft.mod.mfg.db;
 
 import ft.mod.DModConsts;
-import ft.mod.DModSysConsts;
-import ft.mod.cfg.db.DDbFamily;
 import ft.mod.cfg.db.DDbItem;
 import ft.mod.cfg.db.DDbUnit;
 import java.sql.ResultSet;
@@ -23,112 +21,87 @@ import sba.lib.gui.DGuiSession;
  *
  * @author Sergio Flores
  */
-public class DDbFormulaComp extends DDbRegistryUser implements DGridRow {
+public class DDbFormulaByProd extends DDbRegistryUser implements DGridRow {
 
     protected int mnPkFormulaId;
-    protected int mnPkCompId;
+    protected int mnPkByProdId;
     protected double mdQuantity;
     protected double mdMassUnit;
     protected double mdMass_r;
     protected boolean mbStandard;
-    protected int mnFkCompTypeId;
-    protected int mnFkCompId;
+    protected int mnFkItemId;
     protected int mnFkItemTypeId;
     protected int mnFkUnitId;
     
-    protected DDbFamily moRegFamily;
     protected DDbItem moRegItem;
     protected DDbUnit moRegUnit;
 
-    protected String msXtaCompTypeCode;
-    protected String msXtaCompTypeName;
+    protected String msXtaItemTypeCode;
+    protected String msXtaItemTypeName;
     
-    public DDbFormulaComp() {
-        super(DModConsts.MU_FRM_CMP);
+    public DDbFormulaByProd() {
+        super(DModConsts.MU_FRM_BYP);
         initRegistry();
     }
-    
+
     private void readRegMembers(final DGuiSession session, final boolean update) {
-        switch (mnFkCompTypeId) {
-            case DModSysConsts.MS_CMP_TP_FAM:
-                moRegFamily = (DDbFamily) session.readRegistry(DModConsts.CU_FAM, new int[] { mnFkCompId });
-                moRegItem = null;
-                
-                if (update) {
-                    mnFkItemTypeId = moRegFamily.getFkItemTypeId();
-                    mnFkUnitId = moRegFamily.getFkUnitId();
-                }
-                
-                moRegUnit = (DDbUnit) session.readRegistry(DModConsts.CU_UOM, new int[] { mnFkUnitId });
-                
-                break;
-                
-            case DModSysConsts.MS_CMP_TP_ITM:
-                moRegItem = (DDbItem) session.readRegistry(DModConsts.CU_ITM, new int[] { mnFkCompId });
-                moRegFamily = null;
-                
-                if (update) {
-                    mnFkItemTypeId = moRegItem.getXtaFkItemTypeId();
-                    mnFkUnitId = moRegItem.getFkUnitId();
-                }
-                
-                moRegUnit = (DDbUnit) session.readRegistry(DModConsts.CU_UOM, new int[] { mnFkUnitId });
-                break;
-                
-            default:
+        moRegItem = (DDbItem) session.readRegistry(DModConsts.CU_ITM, new int[] { mnFkItemId });
+        
+        if (update) {
+            mnFkItemTypeId = moRegItem.getXtaFkItemTypeId();
+            mnFkUnitId = moRegItem.getFkUnitId();
+            mdMassUnit = moRegItem.getMassUnit();
         }
+        
+        moRegUnit = (DDbUnit) session.readRegistry(DModConsts.CU_UOM, new int[] { mnFkUnitId });
     }
     
     private void readXtaMembers(final DGuiSession session) {
-        msXtaCompTypeCode = (String) session.readField(DModConsts.MS_CMP_TP, new int[] { mnFkCompTypeId }, DDbRegistry.FIELD_CODE);
-        msXtaCompTypeName = (String) session.readField(DModConsts.MS_CMP_TP, new int[] { mnFkCompTypeId }, DDbRegistry.FIELD_NAME);
+        msXtaItemTypeCode = (String) session.readField(DModConsts.CS_ITM_TP, new int[] { mnFkItemTypeId}, DDbRegistry.FIELD_CODE);
+        msXtaItemTypeName = (String) session.readField(DModConsts.CS_ITM_TP, new int[] { mnFkItemTypeId}, DDbRegistry.FIELD_NAME);
     }
-
+    
     public void setPkFormulaId(int n) { mnPkFormulaId = n; }
-    public void setPkCompId(int n) { mnPkCompId = n; }
+    public void setPkByProdId(int n) { mnPkByProdId = n; }
     public void setQuantity(double d) { mdQuantity = d; }
     public void setMassUnit(double d) { mdMassUnit = d; }
     public void setMass_r(double d) { mdMass_r = d; }
     public void setStandard(boolean b) { mbStandard = b; }
-    public void setFkCompTypeId(int n) { mnFkCompTypeId = n; }
-    public void setFkCompId(int n) { mnFkCompId = n; }
+    public void setFkItemId(int n) { mnFkItemId = n; }
     public void setFkItemTypeId(int n) { mnFkItemTypeId = n; }
     public void setFkUnitId(int n) { mnFkUnitId = n; }
 
     public int getPkFormulaId() { return mnPkFormulaId; }
-    public int getPkCompId() { return mnPkCompId; }
+    public int getPkByProdId() { return mnPkByProdId; }
     public double getQuantity() { return mdQuantity; }
     public double getMassUnit() { return mdMassUnit; }
     public double getMass_r() { return mdMass_r; }
     public boolean isStandard() { return mbStandard; }
-    public int getFkCompTypeId() { return mnFkCompTypeId; }
-    public int getFkCompId() { return mnFkCompId; }
+    public int getFkItemId() { return mnFkItemId; }
     public int getFkItemTypeId() { return mnFkItemTypeId; }
     public int getFkUnitId() { return mnFkUnitId; }
-    
-    public void setRegFamily(DDbFamily o) { moRegFamily = o; }
+
     public void setRegItem(DDbItem o) { moRegItem = o; }
     public void setRegUnit(DDbUnit o) { moRegUnit = o; }
     
-    public DDbFamily getRegFamily() { return moRegFamily; }
     public DDbItem getRegItem() { return moRegItem; }
     public DDbUnit getRegUnit() { return moRegUnit; }
-
-    public void setXtaCompTypeCode(String s) { msXtaCompTypeCode = s; }
-    public void setXtaCompTypeName(String s) { msXtaCompTypeName = s; }
     
-    public String getXtaCompTypeCode() { return msXtaCompTypeCode; }
-    public String getXtaCompTypeName() { return msXtaCompTypeName; }
+    public void setXtaItemTypeCode(String s) { msXtaItemTypeCode = s; }
+    public void setXtaItemTypeName(String s) { msXtaItemTypeName = s; }
+    
+    public String getXtaItemTypeCode() { return msXtaItemTypeCode; }
+    public String getXtaItemTypeName() { return msXtaItemTypeName; }
     
     @Override
     public void setPrimaryKey(int[] pk) {
         mnPkFormulaId = pk[0];
-        mnPkCompId = pk[1];
+        mnPkByProdId = pk[1];
     }
 
     @Override
     public int[] getPrimaryKey() {
-        return new int[] { mnPkFormulaId, mnPkCompId };
+        return new int[] { mnPkFormulaId, mnPkByProdId };
     }
 
     @Override
@@ -136,22 +109,20 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow {
         initBaseRegistry();
 
         mnPkFormulaId = 0;
-        mnPkCompId = 0;
+        mnPkByProdId = 0;
         mdQuantity = 0;
         mdMassUnit = 0;
         mdMass_r = 0;
         mbStandard = false;
-        mnFkCompTypeId = 0;
-        mnFkCompId = 0;
+        mnFkItemId = 0;
         mnFkItemTypeId = 0;
         mnFkUnitId = 0;
         
-        moRegFamily = null;
         moRegItem = null;
         moRegUnit = null;
         
-        msXtaCompTypeCode = "";
-        msXtaCompTypeName = "";
+        msXtaItemTypeCode = "";
+        msXtaItemTypeName = "";
     }
 
     @Override
@@ -161,25 +132,25 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow {
 
     @Override
     public String getSqlWhere() {
-        return "WHERE id_frm = " + mnPkFormulaId + " AND id_cmp = " + mnPkCompId + " ";
+        return "WHERE id_frm = " + mnPkFormulaId + " AND id_byp = " + mnPkByProdId + " ";
     }
 
     @Override
     public String getSqlWhere(int[] pk) {
-        return "WHERE id_frm = " + pk[0] + " AND id_cmp = " + pk[1] + " ";
+        return "WHERE id_frm = " + pk[0] + " AND id_byp = " + pk[1] + " ";
     }
 
     @Override
     public void computePrimaryKey(DGuiSession session) throws SQLException, Exception {
         ResultSet resultSet = null;
 
-        mnPkCompId = 0;
+        mnPkByProdId = 0;
 
-        msSql = "SELECT COALESCE(MAX(id_cmp), 0) + 1 FROM " + getSqlTable() + " " +
+        msSql = "SELECT COALESCE(MAX(id_byp), 0) + 1 FROM " + getSqlTable() + " " +
                 "WHERE id_frm = " + mnPkFormulaId + " ";
         resultSet = session.getStatement().executeQuery(msSql);
         if (resultSet.next()) {
-            mnPkCompId = resultSet.getInt(1);
+            mnPkByProdId = resultSet.getInt(1);
         }
     }
 
@@ -198,13 +169,12 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow {
         }
         else {
             mnPkFormulaId = resultSet.getInt("id_frm");
-            mnPkCompId = resultSet.getInt("id_cmp");
+            mnPkByProdId = resultSet.getInt("id_byp");
             mdQuantity = resultSet.getDouble("qty");
             mdMassUnit = resultSet.getDouble("mass_unt");
             mdMass_r = resultSet.getDouble("mass_r");
             mbStandard = resultSet.getBoolean("b_std");
-            mnFkCompTypeId = resultSet.getInt("fk_cmp_tp");
-            mnFkCompId = resultSet.getInt("fk_cmp");
+            mnFkItemId = resultSet.getInt("fk_itm");
             mnFkItemTypeId = resultSet.getInt("fk_itm_tp");
             mnFkUnitId = resultSet.getInt("fk_uom");
 
@@ -229,13 +199,13 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow {
 
             msSql = "INSERT INTO " + getSqlTable() + " VALUES (" +
                     mnPkFormulaId + ", " + 
-                   mnPkCompId + ", " + 
+                   mnPkByProdId + ", " + 
                    mdQuantity + ", " + 
                    mdMassUnit + ", " + 
                    mdMass_r + ", " + 
                    (mbStandard ? 1 : 0) + ", " + 
-                   mnFkCompTypeId + ", " + 
-                   mnFkCompId + ", " + 
+                   mnFkItemTypeId + ", " + 
+                   mnFkItemId + ", " + 
                    mnFkItemTypeId + ", " + 
                    mnFkUnitId + " " + 
                    ")";
@@ -250,26 +220,24 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow {
     }
 
     @Override
-    public DDbFormulaComp clone() throws CloneNotSupportedException {
-        DDbFormulaComp registry = new DDbFormulaComp();
+    public DDbFormulaByProd clone() throws CloneNotSupportedException {
+        DDbFormulaByProd registry = new DDbFormulaByProd();
 
         registry.setPkFormulaId(this.getPkFormulaId());
-        registry.setPkCompId(this.getPkCompId());
+        registry.setPkByProdId(this.getPkByProdId());
         registry.setQuantity(this.getQuantity());
         registry.setMassUnit(this.getMassUnit());
         registry.setMass_r(this.getMass_r());
         registry.setStandard(this.isStandard());
-        registry.setFkCompTypeId(this.getFkCompTypeId());
-        registry.setFkCompId(this.getFkCompId());
+        registry.setFkItemId(this.getFkItemId());
         registry.setFkItemTypeId(this.getFkItemTypeId());
         registry.setFkUnitId(this.getFkUnitId());
+        
+        registry.setXtaItemTypeCode(this.getXtaItemTypeCode());
+        registry.setXtaItemTypeName(this.getXtaItemTypeName());
 
-        registry.setRegFamily(this.getRegFamily());
         registry.setRegItem(this.getRegItem());
         registry.setRegUnit(this.getRegUnit());
-        
-        registry.setXtaCompTypeCode(this.getXtaCompTypeCode());
-        registry.setXtaCompTypeName(this.getXtaCompTypeName());
         
         registry.setRegistryNew(this.isRegistryNew());
         return registry;
@@ -315,51 +283,21 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow {
         Object value = null;
         switch (col) {
             case 0:
-                value = mnPkCompId;
+                value = mnPkByProdId;
                 break;
             case 1:
-                value = msXtaCompTypeCode;
+                value = moRegItem.getXtaItemTypeCode();
                 break;
             case 2:
-                switch (mnFkCompTypeId) {
-                    case DModSysConsts.MS_CMP_TP_FAM:
-                        value = moRegFamily.getXtaItemTypeCode();
-                        break;
-                    case DModSysConsts.MS_CMP_TP_ITM:
-                        value = moRegItem.getXtaItemTypeCode();
-                        break;
-                    default:
-                }
+                value = moRegItem.getName();
                 break;
             case 3:
-                switch (mnFkCompTypeId) {
-                    case DModSysConsts.MS_CMP_TP_FAM:
-                        value = moRegFamily.getName();
-                        break;
-                    case DModSysConsts.MS_CMP_TP_ITM:
-                        value = moRegItem.getName();
-                        break;
-                    default:
-                }
-                break;
-            case 4:
-                switch (mnFkCompTypeId) {
-                    case DModSysConsts.MS_CMP_TP_FAM:
-                        value = moRegFamily.getCode();
-                        break;
-                    case DModSysConsts.MS_CMP_TP_ITM:
-                        value = moRegItem.getCode();
-                        break;
-                    default:
-                }
-                break;
-            case 5:
                 value = mdQuantity;
                 break;
-            case 6:
+            case 4:
                 value = moRegUnit.getCode();
                 break;
-            case 7:
+            case 5:
                 value = mbStandard;
                 break;
             default:
@@ -377,16 +315,6 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow {
         readRegMembers(session, true);
         readXtaMembers(session);
         
-        mdMass_r = 0;
-        
-        switch (mnFkCompTypeId) {
-            case DModSysConsts.MS_CMP_TP_FAM:
-                mdMass_r = DLibUtils.round(mdMassUnit * mdQuantity, DLibUtils.getDecimalFormatAmountUnitary().getMaximumFractionDigits());
-                break;
-            case DModSysConsts.MS_CMP_TP_ITM:
-                mdMass_r = DLibUtils.round((mdMassUnit = moRegItem.getMassUnit()) * mdQuantity, DLibUtils.getDecimalFormatAmountUnitary().getMaximumFractionDigits());
-                break;
-            default:
-        }
+        mdMass_r = DLibUtils.round(mdMassUnit * mdQuantity, DLibUtils.getDecimalFormatAmountUnitary().getMaximumFractionDigits());
     }
 }

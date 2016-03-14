@@ -14,6 +14,7 @@ package ft.mod.cfg.form;
 import ft.mod.DModConsts;
 import ft.mod.DModSysConsts;
 import ft.mod.cfg.db.DCfgUtils;
+import ft.mod.cfg.db.DDbConfig;
 import ft.mod.cfg.db.DDbFamily;
 import ft.mod.cfg.db.DDbItem;
 import ft.mod.cfg.db.DDbUnit;
@@ -129,7 +130,7 @@ public class DFormItem extends DBeanForm implements ItemListener {
         jlName.setPreferredSize(new java.awt.Dimension(100, 23));
         jPanel4.add(jlName);
 
-        moTextName.setPreferredSize(new java.awt.Dimension(200, 23));
+        moTextName.setPreferredSize(new java.awt.Dimension(300, 23));
         jPanel4.add(moTextName);
 
         jPanel1.add(jPanel4);
@@ -243,7 +244,7 @@ public class DFormItem extends DBeanForm implements ItemListener {
         
         moFields.setFormButton(jbSave);
         
-        moCompMassUnit.setCompoundText(DCfgUtils.getSystemUnitCodeMass(miClient.getSession()));
+        moCompMassUnit.setCompoundText(DCfgUtils.getMassUnitCode(miClient.getSession()));
     }
     
     private void updateFieldItemBase() {
@@ -258,13 +259,19 @@ public class DFormItem extends DBeanForm implements ItemListener {
     private void itemStateChangeFamily() {
         if (moKeyFamily.getSelectedIndex() <= 0) {
             moItemFamily = null;
+            
             moKeyItemBase.removeAllItems();
+            
+            moKeyUnit.resetField();
         }
         else {
+            moItemFamily = (DDbFamily) miClient.getSession().readRegistry(DModConsts.CU_FAM, moKeyFamily.getValue());
+            
             if (mbAppliesItemBase) {
-                moItemFamily = (DDbFamily) miClient.getSession().readRegistry(DModConsts.CU_FAM, moKeyFamily.getValue());
                 miClient.getSession().populateCatalogue(moKeyItemBase, DModConsts.CU_ITM, DLibConsts.UNDEFINED, new DGuiParams(new int[] { moItemFamily.getFkFamilyBaseId_n() }));
             }
+            
+            moKeyUnit.setValue(new int[] { moItemFamily.getFkUnitId() });
         }
         
         updateFieldItemBase();
@@ -278,8 +285,11 @@ public class DFormItem extends DBeanForm implements ItemListener {
             moUnitItem = (DDbUnit) miClient.getSession().readRegistry(DModConsts.CU_UOM, moKeyUnit.getValue());
         }
         
-        if (moUnitItem != null || moUnitItem.getFkUnitTypeId() == DModSysConsts.CS_UOM_TP_MSS) {
-            moCompMassUnit.getField().setValue(moUnitItem.getConversionFactor());
+        if (moUnitItem == null || moUnitItem.getFkUnitTypeId() != DModSysConsts.CS_UOM_TP_MSS) {
+            moCompMassUnit.getField().setValue(0d);
+        }
+        else {
+            moCompMassUnit.getField().setValue(moUnitItem.getConversionFactor() / ((DDbConfig) miClient.getSession().getConfigCompany()).getRegMassUnit().getConversionFactor());
         }
     }
     

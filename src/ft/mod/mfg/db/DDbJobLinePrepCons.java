@@ -193,7 +193,7 @@ public class DDbJobLinePrepCons extends DDbRegistryUser implements DRowJobConsMa
             mnFkItemId = resultSet.getInt("fk_itm");
             mnFkUnitId = resultSet.getInt("fk_uom");
 
-            // Read aswell extra data:
+            // Read aswell extra members:
 /*XXX
             msSql = "SELECT fk_itm FROM " + DModConsts.TablesMap.get(DModConsts.M_JOB_PRP) + " "
                     + "WHERE id_job = " + mnPkJobId + " AND id_lin_prp = " + mnPkLinePrepId + " AND id_prp = " + mnPkPrepId + " ";

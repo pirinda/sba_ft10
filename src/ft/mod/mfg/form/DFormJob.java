@@ -1534,7 +1534,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         }
         else {
             moDecProgPrepLoads.setEditable(moFormulaPrep.getFkFormulaTypeId() == DModSysConsts.MS_FRM_TP_STD);
-            moCompProgPrepDefaultVar1.setEditable(moFormulaPrep.isQuantityByVar1());
+//XXX            moCompProgPrepDefaultVar1.setEditable(moFormulaPrep.isQuantityByVar1());
         }
     }
     
@@ -1973,7 +1973,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
                 jobLinePrep.setMassUnit(item.getMassUnit());
                 jobLinePrep.setMass_r(item.getMassUnit() * moCompProgPrepQuantity.getField().getValue());
                 jobLinePrep.setPackagingFactor(0);
-                jobLinePrep.setQuantityByVar1(moFormulaPrep.isQuantityByVar1());
+//XXX                jobLinePrep.setQuantityByVar1(moFormulaPrep.isQuantityByVar1());
                 jobLinePrep.setFkItemTypeId(item.getXtaFkItemTypeId());
                 jobLinePrep.setFkItemId(item.getPkItemId());
                 jobLinePrep.setFkUnitId(item.getFkUnitId());
@@ -1983,8 +1983,8 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
                 jobLinePrep.setXtaLinePrepName((String) moKeyProgPrepLinePrep.getSelectedItem().getItem());
                 jobLinePrep.setXtaItemCode(item.getCode());
                 jobLinePrep.setXtaItemName(item.getName());
-                jobLinePrep.setXtaUnitCode(item.getXtaUnitCode());
-                jobLinePrep.setXtaUnitName(item.getXtaUnitName());
+//XXX                jobLinePrep.setXtaUnitCode(item.getXtaUnitCode());
+//XXX                jobLinePrep.setXtaUnitName(item.getXtaUnitName());
                 jobLinePrep.setXtaFormulaName(moFormulaPrep.getName());
 
                 moGridProgPrep.addGridRow(new DRowJobProg(jobLinePrep));
@@ -2049,8 +2049,8 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
                 jobLinePack.setXtaLinePackName(moKeyProgPackLinePack.getSelectedItem().getItem());
                 jobLinePack.setXtaItemCode(item.getCode());
                 jobLinePack.setXtaItemName(item.getName());
-                jobLinePack.setXtaUnitCode(item.getXtaUnitCode());
-                jobLinePack.setXtaUnitName(item.getXtaUnitName());
+//XXX                jobLinePack.setXtaUnitCode(item.getXtaUnitCode());
+//XXX                jobLinePack.setXtaUnitName(item.getXtaUnitName());
                 jobLinePack.setXtaFormulaName(moFormulaPack.getName());
 
                 moGridProgPack.addGridRow(new DRowJobProg(jobLinePack));
@@ -2122,8 +2122,8 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
                 jobLinePrepCons.setXtaRqmtTypeCode(item.getXtaItemTypeCode());
                 jobLinePrepCons.setXtaRqmtCode(item.getCode());
                 jobLinePrepCons.setXtaRqmtName(item.getName());
-                jobLinePrepCons.setXtaUnitCode(item.getXtaUnitCode());
-                jobLinePrepCons.setXtaUnitName(item.getXtaUnitName());
+//XXX                jobLinePrepCons.setXtaUnitCode(item.getXtaUnitCode());
+//XXX                jobLinePrepCons.setXtaUnitName(item.getXtaUnitName());
                 
                 moGridPrepCons.addGridRow(new DRowJobCons(jobLinePrepCons));
                 moGridPrepCons.renderGridRows();
@@ -2178,8 +2178,8 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
                 jobLinePrepMfg.setXtaLinePrepName(moKeyPrepMfgLinePrep.getSelectedItem().getItem());
                 jobLinePrepMfg.setXtaProductCode((String) moKeyPrepMfgLinePrepItem.getSelectedItem().getComplement());
                 jobLinePrepMfg.setXtaProductName(moKeyPrepMfgLinePrepItem.getSelectedItem().getItem());
-                jobLinePrepMfg.setXtaUnitCode(item.getXtaUnitCode());
-                jobLinePrepMfg.setXtaUnitName(item.getXtaUnitName());
+//XXX                jobLinePrepMfg.setXtaUnitCode(item.getXtaUnitCode());
+//XXX                jobLinePrepMfg.setXtaUnitName(item.getXtaUnitName());
                 
                 moGridPrepMfg.addGridRow(new DRowJobMfg(jobLinePrepMfg));
                 moGridPrepMfg.renderGridRows();
@@ -2300,7 +2300,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         }
         else {
             moDecProgPrepLoads.setValue(1d);
-            moCompProgPrepDefaultVar1.getField().setValue(moFormulaPrep.getDefaultVar1());
+//XXX            moCompProgPrepDefaultVar1.getField().setValue(moFormulaPrep.getDefaultVar1());
         }
         
         computeProgPrepQuantity();

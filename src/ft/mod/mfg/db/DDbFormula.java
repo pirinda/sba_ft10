@@ -6,13 +6,16 @@
 package ft.mod.mfg.db;
 
 import ft.mod.DModConsts;
+import ft.mod.cfg.db.DDbItem;
+import ft.mod.cfg.db.DDbPresent;
+import ft.mod.cfg.db.DDbUnit;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import sba.gui.util.DUtilConsts;
-import sba.lib.DLibConsts;
+import sba.lib.DLibUtils;
 import sba.lib.db.DDbConsts;
 import sba.lib.db.DDbRegistryUser;
 import sba.lib.gui.DGuiSession;
@@ -26,20 +29,16 @@ public class DDbFormula extends DDbRegistryUser {
     protected int mnPkFormulaId;
     protected String msCode;
     protected String msName;
-    protected String msNameReference;
-    protected double mdDefaultVar1;
+    protected String msReference;
     protected double mdQuantity;
-    protected boolean mbQuantityByVar1;
+    protected double mdMass_r;
     /*
     protected boolean mbDeleted;
     protected boolean mbSystem;
     */
     protected int mnFkFormulaTypeId;
+    protected int mnFkItemId;
     protected int mnFkItemTypeId;
-    protected int mnFkReferenceTypeId;
-    protected int mnFkItemFamilyId_n;
-    protected int mnFkItemGroupId_n;
-    protected int mnFkItemId_n;
     protected int mnFkUnitId;
     protected int mnFkPresentId;
     /*
@@ -49,71 +48,46 @@ public class DDbFormula extends DDbRegistryUser {
     protected Date mtTsUserUpdate;
     */
     
+    protected DDbItem moRegItem;
+    protected DDbUnit moRegUnit;
+    protected DDbPresent moRegPresent;
+    
     protected ArrayList<DDbFormulaComp> maChildComps;
+    protected ArrayList<DDbFormulaByProd> maChildByProds;
     
     public DDbFormula() {
         super(DModConsts.MU_FRM);
         maChildComps = new ArrayList<>();
+        maChildByProds = new ArrayList<>();
         initRegistry();
     }
-/*    
-    public static String computeName(final DGuiSession session, final String name, final String nameReference) {
-        String separator = ((DDbConfig) session.getConfigCompany()).getNameSeparatorFormatted();
+    
+    private void readRegMembers(final DGuiSession session, final boolean update) {
+        moRegItem = (DDbItem) session.readRegistry(DModConsts.CU_ITM, new int[] { mnFkItemId });
         
-        return DLibUtils.textTrim((name.isEmpty() ? "?" : name) + (nameReference.isEmpty() ? "" : separator + nameReference));
+        if (update) {
+            msCode = moRegItem.getCode();
+            msName = moRegItem.getName();
+            mnFkItemTypeId = moRegItem.getXtaFkItemTypeId();
+            mnFkUnitId = moRegItem.getFkUnitId();
+            mnFkPresentId = moRegItem.getFkPresentId();
+        }
+        
+        moRegUnit = (DDbUnit) session.readRegistry(DModConsts.CU_UOM, new int[] { mnFkUnitId });
+        moRegPresent = (DDbPresent) session.readRegistry(DModConsts.CU_PRE, new int[] { mnFkPresentId });
     }
     
-    public void updateSnapshotData(final DGuiSession session) throws Exception {
-        int itemTypeId = DLibConsts.UNDEFINED;
-        int unitId = DLibConsts.UNDEFINED;
-        int presentId = DLibConsts.UNDEFINED;
-        DDbRegistry registry = null;
-        
-        switch (mnFkReferenceTypeId) {
-            case DModSysConsts.MS_REF_TP_FAM:
-                registry = session.readRegistry(DModConsts.CU_FAM, new int[] { mnFkItemFamilyId_n }, DDbConsts.MODE_STEALTH);
-                itemTypeId = ((DDbFamily) registry).getFkItemTypeId();
-                unitId = DModSysConsts.CU_UNT_NA;
-                presentId = DModSysConsts.CU_PRS_NA;
-                break;
-            case DModSysConsts.MS_REF_TP_GRP:
-                registry = session.readRegistry(DModConsts.CU_GRP, new int[] { mnFkItemGroupId_n }, DDbConsts.MODE_STEALTH);
-                itemTypeId = ((DDbItemGroup) registry).getXtaFkItemTypeId();
-                unitId = DModSysConsts.CU_UNT_NA;
-                presentId = DModSysConsts.CU_PRS_NA;
-                break;
-            case DModSysConsts.MS_REF_TP_ITM:
-                registry = session.readRegistry(DModConsts.CU_ITM, new int[] { mnFkItemId_n }, DDbConsts.MODE_STEALTH);
-                itemTypeId = ((DDbItem) registry).getXtaFkItemTypeId();
-                unitId = ((DDbItem) registry).getFkUnitId();
-                presentId = ((DDbItem) registry).getFkPresentId();
-                break;
-            default:
-                throw new Exception(DLibConsts.ERR_MSG_OPTION_UNKNOWN);
-        }
-
-        msCode = registry.getCode();
-        msName = computeName(session, registry.getName(), msNameReference);
-        mnFkItemTypeId = itemTypeId;
-        mnFkUnitId = unitId;
-        mnFkPresentId = presentId;
-    }
-*/
     public void setPkFormulaId(int n) { mnPkFormulaId = n; }
     public void setCode(String s) { msCode = s; }
     public void setName(String s) { msName = s; }
-    public void setNameReference(String s) { msNameReference = s; }
-    public void setDefaultVar1(double d) { mdDefaultVar1 = d; }
+    public void setReference(String s) { msReference = s; }
     public void setQuantity(double d) { mdQuantity = d; }
-    public void setQuantityByVar1(boolean b) { mbQuantityByVar1 = b; }
+    public void setMass_r(double d) { mdMass_r = d; }
     public void setDeleted(boolean b) { mbDeleted = b; }
     public void setSystem(boolean b) { mbSystem = b; }
     public void setFkFormulaTypeId(int n) { mnFkFormulaTypeId = n; }
+    public void setFkItemId(int n) { mnFkItemId = n; }
     public void setFkItemTypeId(int n) { mnFkItemTypeId = n; }
-    public void setFkReferenceTypeId(int n) { mnFkReferenceTypeId = n; }
-    public void setFkItemFamilyId_n(int n) { mnFkItemFamilyId_n = n; }
-    public void setFkItemGroupId_n(int n) { mnFkItemGroupId_n = n; }
-    public void setFkItemId_n(int n) { mnFkItemId_n = n; }
     public void setFkUnitId(int n) { mnFkUnitId = n; }
     public void setFkPresentId(int n) { mnFkPresentId = n; }
     public void setFkUserInsertId(int n) { mnFkUserInsertId = n; }
@@ -124,18 +98,14 @@ public class DDbFormula extends DDbRegistryUser {
     public int getPkFormulaId() { return mnPkFormulaId; }
     public String getCode() { return msCode; }
     public String getName() { return msName; }
-    public String getNameReference() { return msNameReference; }
-    public double getDefaultVar1() { return mdDefaultVar1; }
+    public String getReference() { return msReference; }
     public double getQuantity() { return mdQuantity; }
-    public boolean isQuantityByVar1() { return mbQuantityByVar1; }
+    public double getMass_r() { return mdMass_r; }
     public boolean isDeleted() { return mbDeleted; }
     public boolean isSystem() { return mbSystem; }
     public int getFkFormulaTypeId() { return mnFkFormulaTypeId; }
+    public int getFkItemId() { return mnFkItemId; }
     public int getFkItemTypeId() { return mnFkItemTypeId; }
-    public int getFkReferenceTypeId() { return mnFkReferenceTypeId; }
-    public int getFkItemFamilyId_n() { return mnFkItemFamilyId_n; }
-    public int getFkItemGroupId_n() { return mnFkItemGroupId_n; }
-    public int getFkItemId_n() { return mnFkItemId_n; }
     public int getFkUnitId() { return mnFkUnitId; }
     public int getFkPresentId() { return mnFkPresentId; }
     public int getFkUserInsertId() { return mnFkUserInsertId; }
@@ -143,7 +113,16 @@ public class DDbFormula extends DDbRegistryUser {
     public Date getTsUserInsert() { return mtTsUserInsert; }
     public Date getTsUserUpdate() { return mtTsUserUpdate; }
 
+    public void setRegItem(DDbItem o) { moRegItem = o; }
+    public void setRegUnit(DDbUnit o) { moRegUnit = o; }
+    public void setRegPresent(DDbPresent o) { moRegPresent = o; }
+    
+    public DDbItem getRegItem() { return moRegItem; }
+    public DDbUnit getRegUnit() { return moRegUnit; }
+    public DDbPresent getRegPresent() { return moRegPresent; }
+    
     public ArrayList<DDbFormulaComp> getChildComps() { return maChildComps; }
+    public ArrayList<DDbFormulaByProd> getChildByProds() { return maChildByProds; }
     
     @Override
     public void setPrimaryKey(int[] pk) {
@@ -162,18 +141,14 @@ public class DDbFormula extends DDbRegistryUser {
         mnPkFormulaId = 0;
         msCode = "";
         msName = "";
-        msNameReference = "";
-        mdDefaultVar1 = 0;
+        msReference = "";
         mdQuantity = 0;
-        mbQuantityByVar1 = false;
+        mdMass_r = 0;
         mbDeleted = false;
         mbSystem = false;
         mnFkFormulaTypeId = 0;
+        mnFkItemId = 0;
         mnFkItemTypeId = 0;
-        mnFkReferenceTypeId = 0;
-        mnFkItemFamilyId_n = 0;
-        mnFkItemGroupId_n = 0;
-        mnFkItemId_n = 0;
         mnFkUnitId = 0;
         mnFkPresentId = 0;
         mnFkUserInsertId = 0;
@@ -181,7 +156,12 @@ public class DDbFormula extends DDbRegistryUser {
         mtTsUserInsert = null;
         mtTsUserUpdate = null;
         
+        moRegItem = null;
+        moRegUnit = null;
+        moRegPresent = null;
+        
         maChildComps.clear();
+        maChildByProds.clear();
     }
 
     @Override
@@ -230,29 +210,27 @@ public class DDbFormula extends DDbRegistryUser {
             mnPkFormulaId = resultSet.getInt("id_frm");
             msCode = resultSet.getString("code");
             msName = resultSet.getString("name");
-            msNameReference = resultSet.getString("name_ref");
-            mdDefaultVar1 = resultSet.getDouble("def_var_1");
+            msReference = resultSet.getString("ref");
             mdQuantity = resultSet.getDouble("qty");
-            mbQuantityByVar1 = resultSet.getBoolean("b_qty_var_1");
+            mdMass_r = resultSet.getDouble("mass_r");
             mbDeleted = resultSet.getBoolean("b_del");
             mbSystem = resultSet.getBoolean("b_sys");
             mnFkFormulaTypeId = resultSet.getInt("fk_frm_tp");
+            mnFkItemId = resultSet.getInt("fk_itm");
             mnFkItemTypeId = resultSet.getInt("fk_itm_tp");
-            mnFkReferenceTypeId = resultSet.getInt("fk_ref_tp");
-            mnFkItemFamilyId_n = resultSet.getInt("fk_fam_n");
-            mnFkItemGroupId_n = resultSet.getInt("fk_grp_n");
-            mnFkItemId_n = resultSet.getInt("fk_itm");
             mnFkUnitId = resultSet.getInt("fk_uom");
-            mnFkPresentId = resultSet.getInt("fk_prs");
+            mnFkPresentId = resultSet.getInt("fk_pre");
             mnFkUserInsertId = resultSet.getInt("fk_usr_ins");
             mnFkUserUpdateId = resultSet.getInt("fk_usr_upd");
             mtTsUserInsert = resultSet.getTimestamp("ts_usr_ins");
             mtTsUserUpdate = resultSet.getTimestamp("ts_usr_upd");
+            
+            readRegMembers(session, false);
 
             // Read aswell child registries:
 
             statement = session.getStatement().getConnection().createStatement();
-/*
+            
             msSql = "SELECT id_cmp FROM " + DModConsts.TablesMap.get(DModConsts.MU_FRM_CMP) + " " + getSqlWhere();
             resultSet = statement.executeQuery(msSql);
             while (resultSet.next()) {
@@ -260,7 +238,15 @@ public class DDbFormula extends DDbRegistryUser {
                 child.read(session, new int[] { mnPkFormulaId, resultSet.getInt(1) });
                 maChildComps.add(child);
             }
-*/
+            
+            msSql = "SELECT id_byp FROM " + DModConsts.TablesMap.get(DModConsts.MU_FRM_BYP) + " " + getSqlWhere();
+            resultSet = statement.executeQuery(msSql);
+            while (resultSet.next()) {
+                DDbFormulaByProd child = new DDbFormulaByProd();
+                child.read(session, new int[] { mnPkFormulaId, resultSet.getInt(1) });
+                maChildByProds.add(child);
+            }
+            
             // Finish registry reading:
 
             mbRegistryNew = false;
@@ -274,7 +260,7 @@ public class DDbFormula extends DDbRegistryUser {
         initQueryMembers();
         mnQueryResultId = DDbConsts.SAVE_ERROR;
 
-  //      updateSnapshotData(session);
+        compute(session);
 
         if (mbRegistryNew) {
             computePrimaryKey(session);
@@ -287,18 +273,14 @@ public class DDbFormula extends DDbRegistryUser {
                     mnPkFormulaId + ", " + 
                     "'" + msCode + "', " + 
                     "'" + msName + "', " + 
-                    "'" + msNameReference + "', " + 
-                    mdDefaultVar1 + ", " + 
+                    "'" + msReference + "', " + 
                     mdQuantity + ", " + 
-                    (mbQuantityByVar1 ? 1 : 0) + ", " + 
+                    mdMass_r + ", " + 
                     (mbDeleted ? 1 : 0) + ", " + 
                     (mbSystem ? 1 : 0) + ", " + 
                     mnFkFormulaTypeId + ", " + 
+                    mnFkItemId + ", " + 
                     mnFkItemTypeId + ", " + 
-                    mnFkReferenceTypeId + ", " + 
-                    (mnFkItemFamilyId_n == DLibConsts.UNDEFINED ? "" : "" + mnFkItemFamilyId_n) + ", " + 
-                    (mnFkItemGroupId_n == DLibConsts.UNDEFINED ? "" : "" + mnFkItemGroupId_n) + ", " + 
-                    (mnFkItemId_n == DLibConsts.UNDEFINED ? "" : "" + mnFkItemId_n) + ", " + 
                     mnFkUnitId + ", " + 
                     mnFkPresentId + ", " + 
                     mnFkUserInsertId + ", " + 
@@ -314,20 +296,16 @@ public class DDbFormula extends DDbRegistryUser {
                     //"id_frm = " + mnPkFormulaId + ", " +
                     "code = '" + msCode + "', " +
                     "name = '" + msName + "', " +
-                    "name_ref = '" + msNameReference + "', " +
-                    "def_var_1 = " + mdDefaultVar1 + ", " +
+                    "ref = '" + msReference + "', " +
                     "qty = " + mdQuantity + ", " +
-                    "b_qty_var_1 = " + (mbQuantityByVar1 ? 1 : 0) + ", " +
+                    "mass_r = " + mdMass_r + ", " +
                     "b_del = " + (mbDeleted ? 1 : 0) + ", " +
                     "b_sys = " + (mbSystem ? 1 : 0) + ", " +
                     "fk_frm_tp = " + mnFkFormulaTypeId + ", " +
+                    "fk_itm = " + mnFkItemId + ", " +
                     "fk_itm_tp = " + mnFkItemTypeId + ", " +
-                    "fk_ref_tp = " + mnFkReferenceTypeId + ", " +
-                    "fk_fam_n = " + (mnFkItemFamilyId_n == DLibConsts.UNDEFINED ? "" : "" + mnFkItemFamilyId_n) + ", " +
-                    "fk_grp_n = " + (mnFkItemGroupId_n == DLibConsts.UNDEFINED ? "" : "" + mnFkItemGroupId_n) + ", " +
-                    "fk_itm = " + (mnFkItemId_n == DLibConsts.UNDEFINED ? "" : "" + mnFkItemId_n) + ", " +
                     "fk_uom = " + mnFkUnitId + ", " +
-                    "fk_prs = " + mnFkPresentId + ", " +
+                    "fk_pre = " + mnFkPresentId + ", " +
                     //"fk_usr_ins = " + mnFkUserInsertId + ", " +
                     "fk_usr_upd = " + mnFkUserUpdateId + ", " +
                     //"ts_usr_ins = " + "NOW()" + ", " +
@@ -338,7 +316,7 @@ public class DDbFormula extends DDbRegistryUser {
         session.getStatement().execute(msSql);
         
         // Save aswell child registries:
-/*
+
         msSql = "DELETE FROM " + DModConsts.TablesMap.get(DModConsts.MU_FRM_CMP) + " " + getSqlWhere();
         session.getStatement().execute(msSql);
 
@@ -347,7 +325,16 @@ public class DDbFormula extends DDbRegistryUser {
             child.setRegistryNew(true);
             child.save(session);
         }
-*/
+
+        msSql = "DELETE FROM " + DModConsts.TablesMap.get(DModConsts.MU_FRM_BYP) + " " + getSqlWhere();
+        session.getStatement().execute(msSql);
+
+        for (DDbFormulaByProd child : maChildByProds) {
+            child.setPkFormulaId(mnPkFormulaId);
+            child.setRegistryNew(true);
+            child.save(session);
+        }
+
         // Finish registry updating:
 
         mbRegistryNew = false;
@@ -361,18 +348,14 @@ public class DDbFormula extends DDbRegistryUser {
         registry.setPkFormulaId(this.getPkFormulaId());
         registry.setCode(this.getCode());
         registry.setName(this.getName());
-        registry.setNameReference(this.getNameReference());
-        registry.setDefaultVar1(this.getDefaultVar1());
+        registry.setReference(this.getReference());
         registry.setQuantity(this.getQuantity());
-        registry.setQuantityByVar1(this.isQuantityByVar1());
+        registry.setMass_r(this.getMass_r());
         registry.setDeleted(this.isDeleted());
         registry.setSystem(this.isSystem());
         registry.setFkFormulaTypeId(this.getFkFormulaTypeId());
+        registry.setFkItemId(this.getFkItemId());
         registry.setFkItemTypeId(this.getFkItemTypeId());
-        registry.setFkReferenceTypeId(this.getFkReferenceTypeId());
-        registry.setFkItemFamilyId_n(this.getFkItemFamilyId_n());
-        registry.setFkItemGroupId_n(this.getFkItemGroupId_n());
-        registry.setFkItemId_n(this.getFkItemId_n());
         registry.setFkUnitId(this.getFkUnitId());
         registry.setFkPresentId(this.getFkPresentId());
         registry.setFkUserInsertId(this.getFkUserInsertId());
@@ -384,7 +367,23 @@ public class DDbFormula extends DDbRegistryUser {
             registry.getChildComps().add(child.clone());
         }
 
+        for (DDbFormulaByProd child : maChildByProds) {
+            registry.getChildByProds().add(child.clone());
+        }
+
         registry.setRegistryNew(this.isRegistryNew());
         return registry;
+    }
+    
+    public void compute(final DGuiSession session) {
+        readRegMembers(session, true);
+        
+        mdMass_r = 0;
+        
+        for (DDbFormulaComp child : maChildComps) {
+            mdMass_r += child.getMassUnit();
+        }
+        
+        mdMass_r = DLibUtils.round(mdMass_r, DLibUtils.getDecimalFormatAmountUnitary().getMaximumFractionDigits());
     }
 }

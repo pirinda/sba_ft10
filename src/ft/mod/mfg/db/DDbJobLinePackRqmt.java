@@ -201,7 +201,7 @@ public class DDbJobLinePackRqmt extends DDbRegistryUser implements DRowJobRqmtMa
             mnFkItemId = resultSet.getInt("fk_itm");
             mnFkUnitId = resultSet.getInt("fk_uom");
 
-            // Read aswell extra data:
+            // Read aswell extra members:
 /*XXX
             msSql = "SELECT fk_itm FROM " + DModConsts.TablesMap.get(DModConsts.M_JOB_PCK) + " "
                     + "WHERE id_job = " + mnPkJobId + " AND id_lin_pck = " + mnPkLinePackId + " AND id_pck = " + mnPkPackId + " ";

@@ -149,7 +149,7 @@ public class DFormPresent extends DBeanForm implements ItemListener {
      */
 
     private void initComponentsCustom() {
-        DGuiUtils.setWindowBounds(this, 400, 250);
+        DGuiUtils.setWindowBounds(this, 480, 300);
         
         moTextCode.setTextSettings(DGuiUtils.getLabelName(jlCode), 5);
         moTextName.setTextSettings(DGuiUtils.getLabelName(jlName), 50);

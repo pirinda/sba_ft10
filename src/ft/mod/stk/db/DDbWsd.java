@@ -81,9 +81,7 @@ public class DDbWsd extends DDbRegistryUser {
         ArrayList<DDbStock> stocks = new ArrayList<>();
         
         for (DDbWsdRow child : maRows) {
-            if (!child.isDeleted()) {
-                stocks.add(child.createStock(this));
-            }
+            stocks.add(child.createStock(this));
         }
         
         sql = "UPDATE " + DModConsts.TablesMap.get(DModConsts.S_STK) + " SET "
@@ -258,7 +256,7 @@ public class DDbWsd extends DDbRegistryUser {
             mnFkWarehouseId = resultSet.getInt("fk_whs");
             mnFkWsdId_n = resultSet.getInt("fk_wsd_n");
             mnFkBizPartnerId_n = resultSet.getInt("fk_bpr_n");
-            mnFkDepartId_n = resultSet.getInt("fk_dep_n");
+            mnFkDepartId_n = resultSet.getInt("fk_dpt_n");
             mnFkLineId_n = resultSet.getInt("fk_lin_n");
             mnFkJobId_n = resultSet.getInt("fk_job_n");
             mnFkUserInsertId = resultSet.getInt("fk_usr_ins");
@@ -291,7 +289,7 @@ public class DDbWsd extends DDbRegistryUser {
         initQueryMembers();
         mnQueryResultId = DDbConsts.SAVE_ERROR;
         
-        computeWsd();
+        compute();
         
         if (mnNumber == 0) {
             computeNumber(session);
@@ -352,7 +350,7 @@ public class DDbWsd extends DDbRegistryUser {
                     "fk_whs = " + mnFkWarehouseId + ", " +
                     "fk_wsd_n = " + (mnFkWsdId_n == DLibConsts.UNDEFINED ? "NULL" : "" + mnFkWsdId_n) + ", " +
                     "fk_bpr_n = " + (mnFkBizPartnerId_n == DLibConsts.UNDEFINED ? "NULL" : "" + mnFkBizPartnerId_n) + ", " +
-                    "fk_dep_n = " + (mnFkDepartId_n == DLibConsts.UNDEFINED ? "NULL" : "" + mnFkDepartId_n) + ", " +
+                    "fk_dpt_n = " + (mnFkDepartId_n == DLibConsts.UNDEFINED ? "NULL" : "" + mnFkDepartId_n) + ", " +
                     "fk_lin_n = " + (mnFkLineId_n == DLibConsts.UNDEFINED ? "NULL" : "" + mnFkLineId_n) + ", " +
                     "fk_job_n = " + (mnFkJobId_n == DLibConsts.UNDEFINED ? "NULL" : "" + mnFkJobId_n) + ", " +
                     //"fk_usr_ins = " + mnFkUserInsertId + ", " +
@@ -370,6 +368,7 @@ public class DDbWsd extends DDbRegistryUser {
         session.getStatement().execute(msSql);
 
         for (DDbWsdRow child : maRows) {
+            child.setRegistryNew(true);
             child.setPkWsdId(mnPkWsdId);
             child.save(session);
         }
@@ -427,7 +426,7 @@ public class DDbWsd extends DDbRegistryUser {
             value = params.getPostInitValuesMap().get(PARAM_MOV_TP);
             if (value != null) {
                 mnFkMoveClassId = ((int[]) value)[0];
-                mnFkMoveTypeId = ((int[]) value)[0];
+                mnFkMoveTypeId = ((int[]) value)[1];
             }
 
             value = params.getPostInitValuesMap().get(PARAM_TRN_TP);
@@ -457,44 +456,92 @@ public class DDbWsd extends DDbRegistryUser {
         }
     }
     
-    public void validateNewRegistry() throws Exception {
-        if (DLibUtils.belongsTo(mnFkMoveTypeId, new int[] { DModSysConsts.SS_MOV_TP_IN_SAL[1], DModSysConsts.SS_MOV_TP_IN_PUR[1] })) {
-            if (mnFkTransactMoveTypeId == DLibConsts.UNDEFINED) {
-                throw new Exception(DGuiConsts.ERR_MSG_FIELD_REQ + "'mov. transacción'.");
+    @Override
+    public boolean canSave(final DGuiSession session) throws SQLException, Exception {
+        if (super.canSave(session)) {
+            if (DLibUtils.belongsTo(mnFkMoveTypeId, new int[] { DModSysConsts.SS_MOV_TP_IN_SAL[1], DModSysConsts.SS_MOV_TP_IN_PUR[1] })) {
+                if (mnFkTransactMoveTypeId <= DModSysConsts.SS_TRN_TP_NA) {
+                    throw new Exception(DGuiConsts.ERR_MSG_FIELD_REQ + "'mov. transacción'.");
+                }
+                else if (mnFkMfgMoveTypeId != DModSysConsts.SS_MFG_TP_NA) {
+                    throw new Exception(DGuiConsts.ERR_MSG_FIELD_DIF + "'mov. producción': 'N/A'.");
+                }
+                else if (mnFkStockAdjustTypeId != DModSysConsts.SS_ADJ_TP_NA) {
+                    throw new Exception(DGuiConsts.ERR_MSG_FIELD_DIF + "'tipo ajuste': 'N/A'.");
+                }
+                else if (mnFkDepartId_n != DLibConsts.UNDEFINED) {
+                    throw new Exception(DGuiConsts.ERR_MSG_FIELD_DIF + "'depto. producción': 'N/A'.");
+                }
+                else if (mnFkLineId_n != DLibConsts.UNDEFINED) {
+                    throw new Exception(DGuiConsts.ERR_MSG_FIELD_DIF + "'línea producción': 'N/A'.");
+                }
+                else if (mnFkJobId_n != DLibConsts.UNDEFINED) {
+                    throw new Exception(DGuiConsts.ERR_MSG_FIELD_DIF + "'orden producción': 'N/A'.");
+                }
             }
-            else if (mnFkMfgMoveTypeId != DLibConsts.UNDEFINED) {
-                throw new Exception(DGuiConsts.ERR_MSG_FIELD_DIF + "'mov. producción': 'N/A'.");
+            else if (DLibUtils.belongsTo(mnFkMoveTypeId, new int[] { DModSysConsts.SS_MOV_TP_IN_MFG[1] })) {
+                if (mnFkTransactMoveTypeId != DModSysConsts.SS_TRN_TP_NA) {
+                    throw new Exception(DGuiConsts.ERR_MSG_FIELD_DIF + "'mov. transacción'.");
+                }
+                else if (mnFkMfgMoveTypeId <= DModSysConsts.SS_MFG_TP_NA) {
+                    throw new Exception(DGuiConsts.ERR_MSG_FIELD_REQ + "'mov. producción'.");
+                }
+                else if (mnFkStockAdjustTypeId != DModSysConsts.SS_ADJ_TP_NA) {
+                    throw new Exception(DGuiConsts.ERR_MSG_FIELD_DIF + "'tipo ajuste': 'N/A'.");
+                }
+                else if (mnFkDepartId_n == DLibConsts.UNDEFINED) {
+                    throw new Exception(DGuiConsts.ERR_MSG_FIELD_REQ + "'depto. producción'.");
+                }
+                else if (mnFkLineId_n == DLibConsts.UNDEFINED) {
+                    throw new Exception(DGuiConsts.ERR_MSG_FIELD_REQ + "'línea producción'.");
+                }
+                else if (mnFkJobId_n == DLibConsts.UNDEFINED) {
+                    throw new Exception(DGuiConsts.ERR_MSG_FIELD_REQ + "'orden producción'.");
+                }
             }
-            else if (mnFkStockAdjustTypeId != DLibConsts.UNDEFINED) {
-                throw new Exception(DGuiConsts.ERR_MSG_FIELD_DIF + "'tipo ajuste': 'N/A'.");
+            else if (DLibUtils.belongsTo(mnFkMoveTypeId, new int[] { DModSysConsts.SS_MOV_TP_IN_ADJ[1] })) {
+                if (mnFkTransactMoveTypeId != DModSysConsts.SS_TRN_TP_NA) {
+                    throw new Exception(DGuiConsts.ERR_MSG_FIELD_DIF + "'mov. transacción'.");
+                }
+                else if (mnFkMfgMoveTypeId != DModSysConsts.SS_MFG_TP_NA) {
+                    throw new Exception(DGuiConsts.ERR_MSG_FIELD_DIF + "'mov. producción': 'N/A'.");
+                }
+                else if (mnFkStockAdjustTypeId <= DModSysConsts.SS_ADJ_TP_NA) {
+                    throw new Exception(DGuiConsts.ERR_MSG_FIELD_REQ + "'tipo ajuste': 'N/A'.");
+                }
+                else if (mnFkDepartId_n != DLibConsts.UNDEFINED) {
+                    throw new Exception(DGuiConsts.ERR_MSG_FIELD_DIF + "'depto. producción': 'N/A'.");
+                }
+                else if (mnFkLineId_n != DLibConsts.UNDEFINED) {
+                    throw new Exception(DGuiConsts.ERR_MSG_FIELD_DIF + "'línea producción': 'N/A'.");
+                }
+                else if (mnFkJobId_n != DLibConsts.UNDEFINED) {
+                    throw new Exception(DGuiConsts.ERR_MSG_FIELD_DIF + "'orden producción': 'N/A'.");
+                }
             }
-            else if (mnFkDepartId_n != DLibConsts.UNDEFINED) {
-                throw new Exception(DGuiConsts.ERR_MSG_FIELD_DIF + "'depto. producción': 'N/A'.");
-            }
-            else if (mnFkLineId_n != DLibConsts.UNDEFINED) {
-                throw new Exception(DGuiConsts.ERR_MSG_FIELD_DIF + "'línea producción': 'N/A'.");
-            }
-            else if (mnFkJobId_n != DLibConsts.UNDEFINED) {
-                throw new Exception(DGuiConsts.ERR_MSG_FIELD_DIF + "'orden producción': 'N/A'.");
+            else if (DLibUtils.belongsTo(mnFkMoveTypeId, new int[] { DModSysConsts.SS_MOV_TP_IN_TRN[1], DModSysConsts.SS_MOV_TP_IN_CNV[1] })) {
+                if (mnFkTransactMoveTypeId != DModSysConsts.SS_TRN_TP_NA) {
+                    throw new Exception(DGuiConsts.ERR_MSG_FIELD_DIF + "'mov. transacción'.");
+                }
+                else if (mnFkMfgMoveTypeId != DModSysConsts.SS_MFG_TP_NA) {
+                    throw new Exception(DGuiConsts.ERR_MSG_FIELD_DIF + "'mov. producción': 'N/A'.");
+                }
+                else if (mnFkStockAdjustTypeId != DModSysConsts.SS_ADJ_TP_NA) {
+                    throw new Exception(DGuiConsts.ERR_MSG_FIELD_DIF + "'tipo ajuste': 'N/A'.");
+                }
+                else if (mnFkDepartId_n != DLibConsts.UNDEFINED) {
+                    throw new Exception(DGuiConsts.ERR_MSG_FIELD_DIF + "'depto. producción': 'N/A'.");
+                }
+                else if (mnFkLineId_n != DLibConsts.UNDEFINED) {
+                    throw new Exception(DGuiConsts.ERR_MSG_FIELD_DIF + "'línea producción': 'N/A'.");
+                }
+                else if (mnFkJobId_n != DLibConsts.UNDEFINED) {
+                    throw new Exception(DGuiConsts.ERR_MSG_FIELD_DIF + "'orden producción': 'N/A'.");
+                }
             }
         }
-        else if (DLibUtils.belongsTo(mnFkMoveTypeId, new int[] { DModSysConsts.SS_MOV_TP_IN_MFG[1] })) {
-            if (mnFkMfgMoveTypeId== DLibConsts.UNDEFINED) {
-                throw new Exception(DGuiConsts.ERR_MSG_FIELD_REQ + "'mov. producción'.");
-            }
-            else if (mnFkStockAdjustTypeId != DLibConsts.UNDEFINED) {
-                throw new Exception(DGuiConsts.ERR_MSG_FIELD_DIF + "'tipo ajuste': 'N/A'.");
-            }
-            else if (mnFkDepartId_n == DLibConsts.UNDEFINED) {
-                throw new Exception(DGuiConsts.ERR_MSG_FIELD_REQ + "'depto. producción'.");
-            }
-            else if (mnFkLineId_n == DLibConsts.UNDEFINED) {
-                throw new Exception(DGuiConsts.ERR_MSG_FIELD_REQ + "'línea producción'.");
-            }
-            else if (mnFkJobId_n == DLibConsts.UNDEFINED) {
-                throw new Exception(DGuiConsts.ERR_MSG_FIELD_REQ + "'orden producción'.");
-            }
-        }
+        
+        return true;
     }
     
     public boolean isUtilStockAdjustTypeReq() {
@@ -509,7 +556,7 @@ public class DDbWsd extends DDbRegistryUser {
         return DCfgUtils.getBizPartnerTypeForWhsMoveType(getKeyMoveType());
     }
     
-    public void computeWsd() {
+    public void compute() {
         int row = 0;
         
         mdAmount_r = 0;

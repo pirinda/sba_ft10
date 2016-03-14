@@ -180,6 +180,7 @@ public class DFormBizPartner extends DBeanForm implements ActionListener, ItemLi
         jPanel11.add(moTextTaxId);
 
         jbSetDefaultTax.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sba/lib/img/cmd_std_ok.gif"))); // NOI18N
+        jbSetDefaultTax.setToolTipText("Asignar predeterrminado");
         jbSetDefaultTax.setPreferredSize(new java.awt.Dimension(23, 23));
         jPanel11.add(jbSetDefaultTax);
 

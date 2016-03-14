@@ -6,9 +6,10 @@
 package ft.mod.mfg.form;
 
 import ft.mod.DModConsts;
-import ft.mod.cfg.db.DDbPresent;
 import ft.mod.mfg.db.DDbLinePack;
-import ft.mod.mfg.db.DDbLinePackPresent;
+import ft.mod.mfg.db.DDbLinePrep;
+import ft.mod.mfg.db.DDbLinePrepItemFamily;
+import ft.mod.mfg.db.DDbLinePrepLinePack;
 import ft.mod.mfg.db.DMfgUtils;
 import ft.mod.mfg.db.DRowOption;
 import java.awt.BorderLayout;
@@ -31,14 +32,15 @@ import sba.lib.gui.bean.DBeanForm;
  *
  * @author Sergio Flores
  */
-public class DFormLinePack extends DBeanForm {
+public class DFormLinePrepX extends DBeanForm {
 
-    private DDbLinePack moRegistry;
-    private DGridPaneForm moGridPresents;
+    private DDbLinePrep moRegistry;
+    private DGridPaneForm moGridFamilies;
+    private DGridPaneForm moGridLinePacks;
 
     /** Creates new form DFormLinePack */
-    public DFormLinePack(DGuiClient client, String title) {
-        setFormSettings(client, DGuiConsts.BEAN_FORM_EDIT, /*XXXDModConsts.MU_LIN_PCK*/0, DLibConsts.UNDEFINED, title);
+    public DFormLinePrepX(DGuiClient client, String title) {
+        setFormSettings(client, DGuiConsts.BEAN_FORM_EDIT, /*XXXDModConsts.MU_LIN_PRP*/0, DLibConsts.UNDEFINED, title);
         initComponents();
         initComponentsCustom();
     }
@@ -63,7 +65,9 @@ public class DFormLinePack extends DBeanForm {
         jPanel5 = new javax.swing.JPanel();
         jlDepartment = new javax.swing.JLabel();
         moKeyDepartment = new sba.lib.gui.bean.DBeanFieldKey();
-        jpPresents = new javax.swing.JPanel();
+        jpConfig = new javax.swing.JPanel();
+        jpFamilies = new javax.swing.JPanel();
+        jpLinePacks = new javax.swing.JPanel();
 
         jpContainer.setLayout(new java.awt.BorderLayout());
 
@@ -105,9 +109,17 @@ public class DFormLinePack extends DBeanForm {
 
         jpContainer.add(jpLine, java.awt.BorderLayout.NORTH);
 
-        jpPresents.setBorder(javax.swing.BorderFactory.createTitledBorder("Presentaciones:"));
-        jpPresents.setLayout(new java.awt.BorderLayout());
-        jpContainer.add(jpPresents, java.awt.BorderLayout.CENTER);
+        jpConfig.setLayout(new java.awt.GridLayout(1, 2));
+
+        jpFamilies.setBorder(javax.swing.BorderFactory.createTitledBorder("Familias ítems:"));
+        jpFamilies.setLayout(new java.awt.BorderLayout());
+        jpConfig.add(jpFamilies);
+
+        jpLinePacks.setBorder(javax.swing.BorderFactory.createTitledBorder("Líneas envasado:"));
+        jpLinePacks.setLayout(new java.awt.BorderLayout());
+        jpConfig.add(jpLinePacks);
+
+        jpContainer.add(jpConfig, java.awt.BorderLayout.CENTER);
 
         getContentPane().add(jpContainer, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
@@ -119,9 +131,11 @@ public class DFormLinePack extends DBeanForm {
     private javax.swing.JLabel jlCode;
     private javax.swing.JLabel jlDepartment;
     private javax.swing.JLabel jlName;
+    private javax.swing.JPanel jpConfig;
     private javax.swing.JPanel jpContainer;
+    private javax.swing.JPanel jpFamilies;
     private javax.swing.JPanel jpLine;
-    private javax.swing.JPanel jpPresents;
+    private javax.swing.JPanel jpLinePacks;
     private sba.lib.gui.bean.DBeanFieldKey moKeyDepartment;
     private sba.lib.gui.bean.DBeanFieldText moTextCode;
     private sba.lib.gui.bean.DBeanFieldText moTextName;
@@ -144,7 +158,7 @@ public class DFormLinePack extends DBeanForm {
         
         moFields.setFormButton(jbSave);
         
-        moGridPresents = new DGridPaneForm(miClient, mnFormType, DModConsts.CU_PRE, DGuiUtils.getLabelName(((TitledBorder) jpPresents.getBorder()).getTitle())) {
+        moGridFamilies = new DGridPaneForm(miClient, mnFormType, DModConsts.CU_FAM, DGuiUtils.getLabelName(((TitledBorder) jpFamilies.getBorder()).getTitle())) {
             
             @Override
             public void initGrid() {
@@ -167,8 +181,34 @@ public class DFormLinePack extends DBeanForm {
             }
         };
         
-        jpPresents.add(moGridPresents, BorderLayout.CENTER);
-        mvFormGrids.add(moGridPresents);
+        jpFamilies.add(moGridFamilies, BorderLayout.CENTER);
+        mvFormGrids.add(moGridFamilies);
+/*XXX
+        moGridLinePacks = new DGridPaneForm(miClient, mnFormType, DModConsts.MU_LIN_PCK, DGuiUtils.getLabelName(((TitledBorder) jpLinePacks.getBorder()).getTitle())) {
+            
+            @Override
+            public void initGrid() {
+                setRowButtonsEnabled(false);
+            }
+            
+            @Override
+            public void createGridColumns() {
+                int col = 0;
+                DGridColumnForm[] columns = new DGridColumnForm[3];
+
+                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_NAME_CAT_M, DGridConsts.COL_TITLE_NAME);
+                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_CODE_CAT, DGridConsts.COL_TITLE_CODE);
+                columns[col] = new DGridColumnForm(DGridConsts.COL_TYPE_BOOL_S, "Aplica");
+                columns[col].setEditable(true);
+
+                for (col = 0; col < columns.length; col++) {
+                    moModel.getGridColumns().add(columns[col]);
+                }
+            }
+        };
+*/
+        jpLinePacks.add(moGridLinePacks, BorderLayout.CENTER);
+        mvFormGrids.add(moGridLinePacks);
     }
     
     /*
@@ -196,9 +236,10 @@ public class DFormLinePack extends DBeanForm {
 
     @Override
     public void setRegistry(DDbRegistry registry) throws Exception {
-        Vector<DGridRow> optionPresents = new Vector<>();
+        Vector<DGridRow> optionFamilies = new Vector<>();
+        Vector<DGridRow> optionLinePacks = new Vector<>();
         
-        moRegistry = (DDbLinePack) registry;
+        moRegistry = (DDbLinePrep) registry;
 
         mnFormResult = DLibConsts.UNDEFINED;
         mbFirstActivation = true;
@@ -218,21 +259,36 @@ public class DFormLinePack extends DBeanForm {
         moTextCode.setValue(moRegistry.getCode());
         moTextName.setValue(moRegistry.getName());
         moKeyDepartment.setValue(new int[] { moRegistry.getFkDepartmentId() });
-        
-        for (DDbPresent present : DMfgUtils.readPresents(miClient.getSession())) {
-            optionPresents.add(new DRowOption(present.getPkPresentId(), present.getCode(), present.getName(), false));
+/*XXX        
+        for (DDbFamily itemFamily : DMfgUtils.readItemFamilies(miClient.getSession(), DModSysConsts.CS_ITM_TP_PB)) {
+            optionFamilies.add(new DRowOption(itemFamily.getPkItemFamilyId(), itemFamily.getCode(), itemFamily.getName(), false));
         }
-
-        for (DDbLinePackPresent linePackPresent : moRegistry.getChildPresents()) {
-            for (DGridRow row : optionPresents) {
-                if (((DRowOption) row).OptionId == linePackPresent.getPkPresentId()) {
+*/
+        for (DDbLinePrepItemFamily linePrepItemFamily : moRegistry.getChildItemFamilies()) {
+            for (DGridRow row : optionFamilies) {
+                if (((DRowOption) row).OptionId == linePrepItemFamily.getPkItemFamilyId()) {
                     ((DRowOption) row).Selected = true;
                     break;
                 }
             }
         }
         
-        moGridPresents.populateGrid(optionPresents);
+        moGridFamilies.populateGrid(optionFamilies);
+        
+        for (DDbLinePack linePack : DMfgUtils.readLinePacks(miClient.getSession())) {
+            optionLinePacks.add(new DRowOption(linePack.getPkLinePackId(), linePack.getCode(), linePack.getName(), false));
+        }
+
+        for (DDbLinePrepLinePack linePrepLinePack : moRegistry.getChildLinePacks()) {
+            for (DGridRow row : optionLinePacks) {
+                if (((DRowOption) row).OptionId == linePrepLinePack.getPkLinePackId()) {
+                    ((DRowOption) row).Selected = true;
+                    break;
+                }
+            }
+        }
+        
+        moGridLinePacks.populateGrid(optionLinePacks);
         
         setFormEditable(true);
 
@@ -240,9 +296,10 @@ public class DFormLinePack extends DBeanForm {
     }
 
     @Override
-    public DDbLinePack getRegistry() throws Exception {
-        DDbLinePackPresent linePackPresent = null;
-        DDbLinePack registry = moRegistry.clone();
+    public DDbLinePrep getRegistry() throws Exception {
+        DDbLinePrepItemFamily linePrepItemFamily = null;
+        DDbLinePrepLinePack linePrepLinePack = null;
+        DDbLinePrep registry = moRegistry.clone();
 
         if (registry.isRegistryNew()) { }
 
@@ -250,15 +307,27 @@ public class DFormLinePack extends DBeanForm {
         registry.setName(moTextName.getValue());
         registry.setFkDepartmentId(moKeyDepartment.getValue()[0]);
         
-        registry.getChildPresents().clear();
-        for (DGridRow row : moGridPresents.getModel().getGridRows()) {
+        registry.getChildItemFamilies().clear();
+        for (DGridRow row : moGridFamilies.getModel().getGridRows()) {
             if (((DRowOption) row).Selected) {
-                linePackPresent = new DDbLinePackPresent();
+                linePrepItemFamily = new DDbLinePrepItemFamily();
                 
-                //linePackPresent.setPkLinePackId(...);
-                linePackPresent.setPkPresentId(((DRowOption) row).OptionId);
+                //linePrepItemFamily.setPkLinePrepId(...);
+                linePrepItemFamily.setPkItemFamilyId(((DRowOption) row).OptionId);
                 
-                registry.getChildPresents().add(linePackPresent);
+                registry.getChildItemFamilies().add(linePrepItemFamily);
+            }
+        }
+        
+        registry.getChildLinePacks().clear();
+        for (DGridRow row : moGridLinePacks.getModel().getGridRows()) {
+            if (((DRowOption) row).Selected) {
+                linePrepLinePack = new DDbLinePrepLinePack();
+                
+                //linePrepLinePack.setPkLinePrepId(...);
+                linePrepLinePack.setPkLinePackId(((DRowOption) row).OptionId);
+                
+                registry.getChildLinePacks().add(linePrepLinePack);
             }
         }
 

@@ -182,14 +182,14 @@ public class DDbJobLinePackCons extends DDbRegistryUser implements DRowJobConsMa
             mnPkPackId = resultSet.getInt("id_pck");
             mnPkConsId = resultSet.getInt("id_con");
             mdQuantity = resultSet.getDouble("qty");
-            mdMassUnit = resultSet.getDouble("mss_unt");
-            mdMass_r = resultSet.getDouble("mss_r");
+            mdMassUnit = resultSet.getDouble("mass_unt");
+            mdMass_r = resultSet.getDouble("mass_r");
             msLot = resultSet.getString("lot");
             mnFkItemTypeId = resultSet.getInt("fk_itm_tp");
             mnFkItemId = resultSet.getInt("fk_itm");
             mnFkUnitId = resultSet.getInt("fk_uom");
 
-            // Read aswell extra data:
+            // Read aswell extra members:
 /*XXX
             msSql = "SELECT fk_itm FROM " + DModConsts.TablesMap.get(DModConsts.M_JOB_PCK) + " "
                     + "WHERE id_job = " + mnPkJobId + " AND id_lin_pck = " + mnPkLinePackId + " AND id_pck = " + mnPkPackId + " ";
@@ -249,8 +249,8 @@ public class DDbJobLinePackCons extends DDbRegistryUser implements DRowJobConsMa
                     //"id_pck = " + mnPkPackId + ", " +
                     //"id_con = " + mnPkConsId + ", " +
                     "qty = " + mdQuantity + ", " +
-                    "mss_unt = " + mdMassUnit + ", " +
-                    "mss_r = " + mdMass_r + ", " +
+                    "mass_unt = " + mdMassUnit + ", " +
+                    "mass_r = " + mdMass_r + ", " +
                     "lot = '" + msLot + "', " +
                     "fk_itm_tp = " + mnFkItemTypeId + ", " +
                     "fk_itm = " + mnFkItemId + ", " +

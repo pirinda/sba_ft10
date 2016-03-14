@@ -116,8 +116,14 @@ public abstract class DModSysConsts {
     public static final int SU_WHS_MAT = 1;
     public static final int SU_WHS_PRO = 2;
 
+    public static final int SX_STK = 1;
+    public static final int SX_STK_LOT = 2;
+    
     public static final int MS_FRM_TP_STD = 1;
     public static final int MS_FRM_TP_VAR = 2;
+
+    public static final int MS_CMP_TP_ITM = 1;
+    public static final int MS_CMP_TP_FAM = 2;
 
     public static final int MS_JOB_TP_SMP = 1;
     public static final int MS_JOB_TP_CMP = 2;

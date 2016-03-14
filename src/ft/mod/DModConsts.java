@@ -36,17 +36,19 @@ public abstract class DModConsts {
     public static final int C_YEA = 113011;
     public static final int C_USR_GUI = 113101;
 
-    public static final int CX_ITM_TP_PRO = 115316;
-    public static final int CX_ITM_TP_CMP = 115317;
-    public static final int CX_ITM_BY_FAM = 115326;
-    public static final int CX_ITM_BY_ITM_TP = 115327;
-    
+    public static final int CX_FAM_BY_ITM_TP = 115321;
+    public static final int CX_ITM_BY_ITM_TP = 115326;
+    public static final int CX_ITM_FK_ITM_TP = 115327;
+    public static final int CX_ITM_FK_FAM = 115328;
+    public static final int CX_ITM_TP_PRO = 115331;
+    public static final int CX_ITM_TP_CMP = 115332;
+
     public static final int SS_WHS_TP = 211001;
     public static final int SS_MOV_CL = 211101;
     public static final int SS_MOV_TP = 211106;
     public static final int SS_TRN_TP = 211201;
-    public static final int SS_ADJ_TP = 211206;
     public static final int SS_MFG_TP = 211211;
+    public static final int SS_ADJ_TP = 211206;
 
     public static final int SU_WHS = 212001;
 
@@ -55,21 +57,20 @@ public abstract class DModConsts {
     public static final int S_STK = 213121;
 
     public static final int MS_FRM_TP = 311041;
+    public static final int MS_CMP_TP = 311046;
     public static final int MS_JOB_TP = 311061;
     public static final int MS_JOB_ST = 311066;
 
     public static final int MU_DPT = 312011;
     public static final int MU_LIN = 312021;
     public static final int MU_FRM = 312041;
-    public static final int MU_FRM_CMP_FAM = 312046;
-    public static final int MU_FRM_CMP_ITM = 312047;
+    public static final int MU_FRM_CMP = 312046;
     public static final int MU_FRM_BYP = 312049;
     public static final int MU_VAR = 312051;
     public static final int MU_VAR_FAM = 312052;
 
     public static final int M_JOB = 313061;
-    public static final int M_JOB_REQ_FAM = 313066;
-    public static final int M_JOB_REQ_ITM = 313067;
+    public static final int M_JOB_REQ = 313066;
     public static final int M_JOB_CON = 313071;
     public static final int M_JOB_MFG = 313076;
     public static final int M_JOB_VAR = 313081;
@@ -114,8 +115,8 @@ public abstract class DModConsts {
         TablesMap.put(SS_MOV_CL, "ss_mov_cl");
         TablesMap.put(SS_MOV_TP, "ss_mov_tp");
         TablesMap.put(SS_TRN_TP, "ss_trn_tp");
-        TablesMap.put(SS_ADJ_TP, "ss_adj_tp");
         TablesMap.put(SS_MFG_TP, "ss_mfg_tp");
+        TablesMap.put(SS_ADJ_TP, "ss_adj_tp");
 
         TablesMap.put(SU_WHS, "su_whs");
 
@@ -124,21 +125,20 @@ public abstract class DModConsts {
         TablesMap.put(S_STK, "s_stk");
 
         TablesMap.put(MS_FRM_TP, "ms_frm_tp");
+        TablesMap.put(MS_CMP_TP, "ms_cmp_tp");
         TablesMap.put(MS_JOB_TP, "ms_job_tp");
         TablesMap.put(MS_JOB_ST, "ms_job_st");
 
         TablesMap.put(MU_DPT, "mu_dpt");
         TablesMap.put(MU_LIN, "mu_lin");
         TablesMap.put(MU_FRM, "mu_frm");
-        TablesMap.put(MU_FRM_CMP_FAM, "mu_frm_cmp_fam");
-        TablesMap.put(MU_FRM_CMP_ITM, "mu_frm_cmp_itm");
+        TablesMap.put(MU_FRM_CMP, "mu_frm_cmp");
         TablesMap.put(MU_FRM_BYP, "mu_frm_byp");
         TablesMap.put(MU_VAR, "mu_var");
         TablesMap.put(MU_VAR_FAM, "mu_var_fam");
 
         TablesMap.put(M_JOB, "m_job");
-        TablesMap.put(M_JOB_REQ_FAM, "m_job_req_fam");
-        TablesMap.put(M_JOB_REQ_ITM, "m_job_req_itm");
+        TablesMap.put(M_JOB_REQ, "m_job_req");
         TablesMap.put(M_JOB_CON, "m_job_con");
         TablesMap.put(M_JOB_MFG, "m_job_mfg");
         TablesMap.put(M_JOB_VAR, "m_job_var");
