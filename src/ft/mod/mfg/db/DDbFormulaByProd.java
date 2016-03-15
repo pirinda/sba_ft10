@@ -233,12 +233,12 @@ public class DDbFormulaByProd extends DDbRegistryUser implements DGridRow {
         registry.setFkItemTypeId(this.getFkItemTypeId());
         registry.setFkUnitId(this.getFkUnitId());
         
+        registry.setRegItem(this.getRegItem() == null ? null : this.getRegItem().clone());
+        registry.setRegUnit(this.getRegUnit() == null ? null : this.getRegUnit().clone());
+        
         registry.setXtaItemTypeCode(this.getXtaItemTypeCode());
         registry.setXtaItemTypeName(this.getXtaItemTypeName());
 
-        registry.setRegItem(this.getRegItem());
-        registry.setRegUnit(this.getRegUnit());
-        
         registry.setRegistryNew(this.isRegistryNew());
         return registry;
     }

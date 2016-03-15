@@ -195,7 +195,7 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
         jsMfg1 = new javax.swing.JPopupMenu.Separator();
         jmiMfgFormula = new javax.swing.JMenuItem();
         jmiMfgFormulaComp = new javax.swing.JMenuItem();
-        jmiMfgFormulaByproduct = new javax.swing.JMenuItem();
+        jmiMfgFormulaByProd = new javax.swing.JMenuItem();
         jsMfg2 = new javax.swing.JPopupMenu.Separator();
         jmiMfgVariable = new javax.swing.JMenuItem();
         jmQty = new javax.swing.JMenu();
@@ -426,8 +426,9 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
         jmiMfgFormulaComp.setText("Fórmulas y componentes");
         jmMfg.add(jmiMfgFormulaComp);
 
-        jmiMfgFormulaByproduct.setText("Fórmulas y colaterales");
-        jmMfg.add(jmiMfgFormulaByproduct);
+        jmiMfgFormulaByProd.setText("Fórmulas y colaterales");
+        jmiMfgFormulaByProd.setEnabled(false);
+        jmMfg.add(jmiMfgFormulaByProd);
         jmMfg.add(jsMfg2);
 
         jmiMfgVariable.setText("Variables de producción");
@@ -605,6 +606,7 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
         jmiMfgJob.addActionListener(this);
         jmiMfgFormula.addActionListener(this);
         jmiMfgFormulaComp.addActionListener(this);
+        jmiMfgFormulaByProd.addActionListener(this);
         jmiMfgVariable.addActionListener(this);
         jmiHelpHelp.addActionListener(this);
         jmiHelpAbout.addActionListener(this);
@@ -886,7 +888,7 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
     private javax.swing.JMenuItem jmiHelpAbout;
     private javax.swing.JMenuItem jmiHelpHelp;
     private javax.swing.JMenuItem jmiMfgFormula;
-    private javax.swing.JMenuItem jmiMfgFormulaByproduct;
+    private javax.swing.JMenuItem jmiMfgFormulaByProd;
     private javax.swing.JMenuItem jmiMfgFormulaComp;
     private javax.swing.JMenuItem jmiMfgJob;
     private javax.swing.JMenuItem jmiMfgVariable;
@@ -1288,6 +1290,9 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
             }
             else if (menuItem == jmiMfgFormula) {
                 moSession.showView(DModConsts.MU_FRM, DLibConsts.UNDEFINED, null);
+            }
+            else if (menuItem == jmiMfgFormulaComp) {
+                moSession.showView(DModConsts.MU_FRM_CMP, DLibConsts.UNDEFINED, null);
             }
             else if (menuItem == jmiHelpHelp) {
                 actionHelpHelp();

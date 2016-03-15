@@ -302,7 +302,7 @@ public class DDbConfig extends DDbRegistryUser implements DGuiConfigCompany {
         registry.setTsUserInsert(this.getTsUserInsert());
         registry.setTsUserUpdate(this.getTsUserUpdate());
         
-        registry.setRegMassUnit(this.getRegMassUnit().clone());
+        registry.setRegMassUnit(this.getRegMassUnit() == null ? null : this.getRegMassUnit().clone());
 
         registry.setRegistryNew(this.isRegistryNew());
         return registry;

@@ -36,10 +36,8 @@ public abstract class DModConsts {
     public static final int C_YEA = 113011;
     public static final int C_USR_GUI = 113101;
 
-    public static final int CX_FAM_BY_ITM_TP = 115321;
-    public static final int CX_ITM_BY_ITM_TP = 115326;
-    public static final int CX_ITM_FK_ITM_TP = 115327;
-    public static final int CX_ITM_FK_FAM = 115328;
+    public static final int CX_ITM_FK_ITM_TP = 115326;
+    public static final int CX_ITM_FK_FAM = 115327;
     public static final int CX_ITM_TP_PRO = 115331;
     public static final int CX_ITM_TP_CMP = 115332;
 

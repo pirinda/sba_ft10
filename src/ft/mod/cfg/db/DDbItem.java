@@ -300,8 +300,8 @@ public class DDbItem extends DDbRegistryUser {
         registry.setTsUserInsert(this.getTsUserInsert());
         registry.setTsUserUpdate(this.getTsUserUpdate());
 
-        registry.setRegUnit(this.getRegUnit().clone());
-        registry.setRegPresent(this.getRegPresent().clone());
+        registry.setRegUnit(this.getRegUnit() == null ? null : this.getRegUnit().clone());
+        registry.setRegPresent(this.getRegPresent() == null ? null : this.getRegPresent().clone());
         
         registry.setXtaFkItemTypeId(this.getXtaFkItemTypeId());
         registry.setXtaItemTypeCode(this.getXtaItemTypeCode());

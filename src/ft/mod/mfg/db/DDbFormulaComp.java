@@ -264,9 +264,9 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow {
         registry.setFkItemTypeId(this.getFkItemTypeId());
         registry.setFkUnitId(this.getFkUnitId());
 
-        registry.setRegFamily(this.getRegFamily());
-        registry.setRegItem(this.getRegItem());
-        registry.setRegUnit(this.getRegUnit());
+        registry.setRegFamily(this.getRegFamily() == null ? null : this.getRegFamily().clone());
+        registry.setRegItem(this.getRegItem() == null ? null : this.getRegItem().clone());
+        registry.setRegUnit(this.getRegUnit() == null ? null : this.getRegUnit().clone());
         
         registry.setXtaCompTypeCode(this.getXtaCompTypeCode());
         registry.setXtaCompTypeName(this.getXtaCompTypeName());

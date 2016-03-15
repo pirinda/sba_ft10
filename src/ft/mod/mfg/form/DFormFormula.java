@@ -17,6 +17,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.Vector;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.border.TitledBorder;
 import sba.lib.DLibConsts;
@@ -27,6 +28,7 @@ import sba.lib.grid.DGridConsts;
 import sba.lib.grid.DGridPaneForm;
 import sba.lib.grid.DGridPaneFormOwner;
 import sba.lib.grid.DGridRow;
+import sba.lib.grid.DGridUtils;
 import sba.lib.gui.DGuiClient;
 import sba.lib.gui.DGuiConsts;
 import sba.lib.gui.DGuiFieldKeyGroup;
@@ -47,6 +49,8 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
     private DGuiFieldKeyGroup moKeyGroupItem;
     private DGuiFields moFieldsComps;
     private DGridPaneForm moPaneFormComps;
+    private JButton mjCompMoveUp;
+    private JButton mjCompMoveDown;
 
     /** Creates new form DFormFormula */
     public DFormFormula(DGuiClient client, String title) {
@@ -117,10 +121,6 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
         moBoolCompStandard = new sba.lib.gui.bean.DBeanFieldBoolean();
         jbCompAdd = new javax.swing.JButton();
         jbCompClear = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
-        jbCompMoveUp = new javax.swing.JButton();
-        jbCompMoveDown = new javax.swing.JButton();
 
         jpContainer.setLayout(new java.awt.BorderLayout());
 
@@ -318,37 +318,17 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
 
         jpFormulaComps.add(jPanel3, java.awt.BorderLayout.PAGE_START);
 
-        jPanel1.setLayout(new java.awt.BorderLayout());
-
-        jPanel2.setLayout(new java.awt.GridLayout(2, 1, 0, 5));
-
-        jbCompMoveUp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sba/lib/img/cmd_std_move_up.gif"))); // NOI18N
-        jbCompMoveUp.setToolTipText("Mover arriba");
-        jbCompMoveUp.setPreferredSize(new java.awt.Dimension(23, 23));
-        jPanel2.add(jbCompMoveUp);
-
-        jbCompMoveDown.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sba/lib/img/cmd_std_move_down.gif"))); // NOI18N
-        jbCompMoveDown.setToolTipText("Mover abajo");
-        jbCompMoveDown.setPreferredSize(new java.awt.Dimension(23, 23));
-        jPanel2.add(jbCompMoveDown);
-
-        jPanel1.add(jPanel2, java.awt.BorderLayout.NORTH);
-
-        jpFormulaComps.add(jPanel1, java.awt.BorderLayout.EAST);
-
         jpContainer.add(jpFormulaComps, java.awt.BorderLayout.CENTER);
 
         getContentPane().add(jpContainer, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel18;
     private javax.swing.JPanel jPanel19;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel21;
     private javax.swing.JPanel jPanel22;
     private javax.swing.JPanel jPanel23;
@@ -360,8 +340,6 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
     private javax.swing.JPanel jPanel9;
     private javax.swing.JButton jbCompAdd;
     private javax.swing.JButton jbCompClear;
-    private javax.swing.JButton jbCompMoveDown;
-    private javax.swing.JButton jbCompMoveUp;
     private javax.swing.ButtonGroup jbgCompType;
     private javax.swing.JLabel jlCode;
     private javax.swing.JLabel jlCompComponent;
@@ -417,8 +395,8 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
         moCompMassUnit.setCompoundFieldSettings(miClient);
         moCompMassUnit.getField().setDecimalSettings(DGuiUtils.getLabelName(jlMassUnit), DGuiConsts.GUI_TYPE_DEC_AMT_UNIT, false);
         moCompMass.setCompoundFieldSettings(miClient);
-        moCompMass.getField().setDecimalSettings(DGuiUtils.getLabelName(jlMass), DGuiConsts.GUI_TYPE_DEC_AMT, false);
-        moRadCompTypeFamily.setBooleanSettings(moRadCompTypeFamily.getText(), false);
+        moCompMass.getField().setDecimalSettings(DGuiUtils.getLabelName(jlMass), DGuiConsts.GUI_TYPE_DEC_QTY, false);
+        moRadCompTypeFamily.setBooleanSettings(moRadCompTypeFamily.getText(), true);
         moRadCompTypeItem.setBooleanSettings(moRadCompTypeItem.getText(), false);
         moKeyCompItemType.setKeySettings(miClient, moKeyCompItemType.getToolTipText(), false);
         moKeyCompComponent.setKeySettings(miClient, moKeyCompComponent.getToolTipText(), false);
@@ -435,6 +413,8 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
         //moFields.addField(moCompMass.getField()); // always disabled
         //moFields.setFormButton(jbSave); // not required
         
+        moTextReference.setNextField(moRadCompTypeFamily);
+        
         moFieldsComps = new DGuiFields();
         moFieldsComps.addField(moRadCompTypeFamily);
         moFieldsComps.addField(moRadCompTypeItem);
@@ -449,6 +429,12 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
         moCompMassUnit.setCompoundText(DCfgUtils.getMassUnitCode(miClient.getSession()));
         moCompMass.setCompoundText(moCompMassUnit.getCompoundText());
         
+        moCompMassUnit.setEditable(false);
+        moCompMass.setEditable(false);
+        
+        mjCompMoveUp = DGridUtils.createButton(new ImageIcon(getClass().getResource("/sba/lib/img/cmd_std_move_up.gif")), "Mover arriba", this);
+        mjCompMoveDown = DGridUtils.createButton(new ImageIcon(getClass().getResource("/sba/lib/img/cmd_std_move_down.gif")), "Mover abajo", this);
+        
         moPaneFormComps = new DGridPaneForm(miClient, mnFormType, DModConsts.MU_FRM_CMP, DGuiUtils.getLabelName(((TitledBorder) jpFormulaComps.getBorder()).getTitle())) {
             
             @Override
@@ -461,14 +447,14 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
                 int col = 0;
                 DGridColumnForm[] columns = new DGridColumnForm[8];
 
-                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_INT_2B, "#");
+                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_INT_2B, "# componente");
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_CODE_CAT, DGridConsts.COL_TITLE_TYPE + " componente");
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_CODE_CAT, DGridConsts.COL_TITLE_TYPE + " ítem");
-                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_NAME_CAT_M, DGridConsts.COL_TITLE_NAME + " componente");
-                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_CODE_CAT, DGridConsts.COL_TITLE_CODE + " componente");
-                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_DEC_QTY, "Cantidad");
-                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_CODE_UNT, "Unidad");
-                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_BOOL_S, "Estándar");
+                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_NAME_ITM_L, DGridConsts.COL_TITLE_NAME + " componente");
+                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_CODE_ITM, DGridConsts.COL_TITLE_CODE + " componente");
+                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_DEC_QTY, "Cantidad componente");
+                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_CODE_UNT, "Unidad componente");
+                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_BOOL_M, "Estándar componente");
 
                 for (col = 0; col < columns.length; col++) {
                     moModel.getGridColumns().add(columns[col]);
@@ -477,6 +463,8 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
         };
         
         moPaneFormComps.setPaneFormOwner(this);
+        moPaneFormComps.getPanelCommandsSys(DGuiConsts.PANEL_CENTER).add(mjCompMoveUp);
+        moPaneFormComps.getPanelCommandsSys(DGuiConsts.PANEL_CENTER).add(mjCompMoveDown);
         
         jpFormulaComps.add(moPaneFormComps, BorderLayout.CENTER);
         
@@ -492,6 +480,7 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
             jtfUnit.setText("");
             jtfPresent.setText("");
             moCompMassUnit.getField().resetField();
+            moCompQuantity.setCompoundText("");
         }
         else {
             moItem = (DDbItem) miClient.getSession().readRegistry(DModConsts.CU_ITM, moKeyItem.getValue());
@@ -500,6 +489,7 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
             jtfUnit.setText(moItem.getRegUnit().getName());
             jtfPresent.setText(moItem.getRegPresent().getName());
             moCompMassUnit.getField().setValue(moItem.getMassUnit());
+            moCompQuantity.setCompoundText(moItem.getRegUnit().getCode());
             
             jtfCode.setCaretPosition(0);
             jtfName.setCaretPosition(0);
@@ -541,31 +531,38 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
         DGuiValidation validation = moFieldsComps.validateFields();
 
         if (validation.isValid()) {
-            DDbFormulaComp comp = new DDbFormulaComp();
-            int indexItemType = moKeyCompItemType.getSelectedIndex();
-            int indexItem = moKeyCompComponent.getSelectedIndex();
+            if (moBoolCompStandard.isSelected() && moCompCompQuantity.getField().getValue() == 0) {
+                validation.setMessage(DGuiConsts.ERR_MSG_FIELD_REQ + "'" + DGuiUtils.getLabelName(jlCompQuantity) + "'.");
+                validation.setComponent(moCompCompQuantity.getField().getComponent());
+            }
+            
+            if (validation.isValid()) {
+                DDbFormulaComp comp = new DDbFormulaComp();
+                int indexItemType = moKeyCompItemType.getSelectedIndex();
+                int indexItem = moKeyCompComponent.getSelectedIndex();
 
-            //comp.setPkFormulaId(...);
-            //comp.setPkCompId(...);
-            comp.setQuantity(moCompCompQuantity.getField().getValue());
-            //comp.setMassUnit(...);
-            //comp.setMass_r(...);
-            comp.setStandard(moBoolCompStandard.getValue());
-            comp.setFkCompTypeId(moRadCompTypeItem.isSelected() ? DModSysConsts.MS_CMP_TP_ITM : DModSysConsts.MS_CMP_TP_FAM);
-            comp.setFkCompId(moKeyCompComponent.getValue()[0]);
-            //comp.setFkItemTypeId(...);
-            //comp.setFkUnitId(...);
-    
-            comp.compute(miClient.getSession());
+                //comp.setPkFormulaId(...);
+                //comp.setPkCompId(...);
+                comp.setQuantity(moCompCompQuantity.getField().getValue());
+                //comp.setMassUnit(...);
+                //comp.setMass_r(...);
+                comp.setStandard(moBoolCompStandard.getValue());
+                comp.setFkCompTypeId(moRadCompTypeItem.isSelected() ? DModSysConsts.MS_CMP_TP_ITM : DModSysConsts.MS_CMP_TP_FAM);
+                comp.setFkCompId(moKeyCompComponent.getValue()[0]);
+                //comp.setFkItemTypeId(...);
+                //comp.setFkUnitId(...);
 
-            moPaneFormComps.addGridRow(comp);
-            moPaneFormComps.renderGridRows();
-            moPaneFormComps.setSelectedGridRow(moPaneFormComps.getTable().getRowCount() - 1);
+                comp.compute(miClient.getSession());
 
-            compute();
-            actionPerformedCompClear();
-            moKeyCompItemType.setSelectedIndex(indexItemType);
-            moKeyCompComponent.setSelectedIndex(indexItem);
+                moPaneFormComps.addGridRow(comp);
+                updateCompsNumbers();
+                moPaneFormComps.setSelectedGridRow(moPaneFormComps.getTable().getRowCount() - 1);
+
+                compute();
+                actionPerformedCompClear();
+                moKeyCompItemType.setSelectedIndex(indexItemType);
+                moKeyCompComponent.setSelectedIndex(indexItem);
+            }
         }
         
         if (!validation.isValid()) {
@@ -579,6 +576,7 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
     
     private void doRowClear() {
         moFieldsComps.resetFields();
+        moBoolCompStandard.setSelected(moKeyFormulaType.getValue()[0] == DModSysConsts.MS_FRM_TP_STD);
     }
     
     private void actionPerformedCompAdd() {
@@ -622,6 +620,15 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
         }
     }
     
+    private void itemStateChangedFormulaType() {
+        if (moKeyFormulaType.getSelectedIndex() <= 0) {
+            moBoolCompStandard.setSelected(false);
+        }
+        else {
+            moBoolCompStandard.setSelected(moKeyFormulaType.getValue()[0] == DModSysConsts.MS_FRM_TP_STD);
+        }
+    }
+    
     private void itemStateChangedItem() {
         renderItem();
     }
@@ -638,10 +645,10 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
         int type = DLibConsts.UNDEFINED;
         
         if (moRadCompTypeItem.isSelected()) {
-            type = DModConsts.CX_ITM_BY_ITM_TP;
+            type = DModConsts.CU_ITM;
         }
         else {
-            type = DModConsts.CX_FAM_BY_ITM_TP;
+            type = DModConsts.CU_FAM;
         }
         
         moKeyCompComponent.setEnabled(false);
@@ -673,8 +680,9 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
     public void addAllListeners() {
         jbCompAdd.addActionListener(this);
         jbCompClear.addActionListener(this);
-        jbCompMoveUp.addActionListener(this);
-        jbCompMoveDown.addActionListener(this);
+        mjCompMoveUp.addActionListener(this);
+        mjCompMoveDown.addActionListener(this);
+        moKeyFormulaType.addItemListener(this);
         moKeyItem.addItemListener(this);
         moKeyCompItemType.addItemListener(this);
         moKeyCompComponent.addItemListener(this);
@@ -686,8 +694,9 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
     public void removeAllListeners() {
         jbCompAdd.removeActionListener(this);
         jbCompClear.removeActionListener(this);
-        jbCompMoveUp.removeActionListener(this);
-        jbCompMoveDown.removeActionListener(this);
+        mjCompMoveUp.removeActionListener(this);
+        mjCompMoveDown.removeActionListener(this);
+        moKeyFormulaType.removeItemListener(this);
         moKeyItem.removeItemListener(this);
         moKeyCompItemType.removeItemListener(this);
         moKeyCompComponent.removeItemListener(this);
@@ -703,12 +712,12 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
         moKeyGroupItem.addFieldKey(moKeyItemType, DModConsts.CX_ITM_TP_PRO, DLibConsts.UNDEFINED, null);
         moKeyGroupItem.addFieldKey(moKeyItem, DModConsts.CX_ITM_FK_ITM_TP, DLibConsts.UNDEFINED, null);
         moKeyGroupItem.populateCatalogues();
+        
+        miClient.getSession().populateCatalogue(moKeyCompItemType, DModConsts.CX_ITM_TP_CMP, DLibConsts.UNDEFINED, null);
     }
 
     @Override
     public void setRegistry(DDbRegistry registry) throws Exception {
-        Vector<DGridRow> comps = new Vector<>();
-        
         moRegistry = (DDbFormula) registry;
 
         mnFormResult = DLibConsts.UNDEFINED;
@@ -730,11 +739,19 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
         moKeyItem.setValue(new int[] { moRegistry.getFkItemId() });
         moCompQuantity.getField().setValue(moRegistry.getQuantity());
         moTextReference.setValue(moRegistry.getReference());
+        moCompMass.getField().setValue(moRegistry.getMass_r());
         
-        comps.addAll(moRegistry.getChildComps());
-        moPaneFormComps.populateGrid(comps);
+        itemStateChangedFormulaType();
+        itemStateChangedItem();
+        
+        moRadCompTypeItem.setSelected(true);
+        itemStateChangedCompTypeItem();
+        itemStateChangedCompItemType();
+        
+        moPaneFormComps.populateGrid(new Vector<>(moRegistry.getChildComps()));
         
         setFormEditable(true);
+        
         
         if (moRegistry.isRegistryNew()) {
             moKeyGroupItem.resetGroup();
@@ -805,10 +822,10 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
             else if (button == jbCompClear) {
                 actionPerformedCompClear();
             }
-            else if (button == jbCompMoveUp) {
+            else if (button == mjCompMoveUp) {
                 actionPerformedCompMoveUp();
             }
-            else if (button == jbCompMoveDown) {
+            else if (button == mjCompMoveDown) {
                 actionPerformedCompMoveDown();
             }
         }
@@ -820,7 +837,10 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
             if (e.getStateChange() == ItemEvent.SELECTED) {
                 DBeanFieldKey field = (DBeanFieldKey) e.getSource();
                 
-                if (field == moKeyItem) {
+                if (field == moKeyFormulaType) {
+                    itemStateChangedFormulaType();
+                }
+                else if (field == moKeyItem) {
                     itemStateChangedItem();
                 }
                 else if (field == moKeyCompItemType) {
@@ -832,13 +852,15 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
             }
         }
         else if (e.getSource() instanceof DBeanFieldRadio) {
-            DBeanFieldRadio field = (DBeanFieldRadio) e.getSource();
-            
-            if (field == moRadCompTypeFamily) {
-                itemStateChangedCompTypeFamily();
-            }
-            else if (field == moRadCompTypeItem) {
-                itemStateChangedCompTypeItem();
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                DBeanFieldRadio field = (DBeanFieldRadio) e.getSource();
+
+                if (field == moRadCompTypeFamily) {
+                    itemStateChangedCompTypeFamily();
+                }
+                else if (field == moRadCompTypeItem) {
+                    itemStateChangedCompTypeItem();
+                }
             }
         }
     }

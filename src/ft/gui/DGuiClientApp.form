@@ -246,9 +246,10 @@
                 <Property name="text" type="java.lang.String" value="F&#xf3;rmulas y componentes"/>
               </Properties>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jmiMfgFormulaByproduct">
+            <MenuItem class="javax.swing.JMenuItem" name="jmiMfgFormulaByProd">
               <Properties>
                 <Property name="text" type="java.lang.String" value="F&#xf3;rmulas y colaterales"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </MenuItem>
             <MenuItem class="javax.swing.JPopupMenu$Separator" name="jsMfg2">

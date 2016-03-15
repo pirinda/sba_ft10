@@ -250,8 +250,8 @@ public class DDbWsdRow extends DDbRegistryUser implements DGridRow {
         registry.setFkWsdWsdId_n(this.getFkWsdWsdId_n());
         registry.setFkWsdRowId_n(this.getFkWsdRowId_n());
         
-        registry.setRegItem(this.getRegItem());
-        registry.setRegUnit(this.getRegUnit());
+        registry.setRegItem(this.getRegItem() == null ? null : this.getRegItem().clone());
+        registry.setRegUnit(this.getRegUnit() == null ? null : this.getRegUnit().clone());
 
         registry.setRegistryNew(this.isRegistryNew());
         return registry;

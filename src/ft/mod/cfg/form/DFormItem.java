@@ -110,7 +110,7 @@ public class DFormItem extends DBeanForm implements ItemListener {
         jlItemBase.setPreferredSize(new java.awt.Dimension(100, 23));
         jPanel10.add(jlItemBase);
 
-        moKeyItemBase.setPreferredSize(new java.awt.Dimension(200, 23));
+        moKeyItemBase.setPreferredSize(new java.awt.Dimension(300, 23));
         jPanel10.add(moKeyItemBase);
 
         jPanel1.add(jPanel10);

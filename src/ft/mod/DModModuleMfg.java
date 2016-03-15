@@ -6,10 +6,16 @@
 package ft.mod;
 
 import ft.mod.mfg.db.DDbDepart;
+import ft.mod.mfg.db.DDbFormula;
+import ft.mod.mfg.db.DDbFormulaByProd;
+import ft.mod.mfg.db.DDbFormulaComp;
 import ft.mod.mfg.db.DDbLine;
 import ft.mod.mfg.form.DFormDepart;
+import ft.mod.mfg.form.DFormFormula;
 import ft.mod.mfg.form.DFormLine;
 import ft.mod.mfg.view.DViewDepart;
+import ft.mod.mfg.view.DViewFormula;
+import ft.mod.mfg.view.DViewFormulaComp;
 import ft.mod.mfg.view.DViewLine;
 import javax.swing.JMenu;
 import sba.lib.DLibConsts;
@@ -33,7 +39,7 @@ public class DModModuleMfg extends DGuiModule {
     
     private DFormDepart moFormDepart;
     private DFormLine moFormLine;
-    //private DFormFormula moFormFormula;
+    private DFormFormula moFormFormula;
     //private DFormJob moFormJob;
 
     public DModModuleMfg(DGuiClient client) {
@@ -57,6 +63,15 @@ public class DModModuleMfg extends DGuiModule {
                     
                     @Override
                     public String getSqlWhere(int[] pk) { return "WHERE id_frm_tp = " + pk[0] + " "; }
+                };
+                break;
+            case DModConsts.MS_CMP_TP:
+                registry = new DDbRegistrySysFly(type) {
+                    @Override
+                    public String getSqlTable() { return DModConsts.TablesMap.get(type); }
+                    
+                    @Override
+                    public String getSqlWhere(int[] pk) { return "WHERE id_cmp_tp = " + pk[0] + " "; }
                 };
                 break;
             case DModConsts.MS_JOB_TP:
@@ -84,10 +99,13 @@ public class DModModuleMfg extends DGuiModule {
                 registry = new DDbLine();
                 break;
             case DModConsts.MU_FRM:
+                registry = new DDbFormula();
                 break;
             case DModConsts.MU_FRM_CMP:
+                registry = new DDbFormulaComp();
                 break;
             case DModConsts.MU_FRM_BYP:
+                registry = new DDbFormulaByProd();
                 break;
             case DModConsts.MU_VAR:
                 break;
@@ -216,6 +234,11 @@ public class DModModuleMfg extends DGuiModule {
             case DModConsts.MS_FRM_TP:
                 settings = new DGuiCatalogueSettings("Tipo fórmula", 1);
                 sql = "SELECT id_frm_tp AS " + DDbConsts.FIELD_ID + "1, name AS " + DDbConsts.FIELD_ITEM + " " +
+                        "FROM " + DModConsts.TablesMap.get(type) + " WHERE b_del = 0 ORDER BY sort ";
+                break;
+            case DModConsts.MS_CMP_TP:
+                settings = new DGuiCatalogueSettings("Tipo componente", 1);
+                sql = "SELECT id_cmp_tp AS " + DDbConsts.FIELD_ID + "1, name AS " + DDbConsts.FIELD_ITEM + " " +
                         "FROM " + DModConsts.TablesMap.get(type) + " WHERE b_del = 0 ORDER BY sort ";
                 break;
             case DModConsts.MS_JOB_TP:
@@ -392,6 +415,8 @@ public class DModModuleMfg extends DGuiModule {
         switch (type) {
             case DModConsts.MS_FRM_TP:
                 break;
+            case DModConsts.MS_CMP_TP:
+                break;
             case DModConsts.MS_JOB_TP:
                 break;
             case DModConsts.MS_JOB_ST:
@@ -403,8 +428,10 @@ public class DModModuleMfg extends DGuiModule {
                 view = new DViewLine(miClient, "Líneas producción");
                 break;
             case DModConsts.MU_FRM:
+                view = new DViewFormula(miClient, "Fórmulas");
                 break;
             case DModConsts.MU_FRM_CMP:
+                view = new DViewFormulaComp(miClient, "Fórmulas componentes");
                 break;
             case DModConsts.MU_FRM_BYP:
                 break;
@@ -499,6 +526,8 @@ public class DModModuleMfg extends DGuiModule {
         switch (type) {
             case DModConsts.MS_FRM_TP:
                 break;
+            case DModConsts.MS_CMP_TP:
+                break;
             case DModConsts.MS_JOB_TP:
                 break;
             case DModConsts.MS_JOB_ST:
@@ -512,6 +541,8 @@ public class DModModuleMfg extends DGuiModule {
                 form = moFormLine;
                 break;
             case DModConsts.MU_FRM:
+                if (moFormFormula == null) moFormFormula = new DFormFormula(miClient, "Fórmula");
+                form = moFormFormula;
                 break;
             case DModConsts.MU_FRM_CMP:
                 break;

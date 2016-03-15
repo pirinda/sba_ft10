@@ -240,12 +240,17 @@ public class DModModuleCfg extends DGuiModule {
                 }
                 settings = new DGuiCatalogueSettings(label, 1);
                 sql = "SELECT id_bpr AS " + DDbConsts.FIELD_ID + "1, CONCAT(name, ' (', code, ')') AS " + DDbConsts.FIELD_ITEM + " " +
-                        "FROM " + DModConsts.TablesMap.get(type) + " WHERE b_del = 0 AND fk_bpr_tp = " + subtype + " ORDER BY name, code, id_bpr ";
+                        "FROM " + DModConsts.TablesMap.get(type) + " " +
+                        "WHERE b_del = 0 AND fk_bpr_tp = " + subtype + " " +
+                        "ORDER BY name, code, id_bpr ";
                 break;
             case DModConsts.CU_UOM:
                 settings = new DGuiCatalogueSettings("Unidad", 1, 0, DLibConsts.DATA_TYPE_TEXT);
                 sql = "SELECT id_uom AS " + DDbConsts.FIELD_ID + "1, CONCAT(name, ' (', code, ')') AS " + DDbConsts.FIELD_ITEM + ", code AS " + DDbConsts.FIELD_COMP + " " +
-                        "FROM " + DModConsts.TablesMap.get(type) + " WHERE b_del = 0 " + (subtype == DLibConsts.UNDEFINED ? "" : "AND fk_uom_tp = " + subtype + " ") + "ORDER BY fk_uom_tp, sort ";
+                        "FROM " + DModConsts.TablesMap.get(type) + " " +
+                        "WHERE b_del = 0 " +
+                        (subtype == DLibConsts.UNDEFINED ? "" : "AND fk_uom_tp = " + subtype + " ") +
+                        "ORDER BY fk_uom_tp, sort ";
                 break;
             case DModConsts.CU_PRE:
                 settings = new DGuiCatalogueSettings("Presentación", 1);
@@ -253,17 +258,16 @@ public class DModModuleCfg extends DGuiModule {
                         "FROM " + DModConsts.TablesMap.get(type) + " WHERE b_del = 0 ORDER BY name, id_pre ";
                 break;
             case DModConsts.CU_FAM:
-            case DModConsts.CX_FAM_BY_ITM_TP:
                 settings = new DGuiCatalogueSettings("Familia", 1, 1, DLibConsts.DATA_TYPE_TEXT);
                 sql = "SELECT f.id_fam AS " + DDbConsts.FIELD_ID + "1, f.name AS " + DDbConsts.FIELD_ITEM + ", "
                         + "u.code AS " + DDbConsts.FIELD_COMP + ", f.fk_itm_tp AS " + DDbConsts.FIELD_FK + "1 " + // default FK: item type, even when not requested
                         "FROM " + DModConsts.TablesMap.get(type) + " AS f " +
                         "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_UOM) + " AS u ON  f.fk_uom = u.id_uom " +
-                        "WHERE f.b_del = 0 " + (subtype == DModConsts.CX_FAM_BY_ITM_TP ? "AND f.fk_itm_tp = " + subtype : "") + " " +
+                        "WHERE f.b_del = 0 " + 
+                        (subtype == DLibConsts.UNDEFINED ? "" : "AND f.fk_itm_tp = " + subtype) + " " +
                         "ORDER BY f.name, f.id_fam ";
                 break;
             case DModConsts.CU_ITM:
-            case DModConsts.CX_ITM_BY_ITM_TP:
             case DModConsts.CX_ITM_FK_ITM_TP:
             case DModConsts.CX_ITM_FK_FAM:
                 settings = new DGuiCatalogueSettings("Ítem", 1, 1, DLibConsts.DATA_TYPE_TEXT);
@@ -280,7 +284,9 @@ public class DModModuleCfg extends DGuiModule {
                 sql += "FROM " + DModConsts.TablesMap.get(DModConsts.CU_ITM) + " AS i " +
                         "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_FAM) + " AS f ON i.fk_fam = f.id_fam " +
                         "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_UOM) + " AS u ON i.fk_uom = u.id_uom " +
-                        "WHERE i.b_del = 0 " + (subtype == DModConsts.CX_ITM_BY_ITM_TP ? "AND f.fk_itm_tp = " + subtype : "") + " " +
+                        "WHERE i.b_del = 0 " + 
+                        (subtype == DLibConsts.UNDEFINED ? "" : "AND f.fk_itm_tp = " + subtype) + " " +
+                        (params == null ? "" : "AND i.fk_fam = " + params.getKey()[0]) + " " +
                         "ORDER BY i.name, i.id_itm ";
                 break;
             case DModConsts.C_CFG:
