@@ -268,7 +268,8 @@ public class DDbWsd extends DDbRegistryUser {
             
             statement = session.getStatement().getConnection().createStatement();
             
-            msSql = "SELECT id_row FROM " + DModConsts.TablesMap.get(DModConsts.S_WSD_ROW) + " " + getSqlWhere();
+            msSql = "SELECT id_row FROM " + DModConsts.TablesMap.get(DModConsts.S_WSD_ROW) + " " + getSqlWhere() +
+                    "ORDER BY id_row ";
             resultSet = statement.executeQuery(msSql);
             while (resultSet.next()) {
                 DDbWsdRow child = new DDbWsdRow();

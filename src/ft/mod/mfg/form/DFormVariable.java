@@ -10,11 +10,13 @@ import ft.mod.mfg.db.DDbLinePack;
 import ft.mod.mfg.db.DDbLinePrep;
 import ft.mod.mfg.db.DDbLinePrepItemFamily;
 import ft.mod.mfg.db.DDbLinePrepLinePack;
+import ft.mod.mfg.db.DDbVariable;
 import ft.mod.mfg.db.DMfgUtils;
 import ft.mod.mfg.db.DRowOption;
 import java.awt.BorderLayout;
-import java.util.Vector;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import sba.lib.DLibConsts;
 import sba.lib.DLibUtils;
 import sba.lib.db.DDbRegistry;
@@ -32,15 +34,14 @@ import sba.lib.gui.bean.DBeanForm;
  *
  * @author Sergio Flores
  */
-public class DFormLinePrepX extends DBeanForm {
+public class DFormVariable extends DBeanForm implements ChangeListener {
 
-    private DDbLinePrep moRegistry;
+    private DDbVariable moRegistry;
     private DGridPaneForm moGridFamilies;
-    private DGridPaneForm moGridLinePacks;
 
-    /** Creates new form DFormLinePack */
-    public DFormLinePrepX(DGuiClient client, String title) {
-        setFormSettings(client, DGuiConsts.BEAN_FORM_EDIT, /*XXXDModConsts.MU_LIN_PRP*/0, DLibConsts.UNDEFINED, title);
+    /** Creates new form DFormVariable */
+    public DFormVariable(DGuiClient client, String title) {
+        setFormSettings(client, DGuiConsts.BEAN_FORM_EDIT, DModConsts.MU_VAR, DLibConsts.UNDEFINED, title);
         initComponents();
         initComponentsCustom();
     }
@@ -55,24 +56,35 @@ public class DFormLinePrepX extends DBeanForm {
     private void initComponents() {
 
         jpContainer = new javax.swing.JPanel();
-        jpLine = new javax.swing.JPanel();
+        jpVariable = new javax.swing.JPanel();
+        jpVariable1 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jlCode = new javax.swing.JLabel();
         moTextCode = new sba.lib.gui.bean.DBeanFieldText();
         jPanel4 = new javax.swing.JPanel();
         jlName = new javax.swing.JLabel();
         moTextName = new sba.lib.gui.bean.DBeanFieldText();
+        jPanel8 = new javax.swing.JPanel();
+        jlUnit = new javax.swing.JLabel();
+        moTextUnit = new sba.lib.gui.bean.DBeanFieldText();
+        jpVariable2 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
-        jlDepartment = new javax.swing.JLabel();
-        moKeyDepartment = new sba.lib.gui.bean.DBeanFieldKey();
-        jpConfig = new javax.swing.JPanel();
+        jlDecimals = new javax.swing.JLabel();
+        jsDecimals = new javax.swing.JSpinner();
+        jPanel6 = new javax.swing.JPanel();
+        jlValueMin = new javax.swing.JLabel();
+        moDecValueMin = new sba.lib.gui.bean.DBeanFieldDecimal();
+        jPanel7 = new javax.swing.JPanel();
+        jlValueMax = new javax.swing.JLabel();
+        moDecValueMax = new sba.lib.gui.bean.DBeanFieldDecimal();
         jpFamilies = new javax.swing.JPanel();
-        jpLinePacks = new javax.swing.JPanel();
 
         jpContainer.setLayout(new java.awt.BorderLayout());
 
-        jpLine.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos del registro:"));
-        jpLine.setLayout(new java.awt.GridLayout(3, 1, 0, 5));
+        jpVariable.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos del registro:"));
+        jpVariable.setLayout(new java.awt.GridLayout(1, 2));
+
+        jpVariable1.setLayout(new java.awt.GridLayout(3, 1, 0, 5));
 
         jPanel3.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
@@ -83,7 +95,7 @@ public class DFormLinePrepX extends DBeanForm {
         moTextCode.setPreferredSize(new java.awt.Dimension(50, 23));
         jPanel3.add(moTextCode);
 
-        jpLine.add(jPanel3);
+        jpVariable1.add(jPanel3);
 
         jPanel4.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
@@ -94,32 +106,58 @@ public class DFormLinePrepX extends DBeanForm {
         moTextName.setPreferredSize(new java.awt.Dimension(200, 23));
         jPanel4.add(moTextName);
 
-        jpLine.add(jPanel4);
+        jpVariable1.add(jPanel4);
+
+        jPanel8.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
+
+        jlUnit.setText("Unidad:");
+        jlUnit.setPreferredSize(new java.awt.Dimension(100, 23));
+        jPanel8.add(jlUnit);
+        jPanel8.add(moTextUnit);
+
+        jpVariable1.add(jPanel8);
+
+        jpVariable.add(jpVariable1);
+
+        jpVariable2.setLayout(new java.awt.GridLayout(3, 1, 0, 5));
 
         jPanel5.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
-        jlDepartment.setText("Departamento:*");
-        jlDepartment.setPreferredSize(new java.awt.Dimension(100, 23));
-        jPanel5.add(jlDepartment);
+        jlDecimals.setText("Decimales:");
+        jlDecimals.setPreferredSize(new java.awt.Dimension(100, 23));
+        jPanel5.add(jlDecimals);
 
-        moKeyDepartment.setPreferredSize(new java.awt.Dimension(200, 23));
-        jPanel5.add(moKeyDepartment);
+        jsDecimals.setModel(new javax.swing.SpinnerNumberModel(0, 0, 8, 1));
+        jsDecimals.setPreferredSize(new java.awt.Dimension(50, 23));
+        jPanel5.add(jsDecimals);
 
-        jpLine.add(jPanel5);
+        jpVariable2.add(jPanel5);
 
-        jpContainer.add(jpLine, java.awt.BorderLayout.NORTH);
+        jPanel6.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
-        jpConfig.setLayout(new java.awt.GridLayout(1, 2));
+        jlValueMin.setText("Valor mínimo:");
+        jlValueMin.setPreferredSize(new java.awt.Dimension(100, 23));
+        jPanel6.add(jlValueMin);
+        jPanel6.add(moDecValueMin);
 
-        jpFamilies.setBorder(javax.swing.BorderFactory.createTitledBorder("Familias ítems:"));
+        jpVariable2.add(jPanel6);
+
+        jPanel7.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
+
+        jlValueMax.setText("Valor máximo:");
+        jlValueMax.setPreferredSize(new java.awt.Dimension(100, 23));
+        jPanel7.add(jlValueMax);
+        jPanel7.add(moDecValueMax);
+
+        jpVariable2.add(jPanel7);
+
+        jpVariable.add(jpVariable2);
+
+        jpContainer.add(jpVariable, java.awt.BorderLayout.NORTH);
+
+        jpFamilies.setBorder(javax.swing.BorderFactory.createTitledBorder("Familias:"));
         jpFamilies.setLayout(new java.awt.BorderLayout());
-        jpConfig.add(jpFamilies);
-
-        jpLinePacks.setBorder(javax.swing.BorderFactory.createTitledBorder("Líneas envasado:"));
-        jpLinePacks.setLayout(new java.awt.BorderLayout());
-        jpConfig.add(jpLinePacks);
-
-        jpContainer.add(jpConfig, java.awt.BorderLayout.CENTER);
+        jpContainer.add(jpFamilies, java.awt.BorderLayout.CENTER);
 
         getContentPane().add(jpContainer, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
@@ -128,17 +166,26 @@ public class DFormLinePrepX extends DBeanForm {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
     private javax.swing.JLabel jlCode;
-    private javax.swing.JLabel jlDepartment;
+    private javax.swing.JLabel jlDecimals;
     private javax.swing.JLabel jlName;
-    private javax.swing.JPanel jpConfig;
+    private javax.swing.JLabel jlUnit;
+    private javax.swing.JLabel jlValueMax;
+    private javax.swing.JLabel jlValueMin;
     private javax.swing.JPanel jpContainer;
     private javax.swing.JPanel jpFamilies;
-    private javax.swing.JPanel jpLine;
-    private javax.swing.JPanel jpLinePacks;
-    private sba.lib.gui.bean.DBeanFieldKey moKeyDepartment;
+    private javax.swing.JPanel jpVariable;
+    private javax.swing.JPanel jpVariable1;
+    private javax.swing.JPanel jpVariable2;
+    private javax.swing.JSpinner jsDecimals;
+    private sba.lib.gui.bean.DBeanFieldDecimal moDecValueMax;
+    private sba.lib.gui.bean.DBeanFieldDecimal moDecValueMin;
     private sba.lib.gui.bean.DBeanFieldText moTextCode;
     private sba.lib.gui.bean.DBeanFieldText moTextName;
+    private sba.lib.gui.bean.DBeanFieldText moTextUnit;
     // End of variables declaration//GEN-END:variables
 
     /*
@@ -150,11 +197,15 @@ public class DFormLinePrepX extends DBeanForm {
         
         moTextCode.setTextSettings(DGuiUtils.getLabelName(jlCode), 5);
         moTextName.setTextSettings(DGuiUtils.getLabelName(jlName), 50);
-        moKeyDepartment.setKeySettings(miClient, DGuiUtils.getLabelName(jlDepartment), true);
+        moTextUnit.setTextSettings(DGuiUtils.getLabelName(jlUnit), 10, 0);
+        moDecValueMin.setDecimalSettings(DGuiUtils.getLabelName(jlValueMin), DGuiConsts.GUI_TYPE_DEC_AMT_UNIT, false);
+        moDecValueMax.setDecimalSettings(DGuiUtils.getLabelName(jlValueMax), DGuiConsts.GUI_TYPE_DEC_AMT_UNIT, false);
         
         moFields.addField(moTextCode);
         moFields.addField(moTextName);
-        moFields.addField(moKeyDepartment);
+        moFields.addField(moTextUnit);
+        moFields.addField(moDecValueMin);
+        moFields.addField(moDecValueMax);
         
         moFields.setFormButton(jbSave);
         
@@ -170,9 +221,9 @@ public class DFormLinePrepX extends DBeanForm {
                 int col = 0;
                 DGridColumnForm[] columns = new DGridColumnForm[3];
 
-                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_NAME_CAT_M, DGridConsts.COL_TITLE_NAME);
+                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_NAME_CAT_L, DGridConsts.COL_TITLE_NAME);
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_CODE_CAT, DGridConsts.COL_TITLE_CODE);
-                columns[col] = new DGridColumnForm(DGridConsts.COL_TYPE_BOOL_S, "Aplica");
+                columns[col] = new DGridColumnForm(DGridConsts.COL_TYPE_BOOL_M, "Aplica");
                 columns[col].setEditable(true);
 
                 for (col = 0; col < columns.length; col++) {
@@ -183,32 +234,6 @@ public class DFormLinePrepX extends DBeanForm {
         
         jpFamilies.add(moGridFamilies, BorderLayout.CENTER);
         mvFormGrids.add(moGridFamilies);
-/*XXX
-        moGridLinePacks = new DGridPaneForm(miClient, mnFormType, DModConsts.MU_LIN_PCK, DGuiUtils.getLabelName(((TitledBorder) jpLinePacks.getBorder()).getTitle())) {
-            
-            @Override
-            public void initGrid() {
-                setRowButtonsEnabled(false);
-            }
-            
-            @Override
-            public void createGridColumns() {
-                int col = 0;
-                DGridColumnForm[] columns = new DGridColumnForm[3];
-
-                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_NAME_CAT_M, DGridConsts.COL_TITLE_NAME);
-                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_CODE_CAT, DGridConsts.COL_TITLE_CODE);
-                columns[col] = new DGridColumnForm(DGridConsts.COL_TYPE_BOOL_S, "Aplica");
-                columns[col].setEditable(true);
-
-                for (col = 0; col < columns.length; col++) {
-                    moModel.getGridColumns().add(columns[col]);
-                }
-            }
-        };
-*/
-        jpLinePacks.add(moGridLinePacks, BorderLayout.CENTER);
-        mvFormGrids.add(moGridLinePacks);
     }
     
     /*
@@ -221,7 +246,7 @@ public class DFormLinePrepX extends DBeanForm {
     
     @Override
     public void addAllListeners() {
-
+        jsDecimals.addChangeListener(this);
     }
 
     @Override
@@ -231,15 +256,12 @@ public class DFormLinePrepX extends DBeanForm {
 
     @Override
     public void reloadCatalogues() {
-        miClient.getSession().populateCatalogue(moKeyDepartment, DModConsts.MU_DPT, DLibConsts.UNDEFINED, null);
+        
     }
 
     @Override
     public void setRegistry(DDbRegistry registry) throws Exception {
-        Vector<DGridRow> optionFamilies = new Vector<>();
-        Vector<DGridRow> optionLinePacks = new Vector<>();
-        
-        moRegistry = (DDbLinePrep) registry;
+        moRegistry = (DDbVariable) registry;
 
         mnFormResult = DLibConsts.UNDEFINED;
         mbFirstActivation = true;
@@ -258,6 +280,11 @@ public class DFormLinePrepX extends DBeanForm {
 
         moTextCode.setValue(moRegistry.getCode());
         moTextName.setValue(moRegistry.getName());
+        moTextUnit.setValue(moRegistry.getUnit());
+        jsDecimals.setValue(moRegistry.getDecimals());
+        moDecValueMin.setValue(moRegistry.getValueMin());
+        moDecValueMax.setValue(moRegistry.getValueMax());
+        
         moKeyDepartment.setValue(new int[] { moRegistry.getFkDepartmentId() });
 /*XXX        
         for (DDbFamily itemFamily : DMfgUtils.readItemFamilies(miClient.getSession(), DModSysConsts.CS_ITM_TP_PB)) {
@@ -337,5 +364,10 @@ public class DFormLinePrepX extends DBeanForm {
     @Override
     public DGuiValidation validateForm() {
         return moFields.validateFields();
+    }
+
+    @Override
+    public void stateChanged(ChangeEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
