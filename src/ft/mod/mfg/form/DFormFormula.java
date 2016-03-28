@@ -78,6 +78,9 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
         jPanel6 = new javax.swing.JPanel();
         jlItemType = new javax.swing.JLabel();
         moKeyItemType = new sba.lib.gui.bean.DBeanFieldKey();
+        jPanel16 = new javax.swing.JPanel();
+        jlFamily = new javax.swing.JLabel();
+        moKeyFamily = new sba.lib.gui.bean.DBeanFieldKey();
         jPanel15 = new javax.swing.JPanel();
         jlItem = new javax.swing.JLabel();
         moKeyItem = new sba.lib.gui.bean.DBeanFieldKey();
@@ -150,6 +153,17 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
         jPanel6.add(moKeyItemType);
 
         jpFormula1.add(jPanel6);
+
+        jPanel16.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
+
+        jlFamily.setText("Familia:*");
+        jlFamily.setPreferredSize(new java.awt.Dimension(100, 23));
+        jPanel16.add(jlFamily);
+
+        moKeyFamily.setPreferredSize(new java.awt.Dimension(200, 23));
+        jPanel16.add(moKeyFamily);
+
+        jpFormula1.add(jPanel16);
 
         jPanel15.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
@@ -327,6 +341,7 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel15;
+    private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel18;
     private javax.swing.JPanel jPanel19;
     private javax.swing.JPanel jPanel21;
@@ -345,6 +360,7 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
     private javax.swing.JLabel jlCompComponent;
     private javax.swing.JLabel jlCompItemType;
     private javax.swing.JLabel jlCompQuantity;
+    private javax.swing.JLabel jlFamily;
     private javax.swing.JLabel jlFormulaType;
     private javax.swing.JLabel jlItem;
     private javax.swing.JLabel jlItemType;
@@ -371,6 +387,7 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
     private sba.lib.gui.bean.DBeanCompoundField moCompQuantity;
     private sba.lib.gui.bean.DBeanFieldKey moKeyCompComponent;
     private sba.lib.gui.bean.DBeanFieldKey moKeyCompItemType;
+    private sba.lib.gui.bean.DBeanFieldKey moKeyFamily;
     private sba.lib.gui.bean.DBeanFieldKey moKeyFormulaType;
     private sba.lib.gui.bean.DBeanFieldKey moKeyItem;
     private sba.lib.gui.bean.DBeanFieldKey moKeyItemType;
@@ -384,10 +401,13 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
      */
 
     private void initComponentsCustom() {
+        String mass = "";
+        
         DGuiUtils.setWindowBounds(this, 960, 600);
         
         moKeyFormulaType.setKeySettings(miClient, DGuiUtils.getLabelName(jlFormulaType), true);
         moKeyItemType.setKeySettings(miClient, DGuiUtils.getLabelName(jlItemType), true);
+        moKeyFamily.setKeySettings(miClient, DGuiUtils.getLabelName(jlFamily), true);
         moKeyItem.setKeySettings(miClient, DGuiUtils.getLabelName(jlItem), true);
         moCompQuantity.setCompoundFieldSettings(miClient);
         moCompQuantity.getField().setDecimalSettings(DGuiUtils.getLabelName(jlQuantity), DGuiConsts.GUI_TYPE_DEC_QTY, true);
@@ -406,6 +426,7 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
         
         moFields.addField(moKeyFormulaType);
         moFields.addField(moKeyItemType);
+        moFields.addField(moKeyFamily);
         moFields.addField(moKeyItem);
         moFields.addField(moCompQuantity.getField());
         moFields.addField(moTextReference);
@@ -426,8 +447,9 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
         
         moKeyGroupItem = new DGuiFieldKeyGroup(miClient);
         
-        moCompMassUnit.setCompoundText(DCfgUtils.getMassUnitCode(miClient.getSession()));
-        moCompMass.setCompoundText(moCompMassUnit.getCompoundText());
+        mass = DCfgUtils.getMassUnitCode(miClient.getSession());
+        moCompMassUnit.setCompoundText(mass);
+        moCompMass.setCompoundText(mass);
         
         moCompMassUnit.setEditable(false);
         moCompMass.setEditable(false);
@@ -447,7 +469,7 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
                 int col = 0;
                 DGridColumnForm[] columns = new DGridColumnForm[8];
 
-                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_INT_2B, "# componente");
+                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_INT_1B, "# componente");
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_CODE_CAT, DGridConsts.COL_TITLE_TYPE + " componente");
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_CODE_CAT, DGridConsts.COL_TITLE_TYPE + " ítem");
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_NAME_ITM_L, DGridConsts.COL_TITLE_NAME + " componente");
@@ -709,8 +731,9 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
         miClient.getSession().populateCatalogue(moKeyFormulaType, DModConsts.MS_FRM_TP, DLibConsts.UNDEFINED, null);
         
         moKeyGroupItem.initGroup();
-        moKeyGroupItem.addFieldKey(moKeyItemType, DModConsts.CX_ITM_TP_PRO, DLibConsts.UNDEFINED, null);
-        moKeyGroupItem.addFieldKey(moKeyItem, DModConsts.CX_ITM_FK_ITM_TP, DLibConsts.UNDEFINED, null);
+        moKeyGroupItem.addFieldKey(moKeyItemType, DModConsts.CX_ITM_TP_PRO_MFG, DLibConsts.UNDEFINED, null);
+        moKeyGroupItem.addFieldKey(moKeyFamily, DModConsts.CU_FAM, DLibConsts.UNDEFINED, null);
+        moKeyGroupItem.addFieldKey(moKeyItem, DModConsts.CX_ITM_FK_FAM, DLibConsts.UNDEFINED, null);
         moKeyGroupItem.populateCatalogues();
         
         miClient.getSession().populateCatalogue(moKeyCompItemType, DModConsts.CX_ITM_TP_CMP, DLibConsts.UNDEFINED, null);
@@ -736,6 +759,7 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
 
         moKeyFormulaType.setValue(new int[] { moRegistry.getFkFormulaTypeId() });
         moKeyItemType.setValue(new int[] { moRegistry.getFkItemTypeId() });
+        moKeyFamily.setValue(new int[] { moRegistry.getRegItem() == null ? DLibConsts.UNDEFINED : moRegistry.getRegItem().getFkFamilyId() });
         moKeyItem.setValue(new int[] { moRegistry.getFkItemId() });
         moCompQuantity.getField().setValue(moRegistry.getQuantity());
         moTextReference.setValue(moRegistry.getReference());
@@ -751,7 +775,6 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
         moPaneFormComps.populateGrid(new Vector<>(moRegistry.getChildComps()));
         
         setFormEditable(true);
-        
         
         if (moRegistry.isRegistryNew()) {
             moKeyGroupItem.resetGroup();

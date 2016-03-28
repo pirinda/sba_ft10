@@ -245,8 +245,9 @@ public class DModModuleCfg extends DGuiModule {
                         "ORDER BY name, code, id_bpr ";
                 break;
             case DModConsts.CU_UOM:
-                settings = new DGuiCatalogueSettings("Unidad", 1, 0, DLibConsts.DATA_TYPE_TEXT);
-                sql = "SELECT id_uom AS " + DDbConsts.FIELD_ID + "1, CONCAT(name, ' (', code, ')') AS " + DDbConsts.FIELD_ITEM + ", code AS " + DDbConsts.FIELD_COMP + " " +
+                settings = new DGuiCatalogueSettings("Unidad", 1);
+                settings.setCodeApplying(true);
+                sql = "SELECT id_uom AS " + DDbConsts.FIELD_ID + "1, name AS " + DDbConsts.FIELD_ITEM + ", code AS " + DDbConsts.FIELD_CODE + " " +
                         "FROM " + DModConsts.TablesMap.get(type) + " " +
                         "WHERE b_del = 0 " +
                         (subtype == DLibConsts.UNDEFINED ? "" : "AND fk_uom_tp = " + subtype + " ") +
@@ -254,13 +255,15 @@ public class DModModuleCfg extends DGuiModule {
                 break;
             case DModConsts.CU_PRE:
                 settings = new DGuiCatalogueSettings("Presentación", 1);
-                sql = "SELECT id_pre AS " + DDbConsts.FIELD_ID + "1, name AS " + DDbConsts.FIELD_ITEM + " " +
+                settings.setCodeApplying(true);
+                sql = "SELECT id_pre AS " + DDbConsts.FIELD_ID + "1, name AS " + DDbConsts.FIELD_ITEM + ", code AS " + DDbConsts.FIELD_CODE + " " +
                         "FROM " + DModConsts.TablesMap.get(type) + " WHERE b_del = 0 ORDER BY name, id_pre ";
                 break;
             case DModConsts.CU_FAM:
                 settings = new DGuiCatalogueSettings("Familia", 1, 1, DLibConsts.DATA_TYPE_TEXT);
-                sql = "SELECT f.id_fam AS " + DDbConsts.FIELD_ID + "1, f.name AS " + DDbConsts.FIELD_ITEM + ", "
-                        + "u.code AS " + DDbConsts.FIELD_COMP + ", f.fk_itm_tp AS " + DDbConsts.FIELD_FK + "1 " + // default FK: item type, even when not requested
+                settings.setCodeApplying(true);
+                sql = "SELECT f.id_fam AS " + DDbConsts.FIELD_ID + "1, f.name AS " + DDbConsts.FIELD_ITEM + ", f.code AS " + DDbConsts.FIELD_CODE + ", " +
+                        "u.code AS " + DDbConsts.FIELD_COMP + ", f.fk_itm_tp AS " + DDbConsts.FIELD_FK + "1 " + // default FK: item type, even when not requested
                         "FROM " + DModConsts.TablesMap.get(type) + " AS f " +
                         "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_UOM) + " AS u ON  f.fk_uom = u.id_uom " +
                         "WHERE f.b_del = 0 " + 
@@ -271,7 +274,8 @@ public class DModModuleCfg extends DGuiModule {
             case DModConsts.CX_ITM_FK_ITM_TP:
             case DModConsts.CX_ITM_FK_FAM:
                 settings = new DGuiCatalogueSettings("Ítem", 1, 1, DLibConsts.DATA_TYPE_TEXT);
-                sql = "SELECT i.id_itm AS " + DDbConsts.FIELD_ID + "1, i.name AS " + DDbConsts.FIELD_ITEM + ", " +
+                settings.setCodeApplying(true);
+                sql = "SELECT i.id_itm AS " + DDbConsts.FIELD_ID + "1, i.name AS " + DDbConsts.FIELD_ITEM + ", i.code AS " + DDbConsts.FIELD_CODE + ", " +
                         "u.code AS " + DDbConsts.FIELD_COMP + ", ";
                 
                 if (type == DModConsts.CX_ITM_FK_FAM) {
@@ -295,11 +299,18 @@ public class DModModuleCfg extends DGuiModule {
                 break;
             case DModConsts.C_USR_GUI:
                 break;
-            case DModConsts.CX_ITM_TP_PRO:
+            case DModConsts.CX_ITM_TP_PRO_MFG:
                 settings = new DGuiCatalogueSettings("Tipo producto", 1);
                 sql = "SELECT id_itm_tp AS " + DDbConsts.FIELD_ID + "1, name AS " + DDbConsts.FIELD_ITEM + " " +
                         "FROM " + DModConsts.TablesMap.get(DModConsts.CS_ITM_TP) + " " +
                         "WHERE b_del = 0 AND id_itm_tp IN (" + DModSysConsts.CS_ITM_TP_PB + ", " + DModSysConsts.CS_ITM_TP_PF + ") " +
+                        "ORDER BY sort ";
+                break;
+            case DModConsts.CX_ITM_TP_PRO_MFG_ALL:
+                settings = new DGuiCatalogueSettings("Tipo producto", 1);
+                sql = "SELECT id_itm_tp AS " + DDbConsts.FIELD_ID + "1, name AS " + DDbConsts.FIELD_ITEM + " " +
+                        "FROM " + DModConsts.TablesMap.get(DModConsts.CS_ITM_TP) + " " +
+                        "WHERE b_del = 0 AND id_itm_tp IN (" + DModSysConsts.CS_ITM_TP_PB + ", " + DModSysConsts.CS_ITM_TP_PF + ", " + DModSysConsts.CS_ITM_TP_BP + ", " + DModSysConsts.CS_ITM_TP_SC + ") " +
                         "ORDER BY sort ";
                 break;
             case DModConsts.CX_ITM_TP_CMP:

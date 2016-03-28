@@ -231,7 +231,8 @@ public class DDbFormula extends DDbRegistryUser {
 
             statement = session.getStatement().getConnection().createStatement();
             
-            msSql = "SELECT id_cmp FROM " + DModConsts.TablesMap.get(DModConsts.MU_FRM_CMP) + " " + getSqlWhere();
+            msSql = "SELECT id_cmp FROM " + DModConsts.TablesMap.get(DModConsts.MU_FRM_CMP) + " " + getSqlWhere() +
+                    "ORDER BY id_cmp ";
             resultSet = statement.executeQuery(msSql);
             while (resultSet.next()) {
                 DDbFormulaComp child = new DDbFormulaComp();
@@ -239,7 +240,8 @@ public class DDbFormula extends DDbRegistryUser {
                 maChildComps.add(child);
             }
             
-            msSql = "SELECT id_byp FROM " + DModConsts.TablesMap.get(DModConsts.MU_FRM_BYP) + " " + getSqlWhere();
+            msSql = "SELECT id_byp FROM " + DModConsts.TablesMap.get(DModConsts.MU_FRM_BYP) + " " + getSqlWhere() +
+                    "ORDER BY id_byp ";
             resultSet = statement.executeQuery(msSql);
             while (resultSet.next()) {
                 DDbFormulaByProd child = new DDbFormulaByProd();
@@ -363,6 +365,10 @@ public class DDbFormula extends DDbRegistryUser {
         registry.setTsUserInsert(this.getTsUserInsert());
         registry.setTsUserUpdate(this.getTsUserUpdate());
 
+        registry.setRegItem(this.getRegItem() == null ? null : this.getRegItem().clone());
+        registry.setRegUnit(this.getRegUnit() == null ? null : this.getRegUnit().clone());
+        registry.setRegPresent(this.getRegPresent()== null ? null : this.getRegPresent().clone());
+    
         for (DDbFormulaComp child : maChildComps) {
             registry.getChildComps().add(child.clone());
         }
@@ -381,9 +387,9 @@ public class DDbFormula extends DDbRegistryUser {
         mdMass_r = 0;
         
         for (DDbFormulaComp child : maChildComps) {
-            mdMass_r += child.getMassUnit();
+            mdMass_r += child.getMass_r();
         }
         
-        mdMass_r = DLibUtils.round(mdMass_r, DLibUtils.getDecimalFormatAmountUnitary().getMaximumFractionDigits());
+        mdMass_r = DLibUtils.round(mdMass_r, DLibUtils.getDecimalFormatQuantity().getMaximumFractionDigits());
     }
 }

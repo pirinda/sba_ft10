@@ -168,7 +168,7 @@ public class DFormPresent extends DBeanForm implements ItemListener {
     }
     
     private void displayUnitCode() {
-        moCompContentUnit.setCompoundText(moKeyUnit.getSelectedIndex() <= 0 ? "" : (String) moKeyUnit.getSelectedItem().getComplement());
+        moCompContentUnit.setCompoundText(moKeyUnit.getSelectedIndex() <= 0 ? "" : moKeyUnit.getSelectedItem().getCode());
     }
     
     private void itemStateChangeUnit() {

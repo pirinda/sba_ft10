@@ -568,7 +568,7 @@ public class DDbWsd extends DDbRegistryUser {
             
             if (!child.isDeleted()) {
                 mdAmount_r = DLibUtils.round(mdAmount_r + child.getAmount_r(), DLibUtils.getDecimalFormatAmount().getMaximumFractionDigits());
-                mdMass_r = DLibUtils.round(mdMass_r + child.getMass_r(), DLibUtils.getDecimalFormatAmount().getMaximumFractionDigits());
+                mdMass_r = DLibUtils.round(mdMass_r + child.getMass_r(), DLibUtils.getDecimalFormatQuantity().getMaximumFractionDigits());
             }
         }
     }

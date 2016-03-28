@@ -6,14 +6,13 @@
 package ft.mod.mfg.form;
 
 import ft.mod.DModConsts;
-import ft.mod.mfg.db.DDbLinePack;
-import ft.mod.mfg.db.DDbLinePrep;
-import ft.mod.mfg.db.DDbLinePrepItemFamily;
-import ft.mod.mfg.db.DDbLinePrepLinePack;
 import ft.mod.mfg.db.DDbVariable;
-import ft.mod.mfg.db.DMfgUtils;
+import ft.mod.mfg.db.DDbVariableFamily;
 import ft.mod.mfg.db.DRowOption;
 import java.awt.BorderLayout;
+import java.text.DecimalFormat;
+import java.util.Vector;
+import javax.swing.JSpinner;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -26,6 +25,7 @@ import sba.lib.grid.DGridPaneForm;
 import sba.lib.grid.DGridRow;
 import sba.lib.gui.DGuiClient;
 import sba.lib.gui.DGuiConsts;
+import sba.lib.gui.DGuiItem;
 import sba.lib.gui.DGuiUtils;
 import sba.lib.gui.DGuiValidation;
 import sba.lib.gui.bean.DBeanForm;
@@ -110,6 +110,7 @@ public class DFormVariable extends DBeanForm implements ChangeListener {
 
         jPanel8.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
+        jlUnit.setForeground(new java.awt.Color(0, 102, 102));
         jlUnit.setText("Unidad:");
         jlUnit.setPreferredSize(new java.awt.Dimension(100, 23));
         jPanel8.add(jlUnit);
@@ -198,6 +199,7 @@ public class DFormVariable extends DBeanForm implements ChangeListener {
         moTextCode.setTextSettings(DGuiUtils.getLabelName(jlCode), 5);
         moTextName.setTextSettings(DGuiUtils.getLabelName(jlName), 50);
         moTextUnit.setTextSettings(DGuiUtils.getLabelName(jlUnit), 10, 0);
+        moTextUnit.setTextCaseType(DLibConsts.UNDEFINED);
         moDecValueMin.setDecimalSettings(DGuiUtils.getLabelName(jlValueMin), DGuiConsts.GUI_TYPE_DEC_AMT_UNIT, false);
         moDecValueMax.setDecimalSettings(DGuiUtils.getLabelName(jlValueMax), DGuiConsts.GUI_TYPE_DEC_AMT_UNIT, false);
         
@@ -236,6 +238,17 @@ public class DFormVariable extends DBeanForm implements ChangeListener {
         mvFormGrids.add(moGridFamilies);
     }
     
+    private void stateChangedDecimals() {
+        int value = (Integer) jsDecimals.getValue();
+        DecimalFormat format = new DecimalFormat("#,##0" + (value == 0 ? "" : "." + DLibUtils.textRepeat("0", value)));
+        
+        moDecValueMin.setDecimalFormat(format);
+        moDecValueMax.setDecimalFormat(format);
+        
+        moDecValueMin.setValue(moDecValueMin.getValue());
+        moDecValueMax.setValue(moDecValueMax.getValue());
+    }
+    
     /*
      * Public methods
      */
@@ -251,7 +264,7 @@ public class DFormVariable extends DBeanForm implements ChangeListener {
 
     @Override
     public void removeAllListeners() {
-
+        jsDecimals.removeChangeListener(this);
     }
 
     @Override
@@ -261,6 +274,9 @@ public class DFormVariable extends DBeanForm implements ChangeListener {
 
     @Override
     public void setRegistry(DDbRegistry registry) throws Exception {
+        Vector<DGuiItem> items = null;
+        Vector<DGridRow> rows = new Vector<>();
+        
         moRegistry = (DDbVariable) registry;
 
         mnFormResult = DLibConsts.UNDEFINED;
@@ -272,6 +288,7 @@ public class DFormVariable extends DBeanForm implements ChangeListener {
         if (moRegistry.isRegistryNew()) {
             moRegistry.setCode("");
             moRegistry.initPrimaryKey();
+            moRegistry.setDecimals(DLibUtils.getDecimalFormatAmountUnitary().getMaximumFractionDigits());
             jtfRegistryKey.setText("");
         }
         else {
@@ -282,82 +299,60 @@ public class DFormVariable extends DBeanForm implements ChangeListener {
         moTextName.setValue(moRegistry.getName());
         moTextUnit.setValue(moRegistry.getUnit());
         jsDecimals.setValue(moRegistry.getDecimals());
+        stateChangedDecimals();
         moDecValueMin.setValue(moRegistry.getValueMin());
         moDecValueMax.setValue(moRegistry.getValueMax());
         
-        moKeyDepartment.setValue(new int[] { moRegistry.getFkDepartmentId() });
-/*XXX        
-        for (DDbFamily itemFamily : DMfgUtils.readItemFamilies(miClient.getSession(), DModSysConsts.CS_ITM_TP_PB)) {
-            optionFamilies.add(new DRowOption(itemFamily.getPkItemFamilyId(), itemFamily.getCode(), itemFamily.getName(), false));
-        }
-*/
-        for (DDbLinePrepItemFamily linePrepItemFamily : moRegistry.getChildItemFamilies()) {
-            for (DGridRow row : optionFamilies) {
-                if (((DRowOption) row).OptionId == linePrepItemFamily.getPkItemFamilyId()) {
-                    ((DRowOption) row).Selected = true;
-                    break;
-                }
-            }
+        items = miClient.getSession().readItems(DModConsts.CU_FAM, DLibConsts.UNDEFINED, null);
+        items.remove(0);
+        
+        for (DGuiItem item : items) {
+            rows.add(new DRowOption(item.getPrimaryKey()[0], item.getCode(), item.getItem(), moRegistry.isUtilFamilyChecked(item.getPrimaryKey()[0])));
         }
         
-        moGridFamilies.populateGrid(optionFamilies);
-        
-        for (DDbLinePack linePack : DMfgUtils.readLinePacks(miClient.getSession())) {
-            optionLinePacks.add(new DRowOption(linePack.getPkLinePackId(), linePack.getCode(), linePack.getName(), false));
-        }
-
-        for (DDbLinePrepLinePack linePrepLinePack : moRegistry.getChildLinePacks()) {
-            for (DGridRow row : optionLinePacks) {
-                if (((DRowOption) row).OptionId == linePrepLinePack.getPkLinePackId()) {
-                    ((DRowOption) row).Selected = true;
-                    break;
-                }
-            }
-        }
-        
-        moGridLinePacks.populateGrid(optionLinePacks);
+        moGridFamilies.populateGrid(rows);
         
         setFormEditable(true);
+        
+        moTextCode.setEditable(false);
 
+        if (moRegistry.isRegistryNew()) {
+
+        }
+        else {
+            
+        }
+        
         addAllListeners();
     }
 
     @Override
-    public DDbLinePrep getRegistry() throws Exception {
-        DDbLinePrepItemFamily linePrepItemFamily = null;
-        DDbLinePrepLinePack linePrepLinePack = null;
-        DDbLinePrep registry = moRegistry.clone();
+    public DDbVariable getRegistry() throws Exception {
+        DDbVariable registry = moRegistry.clone();
 
-        if (registry.isRegistryNew()) { }
+        if (registry.isRegistryNew()) {
+            //registry.setPkVariableId(...);
+        }
 
         registry.setCode(moTextCode.getValue());
         registry.setName(moTextName.getValue());
-        registry.setFkDepartmentId(moKeyDepartment.getValue()[0]);
+        registry.setDecimals((Integer) jsDecimals.getValue());
+        registry.setValueMin(moDecValueMin.getValue());
+        registry.setValueMax(moDecValueMax.getValue());
+        registry.setUnit(moTextUnit.getValue());
+        //registry.setDeleted(...);
+        //registry.setSystem(...);
         
-        registry.getChildItemFamilies().clear();
+        registry.getChildFamilies().clear();
         for (DGridRow row : moGridFamilies.getModel().getGridRows()) {
             if (((DRowOption) row).Selected) {
-                linePrepItemFamily = new DDbLinePrepItemFamily();
-                
-                //linePrepItemFamily.setPkLinePrepId(...);
-                linePrepItemFamily.setPkItemFamilyId(((DRowOption) row).OptionId);
-                
-                registry.getChildItemFamilies().add(linePrepItemFamily);
+                DDbVariableFamily variableFamily = new DDbVariableFamily();
+                //variableFamily.setPkVariableId(...);
+                variableFamily.setPkFamilyId(((DRowOption) row).OptionId);
+                registry.getChildFamilies().add(variableFamily);
             }
         }
         
-        registry.getChildLinePacks().clear();
-        for (DGridRow row : moGridLinePacks.getModel().getGridRows()) {
-            if (((DRowOption) row).Selected) {
-                linePrepLinePack = new DDbLinePrepLinePack();
-                
-                //linePrepLinePack.setPkLinePrepId(...);
-                linePrepLinePack.setPkLinePackId(((DRowOption) row).OptionId);
-                
-                registry.getChildLinePacks().add(linePrepLinePack);
-            }
-        }
-
         return registry;
     }
 
@@ -368,6 +363,12 @@ public class DFormVariable extends DBeanForm implements ChangeListener {
 
     @Override
     public void stateChanged(ChangeEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (e.getSource() instanceof JSpinner) {
+            JSpinner spinner = (JSpinner) e.getSource();
+            
+            if (spinner == jsDecimals) {
+                stateChangedDecimals();
+            }
+        }
     }
 }

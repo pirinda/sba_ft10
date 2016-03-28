@@ -1294,6 +1294,9 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
             else if (menuItem == jmiMfgFormulaComp) {
                 moSession.showView(DModConsts.MU_FRM_CMP, DLibConsts.UNDEFINED, null);
             }
+            else if (menuItem == jmiMfgVariable) {
+                moSession.showView(DModConsts.MU_VAR, DLibConsts.UNDEFINED, null);
+            }
             else if (menuItem == jmiHelpHelp) {
                 actionHelpHelp();
             }

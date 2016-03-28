@@ -7,6 +7,7 @@ package ft.mod.mfg.db;
 
 import ft.mod.DModConsts;
 import ft.mod.cfg.db.DDbItem;
+import ft.mod.cfg.db.DDbPresent;
 import ft.mod.cfg.db.DDbUnit;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -21,26 +22,27 @@ import sba.lib.gui.DGuiSession;
  *
  * @author Sergio Flores
  */
-public class DDbFormulaByProd extends DDbRegistryUser implements DGridRow {
+public class DDbJobMfgProd extends DDbRegistryUser implements DGridRow {
 
-    protected int mnPkFormulaId;
-    protected int mnPkByProdId;
+    protected int mnPkJobId;
+    protected int mnPkMfgProdId;
     protected double mdQuantity;
     protected double mdMassUnit;
     protected double mdMass_r;
-    protected boolean mbStandard;
     protected int mnFkItemId;
     protected int mnFkItemTypeId;
     protected int mnFkUnitId;
-    
+    protected int mnFkPresentId;
+
     protected DDbItem moRegItem;
     protected DDbUnit moRegUnit;
+    protected DDbPresent moRegPresent;
 
     protected String msXtaItemTypeCode;
     protected String msXtaItemTypeName;
     
-    public DDbFormulaByProd() {
-        super(DModConsts.MU_FRM_BYP);
+    public DDbJobMfgProd() {
+        super(DModConsts.M_JOB_MFG);
         initRegistry();
     }
 
@@ -54,38 +56,41 @@ public class DDbFormulaByProd extends DDbRegistryUser implements DGridRow {
         }
         
         moRegUnit = (DDbUnit) session.readRegistry(DModConsts.CU_UOM, new int[] { mnFkUnitId });
+        moRegPresent = (DDbPresent) session.readRegistry(DModConsts.CU_PRE, new int[] { mnFkPresentId });
     }
     
     private void readXtaMembers(final DGuiSession session) {
-        msXtaItemTypeCode = (String) session.readField(DModConsts.CS_ITM_TP, new int[] { mnFkItemTypeId}, DDbRegistry.FIELD_CODE);
-        msXtaItemTypeName = (String) session.readField(DModConsts.CS_ITM_TP, new int[] { mnFkItemTypeId}, DDbRegistry.FIELD_NAME);
+        msXtaItemTypeCode = (String) session.readField(DModConsts.CS_ITM_TP, new int[] { mnFkItemTypeId }, DDbRegistry.FIELD_CODE);
+        msXtaItemTypeName = (String) session.readField(DModConsts.CS_ITM_TP, new int[] { mnFkItemTypeId }, DDbRegistry.FIELD_NAME);
     }
-    
-    public void setPkFormulaId(int n) { mnPkFormulaId = n; }
-    public void setPkByProdId(int n) { mnPkByProdId = n; }
+
+    public void setPkJobId(int n) { mnPkJobId = n; }
+    public void setPkMfgProdId(int n) { mnPkMfgProdId = n; }
     public void setQuantity(double d) { mdQuantity = d; }
     public void setMassUnit(double d) { mdMassUnit = d; }
     public void setMass_r(double d) { mdMass_r = d; }
-    public void setStandard(boolean b) { mbStandard = b; }
     public void setFkItemId(int n) { mnFkItemId = n; }
     public void setFkItemTypeId(int n) { mnFkItemTypeId = n; }
     public void setFkUnitId(int n) { mnFkUnitId = n; }
+    public void setFkPresentId(int n) { mnFkPresentId = n; }
 
-    public int getPkFormulaId() { return mnPkFormulaId; }
-    public int getPkByProdId() { return mnPkByProdId; }
+    public int getPkJobId() { return mnPkJobId; }
+    public int getPkMfgProdId() { return mnPkMfgProdId; }
     public double getQuantity() { return mdQuantity; }
     public double getMassUnit() { return mdMassUnit; }
     public double getMass_r() { return mdMass_r; }
-    public boolean isStandard() { return mbStandard; }
     public int getFkItemId() { return mnFkItemId; }
     public int getFkItemTypeId() { return mnFkItemTypeId; }
     public int getFkUnitId() { return mnFkUnitId; }
+    public int getFkPresentId() { return mnFkPresentId; }
 
     public void setRegItem(DDbItem o) { moRegItem = o; }
     public void setRegUnit(DDbUnit o) { moRegUnit = o; }
+    public void setRegPresent(DDbPresent o) { moRegPresent = o; }
     
     public DDbItem getRegItem() { return moRegItem; }
     public DDbUnit getRegUnit() { return moRegUnit; }
+    public DDbPresent getRegPresent() { return moRegPresent; }
     
     public void setXtaItemTypeCode(String s) { msXtaItemTypeCode = s; }
     public void setXtaItemTypeName(String s) { msXtaItemTypeName = s; }
@@ -95,31 +100,32 @@ public class DDbFormulaByProd extends DDbRegistryUser implements DGridRow {
     
     @Override
     public void setPrimaryKey(int[] pk) {
-        mnPkFormulaId = pk[0];
-        mnPkByProdId = pk[1];
+        mnPkJobId = pk[0];
+        mnPkMfgProdId = pk[1];
     }
 
     @Override
     public int[] getPrimaryKey() {
-        return new int[] { mnPkFormulaId, mnPkByProdId };
+        return new int[] { mnPkJobId, mnPkMfgProdId };
     }
 
     @Override
     public void initRegistry() {
         initBaseRegistry();
 
-        mnPkFormulaId = 0;
-        mnPkByProdId = 0;
+        mnPkJobId = 0;
+        mnPkMfgProdId = 0;
         mdQuantity = 0;
         mdMassUnit = 0;
         mdMass_r = 0;
-        mbStandard = false;
         mnFkItemId = 0;
         mnFkItemTypeId = 0;
         mnFkUnitId = 0;
+        mnFkPresentId = 0;
         
         moRegItem = null;
         moRegUnit = null;
+        moRegPresent = null;
         
         msXtaItemTypeCode = "";
         msXtaItemTypeName = "";
@@ -132,25 +138,25 @@ public class DDbFormulaByProd extends DDbRegistryUser implements DGridRow {
 
     @Override
     public String getSqlWhere() {
-        return "WHERE id_frm = " + mnPkFormulaId + " AND id_byp = " + mnPkByProdId + " ";
+        return "WHERE id_job = " + mnPkJobId + " AND id_mfg = " + mnPkMfgProdId + " ";
     }
 
     @Override
     public String getSqlWhere(int[] pk) {
-        return "WHERE id_frm = " + pk[0] + " AND id_byp = " + pk[1] + " ";
+        return "WHERE id_job = " + pk[0] + " AND id_mfg = " + pk[1] + " ";
     }
 
     @Override
     public void computePrimaryKey(DGuiSession session) throws SQLException, Exception {
         ResultSet resultSet = null;
 
-        mnPkByProdId = 0;
+        mnPkMfgProdId = 0;
 
-        msSql = "SELECT COALESCE(MAX(id_byp), 0) + 1 FROM " + getSqlTable() + " " +
-                "WHERE id_frm = " + mnPkFormulaId + " ";
+        msSql = "SELECT COALESCE(MAX(id_mfg), 0) + 1 FROM " + getSqlTable() + " " +
+                "WHERE id_job = " + mnPkJobId + " ";
         resultSet = session.getStatement().executeQuery(msSql);
         if (resultSet.next()) {
-            mnPkByProdId = resultSet.getInt(1);
+            mnPkMfgProdId = resultSet.getInt(1);
         }
     }
 
@@ -168,15 +174,15 @@ public class DDbFormulaByProd extends DDbRegistryUser implements DGridRow {
             throw new Exception(DDbConsts.ERR_MSG_REG_NOT_FOUND);
         }
         else {
-            mnPkFormulaId = resultSet.getInt("id_frm");
-            mnPkByProdId = resultSet.getInt("id_byp");
+            mnPkJobId = resultSet.getInt("id_job");
+            mnPkMfgProdId = resultSet.getInt("id_mfg");
             mdQuantity = resultSet.getDouble("qty");
             mdMassUnit = resultSet.getDouble("mass_unt");
             mdMass_r = resultSet.getDouble("mass_r");
-            mbStandard = resultSet.getBoolean("b_std");
             mnFkItemId = resultSet.getInt("fk_itm");
             mnFkItemTypeId = resultSet.getInt("fk_itm_tp");
             mnFkUnitId = resultSet.getInt("fk_uom");
+            mnFkPresentId = resultSet.getInt("fk_pre");
 
             readRegMembers(session, false);
             readXtaMembers(session);
@@ -196,22 +202,32 @@ public class DDbFormulaByProd extends DDbRegistryUser implements DGridRow {
 
         if (mbRegistryNew) {
             computePrimaryKey(session);
-
             msSql = "INSERT INTO " + getSqlTable() + " VALUES (" +
-                    mnPkFormulaId + ", " + 
-                   mnPkByProdId + ", " + 
-                   mdQuantity + ", " + 
-                   mdMassUnit + ", " + 
-                   mdMass_r + ", " + 
-                   (mbStandard ? 1 : 0) + ", " + 
-                   mnFkItemTypeId + ", " + 
-                   mnFkItemId + ", " + 
-                   mnFkItemTypeId + ", " + 
-                   mnFkUnitId + " " + 
-                   ")";
+                    mnPkJobId + ", " + 
+                    mnPkMfgProdId + ", " + 
+                    mdQuantity + ", " + 
+                    mdMassUnit + ", " + 
+                    mdMass_r + ", " + 
+                    mnFkItemId + ", " + 
+                    mnFkItemTypeId + ", " + 
+                    mnFkUnitId + ", " + 
+                    mnFkPresentId + " " + 
+                    ")";
         }
         else {
-            throw new Exception(DDbConsts.ERR_MSG_REG_NON_UPDATABLE);
+            mnFkUserUpdateId = session.getUser().getPkUserId();
+
+            msSql = "UPDATE " + getSqlTable() + " SET " +
+                    //"id_job = " + mnPkJobId + ", " +
+                    //"id_mfg = " + mnPkMfgProdId + ", " +
+                    "qty = " + mdQuantity + ", " +
+                    "mass_unt = " + mdMassUnit + ", " +
+                    "mass_r = " + mdMass_r + ", " +
+                    "fk_itm = " + mnFkItemId + ", " +
+                    "fk_itm_tp = " + mnFkItemTypeId + ", " +
+                    "fk_uom = " + mnFkUnitId + ", " +
+                    "fk_pre = " + mnFkPresentId + " " +
+                    getSqlWhere();
         }
 
         session.getStatement().execute(msSql);
@@ -220,27 +236,35 @@ public class DDbFormulaByProd extends DDbRegistryUser implements DGridRow {
     }
 
     @Override
-    public DDbFormulaByProd clone() throws CloneNotSupportedException {
-        DDbFormulaByProd registry = new DDbFormulaByProd();
+    public DDbJobMfgProd clone() throws CloneNotSupportedException {
+        DDbJobMfgProd registry = new DDbJobMfgProd();
 
-        registry.setPkFormulaId(this.getPkFormulaId());
-        registry.setPkByProdId(this.getPkByProdId());
+        registry.setPkJobId(this.getPkJobId());
+        registry.setPkMfgProdId(this.getPkMfgProdId());
         registry.setQuantity(this.getQuantity());
         registry.setMassUnit(this.getMassUnit());
         registry.setMass_r(this.getMass_r());
-        registry.setStandard(this.isStandard());
         registry.setFkItemId(this.getFkItemId());
         registry.setFkItemTypeId(this.getFkItemTypeId());
         registry.setFkUnitId(this.getFkUnitId());
-        
+        registry.setFkPresentId(this.getFkPresentId());
+
         registry.setRegItem(this.getRegItem() == null ? null : this.getRegItem().clone());
         registry.setRegUnit(this.getRegUnit() == null ? null : this.getRegUnit().clone());
-        
+        registry.setRegPresent(this.getRegPresent()== null ? null : this.getRegPresent().clone());
+
         registry.setXtaItemTypeCode(this.getXtaItemTypeCode());
         registry.setXtaItemTypeName(this.getXtaItemTypeName());
-
+        
         registry.setRegistryNew(this.isRegistryNew());
         return registry;
+    }
+
+    public void compute(final DGuiSession session) {
+        readRegMembers(session, true);
+        readXtaMembers(session);
+        
+        mdMass_r = DLibUtils.round(mdMassUnit * mdQuantity, DLibUtils.getDecimalFormatAmountUnitary().getMaximumFractionDigits());
     }
 
     @Override
@@ -281,24 +305,16 @@ public class DDbFormulaByProd extends DDbRegistryUser implements DGridRow {
     @Override
     public Object getRowValueAt(int col) {
         Object value = null;
+        
         switch (col) {
             case 0:
-                value = mnPkByProdId;
-                break;
-            case 1:
-                value = moRegItem.getXtaItemTypeCode();
-                break;
-            case 2:
-                value = moRegItem.getName();
-                break;
-            case 3:
                 value = mdQuantity;
                 break;
-            case 4:
+            case 1:
                 value = moRegUnit.getCode();
                 break;
-            case 5:
-                value = mbStandard;
+            case 2:
+                value = mdMass_r;
                 break;
             default:
         }
@@ -308,13 +324,6 @@ public class DDbFormulaByProd extends DDbRegistryUser implements DGridRow {
 
     @Override
     public void setRowValueAt(Object value, int col) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-    
-    public void compute(final DGuiSession session) {
-        readRegMembers(session, true);
-        readXtaMembers(session);
-        
-        mdMass_r = DLibUtils.round(mdMassUnit * mdQuantity, DLibUtils.getDecimalFormatAmountUnitary().getMaximumFractionDigits());
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

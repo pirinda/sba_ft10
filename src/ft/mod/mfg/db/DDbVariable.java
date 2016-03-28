@@ -38,11 +38,11 @@ public class DDbVariable extends DDbRegistryUser {
     protected Date mtTsUserUpdate;
     */
     
-    protected ArrayList<DDbVariableFamily> maFamilies;
+    protected ArrayList<DDbVariableFamily> maChildFamilies;
     
     public DDbVariable() {
         super(DModConsts.MU_VAR);
-        maFamilies = new ArrayList<>();
+        maChildFamilies = new ArrayList<>();
         initRegistry();
     }
 
@@ -74,7 +74,20 @@ public class DDbVariable extends DDbRegistryUser {
     public Date getTsUserInsert() { return mtTsUserInsert; }
     public Date getTsUserUpdate() { return mtTsUserUpdate; }
 
-    public ArrayList<DDbVariableFamily> getFamilies() { return maFamilies; }
+    public ArrayList<DDbVariableFamily> getChildFamilies() { return maChildFamilies; }
+    
+    public boolean isUtilFamilyChecked(final int idFamily) {
+        boolean checked = false;
+        
+        for (DDbVariableFamily family : maChildFamilies) {
+            if (idFamily == family.getPkFamilyId()) {
+                checked = true;
+                break;
+            }
+        }
+        
+        return checked;
+    }
     
     @Override
     public void setPrimaryKey(int[] pk) {
@@ -104,7 +117,7 @@ public class DDbVariable extends DDbRegistryUser {
         mtTsUserInsert = null;
         mtTsUserUpdate = null;
         
-        maFamilies.clear();
+        maChildFamilies.clear();
     }
 
     @Override
@@ -173,8 +186,8 @@ public class DDbVariable extends DDbRegistryUser {
             resultSet = statement.executeQuery(msSql);
             while (resultSet.next()) {
                 DDbVariableFamily child = new DDbVariableFamily();
-                child.read(session, new int[] { resultSet.getInt(1) });
-                maFamilies.add(child);
+                child.read(session, new int[] { mnPkVariableId, resultSet.getInt(1) });
+                maChildFamilies.add(child);
             }
             
             // Finish registry reading:
@@ -244,7 +257,7 @@ public class DDbVariable extends DDbRegistryUser {
         msSql = "DELETE FROM " + DModConsts.TablesMap.get(DModConsts.MU_VAR_FAM) + " " + getSqlWhere();
         session.getStatement().execute(msSql);
         
-        for (DDbVariableFamily child : maFamilies) {
+        for (DDbVariableFamily child : maChildFamilies) {
             child.setRegistryNew(true);
             child.setPkVariableId(mnPkVariableId);
             child.save(session);
@@ -274,8 +287,8 @@ public class DDbVariable extends DDbRegistryUser {
         registry.setTsUserInsert(this.getTsUserInsert());
         registry.setTsUserUpdate(this.getTsUserUpdate());
 
-        for (DDbVariableFamily child : maFamilies) {
-            registry.getFamilies().add(child.clone());
+        for (DDbVariableFamily child : maChildFamilies) {
+            registry.getChildFamilies().add(child.clone());
         }
         
         registry.setRegistryNew(this.isRegistryNew());

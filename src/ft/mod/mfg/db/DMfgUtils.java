@@ -57,14 +57,13 @@ public abstract class DMfgUtils {
         
         return array;
     }
-    
+    /* XXX
     public static ArrayList<DDbLinePack> readLinePacks(final DGuiSession session) throws SQLException, Exception {
         String sql = "";
         Statement statement = null;
         ResultSet resultSet = null;
         DDbLinePack registry = null;
         ArrayList<DDbLinePack> array = new ArrayList<>();
-/*XXX        
         sql = "SELECT id_lin_pck, name FROM " + DModConsts.TablesMap.get(DModConsts.MU_LIN_PCK) + " WHERE b_del = 0 ORDER BY name, id_lin_pck ";
         statement = session.getStatement().getConnection().createStatement();
         resultSet = statement.executeQuery(sql);
@@ -73,7 +72,6 @@ public abstract class DMfgUtils {
             registry.read(session, new int[] { resultSet.getInt(1) });
             array.add(registry);
         }
-*/
         return array;
     }
     
@@ -83,7 +81,7 @@ public abstract class DMfgUtils {
         ResultSet resultSet = null;
         DDbLinePrep registry = null;
         ArrayList<DDbLinePrep> array = new ArrayList<>();
-/*XXX
+    
         sql = "SELECT id_lin_prp, name FROM " + DModConsts.TablesMap.get(DModConsts.MU_LIN_PRP) + " WHERE b_del = 0 ORDER BY name, id_lin_prp ";
         statement = session.getStatement().getConnection().createStatement();
         resultSet = statement.executeQuery(sql);
@@ -92,7 +90,7 @@ public abstract class DMfgUtils {
             registry.read(session, new int[] { resultSet.getInt(1) });
             array.add(registry);
         }
-*/
         return array;
     }
+*/
 }

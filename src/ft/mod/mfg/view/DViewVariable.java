@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package ft.mod.stk.view;
+package ft.mod.mfg.view;
 
 import ft.mod.DModConsts;
 import sba.lib.DLibConsts;
@@ -18,11 +18,11 @@ import sba.lib.gui.DGuiClient;
  *
  * @author Sergio Flores
  */
-public class DViewWarehouse extends DGridPaneView {
+public class DViewVariable extends DGridPaneView {
 
-    public DViewWarehouse(DGuiClient client, String title) {
-        super(client, DGridConsts.GRID_VIEW_TAB, DModConsts.SU_WHS, DLibConsts.UNDEFINED, title);
-        setRowButtonsEnabled(false, false, true, false, false);
+    public DViewVariable(DGuiClient client, String title) {
+        super(client, DGridConsts.GRID_VIEW_TAB, DModConsts.MU_VAR, DLibConsts.UNDEFINED, title);
+        setRowButtonsEnabled(true, true, true, false, true);
     }
 
     @Override
@@ -42,11 +42,13 @@ public class DViewWarehouse extends DGridPaneView {
         }
 
         msSql = "SELECT " +
-                "v.id_whs AS " + DDbConsts.FIELD_ID + "1, " +
+                "v.id_var AS " + DDbConsts.FIELD_ID + "1, " +
                 "v.code AS " + DDbConsts.FIELD_CODE + ", " +
                 "v.name AS " + DDbConsts.FIELD_NAME + ", " +
-                "wt.code, " +
-                "wt.name, " +
+                "v.decs, " +
+                "v.val_min, " +
+                "v.val_max, " +
+                "v.uom, " +
                 "v.b_del AS " + DDbConsts.FIELD_IS_DEL + ", " +
                 "v.b_sys AS " + DDbConsts.FIELD_IS_SYS + ", " +
                 "v.fk_usr_ins AS " + DDbConsts.FIELD_USER_INS_ID + ", " +
@@ -55,25 +57,26 @@ public class DViewWarehouse extends DGridPaneView {
                 "v.ts_usr_upd AS " + DDbConsts.FIELD_USER_UPD_TS + ", " +
                 "ui.name AS " + DDbConsts.FIELD_USER_INS_NAME + ", " +
                 "uu.name AS " + DDbConsts.FIELD_USER_UPD_NAME + " " +
-                "FROM " + DModConsts.TablesMap.get(DModConsts.SU_WHS) + " AS v " +
-                "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.SS_WHS_TP) + " AS wt ON " +
-                "v.fk_whs_tp = wt.id_whs_tp " +
+                "FROM " + DModConsts.TablesMap.get(DModConsts.MU_VAR) + " AS v " +
                 "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_USR) + " AS ui ON " +
                 "v.fk_usr_ins = ui.id_usr " +
                 "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_USR) + " AS uu ON " +
                 "v.fk_usr_upd = uu.id_usr " +
                 (sql.length() == 0 ? "" : "WHERE " + sql) +
-                "ORDER BY v.name, v.code, v.id_whs ";
+                "ORDER BY v.name, v.code, v.id_var ";
     }
 
     @Override
     public void createGridColumns() {
         int col = 0;
-        DGridColumnView[] columns = new DGridColumnView[9];
+        DGridColumnView[] columns = new DGridColumnView[12];
 
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_CAT_M, DDbConsts.FIELD_NAME, DGridConsts.COL_TITLE_NAME);
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_CODE_CAT, DDbConsts.FIELD_CODE, DGridConsts.COL_TITLE_CODE);
-        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_CAT_S, "wt.name", DGridConsts.COL_TITLE_TYPE + " almacén");
+        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_INT_2B, "v.decs", "Decimales");
+        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_DEC_AMT_UNIT, "v.val_min", "Valor mínimo");
+        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_DEC_AMT_UNIT, "v.val_max", "Valor mánimo");
+        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_CAT_S, "v.uom", "Unidad");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_BOOL_S, DDbConsts.FIELD_IS_DEL, DGridConsts.COL_TITLE_IS_DEL);
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_BOOL_S, DDbConsts.FIELD_IS_SYS, DGridConsts.COL_TITLE_IS_SYS);
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_USR, DDbConsts.FIELD_USER_INS_NAME, DGridConsts.COL_TITLE_USER_INS_NAME);

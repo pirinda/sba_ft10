@@ -23,10 +23,10 @@ import sba.lib.gui.DGuiSession;
  *
  * @author Sergio Flores
  */
-public class DDbFormulaComp extends DDbRegistryUser implements DGridRow {
+public class DDbJobReqment extends DDbRegistryUser implements DGridRow {
 
-    protected int mnPkFormulaId;
-    protected int mnPkCompId;
+    protected int mnPkJobId;
+    protected int mnPkReqmentId;
     protected double mdQuantity;
     protected double mdMassUnit;
     protected double mdMass_r;
@@ -35,7 +35,7 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow {
     protected int mnFkCompId;
     protected int mnFkItemTypeId;
     protected int mnFkUnitId;
-    
+
     protected DDbFamily moRegFamily;
     protected DDbItem moRegItem;
     protected DDbUnit moRegUnit;
@@ -43,11 +43,13 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow {
     protected String msXtaCompTypeCode;
     protected String msXtaCompTypeName;
     
-    public DDbFormulaComp() {
-        super(DModConsts.MU_FRM_CMP);
+    protected double mdAuxQuantityConsump;
+    
+    public DDbJobReqment() {
+        super(DModConsts.M_JOB_REQ);
         initRegistry();
     }
-    
+
     private void readRegMembers(final DGuiSession session, final boolean update) {
         switch (mnFkCompTypeId) {
             case DModSysConsts.MS_CMP_TP_FAM:
@@ -84,8 +86,8 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow {
         msXtaCompTypeName = (String) session.readField(DModConsts.MS_CMP_TP, new int[] { mnFkCompTypeId }, DDbRegistry.FIELD_NAME);
     }
 
-    public void setPkFormulaId(int n) { mnPkFormulaId = n; }
-    public void setPkCompId(int n) { mnPkCompId = n; }
+    public void setPkJobId(int n) { mnPkJobId = n; }
+    public void setPkReqmentId(int n) { mnPkReqmentId = n; }
     public void setQuantity(double d) { mdQuantity = d; }
     public void setMassUnit(double d) { mdMassUnit = d; }
     public void setMass_r(double d) { mdMass_r = d; }
@@ -95,8 +97,8 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow {
     public void setFkItemTypeId(int n) { mnFkItemTypeId = n; }
     public void setFkUnitId(int n) { mnFkUnitId = n; }
 
-    public int getPkFormulaId() { return mnPkFormulaId; }
-    public int getPkCompId() { return mnPkCompId; }
+    public int getPkJobId() { return mnPkJobId; }
+    public int getPkReqmentId() { return mnPkReqmentId; }
     public double getQuantity() { return mdQuantity; }
     public double getMassUnit() { return mdMassUnit; }
     public double getMass_r() { return mdMass_r; }
@@ -105,7 +107,7 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow {
     public int getFkCompId() { return mnFkCompId; }
     public int getFkItemTypeId() { return mnFkItemTypeId; }
     public int getFkUnitId() { return mnFkUnitId; }
-    
+
     public void setRegFamily(DDbFamily o) { moRegFamily = o; }
     public void setRegItem(DDbItem o) { moRegItem = o; }
     public void setRegUnit(DDbUnit o) { moRegUnit = o; }
@@ -120,23 +122,27 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow {
     public String getXtaCompTypeCode() { return msXtaCompTypeCode; }
     public String getXtaCompTypeName() { return msXtaCompTypeName; }
     
+    public void setAuxQuantityConsump(double d) { mdAuxQuantityConsump = d; }
+    
+    public double getAuxQuantityConsump() { return mdAuxQuantityConsump; }
+    
     @Override
     public void setPrimaryKey(int[] pk) {
-        mnPkFormulaId = pk[0];
-        mnPkCompId = pk[1];
+        mnPkJobId = pk[0];
+        mnPkReqmentId = pk[1];
     }
 
     @Override
     public int[] getPrimaryKey() {
-        return new int[] { mnPkFormulaId, mnPkCompId };
+        return new int[] { mnPkJobId, mnPkReqmentId };
     }
 
     @Override
     public void initRegistry() {
         initBaseRegistry();
 
-        mnPkFormulaId = 0;
-        mnPkCompId = 0;
+        mnPkJobId = 0;
+        mnPkReqmentId = 0;
         mdQuantity = 0;
         mdMassUnit = 0;
         mdMass_r = 0;
@@ -152,6 +158,8 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow {
         
         msXtaCompTypeCode = "";
         msXtaCompTypeName = "";
+        
+        mdAuxQuantityConsump = 0;
     }
 
     @Override
@@ -161,25 +169,25 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow {
 
     @Override
     public String getSqlWhere() {
-        return "WHERE id_frm = " + mnPkFormulaId + " AND id_cmp = " + mnPkCompId + " ";
+        return "WHERE id_job = " + mnPkJobId + " AND id_req = " + mnPkReqmentId + " ";
     }
 
     @Override
     public String getSqlWhere(int[] pk) {
-        return "WHERE id_frm = " + pk[0] + " AND id_cmp = " + pk[1] + " ";
+        return "WHERE id_job = " + pk[0] + " AND id_req = " + pk[1] + " ";
     }
 
     @Override
     public void computePrimaryKey(DGuiSession session) throws SQLException, Exception {
         ResultSet resultSet = null;
 
-        mnPkCompId = 0;
+        mnPkReqmentId = 0;
 
-        msSql = "SELECT COALESCE(MAX(id_cmp), 0) + 1 FROM " + getSqlTable() + " " +
-                "WHERE id_frm = " + mnPkFormulaId + " ";
+        msSql = "SELECT COALESCE(MAX(id_req), 0) + 1 FROM " + getSqlTable() + " " +
+                "WHERE id_job = " + mnPkJobId + " ";
         resultSet = session.getStatement().executeQuery(msSql);
         if (resultSet.next()) {
-            mnPkCompId = resultSet.getInt(1);
+            mnPkReqmentId = resultSet.getInt(1);
         }
     }
 
@@ -197,8 +205,8 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow {
             throw new Exception(DDbConsts.ERR_MSG_REG_NOT_FOUND);
         }
         else {
-            mnPkFormulaId = resultSet.getInt("id_frm");
-            mnPkCompId = resultSet.getInt("id_cmp");
+            mnPkJobId = resultSet.getInt("id_job");
+            mnPkReqmentId = resultSet.getInt("id_req");
             mdQuantity = resultSet.getDouble("qty");
             mdMassUnit = resultSet.getDouble("mass_unt");
             mdMass_r = resultSet.getDouble("mass_r");
@@ -221,27 +229,39 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow {
     public void save(DGuiSession session) throws SQLException, Exception {
         initQueryMembers();
         mnQueryResultId = DDbConsts.SAVE_ERROR;
-        
+
         compute(session);
 
         if (mbRegistryNew) {
             computePrimaryKey(session);
-
             msSql = "INSERT INTO " + getSqlTable() + " VALUES (" +
-                    mnPkFormulaId + ", " + 
-                   mnPkCompId + ", " + 
-                   mdQuantity + ", " + 
-                   mdMassUnit + ", " + 
-                   mdMass_r + ", " + 
-                   (mbStandard ? 1 : 0) + ", " + 
-                   mnFkCompTypeId + ", " + 
-                   mnFkCompId + ", " + 
-                   mnFkItemTypeId + ", " + 
-                   mnFkUnitId + " " + 
-                   ")";
+                    mnPkJobId + ", " + 
+                    mnPkReqmentId + ", " + 
+                    mdQuantity + ", " + 
+                    mdMassUnit + ", " + 
+                    mdMass_r + ", " + 
+                    (mbStandard ? 1 : 0) + ", " + 
+                    mnFkCompTypeId + ", " + 
+                    mnFkCompId + ", " + 
+                    mnFkItemTypeId + ", " + 
+                    mnFkUnitId + " " + 
+                    ")";
         }
         else {
-            throw new Exception(DDbConsts.ERR_MSG_REG_NON_UPDATABLE);
+            mnFkUserUpdateId = session.getUser().getPkUserId();
+
+            msSql = "UPDATE " + getSqlTable() + " SET " +
+                    //"id_job = " + mnPkJobId + ", " +
+                    //"id_req = " + mnPkReqmentId + ", " +
+                    "qty = " + mdQuantity + ", " +
+                    "mass_unt = " + mdMassUnit + ", " +
+                    "mass_r = " + mdMass_r + ", " +
+                    "b_std = " + (mbStandard ? 1 : 0) + ", " +
+                    "fk_cmp_tp = " + mnFkCompTypeId + ", " +
+                    "fk_cmp = " + mnFkCompId + ", " +
+                    "fk_itm_tp = " + mnFkItemTypeId + ", " +
+                    "fk_uom = " + mnFkUnitId + " " +
+                    getSqlWhere();
         }
 
         session.getStatement().execute(msSql);
@@ -250,11 +270,11 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow {
     }
 
     @Override
-    public DDbFormulaComp clone() throws CloneNotSupportedException {
-        DDbFormulaComp registry = new DDbFormulaComp();
+    public DDbJobReqment clone() throws CloneNotSupportedException {
+        DDbJobReqment registry = new DDbJobReqment();
 
-        registry.setPkFormulaId(this.getPkFormulaId());
-        registry.setPkCompId(this.getPkCompId());
+        registry.setPkJobId(this.getPkJobId());
+        registry.setPkReqmentId(this.getPkReqmentId());
         registry.setQuantity(this.getQuantity());
         registry.setMassUnit(this.getMassUnit());
         registry.setMass_r(this.getMass_r());
@@ -263,7 +283,7 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow {
         registry.setFkCompId(this.getFkCompId());
         registry.setFkItemTypeId(this.getFkItemTypeId());
         registry.setFkUnitId(this.getFkUnitId());
-
+        
         registry.setRegFamily(this.getRegFamily() == null ? null : this.getRegFamily().clone());
         registry.setRegItem(this.getRegItem() == null ? null : this.getRegItem().clone());
         registry.setRegUnit(this.getRegUnit() == null ? null : this.getRegUnit().clone());
@@ -273,6 +293,23 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow {
         
         registry.setRegistryNew(this.isRegistryNew());
         return registry;
+    }
+
+    public void compute(final DGuiSession session) {
+        readRegMembers(session, true);
+        readXtaMembers(session);
+        
+        mdMass_r = 0;
+        
+        switch (mnFkCompTypeId) {
+            case DModSysConsts.MS_CMP_TP_FAM:
+                mdMass_r = DLibUtils.round(mdMassUnit * mdQuantity, DLibUtils.getDecimalFormatAmountUnitary().getMaximumFractionDigits());
+                break;
+            case DModSysConsts.MS_CMP_TP_ITM:
+                mdMass_r = DLibUtils.round((mdMassUnit = moRegItem.getMassUnit()) * mdQuantity, DLibUtils.getDecimalFormatAmountUnitary().getMaximumFractionDigits());
+                break;
+            default:
+        }
     }
 
     @Override
@@ -316,7 +353,7 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow {
         
         switch (col) {
             case 0:
-                value = mnPkCompId;
+                value = mnPkReqmentId;
                 break;
             case 1:
                 value = msXtaCompTypeCode;
@@ -358,9 +395,12 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow {
                 value = mdQuantity;
                 break;
             case 6:
-                value = moRegUnit.getCode();
+                value = mdAuxQuantityConsump;
                 break;
             case 7:
+                value = moRegUnit.getCode();
+                break;
+            case 8:
                 value = mbStandard;
                 break;
             default:
@@ -371,48 +411,6 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow {
 
     @Override
     public void setRowValueAt(Object value, int col) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-    
-    public void compute(final DGuiSession session) {
-        readRegMembers(session, true);
-        readXtaMembers(session);
-        
-        mdMass_r = 0;
-        
-        switch (mnFkCompTypeId) {
-            case DModSysConsts.MS_CMP_TP_FAM:
-                mdMass_r = DLibUtils.round(mdMassUnit * mdQuantity, DLibUtils.getDecimalFormatAmountUnitary().getMaximumFractionDigits());
-                break;
-            case DModSysConsts.MS_CMP_TP_ITM:
-                mdMass_r = DLibUtils.round((mdMassUnit = moRegItem.getMassUnit()) * mdQuantity, DLibUtils.getDecimalFormatAmountUnitary().getMaximumFractionDigits());
-                break;
-            default:
-        }
-    }
-    
-    public DDbJobReqment createJobReqment() throws CloneNotSupportedException {
-        DDbJobReqment registry = new DDbJobReqment();
-        
-        //registry.setPkJobId(...);
-        registry.setPkReqmentId(this.getPkCompId());
-        registry.setQuantity(this.getQuantity());
-        registry.setMassUnit(this.getMassUnit());
-        registry.setMass_r(this.getMass_r());
-        registry.setStandard(this.isStandard());
-        registry.setFkCompTypeId(this.getFkCompTypeId());
-        registry.setFkCompId(this.getFkCompId());
-        registry.setFkItemTypeId(this.getFkItemTypeId());
-        registry.setFkUnitId(this.getFkUnitId());
-        
-        registry.setRegFamily(this.getRegFamily() == null ? null : this.getRegFamily().clone());
-        registry.setRegItem(this.getRegItem() == null ? null : this.getRegItem().clone());
-        registry.setRegUnit(this.getRegUnit() == null ? null : this.getRegUnit().clone());
-        
-        registry.setXtaCompTypeCode(this.getXtaCompTypeCode());
-        registry.setXtaCompTypeName(this.getXtaCompTypeName());
-        
-        registry.setRegistryNew(this.isRegistryNew());
-        return registry;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
