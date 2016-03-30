@@ -291,20 +291,24 @@ public class DFormWsd extends DBeanForm implements DGridPaneFormOwner, ActionLis
 
         jPanel19.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
+        jlNumber.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jlNumber.setText("Folio:");
         jlNumber.setPreferredSize(new java.awt.Dimension(75, 23));
         jPanel19.add(jlNumber);
 
         jtfSeries.setEditable(false);
         jtfSeries.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jtfSeries.setText("S");
         jtfSeries.setFocusable(false);
         jtfSeries.setPreferredSize(new java.awt.Dimension(35, 23));
         jPanel19.add(jtfSeries);
 
         jtfNumber.setEditable(false);
         jtfNumber.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jtfNumber.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
+        jtfNumber.setText("0");
         jtfNumber.setFocusable(false);
-        jtfNumber.setPreferredSize(new java.awt.Dimension(100, 23));
+        jtfNumber.setPreferredSize(new java.awt.Dimension(75, 23));
         jPanel19.add(jtfNumber);
 
         jPanel11.add(jPanel19);

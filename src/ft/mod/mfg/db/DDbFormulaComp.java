@@ -391,14 +391,14 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow {
         }
     }
     
-    public DDbJobReqment createJobReqment() throws CloneNotSupportedException {
+    public DDbJobReqment createJobReqment(final double loads) throws CloneNotSupportedException {
         DDbJobReqment registry = new DDbJobReqment();
         
         //registry.setPkJobId(...);
         registry.setPkReqmentId(this.getPkCompId());
-        registry.setQuantity(this.getQuantity());
+        registry.setQuantity(this.getQuantity() * loads);
         registry.setMassUnit(this.getMassUnit());
-        registry.setMass_r(this.getMass_r());
+        registry.setMass_r(this.getMass_r() * loads);
         registry.setStandard(this.isStandard());
         registry.setFkCompTypeId(this.getFkCompTypeId());
         registry.setFkCompId(this.getFkCompId());

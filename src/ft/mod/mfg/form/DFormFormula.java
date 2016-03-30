@@ -545,8 +545,6 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
         for (DGridRow row : moPaneFormComps.getModel().getGridRows()) {
             ((DDbFormulaComp) row).setPkCompId(++number);
         }
-        
-        moPaneFormComps.renderGridRows();
     }
     
     private void doCompAdd() {
@@ -578,6 +576,7 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
 
                 moPaneFormComps.addGridRow(comp);
                 updateCompsNumbers();
+                moPaneFormComps.renderGridRows();
                 moPaneFormComps.setSelectedGridRow(moPaneFormComps.getTable().getRowCount() - 1);
 
                 compute();
