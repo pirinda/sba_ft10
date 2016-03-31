@@ -356,20 +356,6 @@ public class DDbJobReqment extends DDbRegistryUser implements DGridRow {
                 value = mnPkReqmentId;
                 break;
             case 1:
-                value = msXtaCompTypeCode;
-                break;
-            case 2:
-                switch (mnFkCompTypeId) {
-                    case DModSysConsts.MS_CMP_TP_FAM:
-                        value = moRegFamily.getXtaItemTypeCode();
-                        break;
-                    case DModSysConsts.MS_CMP_TP_ITM:
-                        value = moRegItem.getXtaItemTypeCode();
-                        break;
-                    default:
-                }
-                break;
-            case 3:
                 switch (mnFkCompTypeId) {
                     case DModSysConsts.MS_CMP_TP_FAM:
                         value = moRegFamily.getName();
@@ -380,27 +366,30 @@ public class DDbJobReqment extends DDbRegistryUser implements DGridRow {
                     default:
                 }
                 break;
+            case 2:
+                value = mdQuantity;
+                break;
+            case 3:
+                value = moRegUnit.getCode();
+                break;
             case 4:
+                value = mdAuxQuantityConsump;
+                break;
+            case 5:
+                value = msXtaCompTypeCode;
+                break;
+            case 6:
                 switch (mnFkCompTypeId) {
                     case DModSysConsts.MS_CMP_TP_FAM:
-                        value = moRegFamily.getCode();
+                        value = moRegFamily.getXtaItemTypeCode();
                         break;
                     case DModSysConsts.MS_CMP_TP_ITM:
-                        value = moRegItem.getCode();
+                        value = moRegItem.getXtaItemTypeCode();
                         break;
                     default:
                 }
                 break;
-            case 5:
-                value = mdQuantity;
-                break;
-            case 6:
-                value = mdAuxQuantityConsump;
-                break;
             case 7:
-                value = moRegUnit.getCode();
-                break;
-            case 8:
                 value = mbStandard;
                 break;
             default:

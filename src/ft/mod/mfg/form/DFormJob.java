@@ -13,6 +13,7 @@ import ft.mod.mfg.db.DDbFormula;
 import ft.mod.mfg.db.DDbFormulaComp;
 import ft.mod.mfg.db.DDbJob;
 import ft.mod.mfg.db.DDbJobConsump;
+import ft.mod.mfg.db.DDbJobMfgProd;
 import ft.mod.mfg.db.DDbJobReqment;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -823,17 +824,16 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
             @Override
             public void createGridColumns() {
                 int col = 0;
-                DGridColumnForm[] columns = new DGridColumnForm[9];
+                DGridColumnForm[] columns = new DGridColumnForm[8];
 
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_INT_1B, "# componente");
+                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_NAME_ITM_S, DGridConsts.COL_TITLE_NAME + " componente");
+                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_DEC_QTY, "Cant requerida");
+                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_CODE_UNT, "Unidad");
+                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_DEC_QTY, "Cant consumida");
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_CODE_CAT, DGridConsts.COL_TITLE_TYPE + " componente");
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_CODE_CAT, DGridConsts.COL_TITLE_TYPE + " ítem");
-                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_NAME_ITM_S, DGridConsts.COL_TITLE_NAME + " componente");
-                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_CODE_ITM, DGridConsts.COL_TITLE_CODE + " componente");
-                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_DEC_QTY, "Cantidad requerida");
-                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_DEC_QTY, "Cantidad consumida");
-                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_CODE_UNT, "Unidad componente");
-                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_BOOL_M, "Estándar componente");
+                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_BOOL_M, "Estándar");
 
                 for (col = 0; col < columns.length; col++) {
                     moModel.getGridColumns().add(columns[col]);
@@ -851,11 +851,12 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
             @Override
             public void createGridColumns() {
                 int col = 0;
-                DGridColumnForm[] columns = new DGridColumnForm[4];
+                DGridColumnForm[] columns = new DGridColumnForm[5];
 
-                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_DEC_QTY, "Cant consum");
+                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_NAME_ITM_S, DGridConsts.COL_TITLE_NAME + " insumo");
+                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_DEC_QTY, "Cant consumida");
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_CODE_UNT, "Unidad");
-                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_DEC_QTY, "Masa consum (" + mass + ")");
+                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_DEC_QTY, "Masa consumida (" + mass + ")");
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT, "Lote");
 
                 for (col = 0; col < columns.length; col++) {
@@ -874,11 +875,12 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
             @Override
             public void createGridColumns() {
                 int col = 0;
-                DGridColumnForm[] columns = new DGridColumnForm[3];
+                DGridColumnForm[] columns = new DGridColumnForm[4];
 
-                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_DEC_QTY, "Cant prodda");
+                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_NAME_ITM_S, DGridConsts.COL_TITLE_NAME + " producto");
+                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_DEC_QTY, "Cant producida");
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_CODE_UNT, "Unidad");
-                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_DEC_QTY, "Masa prodda (" + mass + ")");
+                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_DEC_QTY, "Masa producida (" + mass + ")");
 
                 for (col = 0; col < columns.length; col++) {
                     moModel.getGridColumns().add(columns[col]);
@@ -939,7 +941,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         }
     }
     
-    private void createGridReqItems() throws Exception {
+    private void createGridReqmentItems() throws Exception {
         Vector<DGridRow> rows = new Vector<>();
         
         moGridReqments.clearGridRows();
@@ -1082,8 +1084,8 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
     private void computeJobMass() {
         double mass = 0;
         
-        for (DGridRow row : moGridConsumps.getModel().getGridRows()) {
-            mass += ((DDbJobConsump) row).getMass_r();
+        for (DDbJobConsump consump : maConsumps) {
+            mass += consump.getMass_r();
         }
         
         moCompJobMass.getField().setValue(mass);
@@ -1107,6 +1109,29 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         else {
             moCompMfgProdMass.getField().setValue(moItemMfgProd.getMassUnit() * moCompMfgProdQuantity.getField().getValue());
         }
+    }
+    
+    private void computeReqments() {
+        int index = 0;
+        double quantity = 0;
+        DDbJobReqment reqment = null;
+        
+        for (DGridRow row : moGridReqments.getModel().getGridRows()) {
+            quantity = 0;
+            reqment = (DDbJobReqment) row;
+            
+            for (DDbJobConsump consump : maConsumps) {
+                if (DLibUtils.compareKeys(reqment.getPrimaryKey(), consump.getUtilReqmentKey())) {
+                    quantity += consump.getQuantity();
+                }
+            }
+            
+            reqment.setAuxQuantityConsump(quantity);
+        }
+        
+        index = moGridReqments.getTable().getSelectedRow();
+        moGridReqments.renderGridRows();
+        moGridReqments.setSelectedGridRow(index);
     }
     
     private void actionPerformedJobGoStatusPrev() {
@@ -1136,7 +1161,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
 
             if (mnJobStatus == DModSysConsts.MS_JOB_ST_PRC) {
                 try {
-                    createGridReqItems();
+                    createGridReqmentItems();
                 }
                 catch (Exception e) {
                     DLibUtils.showException(this, e);
@@ -1157,6 +1182,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
     
     private void actionPerformedConsumpAdd() {
         DGuiValidation validation = moFieldsConsump.validateFields();
+        DDbJobReqment reqment = (DDbJobReqment) moGridReqments.getSelectedGridRow();
         
         if (!validation.isValid()) {
             DGuiUtils.computeValidation(miClient, validation);
@@ -1171,16 +1197,20 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
             //consump.setMass_r(...);
             consump.setLot(moTextConsumpLot.getValue());
             consump.setRework(moBoolConsumpRework.getValue());
+            consump.setFkReqmentJobId(reqment.getPkJobId());
+            consump.setFkReqmentReqmentId(reqment.getPkReqmentId());
             consump.setFkItemId(moItemConsump.getPkItemId());
             //consump.setFkItemTypeId(...);
             //consump.setFkUnitId(...);
             
             consump.compute(miClient.getSession());
             
+            maConsumps.add(consump);
             moGridConsumps.addGridRow(consump);
             moGridConsumps.renderGridRows();
             moGridConsumps.setSelectedGridRow(moGridConsumps.getTable().getRowCount() - 1);
             computeJobMass();
+            computeReqments();
             actionPerformedConsumpClear();
         }
     }
@@ -1195,11 +1225,35 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
     }
     
     private void actionPerformedMfgProdAdd() {
+        DGuiValidation validation = moFieldsMfgProd.validateFields();
         
+        if (!validation.isValid()) {
+            DGuiUtils.computeValidation(miClient, validation);
+        }
+        else {
+            DDbJobMfgProd mfgProd = new DDbJobMfgProd();
+            
+            //mfgProd.setPkJobId(...);
+            //mfgProd.setPkMfgProdId(...);
+            mfgProd.setQuantity(moCompConsumpQuantity.getField().getValue());
+            //mfgProd.setMassUnit(...);
+            //mfgProd.setMass_r(...);
+            mfgProd.setFkItemId(moItemConsump.getPkItemId());
+            //consump.setFkItemTypeId(...);
+            //consump.setFkUnitId(...);
+            
+            mfgProd.compute(miClient.getSession());
+            
+            moGridMfgProds.addGridRow(mfgProd);
+            moGridMfgProds.renderGridRows();
+            moGridMfgProds.setSelectedGridRow(moGridMfgProds.getTable().getRowCount() - 1);
+            actionPerformedMfgProdClear();
+        }
     }
     
     private void actionPerformedMfgProdClear() {
-        
+        moFieldsMfgProd.resetFields();
+        moKeyMfgProdType.requestFocus();
     }
     
     private void itemStateChangedJobFormula() {
@@ -1248,6 +1302,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
     }
     
     private void valueChangedReqments() {
+        Vector<DGridRow> rows = new Vector<>();
         DDbJobReqment reqment = (DDbJobReqment) moGridReqments.getSelectedGridRow();
         
         /* When job requirement is selected on grid, by default hide type and item combo boxes.
@@ -1324,7 +1379,15 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
                     
                 default:
             }
+            
+            for (DDbJobConsump consump : maConsumps) {
+                if (DLibUtils.compareKeys(reqment.getPrimaryKey(), consump.getUtilReqmentKey())) {
+                    rows.add(consump);
+                }
+            }
         }
+        
+        moGridConsumps.populateGrid(rows);
     }
     
     /*
@@ -1433,14 +1496,14 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         computeJobMass();
         
         moGridReqments.populateGrid(new Vector<DGridRow>(moRegistry.getChildReqemnts()), this);
-        moGridConsumps.populateGrid(new Vector<DGridRow>());
-        moGridMfgProds.populateGrid(new Vector<DGridRow>());
+        moGridMfgProds.populateGrid(new Vector<DGridRow>(moRegistry.getChildMfgProds()));
         
         maConsumps.clear();
         maConsumps.addAll(moRegistry.getChildConsumps());
         
         renderConsumpItem();
         renderMfgProdItem();
+        valueChangedReqments();
         
         setFormEditable(true);
         
@@ -1493,8 +1556,17 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
                 case DModConsts.M_JOB_REQ:
                     break;
                 case DModConsts.M_JOB_CON:
+                    maConsumps.remove(gridRow);
+                    moGridConsumps.getModel().getGridRows().remove(gridRow);
+                    moGridConsumps.renderGridRows();
+                    moGridConsumps.setSelectedGridRow(row < moGridConsumps.getTable().getRowCount() ? row : moGridConsumps.getTable().getRowCount() - 1);
+                    computeJobMass();
+                    computeReqments();
                     break;
                 case DModConsts.M_JOB_MFG:
+                    moGridMfgProds.getModel().getGridRows().remove(gridRow);
+                    moGridMfgProds.renderGridRows();
+                    moGridMfgProds.setSelectedGridRow(row < moGridMfgProds.getTable().getRowCount() ? row : moGridMfgProds.getTable().getRowCount() - 1);
                     break;
                 default:
             }

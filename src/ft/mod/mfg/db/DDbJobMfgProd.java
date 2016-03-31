@@ -308,12 +308,15 @@ public class DDbJobMfgProd extends DDbRegistryUser implements DGridRow {
         
         switch (col) {
             case 0:
-                value = mdQuantity;
+                value = moRegItem.getName();
                 break;
             case 1:
-                value = moRegUnit.getCode();
+                value = mdQuantity;
                 break;
             case 2:
+                value = moRegUnit.getCode();
+                break;
+            case 3:
                 value = mdMass_r;
                 break;
             default:

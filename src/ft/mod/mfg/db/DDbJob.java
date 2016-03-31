@@ -417,6 +417,7 @@ public class DDbJob extends DDbRegistryUser {
 
         for (DDbJobConsump child : maChildConsumps) {
             child.setPkJobId(mnPkJobId);
+            child.setFkReqmentJobId(mnPkJobId);
             child.setRegistryNew(true);
             child.save(session);
         }

@@ -30,6 +30,8 @@ public class DDbJobConsump extends DDbRegistryUser implements DGridRow {
     protected double mdMass_r;
     protected String msLot;
     protected boolean mbRework;
+    protected int mnFkReqmentJobId;
+    protected int mnFkReqmentReqmentId;
     protected int mnFkItemId;
     protected int mnFkItemTypeId;
     protected int mnFkUnitId;
@@ -69,6 +71,8 @@ public class DDbJobConsump extends DDbRegistryUser implements DGridRow {
     public void setMass_r(double d) { mdMass_r = d; }
     public void setLot(String s) { msLot = s; }
     public void setRework(boolean b) { mbRework = b; }
+    public void setFkReqmentJobId(int n) { mnFkReqmentJobId = n; }
+    public void setFkReqmentReqmentId(int n) { mnFkReqmentReqmentId = n; }
     public void setFkItemId(int n) { mnFkItemId = n; }
     public void setFkItemTypeId(int n) { mnFkItemTypeId = n; }
     public void setFkUnitId(int n) { mnFkUnitId = n; }
@@ -80,6 +84,8 @@ public class DDbJobConsump extends DDbRegistryUser implements DGridRow {
     public double getMass_r() { return mdMass_r; }
     public String getLot() { return msLot; }
     public boolean isRework() { return mbRework; }
+    public int getFkReqmentJobId() { return mnFkReqmentJobId; }
+    public int getFkReqmentReqmentId() { return mnFkReqmentReqmentId; }
     public int getFkItemId() { return mnFkItemId; }
     public int getFkItemTypeId() { return mnFkItemTypeId; }
     public int getFkUnitId() { return mnFkUnitId; }
@@ -95,6 +101,8 @@ public class DDbJobConsump extends DDbRegistryUser implements DGridRow {
     
     public String getXtaItemTypeCode() { return msXtaItemTypeCode; }
     public String getXtaItemTypeName() { return msXtaItemTypeName; }
+    
+    public int[] getUtilReqmentKey() { return new int[] { mnFkReqmentJobId, mnFkReqmentReqmentId }; }
     
     @Override
     public void setPrimaryKey(int[] pk) {
@@ -118,6 +126,8 @@ public class DDbJobConsump extends DDbRegistryUser implements DGridRow {
         mdMass_r = 0;
         msLot = "";
         mbRework = false;
+        mnFkReqmentJobId = 0;
+        mnFkReqmentReqmentId = 0;
         mnFkItemId = 0;
         mnFkItemTypeId = 0;
         mnFkUnitId = 0;
@@ -179,6 +189,8 @@ public class DDbJobConsump extends DDbRegistryUser implements DGridRow {
             mdMass_r = resultSet.getDouble("mass_r");
             msLot = resultSet.getString("lot");
             mbRework = resultSet.getBoolean("b_rwk");
+            mnFkReqmentJobId = resultSet.getInt("fk_req_job");
+            mnFkReqmentReqmentId = resultSet.getInt("fk_req_req");
             mnFkItemId = resultSet.getInt("fk_itm");
             mnFkItemTypeId = resultSet.getInt("fk_itm_tp");
             mnFkUnitId = resultSet.getInt("fk_uom");
@@ -209,6 +221,8 @@ public class DDbJobConsump extends DDbRegistryUser implements DGridRow {
                     mdMass_r + ", " + 
                     "'" + msLot + "', " + 
                     (mbRework ? 1 : 0) + ", " + 
+                    mnFkReqmentJobId + ", " + 
+                    mnFkReqmentReqmentId + ", " + 
                     mnFkItemId + ", " + 
                     mnFkItemTypeId + ", " + 
                     mnFkUnitId + " " + 
@@ -225,6 +239,8 @@ public class DDbJobConsump extends DDbRegistryUser implements DGridRow {
                     "mass_r = " + mdMass_r + ", " +
                     "lot = '" + msLot + "', " +
                     "b_rwk = " + (mbRework ? 1 : 0) + ", " +
+                    "fk_req_job = " + mnFkReqmentJobId + ", " +
+                    "fk_req_req = " + mnFkReqmentReqmentId + ", " +
                     "fk_itm = " + mnFkItemId + ", " +
                     "fk_itm_tp = " + mnFkItemTypeId + ", " +
                     "fk_uom = " + mnFkUnitId + " " +
@@ -247,6 +263,8 @@ public class DDbJobConsump extends DDbRegistryUser implements DGridRow {
         registry.setMass_r(this.getMass_r());
         registry.setLot(this.getLot());
         registry.setRework(this.isRework());
+        registry.setFkReqmentJobId(this.getFkReqmentJobId());
+        registry.setFkReqmentReqmentId(this.getFkReqmentReqmentId());
         registry.setFkItemId(this.getFkItemId());
         registry.setFkItemTypeId(this.getFkItemTypeId());
         registry.setFkUnitId(this.getFkUnitId());
@@ -309,15 +327,18 @@ public class DDbJobConsump extends DDbRegistryUser implements DGridRow {
         
         switch (col) {
             case 0:
-                value = mdQuantity;
+                value = moRegItem.getName();
                 break;
             case 1:
-                value = moRegUnit.getCode();
+                value = mdQuantity;
                 break;
             case 2:
-                value = mdMass_r;
+                value = moRegUnit.getCode();
                 break;
             case 3:
+                value = mdMass_r;
+                break;
+            case 4:
                 value = msLot;
                 break;
             default:
