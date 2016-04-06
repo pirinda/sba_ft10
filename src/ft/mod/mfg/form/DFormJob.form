@@ -404,6 +404,17 @@
                         </Property>
                       </Properties>
                     </Component>
+                    <Component class="javax.swing.JButton" name="jbJobGenerateLot">
+                      <Properties>
+                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                          <Image iconType="3" name="/sba/lib/img/cmd_std_act.gif"/>
+                        </Property>
+                        <Property name="toolTipText" type="java.lang.String" value="Generar"/>
+                        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[23, 23]"/>
+                        </Property>
+                      </Properties>
+                    </Component>
                   </SubComponents>
                 </Container>
                 <Container class="javax.swing.JPanel" name="jPanel15">
@@ -572,7 +583,7 @@
                             <Property name="verticalGap" type="int" value="0"/>
                           </Layout>
                           <SubComponents>
-                            <Component class="javax.swing.JLabel" name="jlConsumpType">
+                            <Component class="javax.swing.JLabel" name="jlConsumpItemType">
                               <Properties>
                                 <Property name="text" type="java.lang.String" value="Tipo:*"/>
                                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -580,7 +591,7 @@
                                 </Property>
                               </Properties>
                             </Component>
-                            <Component class="sba.lib.gui.bean.DBeanFieldKey" name="moKeyConsumpType">
+                            <Component class="sba.lib.gui.bean.DBeanFieldKey" name="moKeyConsumpItemType">
                               <Properties>
                                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                                   <Dimension value="[240, 23]"/>
@@ -767,7 +778,7 @@
                             <Property name="verticalGap" type="int" value="0"/>
                           </Layout>
                           <SubComponents>
-                            <Component class="javax.swing.JLabel" name="jlMfgProdType">
+                            <Component class="javax.swing.JLabel" name="jlMfgProdItemType">
                               <Properties>
                                 <Property name="text" type="java.lang.String" value="Tipo:*"/>
                                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -775,7 +786,7 @@
                                 </Property>
                               </Properties>
                             </Component>
-                            <Component class="sba.lib.gui.bean.DBeanFieldKey" name="moKeyMfgProdType">
+                            <Component class="sba.lib.gui.bean.DBeanFieldKey" name="moKeyMfgProdItemType">
                               <Properties>
                                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                                   <Dimension value="[240, 23]"/>

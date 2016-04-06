@@ -11,6 +11,7 @@ import ft.mod.cfg.db.DDbPresent;
 import ft.mod.cfg.db.DDbUnit;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import sba.lib.DLibConsts;
 import sba.lib.DLibUtils;
 import sba.lib.db.DDbConsts;
 import sba.lib.db.DDbRegistry;
@@ -56,7 +57,7 @@ public class DDbJobMfgProd extends DDbRegistryUser implements DGridRow {
         }
         
         moRegUnit = (DDbUnit) session.readRegistry(DModConsts.CU_UOM, new int[] { mnFkUnitId });
-        moRegPresent = (DDbPresent) session.readRegistry(DModConsts.CU_PRE, new int[] { mnFkPresentId });
+        moRegPresent = mnFkPresentId == DLibConsts.UNDEFINED ? null : (DDbPresent) session.readRegistry(DModConsts.CU_PRE, new int[] { mnFkPresentId });
     }
     
     private void readXtaMembers(final DGuiSession session) {
