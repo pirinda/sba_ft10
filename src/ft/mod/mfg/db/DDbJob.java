@@ -469,6 +469,8 @@ public class DDbJob extends DDbRegistryUser {
         registry.setTsUserInsert(this.getTsUserInsert());
         registry.setTsUserUpdate(this.getTsUserUpdate());
 
+        registry.setRegFormula(this.getRegFormula() == null ? null : this.getRegFormula().clone());
+        
         for (DDbJobReqment child : maChildReqments) {
             registry.getChildReqemnts().add(child.clone());
         }
