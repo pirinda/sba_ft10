@@ -59,7 +59,7 @@ public class DFormLine extends DBeanForm {
 
         jPanel5.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
-        jlDepart.setText("Departamento:*");
+        jlDepart.setText("Depto. producción:*");
         jlDepart.setPreferredSize(new java.awt.Dimension(100, 23));
         jPanel5.add(jlDepart);
 

@@ -74,7 +74,7 @@ public class DViewUnit extends DGridPaneView {
         DGridColumnView[] columns = new DGridColumnView[11];
 
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_CAT_S, "ut.name", DGridConsts.COL_TITLE_TYPE + " unidad");
-        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_INT_RAW, "v.sort", "Pos. ordenamiento");
+        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_INT_RAW, "v.sort", "Posición catálogo");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_CAT_M, DDbConsts.FIELD_NAME, DGridConsts.COL_TITLE_NAME);
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_CODE_CAT, DDbConsts.FIELD_CODE, DGridConsts.COL_TITLE_CODE);
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_DEC_AMT_UNIT, "v.conv", "Factor conversión");

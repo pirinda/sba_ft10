@@ -173,12 +173,12 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jmiCatUnit">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Unidades"/>
+                <Property name="text" type="java.lang.String" value="Unidades de medida"/>
               </Properties>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jmiCatPresent">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Presentaciones"/>
+                <Property name="text" type="java.lang.String" value="Presentaciones de producto"/>
               </Properties>
             </MenuItem>
             <MenuItem class="javax.swing.JPopupMenu$Separator" name="jsCat5">
@@ -238,17 +238,17 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jmiMfgFormula">
               <Properties>
-                <Property name="text" type="java.lang.String" value="F&#xf3;rmulas"/>
+                <Property name="text" type="java.lang.String" value="F&#xf3;rmulas de producto"/>
               </Properties>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jmiMfgFormulaComp">
               <Properties>
-                <Property name="text" type="java.lang.String" value="F&#xf3;rmulas y componentes"/>
+                <Property name="text" type="java.lang.String" value="F&#xf3;rmulas de producto y componentes"/>
               </Properties>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jmiMfgFormulaByProd">
               <Properties>
-                <Property name="text" type="java.lang.String" value="F&#xf3;rmulas y colaterales"/>
+                <Property name="text" type="java.lang.String" value="F&#xf3;rmulas de producto y colaterales"/>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </MenuItem>
@@ -268,24 +268,24 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="jmiQtyTestApp">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Aplicaciones de pruebas de calidad"/>
+                <Property name="text" type="java.lang.String" value="Aplicaciones de tests de calidad"/>
               </Properties>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jmiQtyTestAppResult">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Resultados de aplicaciones de pruebas de calidad"/>
+                <Property name="text" type="java.lang.String" value="Resultados de tests de calidad"/>
               </Properties>
             </MenuItem>
             <MenuItem class="javax.swing.JPopupMenu$Separator" name="jsQty1">
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jmiQtyTest">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Pruebas de calidad"/>
+                <Property name="text" type="java.lang.String" value="Tests de calidad"/>
               </Properties>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jmiQtyParam">
+            <MenuItem class="javax.swing.JMenuItem" name="jmiQtyVariable">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Par&#xe1;metros de calidad"/>
+                <Property name="text" type="java.lang.String" value="Variables de calidad"/>
               </Properties>
             </MenuItem>
           </SubComponents>

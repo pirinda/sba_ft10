@@ -90,7 +90,7 @@ public class DFormPresent extends DBeanForm implements ItemListener {
 
         jPanel5.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
-        jlUnit.setText("Unidad:*");
+        jlUnit.setText("Unidad contenido:*");
         jlUnit.setPreferredSize(new java.awt.Dimension(100, 23));
         jPanel5.add(jlUnit);
 

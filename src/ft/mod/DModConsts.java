@@ -76,9 +76,9 @@ public abstract class DModConsts {
 
     public static final int QS_RES_TP = 411011;
 
-    public static final int QU_PAR = 412011;
+    public static final int QU_VAR = 412011;
     public static final int QU_TST = 412021;
-    public static final int QU_TST_PAR = 412022;
+    public static final int QU_TST_VAR = 412022;
     public static final int QU_TST_FAM = 412026;
 
     public static final int Q_APP = 413021;
@@ -144,9 +144,9 @@ public abstract class DModConsts {
 
         TablesMap.put(QS_RES_TP, "qs_res_tp");
 
-        TablesMap.put(QU_PAR, "qu_par");
+        TablesMap.put(QU_VAR, "qu_var");
         TablesMap.put(QU_TST, "qu_tst");
-        TablesMap.put(QU_TST_PAR, "qu_tst_par");
+        TablesMap.put(QU_TST_VAR, "qu_tst_var");
         TablesMap.put(QU_TST_FAM, "qu_tst_fam");
 
         TablesMap.put(Q_APP, "q_app");

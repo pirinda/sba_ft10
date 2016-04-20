@@ -303,10 +303,10 @@ public class DDbJobReqment extends DDbRegistryUser implements DGridRow {
         
         switch (mnFkCompTypeId) {
             case DModSysConsts.MS_CMP_TP_FAM:
-                mdMass_r = DLibUtils.round(mdMassUnit * mdQuantity, DLibUtils.getDecimalFormatAmountUnitary().getMaximumFractionDigits());
+                mdMass_r = DLibUtils.round(mdMassUnit * mdQuantity, DLibUtils.getDecimalFormatQuantity().getMaximumFractionDigits());
                 break;
             case DModSysConsts.MS_CMP_TP_ITM:
-                mdMass_r = DLibUtils.round((mdMassUnit = moRegItem.getMassUnit()) * mdQuantity, DLibUtils.getDecimalFormatAmountUnitary().getMaximumFractionDigits());
+                mdMass_r = DLibUtils.round((mdMassUnit = moRegItem.getMassUnit()) * mdQuantity, DLibUtils.getDecimalFormatQuantity().getMaximumFractionDigits());
                 break;
             default:
         }

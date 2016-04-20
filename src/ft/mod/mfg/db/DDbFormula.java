@@ -387,9 +387,7 @@ public class DDbFormula extends DDbRegistryUser {
         mdMass_r = 0;
         
         for (DDbFormulaComp child : maChildComps) {
-            mdMass_r += child.getMass_r();
+            mdMass_r = DLibUtils.round(mdMass_r + child.getMass_r(), DLibUtils.getDecimalFormatQuantity().getMaximumFractionDigits());
         }
-        
-        mdMass_r = DLibUtils.round(mdMass_r, DLibUtils.getDecimalFormatQuantity().getMaximumFractionDigits());
     }
 }

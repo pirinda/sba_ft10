@@ -106,7 +106,7 @@ public class DFormFamily extends DBeanForm implements ItemListener {
 
         jPanel9.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
-        jlUnit.setText("Unidad:*");
+        jlUnit.setText("Unidad medida:*");
         jlUnit.setPreferredSize(new java.awt.Dimension(100, 23));
         jPanel9.add(jlUnit);
 

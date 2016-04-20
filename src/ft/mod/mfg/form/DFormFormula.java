@@ -228,7 +228,7 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
 
         jPanel21.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
-        jlUnit.setText("Unidad:");
+        jlUnit.setText("Unidad medida:");
         jlUnit.setPreferredSize(new java.awt.Dimension(100, 23));
         jPanel21.add(jlUnit);
 
@@ -474,8 +474,8 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_CODE_CAT, DGridConsts.COL_TITLE_TYPE + " ítem");
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_NAME_ITM_L, DGridConsts.COL_TITLE_NAME + " componente");
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_CODE_ITM, DGridConsts.COL_TITLE_CODE + " componente");
-                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_DEC_QTY, "Cantidad componente");
-                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_CODE_UNT, "Unidad componente");
+                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_DEC_QTY, "Cant componente");
+                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_CODE_UNT, "Unidad medida componente");
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_BOOL_M, "Estándar componente");
 
                 for (col = 0; col < columns.length; col++) {

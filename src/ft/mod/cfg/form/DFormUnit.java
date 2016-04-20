@@ -102,7 +102,7 @@ public class DFormUnit extends DBeanForm implements ItemListener {
 
         jPanel7.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
-        jlSortingPos.setText("Pos. ordenamiento:");
+        jlSortingPos.setText("Posición catálogo:");
         jlSortingPos.setPreferredSize(new java.awt.Dimension(100, 23));
         jPanel7.add(jlSortingPos);
 

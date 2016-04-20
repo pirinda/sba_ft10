@@ -339,7 +339,7 @@ public class DDbWsdRow extends DDbRegistryUser implements DGridRow {
         readRegMembers(session, true);
         
         mdAmount_r = DLibUtils.round(mdAmountUnit * mdUnits, DLibUtils.getDecimalFormatAmount().getMaximumFractionDigits());
-        mdMass_r = DLibUtils.round(mdMassUnit * mdUnits, DLibUtils.getDecimalFormatAmountUnitary().getMaximumFractionDigits());
+        mdMass_r = DLibUtils.round(mdMassUnit * mdUnits, DLibUtils.getDecimalFormatQuantity().getMaximumFractionDigits());
     }
     
     public DDbStock createStock(final DDbWsd wsd) {

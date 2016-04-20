@@ -203,7 +203,7 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
         jmiQtyTestAppResult = new javax.swing.JMenuItem();
         jsQty1 = new javax.swing.JPopupMenu.Separator();
         jmiQtyTest = new javax.swing.JMenuItem();
-        jmiQtyParam = new javax.swing.JMenuItem();
+        jmiQtyVariable = new javax.swing.JMenuItem();
         jmRep = new javax.swing.JMenu();
         jmHelp = new javax.swing.JMenu();
         jmiHelpHelp = new javax.swing.JMenuItem();
@@ -382,10 +382,10 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
         jmiCatFamily.setText("Familias");
         jmCat.add(jmiCatFamily);
 
-        jmiCatUnit.setText("Unidades");
+        jmiCatUnit.setText("Unidades de medida");
         jmCat.add(jmiCatUnit);
 
-        jmiCatPresent.setText("Presentaciones");
+        jmiCatPresent.setText("Presentaciones de producto");
         jmCat.add(jmiCatPresent);
         jmCat.add(jsCat5);
 
@@ -420,13 +420,13 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
         jmMfg.add(jmiMfgJob);
         jmMfg.add(jsMfg1);
 
-        jmiMfgFormula.setText("Fórmulas");
+        jmiMfgFormula.setText("Fórmulas de producto");
         jmMfg.add(jmiMfgFormula);
 
-        jmiMfgFormulaComp.setText("Fórmulas y componentes");
+        jmiMfgFormulaComp.setText("Fórmulas de producto y componentes");
         jmMfg.add(jmiMfgFormulaComp);
 
-        jmiMfgFormulaByProd.setText("Fórmulas y colaterales");
+        jmiMfgFormulaByProd.setText("Fórmulas de producto y colaterales");
         jmiMfgFormulaByProd.setEnabled(false);
         jmMfg.add(jmiMfgFormulaByProd);
         jmMfg.add(jsMfg2);
@@ -438,18 +438,18 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
 
         jmQty.setText("Calidad");
 
-        jmiQtyTestApp.setText("Aplicaciones de pruebas de calidad");
+        jmiQtyTestApp.setText("Aplicaciones de tests de calidad");
         jmQty.add(jmiQtyTestApp);
 
-        jmiQtyTestAppResult.setText("Resultados de aplicaciones de pruebas de calidad");
+        jmiQtyTestAppResult.setText("Resultados de tests de calidad");
         jmQty.add(jmiQtyTestAppResult);
         jmQty.add(jsQty1);
 
-        jmiQtyTest.setText("Pruebas de calidad");
+        jmiQtyTest.setText("Tests de calidad");
         jmQty.add(jmiQtyTest);
 
-        jmiQtyParam.setText("Parámetros de calidad");
-        jmQty.add(jmiQtyParam);
+        jmiQtyVariable.setText("Variables de calidad");
+        jmQty.add(jmiQtyVariable);
 
         jMenuBar1.add(jmQty);
 
@@ -892,10 +892,10 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
     private javax.swing.JMenuItem jmiMfgFormulaComp;
     private javax.swing.JMenuItem jmiMfgJob;
     private javax.swing.JMenuItem jmiMfgVariable;
-    private javax.swing.JMenuItem jmiQtyParam;
     private javax.swing.JMenuItem jmiQtyTest;
     private javax.swing.JMenuItem jmiQtyTestApp;
     private javax.swing.JMenuItem jmiQtyTestAppResult;
+    private javax.swing.JMenuItem jmiQtyVariable;
     private javax.swing.JMenuItem jmiStkStock;
     private javax.swing.JMenuItem jmiStkStockLot;
     private javax.swing.JMenuItem jmiStkWsmIn;

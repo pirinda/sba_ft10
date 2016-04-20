@@ -51,7 +51,7 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridLayout">
                 <Property name="columns" type="int" value="1"/>
-                <Property name="rows" type="int" value="9"/>
+                <Property name="rows" type="int" value="10"/>
                 <Property name="verticalGap" type="int" value="5"/>
               </Layout>
               <SubComponents>
@@ -217,6 +217,33 @@
                     </Component>
                   </SubComponents>
                 </Container>
+                <Container class="javax.swing.JPanel" name="jPanel20">
+
+                  <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout">
+                    <Property name="alignment" type="int" value="0"/>
+                    <Property name="verticalGap" type="int" value="0"/>
+                  </Layout>
+                  <SubComponents>
+                    <Component class="javax.swing.JLabel" name="jlJobFormulaQuantity">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Cant. f&#xf3;rmula:"/>
+                        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[100, 23]"/>
+                        </Property>
+                      </Properties>
+                    </Component>
+                    <Component class="sba.lib.gui.bean.DBeanCompoundField" name="moCompJobFormulaQuantity">
+                      <Properties>
+                        <Property name="toolTipText" type="java.lang.String" value="Cant. f&#xf3;rmula"/>
+                      </Properties>
+                    </Component>
+                    <Component class="sba.lib.gui.bean.DBeanCompoundField" name="moCompJobFormulaMass">
+                      <Properties>
+                        <Property name="toolTipText" type="java.lang.String" value="Masa f&#xf3;rmula"/>
+                      </Properties>
+                    </Component>
+                  </SubComponents>
+                </Container>
                 <Container class="javax.swing.JPanel" name="jPanel19">
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout">
@@ -236,25 +263,6 @@
                     </Component>
                   </SubComponents>
                 </Container>
-                <Container class="javax.swing.JPanel" name="jPanel20">
-
-                  <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout">
-                    <Property name="alignment" type="int" value="0"/>
-                    <Property name="verticalGap" type="int" value="0"/>
-                  </Layout>
-                  <SubComponents>
-                    <Component class="javax.swing.JLabel" name="jlJobQuantityFormula">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="Cantidad f&#xf3;rmula:"/>
-                        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[100, 23]"/>
-                        </Property>
-                      </Properties>
-                    </Component>
-                    <Component class="sba.lib.gui.bean.DBeanCompoundField" name="moCompJobQuantityFormula">
-                    </Component>
-                  </SubComponents>
-                </Container>
                 <Container class="javax.swing.JPanel" name="jPanel21">
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout">
@@ -262,15 +270,34 @@
                     <Property name="verticalGap" type="int" value="0"/>
                   </Layout>
                   <SubComponents>
-                    <Component class="javax.swing.JLabel" name="jlJobQuantity">
+                    <Component class="javax.swing.JLabel" name="jlJobJobQuantity">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="Cantidad orden:"/>
+                        <Property name="text" type="java.lang.String" value="Cant. orden:"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                           <Dimension value="[100, 23]"/>
                         </Property>
                       </Properties>
                     </Component>
-                    <Component class="sba.lib.gui.bean.DBeanCompoundField" name="moCompJobQuantity">
+                    <Component class="sba.lib.gui.bean.DBeanCompoundField" name="moCompJobJobQuantity">
+                    </Component>
+                  </SubComponents>
+                </Container>
+                <Container class="javax.swing.JPanel" name="jPanel29">
+
+                  <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout">
+                    <Property name="alignment" type="int" value="0"/>
+                    <Property name="verticalGap" type="int" value="0"/>
+                  </Layout>
+                  <SubComponents>
+                    <Component class="javax.swing.JLabel" name="jlJobMfgProdQuantity">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Cant. producc&#xf3;n:"/>
+                        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[100, 23]"/>
+                        </Property>
+                      </Properties>
+                    </Component>
+                    <Component class="sba.lib.gui.bean.DBeanCompoundField" name="moCompJobMfgProdQuantity">
                     </Component>
                   </SubComponents>
                 </Container>
@@ -280,7 +307,7 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridLayout">
                 <Property name="columns" type="int" value="1"/>
-                <Property name="rows" type="int" value="9"/>
+                <Property name="rows" type="int" value="10"/>
                 <Property name="verticalGap" type="int" value="5"/>
               </Layout>
               <SubComponents>
@@ -474,25 +501,6 @@
                     </Component>
                   </SubComponents>
                 </Container>
-                <Container class="javax.swing.JPanel" name="jPanel26">
-
-                  <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout">
-                    <Property name="alignment" type="int" value="0"/>
-                    <Property name="verticalGap" type="int" value="0"/>
-                  </Layout>
-                  <SubComponents>
-                    <Component class="javax.swing.JLabel" name="jlJobMassFormula">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="Masa f&#xf3;rmula:"/>
-                        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[100, 23]"/>
-                        </Property>
-                      </Properties>
-                    </Component>
-                    <Component class="sba.lib.gui.bean.DBeanCompoundField" name="moCompJobMassFormula">
-                    </Component>
-                  </SubComponents>
-                </Container>
                 <Container class="javax.swing.JPanel" name="jPanel27">
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout">
@@ -500,15 +508,53 @@
                     <Property name="verticalGap" type="int" value="0"/>
                   </Layout>
                   <SubComponents>
-                    <Component class="javax.swing.JLabel" name="jlJobMass">
+                    <Component class="javax.swing.JLabel" name="jlJobReqmentMass">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="Masa orden:"/>
+                        <Property name="text" type="java.lang.String" value="Masa requerida:"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                           <Dimension value="[100, 23]"/>
                         </Property>
                       </Properties>
                     </Component>
-                    <Component class="sba.lib.gui.bean.DBeanCompoundField" name="moCompJobMass">
+                    <Component class="sba.lib.gui.bean.DBeanCompoundField" name="moCompJobReqmentMass">
+                    </Component>
+                  </SubComponents>
+                </Container>
+                <Container class="javax.swing.JPanel" name="jPanel26">
+
+                  <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout">
+                    <Property name="alignment" type="int" value="0"/>
+                    <Property name="verticalGap" type="int" value="0"/>
+                  </Layout>
+                  <SubComponents>
+                    <Component class="javax.swing.JLabel" name="jlJobConsumpMass">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Masa consumida:"/>
+                        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[100, 23]"/>
+                        </Property>
+                      </Properties>
+                    </Component>
+                    <Component class="sba.lib.gui.bean.DBeanCompoundField" name="moCompJobConsumpMass">
+                    </Component>
+                  </SubComponents>
+                </Container>
+                <Container class="javax.swing.JPanel" name="jPanel33">
+
+                  <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout">
+                    <Property name="alignment" type="int" value="0"/>
+                    <Property name="verticalGap" type="int" value="0"/>
+                  </Layout>
+                  <SubComponents>
+                    <Component class="javax.swing.JLabel" name="jlJobMfgProdMass">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Masa producci&#xf3;n:"/>
+                        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[100, 23]"/>
+                        </Property>
+                      </Properties>
+                    </Component>
+                    <Component class="sba.lib.gui.bean.DBeanCompoundField" name="moCompJobMfgProdMass">
                     </Component>
                   </SubComponents>
                 </Container>
@@ -749,7 +795,7 @@
                   <Properties>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                        <TitledBorder title="Productos elaborados:"/>
+                        <TitledBorder title="Producci&#xf3;n:"/>
                       </Border>
                     </Property>
                   </Properties>

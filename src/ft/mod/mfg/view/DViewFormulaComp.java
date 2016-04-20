@@ -123,8 +123,8 @@ public class DViewFormulaComp extends DGridPaneView {
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_CODE_CAT, "cit.code", DGridConsts.COL_TITLE_TYPE + " ítem");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_ITM_L, "_cmp_name", DGridConsts.COL_TITLE_NAME + " componente");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_CODE_ITM, "_cmp_code", DGridConsts.COL_TITLE_CODE + " componente");
-        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_DEC_QTY, "vc.qty", "Cantidad componente");
-        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_CODE_UNT, "cu.code", "Unidad componente");
+        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_DEC_QTY, "vc.qty", "Cant componente");
+        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_CODE_UNT, "cu.code", "Unidad medida componente");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_BOOL_M, "vc.b_std", "Estándar componente");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_BOOL_S, DDbConsts.FIELD_IS_DEL, DGridConsts.COL_TITLE_IS_DEL);
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_BOOL_S, DDbConsts.FIELD_IS_SYS, DGridConsts.COL_TITLE_IS_SYS);

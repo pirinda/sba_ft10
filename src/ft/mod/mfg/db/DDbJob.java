@@ -28,11 +28,14 @@ public class DDbJob extends DDbRegistryUser {
     protected Date mtDate;
     protected Date mtTsStart_n;
     protected Date mtTsEnd_n;
+    protected double mdFormulaQuantity;
+    protected double mdFormulaMass_r;
     protected double mdLoads;
-    protected double mdQuantityFormula;
-    protected double mdQuantity_r;
-    protected double mdMassFormula;
-    protected double mdMass_r;
+    protected double mdJobQuantity_r;
+    protected double mdMfgProdQuantity_r;
+    protected double mdReqmentMass_r;
+    protected double mdConsumpMass_r;
+    protected double mdMfgProdMass_r;
     protected String msLot;
     protected double mdPackingFactor;
     /*
@@ -75,6 +78,9 @@ public class DDbJob extends DDbRegistryUser {
         moRegFormula = (DDbFormula) session.readRegistry(DModConsts.MU_FRM, new int[] { mnFkFormulaId });
         
         if (update) {
+            mdFormulaQuantity = moRegFormula.getQuantity();
+            mdFormulaMass_r = moRegFormula.getMass_r();
+            
             mnFkFormulaTypeId = moRegFormula.getFkFormulaTypeId();
             mnFkItemId = moRegFormula.getFkItemId();
             mnFkItemTypeId = moRegFormula.getFkItemTypeId();
@@ -88,11 +94,14 @@ public class DDbJob extends DDbRegistryUser {
     public void setDate(Date t) { mtDate = t; }
     public void setTsStart_n(Date t) { mtTsStart_n = t; }
     public void setTsEnd_n(Date t) { mtTsEnd_n = t; }
+    public void setFormulaQuantity(double d) { mdFormulaQuantity = d; }
+    public void setFormulaMass_r(double d) { mdFormulaMass_r = d; }
     public void setLoads(double d) { mdLoads = d; }
-    public void setQuantityFormula(double d) { mdQuantityFormula = d; }
-    public void setQuantity_r(double d) { mdQuantity_r = d; }
-    public void setMassFormula(double d) { mdMassFormula = d; }
-    public void setMass_r(double d) { mdMass_r = d; }
+    public void setJobQuantity_r(double d) { mdJobQuantity_r = d; }
+    public void setMfgProdQuantity_r(double d) { mdMfgProdQuantity_r = d; }
+    public void setReqmentMass_r(double d) { mdReqmentMass_r = d; }
+    public void setConsumpMass_r(double d) { mdConsumpMass_r = d; }
+    public void setMfgProdMass_r(double d) { mdMfgProdMass_r = d; }
     public void setLot(String s) { msLot = s; }
     public void setPackingFactor(double d) { mdPackingFactor = d; }
     public void setDeleted(boolean b) { mbDeleted = b; }
@@ -118,11 +127,14 @@ public class DDbJob extends DDbRegistryUser {
     public Date getDate() { return mtDate; }
     public Date getTsStart_n() { return mtTsStart_n; }
     public Date getTsEnd_n() { return mtTsEnd_n; }
+    public double getFormulaQuantity() { return mdFormulaQuantity; }
+    public double getFormulaMass_r() { return mdFormulaMass_r; }
     public double getLoads() { return mdLoads; }
-    public double getQuantityFormula() { return mdQuantityFormula; }
-    public double getQuantity_r() { return mdQuantity_r; }
-    public double getMassFormula() { return mdMassFormula; }
-    public double getMass_r() { return mdMass_r; }
+    public double getJobQuantity_r() { return mdJobQuantity_r; }
+    public double getMfgProdQuantity_r() { return mdMfgProdQuantity_r; }
+    public double getReqmentMass_r() { return mdReqmentMass_r; }
+    public double getConsumpMass_r() { return mdConsumpMass_r; }
+    public double getMfgProdMass_r() { return mdMfgProdMass_r; }
     public String getLot() { return msLot; }
     public double getPackingFactor() { return mdPackingFactor; }
     public boolean isDeleted() { return mbDeleted; }
@@ -170,11 +182,14 @@ public class DDbJob extends DDbRegistryUser {
         mtDate = null;
         mtTsStart_n = null;
         mtTsEnd_n = null;
+        mdFormulaQuantity = 0;
+        mdFormulaMass_r = 0;
         mdLoads = 0;
-        mdQuantityFormula = 0;
-        mdQuantity_r = 0;
-        mdMassFormula = 0;
-        mdMass_r = 0;
+        mdJobQuantity_r = 0;
+        mdMfgProdQuantity_r = 0;
+        mdReqmentMass_r = 0;
+        mdConsumpMass_r = 0;
+        mdMfgProdMass_r = 0;
         msLot = "";
         mdPackingFactor = 0;
         mbDeleted = false;
@@ -250,11 +265,14 @@ public class DDbJob extends DDbRegistryUser {
             mtDate = resultSet.getDate("dat");
             mtTsStart_n = resultSet.getTimestamp("ts_sta_n");
             mtTsEnd_n = resultSet.getTimestamp("ts_end_n");
+            mdFormulaQuantity = resultSet.getDouble("frm_qty");
+            mdFormulaMass_r = resultSet.getDouble("frm_mass_r");
             mdLoads = resultSet.getDouble("lds");
-            mdQuantityFormula = resultSet.getDouble("qty_frm");
-            mdQuantity_r = resultSet.getDouble("qty_r");
-            mdMassFormula = resultSet.getDouble("mass_unt");
-            mdMass_r = resultSet.getDouble("mass_r");
+            mdJobQuantity_r = resultSet.getDouble("job_qty_r");
+            mdMfgProdQuantity_r = resultSet.getDouble("mfg_qty_r");
+            mdReqmentMass_r = resultSet.getDouble("req_mass_r");
+            mdConsumpMass_r = resultSet.getDouble("con_mass_r");
+            mdMfgProdMass_r = resultSet.getDouble("mfg_mass_r");
             msLot = resultSet.getString("lot");
             mdPackingFactor = resultSet.getDouble("pack_fac");
             mbDeleted = resultSet.getBoolean("b_del");
@@ -336,11 +354,14 @@ public class DDbJob extends DDbRegistryUser {
                     "'" + DLibUtils.DbmsDateFormatDate.format(mtDate) + "', " + 
                     "NOW()" + ", " + 
                     "NOW()" + ", " + 
+                    mdFormulaQuantity + ", " + 
+                    mdFormulaMass_r + ", " + 
                     mdLoads + ", " + 
-                    mdQuantityFormula + ", " + 
-                    mdQuantity_r + ", " + 
-                    mdMassFormula + ", " + 
-                    mdMass_r + ", " + 
+                    mdJobQuantity_r + ", " + 
+                    mdMfgProdQuantity_r + ", " + 
+                    mdReqmentMass_r + ", " + 
+                    mdConsumpMass_r + ", " + 
+                    mdMfgProdMass_r + ", " + 
                     "'" + msLot + "', " + 
                     mdPackingFactor + ", " + 
                     (mbDeleted ? 1 : 0) + ", " + 
@@ -371,11 +392,14 @@ public class DDbJob extends DDbRegistryUser {
                     "dat = '" + DLibUtils.DbmsDateFormatDate.format(mtDate) + "', " +
                     "ts_sta_n = " + "NOW()" + ", " +
                     "ts_end_n = " + "NOW()" + ", " +
+                    "frm_qty = " + mdFormulaQuantity + ", " +
+                    "frm_mass_r = " + mdFormulaMass_r + ", " +
                     "lds = " + mdLoads + ", " +
-                    "qty_frm = " + mdQuantityFormula + ", " +
-                    "qty_r = " + mdQuantity_r + ", " +
-                    "mass_unt = " + mdMassFormula + ", " +
-                    "mass_r = " + mdMass_r + ", " +
+                    "job_qty_r = " + mdJobQuantity_r + ", " +
+                    "mfg_qty_r = " + mdMfgProdQuantity_r + ", " +
+                    "req_mass_r = " + mdReqmentMass_r + ", " +
+                    "con_mass_r = " + mdConsumpMass_r + ", " +
+                    "mfg_mass_r = " + mdMfgProdMass_r + ", " +
                     "lot = '" + msLot + "', " +
                     "pack_fac = " + mdPackingFactor + ", " +
                     "b_del = " + (mbDeleted ? 1 : 0) + ", " +
@@ -444,11 +468,14 @@ public class DDbJob extends DDbRegistryUser {
         registry.setDate(this.getDate());
         registry.setTsStart_n(this.getTsStart_n());
         registry.setTsEnd_n(this.getTsEnd_n());
+        registry.setFormulaQuantity(this.getFormulaQuantity());
+        registry.setFormulaMass_r(this.getFormulaMass_r());
         registry.setLoads(this.getLoads());
-        registry.setQuantityFormula(this.getQuantityFormula());
-        registry.setQuantity_r(this.getQuantity_r());
-        registry.setMassFormula(this.getMassFormula());
-        registry.setMass_r(this.getMass_r());
+        registry.setJobQuantity_r(this.getJobQuantity_r());
+        registry.setMfgProdQuantity_r(this.getMfgProdQuantity_r());
+        registry.setReqmentMass_r(this.getReqmentMass_r());
+        registry.setConsumpMass_r(this.getConsumpMass_r());
+        registry.setMfgProdMass_r(this.getMfgProdMass_r());
         registry.setLot(this.getLot());
         registry.setPackingFactor(this.getPackingFactor());
         registry.setDeleted(this.isDeleted());
@@ -490,13 +517,18 @@ public class DDbJob extends DDbRegistryUser {
     public void compute(final DGuiSession session) {
         readRegMembers(session, true);
         
-        mdMass_r = 0;
+        mdJobQuantity_r = DLibUtils.round(mdFormulaQuantity * mdLoads, DLibUtils.getDecimalFormatQuantity().getMaximumFractionDigits());
+        mdReqmentMass_r = DLibUtils.round(mdFormulaMass_r * mdLoads, DLibUtils.getDecimalFormatQuantity().getMaximumFractionDigits());
         
         for (DDbJobConsump child : maChildConsumps) {
-            mdMass_r = DLibUtils.round(mdMass_r + child.getMass_r(), DLibUtils.getDecimalFormatQuantity().getMaximumFractionDigits());
+            mdConsumpMass_r = DLibUtils.round(mdConsumpMass_r + child.getMass_r(), DLibUtils.getDecimalFormatQuantity().getMaximumFractionDigits());
         }
         
-        mdMassFormula = DLibUtils.round(moRegFormula.getMass_r() * mdLoads, DLibUtils.getDecimalFormatQuantity().getMaximumFractionDigits());
-        mdPackingFactor = DLibUtils.round(mdMassFormula == 0 ? 0 : mdMass_r / mdMassFormula, DLibUtils.getDecimalFormatQuantity().getMaximumFractionDigits());
+        for (DDbJobMfgProd child : maChildMfgProds) {
+            mdMfgProdQuantity_r = DLibUtils.round(mdMfgProdQuantity_r + child.getQuantity(), DLibUtils.getDecimalFormatQuantity().getMaximumFractionDigits());
+            mdMfgProdMass_r = DLibUtils.round(mdMfgProdMass_r + child.getMass_r(), DLibUtils.getDecimalFormatQuantity().getMaximumFractionDigits());
+        }
+        
+        mdPackingFactor = DLibUtils.round(mdReqmentMass_r == 0 ? 0 : mdConsumpMass_r / mdReqmentMass_r, DLibUtils.getDecimalFormatQuantity().getMaximumFractionDigits());
     }
 }

@@ -121,6 +121,12 @@ public abstract class DMfgUtils {
                 case DMfgConsts.LOT_A:
                     lot += ("" + lotDate[0]).substring(2, 2);
                     break;
+                case '-':
+                    lot += "-";
+                    break;
+                case '/':
+                    lot += "/";
+                    break;
                 default:
                     throw new Exception(DLibConsts.ERR_MSG_OPTION_UNKNOWN);
             }

@@ -283,7 +283,7 @@ public class DDbJobConsump extends DDbRegistryUser implements DGridRow {
         readRegMembers(session, true);
         readXtaMembers(session);
         
-        mdMass_r = DLibUtils.round(mdMassUnit * mdQuantity, DLibUtils.getDecimalFormatAmountUnitary().getMaximumFractionDigits());
+        mdMass_r = DLibUtils.round(mdMassUnit * mdQuantity, DLibUtils.getDecimalFormatQuantity().getMaximumFractionDigits());
     }
 
     @Override

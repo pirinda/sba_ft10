@@ -211,7 +211,7 @@ public class DModModuleCfg extends DGuiModule {
                         "FROM " + DModConsts.TablesMap.get(type) + " WHERE b_del = 0 ORDER BY sort ";
                 break;
             case DModConsts.CS_UOM_TP:
-                settings = new DGuiCatalogueSettings("Tipo unidad", 1, 0, DLibConsts.DATA_TYPE_TEXT);
+                settings = new DGuiCatalogueSettings("Tipo unidad medida", 1, 0, DLibConsts.DATA_TYPE_TEXT);
                 sql = "SELECT id_uom_tp AS " + DDbConsts.FIELD_ID + "1, CONCAT(name, ' (', base, ')') AS " + DDbConsts.FIELD_ITEM + ", base AS " + DDbConsts.FIELD_COMP + " " +
                         "FROM " + DModConsts.TablesMap.get(type) + " WHERE b_del = 0 ORDER BY sort ";
                 break;
@@ -245,7 +245,7 @@ public class DModModuleCfg extends DGuiModule {
                         "ORDER BY name, code, id_bpr ";
                 break;
             case DModConsts.CU_UOM:
-                settings = new DGuiCatalogueSettings("Unidad", 1);
+                settings = new DGuiCatalogueSettings("Unidad medida", 1);
                 settings.setCodeApplying(true);
                 sql = "SELECT id_uom AS " + DDbConsts.FIELD_ID + "1, name AS " + DDbConsts.FIELD_ITEM + ", code AS " + DDbConsts.FIELD_CODE + " " +
                         "FROM " + DModConsts.TablesMap.get(type) + " " +
@@ -254,7 +254,7 @@ public class DModModuleCfg extends DGuiModule {
                         "ORDER BY fk_uom_tp, sort ";
                 break;
             case DModConsts.CU_PRE:
-                settings = new DGuiCatalogueSettings("Presentación", 1);
+                settings = new DGuiCatalogueSettings("Presentación producto", 1);
                 settings.setCodeApplying(true);
                 sql = "SELECT id_pre AS " + DDbConsts.FIELD_ID + "1, name AS " + DDbConsts.FIELD_ITEM + ", code AS " + DDbConsts.FIELD_CODE + " " +
                         "FROM " + DModConsts.TablesMap.get(type) + " WHERE b_del = 0 ORDER BY name, id_pre ";
@@ -372,10 +372,10 @@ public class DModModuleCfg extends DGuiModule {
                 view = new DViewBizPartner(miClient, subtype, label);
                 break;
             case DModConsts.CU_UOM:
-                view = new DViewUnit(miClient, "Unidades");
+                view = new DViewUnit(miClient, "Unidades medida");
                 break;
             case DModConsts.CU_PRE:
-                view = new DViewPresent(miClient, "Presentaciones");
+                view = new DViewPresent(miClient, "Presentaciones producto");
                 break;
             case DModConsts.CU_FAM:
                 view = new DViewFamily(miClient, "Familias");
@@ -475,15 +475,15 @@ public class DModModuleCfg extends DGuiModule {
                 }
                 break;
             case DModConsts.CU_UOM:
-                if (moFormUnit == null) moFormUnit = new DFormUnit(miClient, "Unidad");
+                if (moFormUnit == null) moFormUnit = new DFormUnit(miClient, "Unidad de medida");
                 form = moFormUnit;
                 break;
             case DModConsts.CU_PRE:
-                if (moFormPresent == null) moFormPresent = new DFormPresent(miClient, "Presentación");
+                if (moFormPresent == null) moFormPresent = new DFormPresent(miClient, "Presentación de producto");
                 form = moFormPresent;
                 break;
             case DModConsts.CU_FAM:
-                if (moFormFamily == null) moFormFamily = new DFormFamily(miClient, "Familia ítems");
+                if (moFormFamily == null) moFormFamily = new DFormFamily(miClient, "Familia");
                 form = moFormFamily;
                 break;
             case DModConsts.CU_ITM:

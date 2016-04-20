@@ -132,7 +132,7 @@
               <SubComponents>
                 <Component class="javax.swing.JLabel" name="jlSortingPos">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Pos. ordenamiento:"/>
+                    <Property name="text" type="java.lang.String" value="Posici&#xf3;n cat&#xe1;logo:"/>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[100, 23]"/>
                     </Property>
