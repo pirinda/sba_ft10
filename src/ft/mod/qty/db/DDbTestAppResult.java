@@ -208,12 +208,15 @@ public class DDbTestAppResult extends DDbRegistryUser implements DGridRow {
         
         switch (col) {
             case 0:
-                value = moRegVariable.getName();
+                value = mnPkResultId;
                 break;
             case 1:
-                value = mdValue;
+                value = moRegVariable.getName();
                 break;
             case 2:
+                value = mdValue;
+                break;
+            case 3:
                 value = moRegVariable.getUnit();
                 break;
             default:
@@ -224,6 +227,16 @@ public class DDbTestAppResult extends DDbRegistryUser implements DGridRow {
 
     @Override
     public void setRowValueAt(Object value, int col) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        switch (col) {
+            case 0:
+            case 1:
+                break;
+            case 2:
+                mdValue = (Double) value;
+                break;
+            case 3:
+                break;
+            default:
+        }
     }
 }

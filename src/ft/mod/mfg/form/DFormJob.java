@@ -38,6 +38,7 @@ import sba.lib.grid.DGridConsts;
 import sba.lib.grid.DGridPaneForm;
 import sba.lib.grid.DGridPaneFormOwner;
 import sba.lib.grid.DGridRow;
+import sba.lib.grid.cell.DGridCellRendererNumberVariable;
 import sba.lib.gui.DGuiClient;
 import sba.lib.gui.DGuiConsts;
 import sba.lib.gui.DGuiFieldKeyGroup;
@@ -73,6 +74,9 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
     private DGridPaneForm moGridReqments;
     private DGridPaneForm moGridConsumps;
     private DGridPaneForm moGridMfgProds;
+    private DGridPaneForm moGridVariables;
+    private DGridPaneForm moGridTestApps;
+    private DGridPaneForm moGridTestAppsResults;
     private DGuiFieldKeyGroup moKeyGroupJobFormula;
     private DGuiFieldKeyGroup moKeyGroupJobLine;
     private DGuiFieldKeyGroup moKeyGroupConsumpItem;
@@ -205,6 +209,21 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         jbMfgProdAdd = new javax.swing.JButton();
         jbMfgProdClear = new javax.swing.JButton();
         jpQty = new javax.swing.JPanel();
+        jpVariables = new javax.swing.JPanel();
+        jPanel36 = new javax.swing.JPanel();
+        jbVariablesClear = new javax.swing.JButton();
+        jpTestApps = new javax.swing.JPanel();
+        jPanel34 = new javax.swing.JPanel();
+        jlTestApp = new javax.swing.JLabel();
+        dBeanFieldDate1 = new sba.lib.gui.bean.DBeanFieldDate();
+        jtfTestAppResults1 = new javax.swing.JTextField();
+        jbTestAppAdd = new javax.swing.JButton();
+        jbTestAppClear = new javax.swing.JButton();
+        jpTestAppsResults = new javax.swing.JPanel();
+        jPanel35 = new javax.swing.JPanel();
+        jlTestAppResults = new javax.swing.JLabel();
+        jtfTestAppResults = new javax.swing.JTextField();
+        jbTestAppResultsDelete = new javax.swing.JButton();
         jpSts = new javax.swing.JPanel();
 
         jpContainer.setLayout(new java.awt.BorderLayout());
@@ -620,6 +639,75 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         jpMfg.add(jpMfgProd);
 
         jtpJob.addTab("Producción", jpMfg);
+
+        jpQty.setLayout(new java.awt.GridLayout(1, 3));
+
+        jpVariables.setBorder(javax.swing.BorderFactory.createTitledBorder("Variables de producción:"));
+        jpVariables.setLayout(new java.awt.BorderLayout(0, 5));
+
+        jPanel36.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
+
+        jbVariablesClear.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sba/lib/img/cmd_std_clear.gif"))); // NOI18N
+        jbVariablesClear.setToolTipText("Limpiar");
+        jbVariablesClear.setPreferredSize(new java.awt.Dimension(23, 23));
+        jPanel36.add(jbVariablesClear);
+
+        jpVariables.add(jPanel36, java.awt.BorderLayout.NORTH);
+
+        jpQty.add(jpVariables);
+
+        jpTestApps.setBorder(javax.swing.BorderFactory.createTitledBorder("Tests de calidad:"));
+        jpTestApps.setLayout(new java.awt.BorderLayout(0, 5));
+
+        jPanel34.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
+
+        jlTestApp.setText("Fecha:*");
+        jlTestApp.setPreferredSize(new java.awt.Dimension(75, 23));
+        jPanel34.add(jlTestApp);
+        jPanel34.add(dBeanFieldDate1);
+
+        jtfTestAppResults1.setEditable(false);
+        jtfTestAppResults1.setFocusable(false);
+        jtfTestAppResults1.setPreferredSize(new java.awt.Dimension(75, 23));
+        jPanel34.add(jtfTestAppResults1);
+
+        jbTestAppAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sba/lib/img/cmd_std_add.gif"))); // NOI18N
+        jbTestAppAdd.setToolTipText("Agregar");
+        jbTestAppAdd.setPreferredSize(new java.awt.Dimension(23, 23));
+        jPanel34.add(jbTestAppAdd);
+
+        jbTestAppClear.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sba/lib/img/cmd_std_clear.gif"))); // NOI18N
+        jbTestAppClear.setToolTipText("Limpiar");
+        jbTestAppClear.setPreferredSize(new java.awt.Dimension(23, 23));
+        jPanel34.add(jbTestAppClear);
+
+        jpTestApps.add(jPanel34, java.awt.BorderLayout.NORTH);
+
+        jpQty.add(jpTestApps);
+
+        jpTestAppsResults.setBorder(javax.swing.BorderFactory.createTitledBorder("Resultados de tests de calidad:"));
+        jpTestAppsResults.setLayout(new java.awt.BorderLayout(0, 5));
+
+        jPanel35.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
+
+        jlTestAppResults.setText("Resultados:");
+        jlTestAppResults.setPreferredSize(new java.awt.Dimension(75, 23));
+        jPanel35.add(jlTestAppResults);
+
+        jtfTestAppResults.setEditable(false);
+        jtfTestAppResults.setFocusable(false);
+        jtfTestAppResults.setPreferredSize(new java.awt.Dimension(75, 23));
+        jPanel35.add(jtfTestAppResults);
+
+        jbTestAppResultsDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sba/lib/img/cmd_std_delete.gif"))); // NOI18N
+        jbTestAppResultsDelete.setToolTipText("Eliminar");
+        jbTestAppResultsDelete.setPreferredSize(new java.awt.Dimension(23, 23));
+        jPanel35.add(jbTestAppResultsDelete);
+
+        jpTestAppsResults.add(jPanel35, java.awt.BorderLayout.NORTH);
+
+        jpQty.add(jpTestAppsResults);
+
         jtpJob.addTab("Calidad", jpQty);
         jtpJob.addTab("Estadísticas", jpSts);
 
@@ -629,6 +717,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private sba.lib.gui.bean.DBeanFieldDate dBeanFieldDate1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
@@ -655,6 +744,9 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
     private javax.swing.JPanel jPanel31;
     private javax.swing.JPanel jPanel32;
     private javax.swing.JPanel jPanel33;
+    private javax.swing.JPanel jPanel34;
+    private javax.swing.JPanel jPanel35;
+    private javax.swing.JPanel jPanel36;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
@@ -669,6 +761,10 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
     private javax.swing.JButton jbMfgProdAdd;
     private javax.swing.JButton jbMfgProdClear;
     private javax.swing.JButton jbMfgProdNew;
+    private javax.swing.JButton jbTestAppAdd;
+    private javax.swing.JButton jbTestAppClear;
+    private javax.swing.JButton jbTestAppResultsDelete;
+    private javax.swing.JButton jbVariablesClear;
     private javax.swing.JLabel jlConsumpItem;
     private javax.swing.JLabel jlConsumpItemType;
     private javax.swing.JLabel jlConsumpLot;
@@ -696,6 +792,8 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
     private javax.swing.JLabel jlMfgProdItem;
     private javax.swing.JLabel jlMfgProdItemType;
     private javax.swing.JLabel jlMfgProdQuantity;
+    private javax.swing.JLabel jlTestApp;
+    private javax.swing.JLabel jlTestAppResults;
     private javax.swing.JPanel jpConsump;
     private javax.swing.JPanel jpConsumpData;
     private javax.swing.JPanel jpContainer;
@@ -706,11 +804,16 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
     private javax.swing.JPanel jpQty;
     private javax.swing.JPanel jpReqment;
     private javax.swing.JPanel jpSts;
+    private javax.swing.JPanel jpTestApps;
+    private javax.swing.JPanel jpTestAppsResults;
+    private javax.swing.JPanel jpVariables;
     private javax.swing.JTextField jtfConsumpItem;
     private javax.swing.JTextField jtfConsumpType;
     private javax.swing.JTextField jtfJobNumber;
     private javax.swing.JTextField jtfJobSeries;
     private javax.swing.JTextField jtfJobStatus;
+    private javax.swing.JTextField jtfTestAppResults;
+    private javax.swing.JTextField jtfTestAppResults1;
     private javax.swing.JTabbedPane jtpJob;
     private sba.lib.gui.bean.DBeanFieldBoolean moBoolConsumpRework;
     private sba.lib.gui.bean.DBeanCompoundField moCompConsumpMass;
@@ -945,17 +1048,96 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
             }
         };
         
+        moGridVariables = new DGridPaneForm(miClient, mnFormType, DModConsts.M_JOB_VAR, msTitle) {
+            
+            @Override
+            public void initGrid() {
+                setRowButtonsEnabled(false);
+            }
+            
+            @Override
+            public void createGridColumns() {
+                int col = 0;
+                DGridColumnForm[] columns = new DGridColumnForm[3];
+
+                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_NAME_CAT_S, DGridConsts.COL_TITLE_NAME + " variable");
+                columns[col] = new DGridColumnForm(DGridConsts.COL_TYPE_DEC_QTY, "Valor", new DGridCellRendererNumberVariable());
+                columns[col++].setEditable(true);
+                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_CODE_UNT, "Unidad medida");
+
+                for (col = 0; col < columns.length; col++) {
+                    moModel.getGridColumns().add(columns[col]);
+                }
+            }
+        };
+        
+        moGridTestApps = new DGridPaneForm(miClient, mnFormType, DModConsts.Q_APP, msTitle) {
+            
+            @Override
+            public void initGrid() {
+                setRowButtonsEnabled(false);
+            }
+            
+            @Override
+            public void createGridColumns() {
+                int col = 0;
+                DGridColumnForm[] columns = new DGridColumnForm[4];
+
+                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_INT_1B, "# resultado");
+                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_NAME_CAT_S, DGridConsts.COL_TITLE_NAME + " variable");
+                columns[col] = new DGridColumnForm(DGridConsts.COL_TYPE_DEC_QTY, "Valor", new DGridCellRendererNumberVariable());
+                columns[col++].setEditable(true);
+                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_CODE_UNT, "Unidad medida");
+
+                for (col = 0; col < columns.length; col++) {
+                    moModel.getGridColumns().add(columns[col]);
+                }
+            }
+        };
+        
+        moGridTestAppsResults = new DGridPaneForm(miClient, mnFormType, DModConsts.Q_APP_RES, msTitle) {
+            
+            @Override
+            public void initGrid() {
+                setRowButtonsEnabled(false);
+            }
+            
+            @Override
+            public void createGridColumns() {
+                int col = 0;
+                DGridColumnForm[] columns = new DGridColumnForm[4];
+
+                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_INT_1B, "# resultado");
+                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_NAME_CAT_S, DGridConsts.COL_TITLE_NAME + " variable");
+                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_DEC_QTY, "Valor", new DGridCellRendererNumberVariable());
+                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_CODE_UNT, "Unidad medida");
+
+                for (col = 0; col < columns.length; col++) {
+                    moModel.getGridColumns().add(columns[col]);
+                }
+            }
+        };
+        
         moGridReqments.setPaneFormOwner(this);
         moGridConsumps.setPaneFormOwner(this);
         moGridMfgProds.setPaneFormOwner(this);
+        moGridVariables.setPaneFormOwner(this);
+        moGridTestApps.setPaneFormOwner(this);
+        moGridTestAppsResults.setPaneFormOwner(this);
         
         jpReqment.add(moGridReqments, BorderLayout.CENTER);
         jpConsump.add(moGridConsumps, BorderLayout.CENTER);
         jpMfgProd.add(moGridMfgProds, BorderLayout.CENTER);
+        jpVariables.add(moGridVariables, BorderLayout.CENTER);
+        jpTestApps.add(moGridTestApps, BorderLayout.CENTER);
+        jpTestAppsResults.add(moGridTestAppsResults, BorderLayout.CENTER);
         
         mvFormGrids.add(moGridReqments);
         mvFormGrids.add(moGridConsumps);
         mvFormGrids.add(moGridMfgProds);
+        mvFormGrids.add(moGridVariables);
+        mvFormGrids.add(moGridTestApps);
+        mvFormGrids.add(moGridTestAppsResults);
         
         moKeyGroupJobFormula = new DGuiFieldKeyGroup(miClient);
         moKeyGroupJobLine = new DGuiFieldKeyGroup(miClient);
@@ -1015,6 +1197,20 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
             }
             
             moGridReqments.populateGrid(rows, this);
+        }
+    }
+    
+    private void createGridVariableItems() {
+        Vector<DGridRow> rows = new Vector<>();
+        
+        moGridVariables.clearGridRows();
+        
+        if (moFormula != null) {
+            for (DDbFormulaComp comp : moFormula.getChildComps()) {
+                rows.add(comp.createJobReqment(moDecJobLoads.getValue()));
+            }
+            
+            moGridVariables.populateGrid(rows, this);
         }
     }
     
@@ -1380,6 +1576,22 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         moKeyMfgProdItemType.requestFocus();
     }
     
+    private void actionPerformedVariablesClear() {
+        
+    }
+    
+    private void actionPerformedTestAppAdd() {
+        
+    }
+    
+    private void actionPerformedTestAppClear() {
+        
+    }
+    
+    private void actionPerformedTestAppResultsDelete() {
+        
+    }
+    
     private void itemStateChangedJobFormula() {
         if (moKeyJobFormula.getSelectedIndex() <= 0) {
             moFormula = null;
@@ -1539,6 +1751,10 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         jbMfgProdNew.addActionListener(this);
         jbMfgProdAdd.addActionListener(this);
         jbMfgProdClear.addActionListener(this);
+        jbVariablesClear.addActionListener(this);
+        jbTestAppAdd.addActionListener(this);
+        jbTestAppClear.addActionListener(this);
+        jbTestAppResultsDelete.addActionListener(this);
         moKeyJobFormula.addItemListener(this);
         moKeyConsumpItem.addItemListener(this);
         moKeyMfgProdItem.addItemListener(this);
@@ -1558,6 +1774,10 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         jbMfgProdNew.removeActionListener(this);
         jbMfgProdAdd.removeActionListener(this);
         jbMfgProdClear.removeActionListener(this);
+        jbVariablesClear.removeActionListener(this);
+        jbTestAppAdd.removeActionListener(this);
+        jbTestAppClear.removeActionListener(this);
+        jbTestAppResultsDelete.removeActionListener(this);
         moKeyJobFormula.removeItemListener(this);
         moKeyConsumpItem.removeItemListener(this);
         moKeyMfgProdItem.removeItemListener(this);
@@ -1786,6 +2006,18 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
             }
             else if (button == jbMfgProdClear) {
                 actionPerformedMfgProdClear();
+            }
+            else if (button == jbVariablesClear) {
+                actionPerformedVariablesClear();
+            }
+            else if (button == jbTestAppAdd) {
+                actionPerformedTestAppAdd();
+            }
+            else if (button == jbTestAppClear) {
+                actionPerformedTestAppClear();
+            }
+            else if (button == jbTestAppResultsDelete) {
+                actionPerformedTestAppResultsDelete();
             }
         }
     }

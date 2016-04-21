@@ -11,13 +11,14 @@ import java.sql.SQLException;
 import sba.lib.db.DDbConsts;
 import sba.lib.db.DDbRegistryUser;
 import sba.lib.grid.DGridRow;
+import sba.lib.grid.cell.DGridCellNumber;
 import sba.lib.gui.DGuiSession;
 
 /**
  *
  * @author Sergio Flores
  */
-public class DDbJobVariable extends DDbRegistryUser implements DGridRow {
+public class DDbJobVariable extends DDbRegistryUser implements DGridRow, DGridCellNumber {
 
     protected int mnPkJobId;
     protected int mnPkVariableId;
@@ -216,6 +217,20 @@ public class DDbJobVariable extends DDbRegistryUser implements DGridRow {
 
     @Override
     public void setRowValueAt(Object value, int col) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        switch (col) {
+            case 0:
+                break;
+            case 1:
+                mdValue = (Double) value;
+                break;
+            case 2:
+                break;
+            default:
+        }
+    }
+
+    @Override
+    public int getDecimals() {
+        return moRegVariable.getDecimals();
     }
 }
