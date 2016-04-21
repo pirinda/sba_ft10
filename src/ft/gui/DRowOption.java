@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ft.mod.mfg.db;
+package ft.gui;
 
 import sba.lib.grid.DGridRow;
 
@@ -17,12 +17,18 @@ public class DRowOption implements DGridRow {
     public String Code;
     public String Name;
     public boolean Selected;
+    public int Quantity;
     
     public DRowOption(int optionId, String code, String name, boolean selected) {
+        this(optionId, code, name, selected, 0);
+    }
+
+    public DRowOption(int optionId, String code, String name, boolean selected, int quantity) {
         OptionId = optionId;
         Code = code;
         Name = name;
         Selected = selected;
+        Quantity = quantity;
     }
 
     @Override
@@ -74,6 +80,9 @@ public class DRowOption implements DGridRow {
             case 2:
                 value = Selected;
                 break;
+            case 3:
+                value = Quantity;
+                break;
             default:
         }
         
@@ -88,6 +97,9 @@ public class DRowOption implements DGridRow {
                 break;
             case 2:
                 Selected = (Boolean) value;
+                break;
+            case 3:
+                Quantity = (Integer) value;
                 break;
             default:
         }

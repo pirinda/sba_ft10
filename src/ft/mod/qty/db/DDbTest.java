@@ -28,6 +28,9 @@ public class DDbTest extends DDbRegistryUser {
     /*
     protected boolean mbDeleted;
     protected boolean mbSystem;
+    */
+    protected int mnFkTestTypeId;
+    /*
     protected int mnFkUserInsertId;
     protected int mnFkUserUpdateId;
     protected Date mtTsUserInsert;
@@ -49,6 +52,7 @@ public class DDbTest extends DDbRegistryUser {
     public void setName(String s) { msName = s; }
     public void setDeleted(boolean b) { mbDeleted = b; }
     public void setSystem(boolean b) { mbSystem = b; }
+    public void setFkTestTypeId(int n) { mnFkTestTypeId = n; }
     public void setFkUserInsertId(int n) { mnFkUserInsertId = n; }
     public void setFkUserUpdateId(int n) { mnFkUserUpdateId = n; }
     public void setTsUserInsert(Date t) { mtTsUserInsert = t; }
@@ -59,6 +63,7 @@ public class DDbTest extends DDbRegistryUser {
     public String getName() { return msName; }
     public boolean isDeleted() { return mbDeleted; }
     public boolean isSystem() { return mbSystem; }
+    public int getFkTestTypeId() { return mnFkTestTypeId; }
     public int getFkUserInsertId() { return mnFkUserInsertId; }
     public int getFkUserUpdateId() { return mnFkUserUpdateId; }
     public Date getTsUserInsert() { return mtTsUserInsert; }
@@ -67,7 +72,7 @@ public class DDbTest extends DDbRegistryUser {
     public ArrayList<DDbTestVariable> getChildVariables() { return maChildVariables; }
     public ArrayList<DDbTestFamily> getChildFamilies() { return maChildFamilies; }
     
-    public boolean isUtilVariableChecked(final int idVariable) {
+    public boolean isUtilVariableSelected(final int idVariable) {
         boolean checked = false;
         
         for (DDbTestVariable child : maChildVariables) {
@@ -80,7 +85,7 @@ public class DDbTest extends DDbRegistryUser {
         return checked;
     }
     
-    public boolean isUtilFamilyChecked(final int idFamily) {
+    public boolean isUtilFamilySelected(final int idFamily) {
         boolean checked = false;
         
         for (DDbTestFamily child : maChildFamilies) {
@@ -91,6 +96,19 @@ public class DDbTest extends DDbRegistryUser {
         }
         
         return checked;
+    }
+    
+    public int getUtilFamilyResults(final int idFamily) {
+        int results = 0;
+        
+        for (DDbTestFamily child : maChildFamilies) {
+            if (idFamily == child.getPkFamilyId()) {
+                results = child.getResults();
+                break;
+            }
+        }
+        
+        return results;
     }
     
     @Override
@@ -112,6 +130,7 @@ public class DDbTest extends DDbRegistryUser {
         msName = "";
         mbDeleted = false;
         mbSystem = false;
+        mnFkTestTypeId = 0;
         mnFkUserInsertId = 0;
         mnFkUserUpdateId = 0;
         mtTsUserInsert = null;
@@ -169,6 +188,7 @@ public class DDbTest extends DDbRegistryUser {
             msName = resultSet.getString("name");
             mbDeleted = resultSet.getBoolean("b_del");
             mbSystem = resultSet.getBoolean("b_sys");
+            mnFkTestTypeId = resultSet.getInt("fk_tst_tp");
             mnFkUserInsertId = resultSet.getInt("fk_usr_ins");
             mnFkUserUpdateId = resultSet.getInt("fk_usr_upd");
             mtTsUserInsert = resultSet.getTimestamp("ts_usr_ins");
@@ -226,6 +246,7 @@ public class DDbTest extends DDbRegistryUser {
                     "'" + msName + "', " +
                     (mbDeleted ? 1 : 0) + ", " +
                     (mbSystem ? 1 : 0) + ", " +
+                    mnFkTestTypeId + ", " + 
                     mnFkUserInsertId + ", " +
                     mnFkUserUpdateId + ", " +
                     "NOW()" + ", " +
@@ -241,6 +262,7 @@ public class DDbTest extends DDbRegistryUser {
                     "name = '" + msName + "', " +
                     "b_del = " + (mbDeleted ? 1 : 0) + ", " +
                     "b_sys = " + (mbSystem ? 1 : 0) + ", " +
+                    "fk_tst_tp = " + mnFkTestTypeId + ", " +
                     //"fk_usr_ins = " + mnFkUserInsertId + ", " +
                     "fk_usr_upd = " + mnFkUserUpdateId + ", " +
                     //"ts_usr_ins = " + "NOW()" + ", " +
@@ -285,6 +307,7 @@ public class DDbTest extends DDbRegistryUser {
         registry.setName(this.getName());
         registry.setDeleted(this.isDeleted());
         registry.setSystem(this.isSystem());
+        registry.setFkTestTypeId(this.getFkTestTypeId());
         registry.setFkUserInsertId(this.getFkUserInsertId());
         registry.setFkUserUpdateId(this.getFkUserUpdateId());
         registry.setTsUserInsert(this.getTsUserInsert());

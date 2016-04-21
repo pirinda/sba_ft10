@@ -9,6 +9,7 @@ package ft.gui;
 import ft.mod.DModConsts;
 import ft.mod.DModModuleCfg;
 import ft.mod.DModModuleMfg;
+import ft.mod.DModModuleQty;
 import ft.mod.DModModuleStk;
 import ft.mod.DModSysConsts;
 import ft.mod.DModUtils;
@@ -608,6 +609,10 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
         jmiMfgFormulaComp.addActionListener(this);
         jmiMfgFormulaByProd.addActionListener(this);
         jmiMfgVariable.addActionListener(this);
+        jmiQtyTestApp.addActionListener(this);
+        jmiQtyTestAppResult.addActionListener(this);
+        jmiQtyTest.addActionListener(this);
+        jmiQtyVariable.addActionListener(this);
         jmiHelpHelp.addActionListener(this);
         jmiHelpAbout.addActionListener(this);
 
@@ -691,6 +696,7 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
                 moSession.getModules().add(new DModModuleCfg(this));
                 moSession.getModules().add(new DModModuleStk(this));
                 moSession.getModules().add(new DModModuleMfg(this));
+                moSession.getModules().add(new DModModuleQty(this));
                 
                 config = new DDbConfig();
                 config.read(moSession, new int[] { DUtilConsts.BPR_CO_ID });
@@ -1296,6 +1302,18 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
             }
             else if (menuItem == jmiMfgVariable) {
                 moSession.showView(DModConsts.MU_VAR, DLibConsts.UNDEFINED, null);
+            }
+            else if (menuItem == jmiQtyTestApp) {
+                moSession.showView(DModConsts.Q_APP, DLibConsts.UNDEFINED, null);
+            }
+            else if (menuItem == jmiQtyTestAppResult) {
+                moSession.showView(DModConsts.Q_APP_RES, DLibConsts.UNDEFINED, null);
+            }
+            else if (menuItem == jmiQtyTest) {
+                moSession.showView(DModConsts.QU_TST, DLibConsts.UNDEFINED, null);
+            }
+            else if (menuItem == jmiQtyVariable) {
+                moSession.showView(DModConsts.QU_VAR, DLibConsts.UNDEFINED, null);
             }
             else if (menuItem == jmiHelpHelp) {
                 actionHelpHelp();

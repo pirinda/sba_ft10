@@ -248,20 +248,7 @@ public class DDbJobReqment extends DDbRegistryUser implements DGridRow {
                     ")";
         }
         else {
-            mnFkUserUpdateId = session.getUser().getPkUserId();
-
-            msSql = "UPDATE " + getSqlTable() + " SET " +
-                    //"id_job = " + mnPkJobId + ", " +
-                    //"id_req = " + mnPkReqmentId + ", " +
-                    "qty = " + mdQuantity + ", " +
-                    "mass_unt = " + mdMassUnit + ", " +
-                    "mass_r = " + mdMass_r + ", " +
-                    "b_std = " + (mbStandard ? 1 : 0) + ", " +
-                    "fk_cmp_tp = " + mnFkCompTypeId + ", " +
-                    "fk_cmp = " + mnFkCompId + ", " +
-                    "fk_itm_tp = " + mnFkItemTypeId + ", " +
-                    "fk_uom = " + mnFkUnitId + " " +
-                    getSqlWhere();
+            throw new Exception(DDbConsts.ERR_MSG_REG_NON_UPDATABLE);
         }
 
         session.getStatement().execute(msSql);

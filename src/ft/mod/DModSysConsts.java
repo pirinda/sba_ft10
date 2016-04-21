@@ -137,6 +137,6 @@ public abstract class DModSysConsts {
 
     public static final int MU_LIN_DEF = 1;
 
-    public static final int QS_RES_TP_CMP = 1;
-    public static final int QS_RES_TP_MFG = 2;
+    public static final int QS_TST_TP_MAT = 1;
+    public static final int QS_TST_TP_PRO = 2;
 }

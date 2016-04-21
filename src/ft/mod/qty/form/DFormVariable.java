@@ -3,29 +3,19 @@
  * and open the template in the editor.
  */
 
-package ft.mod.mfg.form;
+package ft.mod.qty.form;
 
-import ft.gui.DRowOption;
 import ft.mod.DModConsts;
-import ft.mod.mfg.db.DDbVariable;
-import ft.mod.mfg.db.DDbVariableFamily;
-import java.awt.BorderLayout;
+import ft.mod.qty.db.DDbVariable;
 import java.text.DecimalFormat;
-import java.util.Vector;
 import javax.swing.JSpinner;
-import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import sba.lib.DLibConsts;
 import sba.lib.DLibUtils;
 import sba.lib.db.DDbRegistry;
-import sba.lib.grid.DGridColumnForm;
-import sba.lib.grid.DGridConsts;
-import sba.lib.grid.DGridPaneForm;
-import sba.lib.grid.DGridRow;
 import sba.lib.gui.DGuiClient;
 import sba.lib.gui.DGuiConsts;
-import sba.lib.gui.DGuiItem;
 import sba.lib.gui.DGuiUtils;
 import sba.lib.gui.DGuiValidation;
 import sba.lib.gui.bean.DBeanForm;
@@ -37,11 +27,10 @@ import sba.lib.gui.bean.DBeanForm;
 public class DFormVariable extends DBeanForm implements ChangeListener {
 
     private DDbVariable moRegistry;
-    private DGridPaneForm moGridFamilies;
 
     /** Creates new form DFormVariable */
     public DFormVariable(DGuiClient client, String title) {
-        setFormSettings(client, DGuiConsts.BEAN_FORM_EDIT, DModConsts.MU_VAR, DLibConsts.UNDEFINED, title);
+        setFormSettings(client, DGuiConsts.BEAN_FORM_EDIT, DModConsts.QU_VAR, DLibConsts.UNDEFINED, title);
         initComponents();
         initComponentsCustom();
     }
@@ -57,7 +46,6 @@ public class DFormVariable extends DBeanForm implements ChangeListener {
 
         jpContainer = new javax.swing.JPanel();
         jpVariable = new javax.swing.JPanel();
-        jpVariable1 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jlCode = new javax.swing.JLabel();
         moTextCode = new sba.lib.gui.bean.DBeanFieldText();
@@ -67,7 +55,6 @@ public class DFormVariable extends DBeanForm implements ChangeListener {
         jPanel8 = new javax.swing.JPanel();
         jlUnit = new javax.swing.JLabel();
         moTextUnit = new sba.lib.gui.bean.DBeanFieldText();
-        jpVariable2 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jlDecimals = new javax.swing.JLabel();
         jsDecimals = new javax.swing.JSpinner();
@@ -77,14 +64,11 @@ public class DFormVariable extends DBeanForm implements ChangeListener {
         jPanel7 = new javax.swing.JPanel();
         jlValueMax = new javax.swing.JLabel();
         moDecValueMax = new sba.lib.gui.bean.DBeanFieldDecimal();
-        jpFamilies = new javax.swing.JPanel();
 
+        jpContainer.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos del registro:"));
         jpContainer.setLayout(new java.awt.BorderLayout());
 
-        jpVariable.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos del registro:"));
-        jpVariable.setLayout(new java.awt.GridLayout(1, 2));
-
-        jpVariable1.setLayout(new java.awt.GridLayout(3, 1, 0, 5));
+        jpVariable.setLayout(new java.awt.GridLayout(6, 1, 0, 5));
 
         jPanel3.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
@@ -95,7 +79,7 @@ public class DFormVariable extends DBeanForm implements ChangeListener {
         moTextCode.setPreferredSize(new java.awt.Dimension(50, 23));
         jPanel3.add(moTextCode);
 
-        jpVariable1.add(jPanel3);
+        jpVariable.add(jPanel3);
 
         jPanel4.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
@@ -106,7 +90,7 @@ public class DFormVariable extends DBeanForm implements ChangeListener {
         moTextName.setPreferredSize(new java.awt.Dimension(200, 23));
         jPanel4.add(moTextName);
 
-        jpVariable1.add(jPanel4);
+        jpVariable.add(jPanel4);
 
         jPanel8.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
@@ -116,11 +100,7 @@ public class DFormVariable extends DBeanForm implements ChangeListener {
         jPanel8.add(jlUnit);
         jPanel8.add(moTextUnit);
 
-        jpVariable1.add(jPanel8);
-
-        jpVariable.add(jpVariable1);
-
-        jpVariable2.setLayout(new java.awt.GridLayout(3, 1, 0, 5));
+        jpVariable.add(jPanel8);
 
         jPanel5.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
@@ -132,7 +112,7 @@ public class DFormVariable extends DBeanForm implements ChangeListener {
         jsDecimals.setPreferredSize(new java.awt.Dimension(50, 23));
         jPanel5.add(jsDecimals);
 
-        jpVariable2.add(jPanel5);
+        jpVariable.add(jPanel5);
 
         jPanel6.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
@@ -141,7 +121,7 @@ public class DFormVariable extends DBeanForm implements ChangeListener {
         jPanel6.add(jlValueMin);
         jPanel6.add(moDecValueMin);
 
-        jpVariable2.add(jPanel6);
+        jpVariable.add(jPanel6);
 
         jPanel7.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
@@ -150,15 +130,9 @@ public class DFormVariable extends DBeanForm implements ChangeListener {
         jPanel7.add(jlValueMax);
         jPanel7.add(moDecValueMax);
 
-        jpVariable2.add(jPanel7);
-
-        jpVariable.add(jpVariable2);
+        jpVariable.add(jPanel7);
 
         jpContainer.add(jpVariable, java.awt.BorderLayout.NORTH);
-
-        jpFamilies.setBorder(javax.swing.BorderFactory.createTitledBorder("Familias:"));
-        jpFamilies.setLayout(new java.awt.BorderLayout());
-        jpContainer.add(jpFamilies, java.awt.BorderLayout.CENTER);
 
         getContentPane().add(jpContainer, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
@@ -177,10 +151,7 @@ public class DFormVariable extends DBeanForm implements ChangeListener {
     private javax.swing.JLabel jlValueMax;
     private javax.swing.JLabel jlValueMin;
     private javax.swing.JPanel jpContainer;
-    private javax.swing.JPanel jpFamilies;
     private javax.swing.JPanel jpVariable;
-    private javax.swing.JPanel jpVariable1;
-    private javax.swing.JPanel jpVariable2;
     private javax.swing.JSpinner jsDecimals;
     private sba.lib.gui.bean.DBeanFieldDecimal moDecValueMax;
     private sba.lib.gui.bean.DBeanFieldDecimal moDecValueMin;
@@ -194,7 +165,7 @@ public class DFormVariable extends DBeanForm implements ChangeListener {
      */
 
     private void initComponentsCustom() {
-        DGuiUtils.setWindowBounds(this, 640, 400);
+        DGuiUtils.setWindowBounds(this, 480, 300);
         
         moTextCode.setTextSettings(DGuiUtils.getLabelName(jlCode), 5);
         moTextName.setTextSettings(DGuiUtils.getLabelName(jlName), 50);
@@ -210,33 +181,6 @@ public class DFormVariable extends DBeanForm implements ChangeListener {
         moFields.addField(moDecValueMax);
         
         moFields.setFormButton(jbSave);
-        
-        moGridFamilies = new DGridPaneForm(miClient, mnFormType, DModConsts.CU_FAM, DGuiUtils.getLabelName(((TitledBorder) jpFamilies.getBorder()).getTitle())) {
-            
-            @Override
-            public void initGrid() {
-                setRowButtonsEnabled(false);
-            }
-            
-            @Override
-            public void createGridColumns() {
-                int col = 0;
-                DGridColumnForm[] columns = new DGridColumnForm[3];
-
-                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_NAME_CAT_L, DGridConsts.COL_TITLE_NAME);
-                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_CODE_CAT, DGridConsts.COL_TITLE_CODE);
-                columns[col] = new DGridColumnForm(DGridConsts.COL_TYPE_BOOL_S, "Aplica");
-                columns[col].setEditable(true);
-
-                for (col = 0; col < columns.length; col++) {
-                    moModel.getGridColumns().add(columns[col]);
-                }
-            }
-        };
-        
-        jpFamilies.add(moGridFamilies, BorderLayout.CENTER);
-        
-        mvFormGrids.add(moGridFamilies);
     }
     
     private void stateChangedDecimals() {
@@ -275,9 +219,6 @@ public class DFormVariable extends DBeanForm implements ChangeListener {
 
     @Override
     public void setRegistry(DDbRegistry registry) throws Exception {
-        Vector<DGuiItem> items = null;
-        Vector<DGridRow> rows = new Vector<>();
-        
         moRegistry = (DDbVariable) registry;
 
         mnFormResult = DLibConsts.UNDEFINED;
@@ -303,16 +244,6 @@ public class DFormVariable extends DBeanForm implements ChangeListener {
         stateChangedDecimals();
         moDecValueMin.setValue(moRegistry.getValueMin());
         moDecValueMax.setValue(moRegistry.getValueMax());
-        
-        items = miClient.getSession().readItems(DModConsts.CU_FAM, DLibConsts.UNDEFINED, null);
-        items.remove(0);
-        rows.clear(); // just for consistence
-        
-        for (DGuiItem item : items) {
-            rows.add(new DRowOption(item.getPrimaryKey()[0], item.getCode(), item.getItem(), moRegistry.isUtilFamilySelected(item.getPrimaryKey()[0])));
-        }
-        
-        moGridFamilies.populateGrid(rows);
         
         setFormEditable(true);
         
@@ -344,16 +275,6 @@ public class DFormVariable extends DBeanForm implements ChangeListener {
         registry.setUnit(moTextUnit.getValue());
         //registry.setDeleted(...);
         //registry.setSystem(...);
-        
-        registry.getChildFamilies().clear();
-        for (DGridRow row : moGridFamilies.getModel().getGridRows()) {
-            if (((DRowOption) row).Selected) {
-                DDbVariableFamily variableFamily = new DDbVariableFamily();
-                //variableFamily.setPkVariableId(...);
-                variableFamily.setPkFamilyId(((DRowOption) row).OptionId);
-                registry.getChildFamilies().add(variableFamily);
-            }
-        }
         
         return registry;
     }

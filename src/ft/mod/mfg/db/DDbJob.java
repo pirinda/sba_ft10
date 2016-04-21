@@ -65,12 +65,14 @@ public class DDbJob extends DDbRegistryUser {
     protected ArrayList<DDbJobReqment> maChildReqments;
     protected ArrayList<DDbJobConsump> maChildConsumps;
     protected ArrayList<DDbJobMfgProd> maChildMfgProds;
+    protected ArrayList<DDbJobVariable> maChildVariables;
 
     public DDbJob() {
         super(DModConsts.M_JOB);
         maChildReqments = new ArrayList<>();
         maChildConsumps = new ArrayList<>();
         maChildMfgProds = new ArrayList<>();
+        maChildVariables = new ArrayList<>();
         initRegistry();
     }
 
@@ -162,6 +164,7 @@ public class DDbJob extends DDbRegistryUser {
     public ArrayList<DDbJobReqment> getChildReqemnts() { return maChildReqments; }
     public ArrayList<DDbJobConsump> getChildConsumps() { return maChildConsumps; }
     public ArrayList<DDbJobMfgProd> getChildMfgProds() { return maChildMfgProds; }
+    public ArrayList<DDbJobVariable> getChildVariables() { return maChildVariables; }
 
     @Override
     public void setPrimaryKey(int[] pk) {
@@ -215,6 +218,7 @@ public class DDbJob extends DDbRegistryUser {
         maChildReqments.clear();
         maChildConsumps.clear();
         maChildMfgProds.clear();
+        maChildVariables.clear();
     }
 
     @Override
@@ -326,6 +330,15 @@ public class DDbJob extends DDbRegistryUser {
                 maChildMfgProds.add(child);
             }
 
+            msSql = "SELECT id_var FROM " + DModConsts.TablesMap.get(DModConsts.M_JOB_VAR) + " " + getSqlWhere() +
+                    "ORDER BY id_var ";
+            resultSet = statement.executeQuery(msSql);
+            while (resultSet.next()) {
+                DDbJobVariable child = new DDbJobVariable();
+                child.read(session, new int[] { mnPkJobId, resultSet.getInt(1) });
+                maChildVariables.add(child);
+            }
+
             // Finish registry reading:
             
             mbRegistryNew = false;
@@ -433,6 +446,9 @@ public class DDbJob extends DDbRegistryUser {
         msSql = "DELETE FROM " + DModConsts.TablesMap.get(DModConsts.M_JOB_MFG) + " " + getSqlWhere();
         session.getStatement().execute(msSql);
 
+        msSql = "DELETE FROM " + DModConsts.TablesMap.get(DModConsts.M_JOB_VAR) + " " + getSqlWhere();
+        session.getStatement().execute(msSql);
+
         for (DDbJobReqment child : maChildReqments) {
             child.setPkJobId(mnPkJobId);
             child.setRegistryNew(true);
@@ -447,6 +463,12 @@ public class DDbJob extends DDbRegistryUser {
         }
 
         for (DDbJobMfgProd child : maChildMfgProds) {
+            child.setPkJobId(mnPkJobId);
+            child.setRegistryNew(true);
+            child.save(session);
+        }
+
+        for (DDbJobVariable child : maChildVariables) {
             child.setPkJobId(mnPkJobId);
             child.setRegistryNew(true);
             child.save(session);
@@ -508,6 +530,10 @@ public class DDbJob extends DDbRegistryUser {
 
         for (DDbJobMfgProd child : maChildMfgProds) {
             registry.getChildMfgProds().add(child.clone());
+        }
+
+        for (DDbJobVariable child : maChildVariables) {
+            registry.getChildVariables().add(child.clone());
         }
 
         registry.setRegistryNew(this.isRegistryNew());
