@@ -47,7 +47,7 @@ public class DDbTestApp extends DDbRegistryUser {
     protected DDbTest moAuxTest;
     
     public DDbTestApp() {
-        super(DModConsts.Q_APP_RES);
+        super(DModConsts.Q_APP);
         maChildAppResults = new ArrayList<>();
         initRegistry();
     }

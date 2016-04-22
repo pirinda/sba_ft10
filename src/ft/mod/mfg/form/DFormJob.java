@@ -1683,15 +1683,15 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
             //consump.setPkJobId(...);
             //consump.setPkConsumpId(...);
             consump.setQuantity(moCompConsumpQuantity.getField().getValue());
-            //consump.setMassUnit(...);
-            //consump.setMass_r(...);
+            //consump.setMassUnit(...); // set on compute
+            //consump.setMass_r(...); // set on compute
             consump.setLot(moTextConsumpLot.getValue());
             consump.setRework(moBoolConsumpRework.getValue());
             consump.setFkReqmentJobId(reqment.getPkJobId());
             consump.setFkReqmentReqmentId(reqment.getPkReqmentId());
             consump.setFkItemId(moItemConsump.getPkItemId());
-            //consump.setFkItemTypeId(...);
-            //consump.setFkUnitId(...);
+            //consump.setFkItemTypeId(...); // set on compute
+            //consump.setFkUnitId(...); // set on compute
             
             consump.compute(miClient.getSession());
             
@@ -1735,12 +1735,12 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
             //mfgProd.setPkJobId(...);
             //mfgProd.setPkMfgProdId(...);
             mfgProd.setQuantity(moCompMfgProdQuantity.getField().getValue());
-            //mfgProd.setMassUnit(...);
-            //mfgProd.setMass_r(...);
+            //mfgProd.setMassUnit(...); // set on compute
+            //mfgProd.setMass_r(...); // set on compute
             mfgProd.setFkItemId(moKeyMfgProdItem.getValue()[0]);
-            //mfgProd.setFkItemTypeId(...);
-            //mfgProd.setFkUnitId(...);
-            //mfgProd.setFkPresentId(...);
+            //mfgProd.setFkItemTypeId(...); // set on compute
+            //mfgProd.setFkUnitId(...); // set on compute
+            //mfgProd.setFkPresentId(...); // set on compute
     
             mfgProd.compute(miClient.getSession());
             
@@ -1780,10 +1780,12 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
             //app.setDeleted(...);
             //app.setSystem(...);
             app.setFkTestId(moTest.getPkTestId());
-            app.setFkTestTypeId(moTest.getFkTestTypeId());
-            //app.setFkItemId(...);
-            //app.setFkItemTypeId(...);
-            //app.setFkJobId_n(...);
+            //app.setFkTestTypeId(moTest.getFkTestTypeId()); // set on compute
+            app.setFkItemId(...);
+            //app.setFkItemTypeId(...); // set on compute
+            //app.setFkJobId_n(...); // set on save
+            
+            app.compute(miClient.getSession());
             
             app.setAuxTest(moTest);
             
