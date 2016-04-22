@@ -21,16 +21,26 @@ public class DDbTestVariable extends DDbRegistryUser {
     protected int mnPkTestId;
     protected int mnPkVariableId;
     
+    protected DDbVariable moRegVariable;
+
     public DDbTestVariable() {
         super(DModConsts.QU_TST_VAR);
         initRegistry();
     }
 
+    private void readRegMembers(final DGuiSession session, final boolean update) {
+        moRegVariable = (DDbVariable) session.readRegistry(DModConsts.QU_VAR, new int[] { mnPkVariableId });
+    }
+    
     public void setPkTestId(int n) { mnPkTestId = n; }
     public void setPkVariableId(int n) { mnPkVariableId = n; }
 
     public int getPkTestId() { return mnPkTestId; }
     public int getPkVariableId() { return mnPkVariableId; }
+
+    public void setRegVariable(DDbVariable o) { moRegVariable = o; }
+    
+    public DDbVariable getRegVariable() { return moRegVariable; }
 
     @Override
     public void setPrimaryKey(int[] pk) {
@@ -49,6 +59,8 @@ public class DDbTestVariable extends DDbRegistryUser {
 
         mnPkTestId = 0;
         mnPkVariableId = 0;
+        
+        moRegVariable = null;
     }
 
     @Override
@@ -90,6 +102,8 @@ public class DDbTestVariable extends DDbRegistryUser {
             mnPkTestId = resultSet.getInt("id_tst");
             mnPkVariableId = resultSet.getInt("id_var");
 
+            readRegMembers(session, false);
+
             mbRegistryNew = false;
         }
 
@@ -101,6 +115,7 @@ public class DDbTestVariable extends DDbRegistryUser {
         initQueryMembers();
         mnQueryResultId = DDbConsts.SAVE_ERROR;
         
+        compute(session);
         verifyRegistryNew(session);
 
         if (mbRegistryNew) {
@@ -125,7 +140,13 @@ public class DDbTestVariable extends DDbRegistryUser {
         registry.setPkTestId(this.getPkTestId());
         registry.setPkVariableId(this.getPkVariableId());
 
+        registry.setRegVariable(this.getRegVariable() == null ? null : this.getRegVariable().clone());
+        
         registry.setRegistryNew(this.isRegistryNew());
         return registry;
+    }
+    
+    public void compute(final DGuiSession session) {
+        readRegMembers(session, true);
     }
 }

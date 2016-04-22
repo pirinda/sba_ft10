@@ -13,6 +13,7 @@ import ft.mod.cfg.db.DDbItem;
 import ft.mod.cfg.db.DDbYear;
 import java.sql.ResultSet;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -133,5 +134,25 @@ public abstract class DMfgUtils {
         }
         
         return lot;
+    }
+    
+    public static ArrayList<DDbVariable> readVariables(final DGuiSession session, final int idFamily) throws Exception {
+        String sql = "";
+        ResultSet resultSet = null;
+        ArrayList<DDbVariable> variables = new ArrayList<>();
+        
+        sql = "SELECT v.name, v.code, v.id_var "
+                + "FROM " + DModConsts.TablesMap.get(DModConsts.MU_VAR_FAM) + " AS vf "
+                + "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.MU_VAR) + " AS V ON vf.id_var = v.id_var "
+                + "WHERE vf.id_fam = " + idFamily + " AND v.b_del = 0 "
+                + "ORDER BY v.name, v.code, v.id_var ";
+        resultSet = session.getStatement().executeQuery(sql);
+        while (resultSet.next()) {
+            DDbVariable variable = new DDbVariable();
+            variable.read(session, new int[] { resultSet.getInt("v.id_var") });
+            variables.add(variable);
+        }
+        
+        return variables;
     }
 }

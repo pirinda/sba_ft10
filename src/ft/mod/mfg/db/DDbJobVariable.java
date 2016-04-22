@@ -129,6 +129,8 @@ public class DDbJobVariable extends DDbRegistryUser implements DGridRow, DGridCe
         initQueryMembers();
         mnQueryResultId = DDbConsts.SAVE_ERROR;
 
+        compute(session);
+
         if (mbRegistryNew) {
             computePrimaryKey(session);
             msSql = "INSERT INTO " + getSqlTable() + " VALUES (" +
@@ -232,5 +234,9 @@ public class DDbJobVariable extends DDbRegistryUser implements DGridRow, DGridCe
     @Override
     public int getDecimals() {
         return moRegVariable.getDecimals();
+    }
+    
+    public void compute(final DGuiSession session) {
+        readRegMembers(session, true);
     }
 }

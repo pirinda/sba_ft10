@@ -36,6 +36,9 @@ public class DDbTest extends DDbRegistryUser {
     protected Date mtTsUserInsert;
     protected Date mtTsUserUpdate;
     */
+    
+    protected int mnAuxResults;
+    protected int mnAuxResultsApps;
 
     protected ArrayList<DDbTestVariable> maChildVariables;
     protected ArrayList<DDbTestFamily> maChildFamilies;
@@ -72,6 +75,12 @@ public class DDbTest extends DDbRegistryUser {
     public ArrayList<DDbTestVariable> getChildVariables() { return maChildVariables; }
     public ArrayList<DDbTestFamily> getChildFamilies() { return maChildFamilies; }
     
+    public void setAuxResults(int n) { mnAuxResults = n; }
+    public void setAuxResultsApps(int n) { mnAuxResultsApps = n; }
+
+    public int getAuxResults() { return mnAuxResults; }
+    public int getAuxResultsApps() { return mnAuxResultsApps; }
+
     public boolean isUtilVariableSelected(final int idVariable) {
         boolean checked = false;
         
@@ -135,6 +144,9 @@ public class DDbTest extends DDbRegistryUser {
         mnFkUserUpdateId = 0;
         mtTsUserInsert = null;
         mtTsUserUpdate = null;
+        
+        mnAuxResults = 0;
+        mnAuxResultsApps = 0;
         
         maChildVariables.clear();
         maChildFamilies.clear();
@@ -312,6 +324,9 @@ public class DDbTest extends DDbRegistryUser {
         registry.setFkUserUpdateId(this.getFkUserUpdateId());
         registry.setTsUserInsert(this.getTsUserInsert());
         registry.setTsUserUpdate(this.getTsUserUpdate());
+        
+        registry.setAuxResults(this.getAuxResults());
+        registry.setAuxResultsApps(this.getAuxResultsApps());
 
         for (DDbTestVariable child : maChildVariables) {
             registry.getChildVariables().add(child.clone());

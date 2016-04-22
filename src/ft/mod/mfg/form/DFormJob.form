@@ -1019,59 +1019,93 @@
                     <Property name="verticalGap" type="int" value="5"/>
                   </Layout>
                   <SubComponents>
-                    <Container class="javax.swing.JPanel" name="jPanel34">
+                    <Container class="javax.swing.JPanel" name="jPanel2">
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
                           <BorderConstraints direction="North"/>
                         </Constraint>
                       </Constraints>
 
-                      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout">
-                        <Property name="alignment" type="int" value="0"/>
-                        <Property name="verticalGap" type="int" value="0"/>
+                      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridLayout">
+                        <Property name="columns" type="int" value="1"/>
+                        <Property name="rows" type="int" value="2"/>
+                        <Property name="verticalGap" type="int" value="5"/>
                       </Layout>
                       <SubComponents>
-                        <Component class="javax.swing.JLabel" name="jlTestApp">
-                          <Properties>
-                            <Property name="text" type="java.lang.String" value="Fecha:*"/>
-                            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                              <Dimension value="[75, 23]"/>
-                            </Property>
-                          </Properties>
-                        </Component>
-                        <Component class="sba.lib.gui.bean.DBeanFieldDate" name="dBeanFieldDate1">
-                        </Component>
-                        <Component class="javax.swing.JTextField" name="jtfTestAppResults1">
-                          <Properties>
-                            <Property name="editable" type="boolean" value="false"/>
-                            <Property name="focusable" type="boolean" value="false"/>
-                            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                              <Dimension value="[75, 23]"/>
-                            </Property>
-                          </Properties>
-                        </Component>
-                        <Component class="javax.swing.JButton" name="jbTestAppAdd">
-                          <Properties>
-                            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                              <Image iconType="3" name="/sba/lib/img/cmd_std_add.gif"/>
-                            </Property>
-                            <Property name="toolTipText" type="java.lang.String" value="Agregar"/>
-                            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                              <Dimension value="[23, 23]"/>
-                            </Property>
-                          </Properties>
-                        </Component>
-                        <Component class="javax.swing.JButton" name="jbTestAppClear">
-                          <Properties>
-                            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                              <Image iconType="3" name="/sba/lib/img/cmd_std_clear.gif"/>
-                            </Property>
-                            <Property name="toolTipText" type="java.lang.String" value="Limpiar"/>
-                            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                              <Dimension value="[23, 23]"/>
-                            </Property>
-                          </Properties>
-                        </Component>
+                        <Container class="javax.swing.JPanel" name="jPanel3">
+
+                          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout">
+                            <Property name="alignment" type="int" value="0"/>
+                            <Property name="verticalGap" type="int" value="0"/>
+                          </Layout>
+                          <SubComponents>
+                            <Component class="javax.swing.JLabel" name="jlTest">
+                              <Properties>
+                                <Property name="text" type="java.lang.String" value="Test:*"/>
+                                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                                  <Dimension value="[75, 23]"/>
+                                </Property>
+                              </Properties>
+                            </Component>
+                            <Component class="sba.lib.gui.bean.DBeanFieldKey" name="moKeyTest">
+                              <Properties>
+                                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                                  <Dimension value="[200, 23]"/>
+                                </Property>
+                              </Properties>
+                            </Component>
+                          </SubComponents>
+                        </Container>
+                        <Container class="javax.swing.JPanel" name="jPanel34">
+
+                          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout">
+                            <Property name="alignment" type="int" value="0"/>
+                            <Property name="verticalGap" type="int" value="0"/>
+                          </Layout>
+                          <SubComponents>
+                            <Component class="javax.swing.JLabel" name="jlTestAppDate">
+                              <Properties>
+                                <Property name="text" type="java.lang.String" value="Fecha:*"/>
+                                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                                  <Dimension value="[75, 23]"/>
+                                </Property>
+                              </Properties>
+                            </Component>
+                            <Component class="sba.lib.gui.bean.DBeanFieldDate" name="moDateTestAppDate">
+                            </Component>
+                            <Component class="javax.swing.JTextField" name="jtfTestApp">
+                              <Properties>
+                                <Property name="editable" type="boolean" value="false"/>
+                                <Property name="focusable" type="boolean" value="false"/>
+                                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                                  <Dimension value="[75, 23]"/>
+                                </Property>
+                              </Properties>
+                            </Component>
+                            <Component class="javax.swing.JButton" name="jbTestAppAdd">
+                              <Properties>
+                                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                                  <Image iconType="3" name="/sba/lib/img/cmd_std_add.gif"/>
+                                </Property>
+                                <Property name="toolTipText" type="java.lang.String" value="Agregar"/>
+                                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                                  <Dimension value="[23, 23]"/>
+                                </Property>
+                              </Properties>
+                            </Component>
+                            <Component class="javax.swing.JButton" name="jbTestAppClear">
+                              <Properties>
+                                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                                  <Image iconType="3" name="/sba/lib/img/cmd_std_clear.gif"/>
+                                </Property>
+                                <Property name="toolTipText" type="java.lang.String" value="Limpiar"/>
+                                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                                  <Dimension value="[23, 23]"/>
+                                </Property>
+                              </Properties>
+                            </Component>
+                          </SubComponents>
+                        </Container>
                       </SubComponents>
                     </Container>
                   </SubComponents>

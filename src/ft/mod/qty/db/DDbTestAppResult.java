@@ -11,13 +11,14 @@ import java.sql.SQLException;
 import sba.lib.db.DDbConsts;
 import sba.lib.db.DDbRegistryUser;
 import sba.lib.grid.DGridRow;
+import sba.lib.grid.cell.DGridCellNumber;
 import sba.lib.gui.DGuiSession;
 
 /**
  *
  * @author Sergio Flores
  */
-public class DDbTestAppResult extends DDbRegistryUser implements DGridRow {
+public class DDbTestAppResult extends DDbRegistryUser implements DGridRow, DGridCellNumber {
 
     protected int mnPkAppId;
     protected int mnPkVariableId;
@@ -134,6 +135,8 @@ public class DDbTestAppResult extends DDbRegistryUser implements DGridRow {
         initQueryMembers();
         mnQueryResultId = DDbConsts.SAVE_ERROR;
 
+        compute(session);
+
         if (mbRegistryNew) {
             computePrimaryKey(session);
             msSql = "INSERT INTO " + getSqlTable() + " VALUES (" +
@@ -161,7 +164,7 @@ public class DDbTestAppResult extends DDbRegistryUser implements DGridRow {
         registry.setPkResultId(this.getPkResultId());
         registry.setValue(this.getValue());
         
-        registry.setRegVariable(this.getRegVariable()== null ? null : this.getRegVariable().clone());
+        registry.setRegVariable(this.getRegVariable() == null ? null : this.getRegVariable().clone());
         
         registry.setRegistryNew(this.isRegistryNew());
         return registry;
@@ -238,5 +241,14 @@ public class DDbTestAppResult extends DDbRegistryUser implements DGridRow {
                 break;
             default:
         }
+    }
+
+    @Override
+    public int getDecimals() {
+        return moRegVariable.getDecimals();
+    }
+    
+    public void compute(final DGuiSession session) {
+        readRegMembers(session, true);
     }
 }

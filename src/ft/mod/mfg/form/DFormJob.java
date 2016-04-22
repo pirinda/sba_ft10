@@ -15,7 +15,13 @@ import ft.mod.mfg.db.DDbJob;
 import ft.mod.mfg.db.DDbJobConsump;
 import ft.mod.mfg.db.DDbJobMfgProd;
 import ft.mod.mfg.db.DDbJobReqment;
+import ft.mod.mfg.db.DDbJobVariable;
+import ft.mod.mfg.db.DDbVariable;
 import ft.mod.mfg.db.DMfgUtils;
+import ft.mod.qty.db.DDbTest;
+import ft.mod.qty.db.DDbTestApp;
+import ft.mod.qty.db.DDbTestAppResult;
+import ft.mod.qty.db.DDbTestVariable;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -64,13 +70,16 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
     private DDbFormula moFormula;
     private DDbItem moItemConsump;
     private DDbItem moItemMfgProd;
+    private DDbTest moTest;
     private int mnJobStatus;
     private String msCompTypeNameItm;
     private String msCompTypeNameFam;
     private HashMap<Integer, String> moMapStatus;
     private ArrayList<DDbJobConsump> maConsumps;
+    private ArrayList<DDbTestApp> maTestApps;
     private DGuiFields moFieldsConsump;
     private DGuiFields moFieldsMfgProd;
+    private DGuiFields moFieldsTestApp;
     private DGridPaneForm moGridReqments;
     private DGridPaneForm moGridConsumps;
     private DGridPaneForm moGridMfgProds;
@@ -213,10 +222,14 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         jPanel36 = new javax.swing.JPanel();
         jbVariablesClear = new javax.swing.JButton();
         jpTestApps = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        jlTest = new javax.swing.JLabel();
+        moKeyTest = new sba.lib.gui.bean.DBeanFieldKey();
         jPanel34 = new javax.swing.JPanel();
-        jlTestApp = new javax.swing.JLabel();
-        dBeanFieldDate1 = new sba.lib.gui.bean.DBeanFieldDate();
-        jtfTestAppResults1 = new javax.swing.JTextField();
+        jlTestAppDate = new javax.swing.JLabel();
+        moDateTestAppDate = new sba.lib.gui.bean.DBeanFieldDate();
+        jtfTestApp = new javax.swing.JTextField();
         jbTestAppAdd = new javax.swing.JButton();
         jbTestAppClear = new javax.swing.JButton();
         jpTestAppsResults = new javax.swing.JPanel();
@@ -659,17 +672,30 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         jpTestApps.setBorder(javax.swing.BorderFactory.createTitledBorder("Tests de calidad:"));
         jpTestApps.setLayout(new java.awt.BorderLayout(0, 5));
 
+        jPanel2.setLayout(new java.awt.GridLayout(2, 1, 0, 5));
+
+        jPanel3.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
+
+        jlTest.setText("Test:*");
+        jlTest.setPreferredSize(new java.awt.Dimension(75, 23));
+        jPanel3.add(jlTest);
+
+        moKeyTest.setPreferredSize(new java.awt.Dimension(200, 23));
+        jPanel3.add(moKeyTest);
+
+        jPanel2.add(jPanel3);
+
         jPanel34.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
-        jlTestApp.setText("Fecha:*");
-        jlTestApp.setPreferredSize(new java.awt.Dimension(75, 23));
-        jPanel34.add(jlTestApp);
-        jPanel34.add(dBeanFieldDate1);
+        jlTestAppDate.setText("Fecha:*");
+        jlTestAppDate.setPreferredSize(new java.awt.Dimension(75, 23));
+        jPanel34.add(jlTestAppDate);
+        jPanel34.add(moDateTestAppDate);
 
-        jtfTestAppResults1.setEditable(false);
-        jtfTestAppResults1.setFocusable(false);
-        jtfTestAppResults1.setPreferredSize(new java.awt.Dimension(75, 23));
-        jPanel34.add(jtfTestAppResults1);
+        jtfTestApp.setEditable(false);
+        jtfTestApp.setFocusable(false);
+        jtfTestApp.setPreferredSize(new java.awt.Dimension(75, 23));
+        jPanel34.add(jtfTestApp);
 
         jbTestAppAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sba/lib/img/cmd_std_add.gif"))); // NOI18N
         jbTestAppAdd.setToolTipText("Agregar");
@@ -681,7 +707,9 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         jbTestAppClear.setPreferredSize(new java.awt.Dimension(23, 23));
         jPanel34.add(jbTestAppClear);
 
-        jpTestApps.add(jPanel34, java.awt.BorderLayout.NORTH);
+        jPanel2.add(jPanel34);
+
+        jpTestApps.add(jPanel2, java.awt.BorderLayout.NORTH);
 
         jpQty.add(jpTestApps);
 
@@ -717,7 +745,6 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private sba.lib.gui.bean.DBeanFieldDate dBeanFieldDate1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
@@ -730,6 +757,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
     private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel18;
     private javax.swing.JPanel jPanel19;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel20;
     private javax.swing.JPanel jPanel21;
     private javax.swing.JPanel jPanel22;
@@ -740,6 +768,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
     private javax.swing.JPanel jPanel27;
     private javax.swing.JPanel jPanel28;
     private javax.swing.JPanel jPanel29;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel30;
     private javax.swing.JPanel jPanel31;
     private javax.swing.JPanel jPanel32;
@@ -792,7 +821,8 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
     private javax.swing.JLabel jlMfgProdItem;
     private javax.swing.JLabel jlMfgProdItemType;
     private javax.swing.JLabel jlMfgProdQuantity;
-    private javax.swing.JLabel jlTestApp;
+    private javax.swing.JLabel jlTest;
+    private javax.swing.JLabel jlTestAppDate;
     private javax.swing.JLabel jlTestAppResults;
     private javax.swing.JPanel jpConsump;
     private javax.swing.JPanel jpConsumpData;
@@ -812,8 +842,8 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
     private javax.swing.JTextField jtfJobNumber;
     private javax.swing.JTextField jtfJobSeries;
     private javax.swing.JTextField jtfJobStatus;
+    private javax.swing.JTextField jtfTestApp;
     private javax.swing.JTextField jtfTestAppResults;
-    private javax.swing.JTextField jtfTestAppResults1;
     private javax.swing.JTabbedPane jtpJob;
     private sba.lib.gui.bean.DBeanFieldBoolean moBoolConsumpRework;
     private sba.lib.gui.bean.DBeanCompoundField moCompConsumpMass;
@@ -828,6 +858,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
     private sba.lib.gui.bean.DBeanCompoundField moCompMfgProdMass;
     private sba.lib.gui.bean.DBeanCompoundField moCompMfgProdQuantity;
     private sba.lib.gui.bean.DBeanFieldDate moDateJobDate;
+    private sba.lib.gui.bean.DBeanFieldDate moDateTestAppDate;
     private sba.lib.gui.bean.DBeanFieldDecimal moDecJobLoads;
     private sba.lib.gui.bean.DBeanFieldDecimal moDecJobPackingFactor;
     private sba.lib.gui.bean.DBeanFieldKey moKeyConsumpItem;
@@ -840,6 +871,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
     private sba.lib.gui.bean.DBeanFieldKey moKeyJobLine;
     private sba.lib.gui.bean.DBeanFieldKey moKeyMfgProdItem;
     private sba.lib.gui.bean.DBeanFieldKey moKeyMfgProdItemType;
+    private sba.lib.gui.bean.DBeanFieldKey moKeyTest;
     private sba.lib.gui.bean.DBeanFieldText moTextConsumpLot;
     private sba.lib.gui.bean.DBeanFieldText moTextJobLot;
     private sba.lib.gui.bean.DBeanFieldDatetime moTimeJobTimeEnd;
@@ -948,6 +980,15 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         
         moFieldsMfgProd.setFormButton(jbMfgProdAdd);
         
+        moKeyTest.setKeySettings(miClient, DGuiUtils.getLabelName(jlTest), true);
+        moDateTestAppDate.setDateSettings(miClient, DGuiUtils.getLabelName(jlTestAppDate), true);
+        
+        moFieldsTestApp = new DGuiFields();
+        moFieldsTestApp.addField(moKeyTest);
+        moFieldsTestApp.addField(moDateTestAppDate);
+        
+        moFieldsTestApp.setFormButton(jbTestAppAdd);
+        
         moCompJobFormulaQuantity.setEditable(false);
         moCompJobFormulaMass.setEditable(false);
         moCompJobJobQuantity.setEditable(false);
@@ -973,6 +1014,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         moMapStatus.put(DModSysConsts.MS_JOB_ST_FIN, (String) miClient.getSession().readField(DModConsts.MS_JOB_ST, new int[] { DModSysConsts.MS_JOB_ST_FIN }, DDbRegistry.FIELD_NAME));
         
         maConsumps = new ArrayList<>();
+        maTestApps = new ArrayList<>();
         
         moGridReqments = new DGridPaneForm(miClient, mnFormType, DModConsts.M_JOB_REQ, msTitle) {
             
@@ -1168,7 +1210,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         computeJobQuantity();
     }
     
-    private void renderConsumpItem() {
+    private void renderItemConsump() {
         if (moItemConsump == null) {
             moCompConsumpQuantity.setCompoundText("");
         }
@@ -1177,13 +1219,41 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         }
     }
     
-    private void renderMfgProdItem() {
+    private void renderItemMfgProd() {
         if (moItemMfgProd == null) {
             moCompMfgProdQuantity.setCompoundText("");
         }
         else {
             moCompMfgProdQuantity.setCompoundText(moItemMfgProd.getRegUnit().getCode());
         }
+    }
+    
+    private void renderTest() {
+        Vector<DGridRow> rows = new Vector<>();
+        
+        if (moTest == null) {
+            jtfTestApp.setText("");
+            moDateTestAppDate.resetField();
+        }
+        else {
+            jtfTestApp.setText("" + moTest.getAuxResultsApps() + "/" + moTest.getAuxResults());
+            moDateTestAppDate.setValue(miClient.getSession().getWorkingDate());
+            
+            for (DDbTestVariable testVariable : moTest.getChildVariables()) {
+                DDbTestAppResult testAppResult = new DDbTestAppResult();
+                
+                //result.setPkAppId(...);
+                testAppResult.setPkVariableId(testVariable.getPkVariableId());
+                //result.setPkResultId(...);
+                //result.setValue(...);
+                
+                testAppResult.setRegVariable(testVariable.getRegVariable());
+                
+                rows.add(testAppResult);
+            }
+        }
+        
+        moGridTestApps.populateGrid(rows);
     }
     
     private void createGridReqmentItems() throws Exception {
@@ -1200,14 +1270,23 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         }
     }
     
-    private void createGridVariableItems() {
+    private void createGridVariableItems() throws Exception {
         Vector<DGridRow> rows = new Vector<>();
+        ArrayList<DDbVariable> variables = DMfgUtils.readVariables(miClient.getSession(), moFormula.getRegItem().getPkItemId());
         
         moGridVariables.clearGridRows();
         
-        if (moFormula != null) {
-            for (DDbFormulaComp comp : moFormula.getChildComps()) {
-                rows.add(comp.createJobReqment(moDecJobLoads.getValue()));
+        if (!variables.isEmpty()) {
+            for (DDbVariable variable : variables) {
+                DDbJobVariable jobVariable = new DDbJobVariable();
+                
+                //jobVariable.setPkJobId(...);
+                jobVariable.setPkVariableId(variable.getPkVariableId());
+                //jobVariable.setValue(...);
+                
+                jobVariable.setRegVariable(variable);
+                
+                rows.add(jobVariable);
             }
             
             moGridVariables.populateGrid(rows, this);
@@ -1227,6 +1306,8 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         moKeyMfgProdItem.resetField();
         moCompMfgProdQuantity.getField().resetField();
         moCompMfgProdMass.getField().resetField();
+        
+        moKeyTest.removeAllItems();
         
         jtfJobStatus.setText(moMapStatus.get(mnJobStatus));
         jtfJobStatus.setCaretPosition(0);
@@ -1264,6 +1345,14 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
                 jbMfgProdAdd.setEnabled(false);
                 jbMfgProdClear.setEnabled(false);
                 
+                moKeyTest.setEnabled(false);
+                moDateTestAppDate.setEnabled(false);
+                
+                jbVariablesClear.setEnabled(false);
+                jbTestAppAdd.setEnabled(false);
+                jbTestAppClear.setEnabled(false);
+                jbTestAppResultsDelete.setEnabled(false);
+                
                 jbJobGoStatusNext.setEnabled(true);
                 jbJobGoStatusPrev.setEnabled(false);
                 break;
@@ -1300,6 +1389,14 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
                 jbMfgProdAdd.setEnabled(true);
                 jbMfgProdClear.setEnabled(true);
                 
+                moKeyTest.setEnabled(true);
+                moDateTestAppDate.setEnabled(true);
+                
+                jbVariablesClear.setEnabled(true);
+                jbTestAppAdd.setEnabled(true);
+                jbTestAppClear.setEnabled(true);
+                jbTestAppResultsDelete.setEnabled(true);
+                
                 jbJobGoStatusNext.setEnabled(true);
                 jbJobGoStatusPrev.setEnabled(true);
                 break;
@@ -1335,6 +1432,14 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
                 jbMfgProdNew.setEnabled(false);
                 jbMfgProdAdd.setEnabled(false);
                 jbMfgProdClear.setEnabled(false);
+                
+                moKeyTest.setEnabled(false);
+                moDateTestAppDate.setEnabled(false);
+                
+                jbVariablesClear.setEnabled(false);
+                jbTestAppAdd.setEnabled(false);
+                jbTestAppClear.setEnabled(false);
+                jbTestAppResultsDelete.setEnabled(false);
                 
                 jbJobGoStatusNext.setEnabled(false);
                 jbJobGoStatusPrev.setEnabled(true);
@@ -1452,8 +1557,9 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
 
             if (mnJobStatus == DModSysConsts.MS_JOB_ST_PRC) {
                 try {
-                    createGridReqmentItems();
                     computeJobLot();
+                    createGridReqmentItems();
+                    createGridVariableItems();
                 }
                 catch (Exception e) {
                     DLibUtils.showException(this, e);
@@ -1577,15 +1683,67 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
     }
     
     private void actionPerformedVariablesClear() {
+        int index = moGridVariables.getTable().getSelectedRow();
         
+        for (DGridRow row : moGridVariables.getModel().getGridRows()) {
+            ((DDbJobVariable) row).setValue(0);
+        }
+        
+        moGridVariables.renderGridRows();
+        moGridVariables.setSelectedGridRow(index);
     }
     
     private void actionPerformedTestAppAdd() {
+        DGuiValidation validation = moFieldsTestApp.validateFields();
         
+        if (!validation.isValid()) {
+            DGuiUtils.computeValidation(miClient, validation);
+        }
+        else {
+            DDbTestApp app = new DDbTestApp();
+            
+            //testApp.setPkAppId(...);
+            app.setDate(moDateTestAppDate.getValue());
+            //testApp.setDeleted(...);
+            //testApp.setSystem(...);
+            app.setFkTestId(moTest.getPkTestId());
+            app.setFkTestTypeId(moTest.getFkTestTypeId());
+            //testApp.setFkItemId(...);
+            //testApp.setFkItemTypeId(...);
+            //testApp.setFkJobId_n(...);
+            
+            moTest.setAuxResultsApps(moTest.getAuxResultsApps() + 1);
+            
+            for (DGridRow row : moGridTestApps.getModel().getGridRows()) {
+                DDbTestAppResult appResult = (DDbTestAppResult) row;
+                DDbTestAppResult appResultNew = new DDbTestAppResult();
+                
+                //appResult.setPkAppId(...);
+                appResultNew.setPkVariableId(appResult.getPkVariableId());
+                appResultNew.setPkResultId(moTest.getAuxResultsApps());
+                appResultNew.setValue(appResult.getValue());
+                
+                appResultNew.setRegVariable(appResult.getRegVariable());
+                
+                app.getChildAppResults().add(appResultNew);
+                moGridTestAppsResults.addGridRow(appResultNew);
+            }
+            
+            maTestApps.add(app);
+            moGridTestAppsResults.renderGridRows();
+            moGridTestAppsResults.setSelectedGridRow(moGridTestAppsResults.getTable().getRowCount() - 1);
+        }
     }
     
     private void actionPerformedTestAppClear() {
+        int index = moGridTestApps.getTable().getSelectedRow();
         
+        for (DGridRow row : moGridTestApps.getModel().getGridRows()) {
+            ((DDbTestAppResult) row).setValue(0);
+        }
+        
+        moGridTestApps.renderGridRows();
+        moGridTestApps.setSelectedGridRow(index);
     }
     
     private void actionPerformedTestAppResultsDelete() {
@@ -1611,7 +1769,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
             moItemConsump = (DDbItem) miClient.getSession().readRegistry(DModConsts.CU_ITM, moKeyConsumpItem.getValue());
         }
         
-        renderConsumpItem();
+        renderItemConsump();
     }
     
     private void itemStateChangedMfgProdItem() {
@@ -1622,7 +1780,18 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
             moItemMfgProd = (DDbItem) miClient.getSession().readRegistry(DModConsts.CU_ITM, moKeyMfgProdItem.getValue());
         }
         
-        renderMfgProdItem();
+        renderItemMfgProd();
+    }
+    
+    private void itemStateChangedTest() {
+        if (moKeyTest.getSelectedIndex() <= 0) {
+            moTest = null;
+        }
+        else {
+            moTest = (DDbTest) moKeyTest.getSelectedItem().getComplement();
+        }
+        
+        renderTest();
     }
     
     private void focusLostJobLoads() {
@@ -1758,6 +1927,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         moKeyJobFormula.addItemListener(this);
         moKeyConsumpItem.addItemListener(this);
         moKeyMfgProdItem.addItemListener(this);
+        moKeyTest.addItemListener(this);
         moDecJobLoads.addFocusListener(this);
         moCompConsumpQuantity.getField().getComponent().addFocusListener(this);
         moCompMfgProdQuantity.getField().getComponent().addFocusListener(this);
@@ -1781,6 +1951,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         moKeyJobFormula.removeItemListener(this);
         moKeyConsumpItem.removeItemListener(this);
         moKeyMfgProdItem.removeItemListener(this);
+        moKeyTest.removeItemListener(this);
         moDecJobLoads.removeFocusListener(this);
         moCompConsumpQuantity.getField().getComponent().removeFocusListener(this);
         moCompMfgProdQuantity.getField().getComponent().removeFocusListener(this);
@@ -1855,8 +2026,8 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         computeJobConsumps();
         computeJobMfgProds();
         
-        renderConsumpItem();
-        renderMfgProdItem();
+        renderItemConsump();
+        renderItemMfgProd();
         valueChangedReqments();
         
         setFormEditable(true);
@@ -2036,6 +2207,9 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
                 }
                 else if (field == moKeyMfgProdItem) {
                     itemStateChangedMfgProdItem();
+                }
+                else if (field == moKeyTest) {
+                    itemStateChangedTest();
                 }
             }
         }
