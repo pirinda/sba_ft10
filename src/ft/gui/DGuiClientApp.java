@@ -67,7 +67,7 @@ import sba.lib.xml.DXmlUtils;
 public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener  {
 
     public static final String APP_NAME = "FoodTrace 1.0";
-    public static final String APP_RELEASE = "FoodTrace 1.0 005.01";
+    public static final String APP_RELEASE = "FoodTrace 1.0 007.01";
     public static final String APP_COPYRIGHT = "Copyright © FoodTrace Co.";
     public static final String APP_PROVIDER = "http://www.foodtrace.com";
     

@@ -180,17 +180,20 @@ public class DModModuleMfg extends DGuiModule {
                 break;
             case DModConsts.MU_DPT:
                 settings = new DGuiCatalogueSettings("Depto. producción", 1);
-                sql = "SELECT id_dpt AS " + DDbConsts.FIELD_ID + "1, name AS " + DDbConsts.FIELD_ITEM + " " +
+                settings.setCodeApplying(true);
+                sql = "SELECT id_dpt AS " + DDbConsts.FIELD_ID + "1, name AS " + DDbConsts.FIELD_ITEM + ", code AS " + DDbConsts.FIELD_CODE + " " +
                         "FROM " + DModConsts.TablesMap.get(type) + " WHERE b_del = 0 ORDER BY name, id_dpt ";
                 break;
             case DModConsts.MU_LIN:
                 settings = new DGuiCatalogueSettings("Línea producción", 1, 1);
-                sql = "SELECT id_lin AS " + DDbConsts.FIELD_ID + "1, name AS " + DDbConsts.FIELD_ITEM + ", fk_dpt AS " + DDbConsts.FIELD_FK + "1 " +
+                settings.setCodeApplying(true);
+                sql = "SELECT id_lin AS " + DDbConsts.FIELD_ID + "1, name AS " + DDbConsts.FIELD_ITEM + ", code AS " + DDbConsts.FIELD_CODE + ", fk_dpt AS " + DDbConsts.FIELD_FK + "1 " +
                         "FROM " + DModConsts.TablesMap.get(type) + " WHERE b_del = 0 ORDER BY fk_dpt, name, id_lin ";
                 break;
             case DModConsts.MU_FRM:
                 settings = new DGuiCatalogueSettings("Fórmula", 1, 1);
-                sql = "SELECT id_frm AS " + DDbConsts.FIELD_ID + "1, CONCAT(name, IF(ref = '', '', CONCAT(' (', ref, ')'))) AS " + DDbConsts.FIELD_ITEM + ", fk_itm AS " + DDbConsts.FIELD_FK + "1 " +
+                settings.setCodeApplying(true);
+                sql = "SELECT id_frm AS " + DDbConsts.FIELD_ID + "1, CONCAT(name, IF(ref = '', '', CONCAT(' (', ref, ')'))) AS " + DDbConsts.FIELD_ITEM + ", code AS " + DDbConsts.FIELD_CODE + ", fk_itm AS " + DDbConsts.FIELD_FK + "1 " +
                         "FROM " + DModConsts.TablesMap.get(type) + " WHERE b_del = 0 ORDER BY fk_itm, name, id_frm ";
                 break;
             case DModConsts.MU_FRM_CMP:
@@ -199,7 +202,8 @@ public class DModModuleMfg extends DGuiModule {
                 break;
             case DModConsts.MU_VAR:
                 settings = new DGuiCatalogueSettings("Variable", 1);
-                sql = "SELECT id_var AS " + DDbConsts.FIELD_ID + "1, name AS " + DDbConsts.FIELD_ITEM + " " +
+                settings.setCodeApplying(true);
+                sql = "SELECT id_var AS " + DDbConsts.FIELD_ID + "1, name AS " + DDbConsts.FIELD_ITEM + ", code AS " + DDbConsts.FIELD_CODE + " " +
                         "FROM " + DModConsts.TablesMap.get(type) + " WHERE b_del = 0 ORDER BY name, id_var ";
                 break;
             case DModConsts.MU_VAR_FAM:

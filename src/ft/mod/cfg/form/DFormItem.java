@@ -14,7 +14,6 @@ package ft.mod.cfg.form;
 import ft.mod.DModConsts;
 import ft.mod.DModSysConsts;
 import ft.mod.cfg.db.DCfgUtils;
-import ft.mod.cfg.db.DDbConfig;
 import ft.mod.cfg.db.DDbFamily;
 import ft.mod.cfg.db.DDbItem;
 import ft.mod.cfg.db.DDbUnit;
@@ -285,12 +284,7 @@ public class DFormItem extends DBeanForm implements ItemListener {
             moUnitItem = (DDbUnit) miClient.getSession().readRegistry(DModConsts.CU_UOM, moKeyUnit.getValue());
         }
         
-        if (moUnitItem == null || moUnitItem.getFkUnitTypeId() != DModSysConsts.CS_UOM_TP_MSS) {
-            moCompMassUnit.getField().setValue(0d);
-        }
-        else {
-            moCompMassUnit.getField().setValue(moUnitItem.getConversionFactor() / ((DDbConfig) miClient.getSession().getConfigCompany()).getRegMassUnit().getConversionFactor());
-        }
+        moCompMassUnit.getField().setValue(DCfgUtils.getMassUnitBasic(miClient.getSession(), moUnitItem));
     }
     
     /*
@@ -331,8 +325,8 @@ public class DFormItem extends DBeanForm implements ItemListener {
         reloadCatalogues();
 
         if (moRegistry.isRegistryNew()) {
-            moRegistry.setCode("");
             moRegistry.initPrimaryKey();
+            moRegistry.setCode("");
             
             if (!mbAppliesItemBase) {
                 moRegistry.setFkItemBaseId_n(DLibConsts.UNDEFINED);

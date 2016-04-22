@@ -141,12 +141,12 @@ public abstract class DMfgUtils {
         ResultSet resultSet = null;
         ArrayList<DDbVariable> variables = new ArrayList<>();
         
-        sql = "SELECT v.name, v.code, v.id_var "
+        sql = "SELECT DISTINCT v.name, v.code, v.id_var "
                 + "FROM " + DModConsts.TablesMap.get(DModConsts.MU_VAR_FAM) + " AS vf "
                 + "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.MU_VAR) + " AS V ON vf.id_var = v.id_var "
                 + "WHERE vf.id_fam = " + idFamily + " AND v.b_del = 0 "
                 + "ORDER BY v.name, v.code, v.id_var ";
-        resultSet = session.getStatement().executeQuery(sql);
+        resultSet = session.getStatement().getConnection().createStatement().executeQuery(sql);
         while (resultSet.next()) {
             DDbVariable variable = new DDbVariable();
             variable.read(session, new int[] { resultSet.getInt("v.id_var") });

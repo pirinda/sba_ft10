@@ -757,6 +757,8 @@ public class DFormWsd extends DBeanForm implements DGridPaneFormOwner, ActionLis
 
     @Override
     public void setRegistry(DDbRegistry registry) throws Exception {
+        boolean isCopy = false;
+        
         moRegistry = (DDbWsd) registry;
 
         mnFormResult = DLibConsts.UNDEFINED;
@@ -768,10 +770,13 @@ public class DFormWsd extends DBeanForm implements DGridPaneFormOwner, ActionLis
         displayFieldsRegistry();
 
         if (moRegistry.isRegistryNew()) {
-            moRegistry.setNumber(0);
             moRegistry.initPrimaryKey();
             
-            moRegistry.setDate(miClient.getSession().getWorkingDate());
+            moRegistry.setNumber(0);
+            
+            if (!isCopy) {
+                moRegistry.setDate(miClient.getSession().getWorkingDate());
+            }
             
             jtfRegistryKey.setText("");
         }

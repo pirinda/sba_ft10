@@ -5,6 +5,7 @@
 
 package ft.mod.mfg.db;
 
+import ft.lib.DLibRegistry;
 import ft.mod.DModConsts;
 import ft.mod.cfg.db.DDbItem;
 import ft.mod.cfg.db.DDbUnit;
@@ -21,7 +22,7 @@ import sba.lib.gui.DGuiSession;
  *
  * @author Sergio Flores
  */
-public class DDbJobConsump extends DDbRegistryUser implements DGridRow {
+public class DDbJobConsump extends DDbRegistryUser implements DGridRow, DLibRegistry {
 
     protected int mnPkJobId;
     protected int mnPkConsumpId;
@@ -264,13 +265,6 @@ public class DDbJobConsump extends DDbRegistryUser implements DGridRow {
         return registry;
     }
 
-    public void compute(final DGuiSession session) {
-        readRegMembers(session, true);
-        readXtaMembers(session);
-        
-        mdMass_r = DLibUtils.round(mdMassUnit * mdQuantity, DLibUtils.getDecimalFormatQuantity().getMaximumFractionDigits());
-    }
-
     @Override
     public int[] getRowPrimaryKey() {
         return getPrimaryKey();
@@ -335,5 +329,13 @@ public class DDbJobConsump extends DDbRegistryUser implements DGridRow {
     @Override
     public void setRowValueAt(Object value, int col) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void compute(final DGuiSession session) {
+        readRegMembers(session, true);
+        readXtaMembers(session);
+        
+        mdMass_r = DLibUtils.round(mdMassUnit * mdQuantity, DLibUtils.getDecimalFormatQuantity().getMaximumFractionDigits());
     }
 }

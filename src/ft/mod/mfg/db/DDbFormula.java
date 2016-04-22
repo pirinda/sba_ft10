@@ -5,6 +5,7 @@
 
 package ft.mod.mfg.db;
 
+import ft.lib.DLibRegistry;
 import ft.mod.DModConsts;
 import ft.mod.cfg.db.DDbItem;
 import ft.mod.cfg.db.DDbPresent;
@@ -24,7 +25,7 @@ import sba.lib.gui.DGuiSession;
  *
  * @author Sergio Flores
  */
-public class DDbFormula extends DDbRegistryUser {
+public class DDbFormula extends DDbRegistryUser implements DLibRegistry {
 
     protected int mnPkFormulaId;
     protected String msCode;
@@ -381,6 +382,7 @@ public class DDbFormula extends DDbRegistryUser {
         return registry;
     }
     
+    @Override
     public void compute(final DGuiSession session) {
         readRegMembers(session, true);
         

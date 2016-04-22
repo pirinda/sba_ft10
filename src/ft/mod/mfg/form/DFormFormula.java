@@ -202,7 +202,7 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
 
         jPanel18.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
-        jlCode.setText("Código:");
+        jlCode.setText("Código producto:");
         jlCode.setPreferredSize(new java.awt.Dimension(100, 23));
         jPanel18.add(jlCode);
 
@@ -215,7 +215,7 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
 
         jPanel19.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
-        jlName.setText("Nombre:");
+        jlName.setText("Nombre producto:");
         jlName.setPreferredSize(new java.awt.Dimension(100, 23));
         jPanel19.add(jlName);
 
@@ -263,7 +263,7 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
 
         jPanel23.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
-        jlMass.setText("Masa:");
+        jlMass.setText("Masa fórmula:");
         jlMass.setPreferredSize(new java.awt.Dimension(100, 23));
         jPanel23.add(jlMass);
         jPanel23.add(moCompMass);
@@ -750,6 +750,7 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
 
         if (moRegistry.isRegistryNew()) {
             moRegistry.initPrimaryKey();
+            
             jtfRegistryKey.setText("");
         }
         else {

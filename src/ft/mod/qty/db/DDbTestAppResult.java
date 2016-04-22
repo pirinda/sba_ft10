@@ -5,6 +5,7 @@
 
 package ft.mod.qty.db;
 
+import ft.lib.DLibRegistry;
 import ft.mod.DModConsts;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,7 +19,7 @@ import sba.lib.gui.DGuiSession;
  *
  * @author Sergio Flores
  */
-public class DDbTestAppResult extends DDbRegistryUser implements DGridRow, DGridCellNumber {
+public class DDbTestAppResult extends DDbRegistryUser implements DGridRow, DGridCellNumber, DLibRegistry {
 
     protected int mnPkAppId;
     protected int mnPkVariableId;
@@ -26,6 +27,8 @@ public class DDbTestAppResult extends DDbRegistryUser implements DGridRow, DGrid
     protected double mdValue;
 
     protected DDbVariable moRegVariable;
+    
+    protected DDbTestApp moAuxTestApp;
 
     public DDbTestAppResult() {
         super(DModConsts.Q_APP_RES);
@@ -50,6 +53,10 @@ public class DDbTestAppResult extends DDbRegistryUser implements DGridRow, DGrid
     
     public DDbVariable getRegVariable() { return moRegVariable; }
 
+    public void setAuxTestApp(DDbTestApp o) { moAuxTestApp = o; }
+    
+    public DDbTestApp getAuxTestApp() { return moAuxTestApp; }
+
     @Override
     public void setPrimaryKey(int[] pk) {
         mnPkAppId = pk[0];
@@ -72,6 +79,8 @@ public class DDbTestAppResult extends DDbRegistryUser implements DGridRow, DGrid
         mdValue = 0;
         
         moRegVariable = null;
+        
+        moAuxTestApp = null;
     }
 
     @Override
@@ -166,6 +175,8 @@ public class DDbTestAppResult extends DDbRegistryUser implements DGridRow, DGrid
         
         registry.setRegVariable(this.getRegVariable() == null ? null : this.getRegVariable().clone());
         
+        registry.setAuxTestApp(this.getAuxTestApp() == null ? null : this.getAuxTestApp().clone());
+        
         registry.setRegistryNew(this.isRegistryNew());
         return registry;
     }
@@ -211,15 +222,18 @@ public class DDbTestAppResult extends DDbRegistryUser implements DGridRow, DGrid
         
         switch (col) {
             case 0:
-                value = mnPkResultId;
+                value = moAuxTestApp == null || moAuxTestApp.getAuxTest() == null ? 0 : moAuxTestApp.getAuxTest().getPkTestId();
                 break;
             case 1:
-                value = moRegVariable.getName();
+                value = mnPkResultId;
                 break;
             case 2:
-                value = mdValue;
+                value = moRegVariable.getName();
                 break;
             case 3:
+                value = mdValue;
+                break;
+            case 4:
                 value = moRegVariable.getUnit();
                 break;
             default:
@@ -233,11 +247,12 @@ public class DDbTestAppResult extends DDbRegistryUser implements DGridRow, DGrid
         switch (col) {
             case 0:
             case 1:
-                break;
             case 2:
-                mdValue = (Double) value;
                 break;
             case 3:
+                mdValue = (Double) value;
+                break;
+            case 4:
                 break;
             default:
         }
@@ -248,6 +263,7 @@ public class DDbTestAppResult extends DDbRegistryUser implements DGridRow, DGrid
         return moRegVariable.getDecimals();
     }
     
+    @Override
     public void compute(final DGuiSession session) {
         readRegMembers(session, true);
     }

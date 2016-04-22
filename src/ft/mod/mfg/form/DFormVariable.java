@@ -5,7 +5,7 @@
 
 package ft.mod.mfg.form;
 
-import ft.gui.DRowOption;
+import ft.lib.DLibRowOption;
 import ft.mod.DModConsts;
 import ft.mod.mfg.db.DDbVariable;
 import ft.mod.mfg.db.DDbVariableFamily;
@@ -275,6 +275,7 @@ public class DFormVariable extends DBeanForm implements ChangeListener {
 
     @Override
     public void setRegistry(DDbRegistry registry) throws Exception {
+        boolean isCopy = false;
         Vector<DGuiItem> items = null;
         Vector<DGridRow> rows = new Vector<>();
         
@@ -287,9 +288,15 @@ public class DFormVariable extends DBeanForm implements ChangeListener {
         reloadCatalogues();
 
         if (moRegistry.isRegistryNew()) {
-            moRegistry.setCode("");
+            isCopy = moRegistry.getPkVariableId() != DLibConsts.UNDEFINED;
+            
             moRegistry.initPrimaryKey();
-            moRegistry.setDecimals(DLibUtils.getDecimalFormatAmountUnitary().getMaximumFractionDigits());
+            moRegistry.setCode("");
+            
+            if (!isCopy) {
+                moRegistry.setDecimals(DLibUtils.getDecimalFormatAmountUnitary().getMaximumFractionDigits());
+            }
+            
             jtfRegistryKey.setText("");
         }
         else {
@@ -309,7 +316,7 @@ public class DFormVariable extends DBeanForm implements ChangeListener {
         rows.clear(); // just for consistence
         
         for (DGuiItem item : items) {
-            rows.add(new DRowOption(item.getPrimaryKey()[0], item.getCode(), item.getItem(), moRegistry.isUtilFamilySelected(item.getPrimaryKey()[0])));
+            rows.add(new DLibRowOption(item.getPrimaryKey()[0], item.getCode(), item.getItem(), moRegistry.isUtilFamilySelected(item.getPrimaryKey()[0])));
         }
         
         moGridFamilies.populateGrid(rows);
@@ -347,10 +354,10 @@ public class DFormVariable extends DBeanForm implements ChangeListener {
         
         registry.getChildFamilies().clear();
         for (DGridRow row : moGridFamilies.getModel().getGridRows()) {
-            if (((DRowOption) row).Selected) {
+            if (((DLibRowOption) row).Selected) {
                 DDbVariableFamily variableFamily = new DDbVariableFamily();
                 //variableFamily.setPkVariableId(...);
-                variableFamily.setPkFamilyId(((DRowOption) row).OptionId);
+                variableFamily.setPkFamilyId(((DLibRowOption) row).OptionId);
                 registry.getChildFamilies().add(variableFamily);
             }
         }

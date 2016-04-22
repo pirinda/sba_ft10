@@ -5,6 +5,7 @@
 
 package ft.mod.stk.db;
 
+import ft.lib.DLibRegistry;
 import ft.mod.DModConsts;
 import ft.mod.DModSysConsts;
 import ft.mod.cfg.db.DCfgUtils;
@@ -26,7 +27,7 @@ import sba.lib.gui.DGuiSession;
  *
  * @author Sergio Flores
  */
-public class DDbWsd extends DDbRegistryUser {
+public class DDbWsd extends DDbRegistryUser implements DLibRegistry {
     
     public static final int PARAM_MOV_TP = 11;
     public static final int PARAM_TRN_TP = 12;
@@ -290,7 +291,7 @@ public class DDbWsd extends DDbRegistryUser {
         initQueryMembers();
         mnQueryResultId = DDbConsts.SAVE_ERROR;
         
-        compute();
+        compute(session);
         
         if (mnNumber == 0) {
             computeNumber(session);
@@ -545,19 +546,8 @@ public class DDbWsd extends DDbRegistryUser {
         return true;
     }
     
-    public boolean isUtilStockAdjustTypeReq() {
-        return DLibUtils.belongsTo(mnFkMoveTypeId, new int[] { DModSysConsts.SS_MOV_TP_IN_ADJ[1] });
-    }
-    
-    public boolean isUtilBizPartnerReq() {
-        return DLibUtils.belongsTo(mnFkMoveTypeId, new int[] { DModSysConsts.SS_MOV_TP_IN_SAL[1], DModSysConsts.SS_MOV_TP_IN_PUR[1] });
-    }
-    
-    public int getUtilBizPartnerType() {
-        return DCfgUtils.getBizPartnerTypeForWhsMoveType(getKeyMoveType());
-    }
-    
-    public void compute() {
+    @Override
+    public void compute(final DGuiSession session) {
         int row = 0;
         
         mdAmount_r = 0;
@@ -578,8 +568,8 @@ public class DDbWsd extends DDbRegistryUser {
         ResultSet resultSet = null;
         
         sql = "SELECT COALESCE(MAX(num), 0) + 1 "
-                + "FROM " + DModConsts.TablesMap.get(DModConsts.S_WSD) + " "
-                + "WHERE fk_mov_cl=" + mnFkMoveClassId + " AND fk_mov_tp=" + mnFkMoveTypeId + " AND b_del=0 ";
+                + "FROM " + getSqlTable() + " "
+                + "WHERE fk_mov_cl = " + mnFkMoveClassId + " AND fk_mov_tp = " + mnFkMoveTypeId + " AND b_del = 0 ";
         resultSet = session.getStatement().executeQuery(sql);
         if (!resultSet.next()) {
             throw new Exception(DDbConsts.ERR_MSG_REG_NOT_FOUND);
@@ -587,5 +577,17 @@ public class DDbWsd extends DDbRegistryUser {
         else {
             mnNumber = resultSet.getInt(1);
         }
+    }
+    
+    public boolean isUtilStockAdjustTypeReq() {
+        return DLibUtils.belongsTo(mnFkMoveTypeId, new int[] { DModSysConsts.SS_MOV_TP_IN_ADJ[1] });
+    }
+    
+    public boolean isUtilBizPartnerReq() {
+        return DLibUtils.belongsTo(mnFkMoveTypeId, new int[] { DModSysConsts.SS_MOV_TP_IN_SAL[1], DModSysConsts.SS_MOV_TP_IN_PUR[1] });
+    }
+    
+    public int getUtilBizPartnerType() {
+        return DCfgUtils.getBizPartnerTypeForWhsMoveType(getKeyMoveType());
     }
 }

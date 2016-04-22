@@ -209,8 +209,8 @@ public class DFormPresent extends DBeanForm implements ItemListener {
         reloadCatalogues();
 
         if (moRegistry.isRegistryNew()) {
-            moRegistry.setCode("");
             moRegistry.initPrimaryKey();
+            moRegistry.setCode("");
             
             jtfRegistryKey.setText("");
         }

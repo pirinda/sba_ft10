@@ -5,6 +5,7 @@
 
 package ft.mod.mfg.db;
 
+import ft.lib.DLibRegistry;
 import ft.mod.DModConsts;
 import ft.mod.cfg.db.DDbItem;
 import ft.mod.cfg.db.DDbUnit;
@@ -21,7 +22,7 @@ import sba.lib.gui.DGuiSession;
  *
  * @author Sergio Flores
  */
-public class DDbFormulaByProd extends DDbRegistryUser implements DGridRow {
+public class DDbFormulaByProd extends DDbRegistryUser implements DGridRow, DLibRegistry {
 
     protected int mnPkFormulaId;
     protected int mnPkByProdId;
@@ -50,10 +51,13 @@ public class DDbFormulaByProd extends DDbRegistryUser implements DGridRow {
         if (update) {
             mnFkItemTypeId = moRegItem.getXtaFkItemTypeId();
             mnFkUnitId = moRegItem.getFkUnitId();
-            mdMassUnit = moRegItem.getMassUnit();
         }
         
         moRegUnit = (DDbUnit) session.readRegistry(DModConsts.CU_UOM, new int[] { mnFkUnitId });
+        
+        if (update) {
+            mdMassUnit = moRegItem.getMassUnit();
+        }
     }
     
     private void readXtaMembers(final DGuiSession session) {
@@ -311,10 +315,11 @@ public class DDbFormulaByProd extends DDbRegistryUser implements DGridRow {
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
+    @Override
     public void compute(final DGuiSession session) {
         readRegMembers(session, true);
         readXtaMembers(session);
         
-        mdMass_r = DLibUtils.round(mdMassUnit * mdQuantity, DLibUtils.getDecimalFormatAmountUnitary().getMaximumFractionDigits());
+        mdMass_r = DLibUtils.round(mdMassUnit * mdQuantity, DLibUtils.getDecimalFormatQuantity().getMaximumFractionDigits());
     }
 }

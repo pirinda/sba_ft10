@@ -5,6 +5,7 @@
 
 package ft.mod.qty.db;
 
+import ft.lib.DLibRegistry;
 import ft.mod.DModConsts;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,7 +17,7 @@ import sba.lib.gui.DGuiSession;
  *
  * @author Sergio Flores
  */
-public class DDbTestVariable extends DDbRegistryUser {
+public class DDbTestVariable extends DDbRegistryUser implements DLibRegistry {
 
     protected int mnPkTestId;
     protected int mnPkVariableId;
@@ -146,6 +147,7 @@ public class DDbTestVariable extends DDbRegistryUser {
         return registry;
     }
     
+    @Override
     public void compute(final DGuiSession session) {
         readRegMembers(session, true);
     }

@@ -44,6 +44,8 @@ public class DDbTestApp extends DDbRegistryUser {
     
     protected ArrayList<DDbTestAppResult> maChildAppResults;
     
+    protected DDbTest moAuxTest;
+    
     public DDbTestApp() {
         super(DModConsts.Q_APP_RES);
         maChildAppResults = new ArrayList<>();
@@ -80,6 +82,10 @@ public class DDbTestApp extends DDbRegistryUser {
 
     public ArrayList<DDbTestAppResult> getChildAppResults() { return maChildAppResults; }
     
+    public void setAuxTest(DDbTest o) { moAuxTest = o; }
+    
+    public DDbTest getAuxTest() { return moAuxTest; }
+    
     @Override
     public void setPrimaryKey(int[] pk) {
         mnPkAppId = pk[0];
@@ -109,6 +115,8 @@ public class DDbTestApp extends DDbRegistryUser {
         mtTsUserUpdate = null;
         
         maChildAppResults.clear();
+        
+        moAuxTest = null;
     }
 
     @Override
@@ -277,6 +285,8 @@ public class DDbTestApp extends DDbRegistryUser {
         for (DDbTestAppResult child : maChildAppResults) {
             registry.getChildAppResults().add(child.clone());
         }
+        
+        registry.setAuxTest(this.getAuxTest() == null ? null : this.getAuxTest());
         
         registry.setRegistryNew(this.isRegistryNew());
         return registry;

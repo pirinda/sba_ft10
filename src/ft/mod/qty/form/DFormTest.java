@@ -5,7 +5,7 @@
 
 package ft.mod.qty.form;
 
-import ft.gui.DRowOption;
+import ft.lib.DLibRowOption;
 import ft.mod.DModConsts;
 import ft.mod.qty.db.DDbTest;
 import ft.mod.qty.db.DDbTestFamily;
@@ -249,8 +249,9 @@ public class DFormTest extends DBeanForm {
         reloadCatalogues();
 
         if (moRegistry.isRegistryNew()) {
-            moRegistry.setCode("");
             moRegistry.initPrimaryKey();
+            moRegistry.setCode("");
+            
             jtfRegistryKey.setText("");
         }
         else {
@@ -266,7 +267,7 @@ public class DFormTest extends DBeanForm {
         rows.clear(); // just for consistence
         
         for (DGuiItem item : items) {
-            rows.add(new DRowOption(item.getPrimaryKey()[0], item.getCode(), item.getItem(), moRegistry.isUtilVariableSelected(item.getPrimaryKey()[0])));
+            rows.add(new DLibRowOption(item.getPrimaryKey()[0], item.getCode(), item.getItem(), moRegistry.isUtilVariableSelected(item.getPrimaryKey()[0])));
         }
         
         moGridVariables.populateGrid(rows);
@@ -276,7 +277,7 @@ public class DFormTest extends DBeanForm {
         rows.clear();
         
         for (DGuiItem item : items) {
-            rows.add(new DRowOption(item.getPrimaryKey()[0], item.getCode(), item.getItem(), moRegistry.isUtilFamilySelected(item.getPrimaryKey()[0]), moRegistry.getUtilFamilyResults(item.getPrimaryKey()[0])));
+            rows.add(new DLibRowOption(item.getPrimaryKey()[0], item.getCode(), item.getItem(), moRegistry.isUtilFamilySelected(item.getPrimaryKey()[0]), moRegistry.getUtilFamilyResults(item.getPrimaryKey()[0])));
         }
         
         moGridFamilies.populateGrid(rows);
@@ -311,21 +312,21 @@ public class DFormTest extends DBeanForm {
         
         registry.getChildVariables().clear();
         for (DGridRow row : moGridVariables.getModel().getGridRows()) {
-            if (((DRowOption) row).Selected) {
+            if (((DLibRowOption) row).Selected) {
                 DDbTestVariable testVariable = new DDbTestVariable();
                 //variableFamily.setPkTestId(...);
-                testVariable.setPkVariableId(((DRowOption) row).OptionId);
+                testVariable.setPkVariableId(((DLibRowOption) row).OptionId);
                 registry.getChildVariables().add(testVariable);
             }
         }
         
         registry.getChildFamilies().clear();
         for (DGridRow row : moGridFamilies.getModel().getGridRows()) {
-            if (((DRowOption) row).Selected) {
+            if (((DLibRowOption) row).Selected) {
                 DDbTestFamily testFamily = new DDbTestFamily();
                 //variableFamily.setPkTestId(...);
-                testFamily.setPkFamilyId(((DRowOption) row).OptionId);
-                testFamily.setResults(((DRowOption) row).Quantity);
+                testFamily.setPkFamilyId(((DLibRowOption) row).OptionId);
+                testFamily.setResults(((DLibRowOption) row).Quantity);
                 registry.getChildFamilies().add(testFamily);
             }
         }

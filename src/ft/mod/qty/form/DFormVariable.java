@@ -219,6 +219,7 @@ public class DFormVariable extends DBeanForm implements ChangeListener {
 
     @Override
     public void setRegistry(DDbRegistry registry) throws Exception {
+        boolean isCopy = false;
         moRegistry = (DDbVariable) registry;
 
         mnFormResult = DLibConsts.UNDEFINED;
@@ -228,9 +229,15 @@ public class DFormVariable extends DBeanForm implements ChangeListener {
         reloadCatalogues();
 
         if (moRegistry.isRegistryNew()) {
-            moRegistry.setCode("");
+            isCopy = moRegistry.getPkVariableId() != DLibConsts.UNDEFINED;
+            
             moRegistry.initPrimaryKey();
-            moRegistry.setDecimals(DLibUtils.getDecimalFormatAmountUnitary().getMaximumFractionDigits());
+            moRegistry.setCode("");
+            
+            if (!isCopy) {
+                moRegistry.setDecimals(DLibUtils.getDecimalFormatAmountUnitary().getMaximumFractionDigits());
+            }
+            
             jtfRegistryKey.setText("");
         }
         else {

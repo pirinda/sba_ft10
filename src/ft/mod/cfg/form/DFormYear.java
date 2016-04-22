@@ -141,6 +141,7 @@ public class DFormYear extends DBeanForm {
         if (moRegistry.isRegistryNew()) {
             moRegistry.initPrimaryKey();
             moRegistry.setPkYearId(miClient.getSession().getWorkingYear());
+            
             jtfRegistryKey.setText("");
         }
         else {

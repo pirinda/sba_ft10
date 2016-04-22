@@ -5,13 +5,16 @@
 
 package ft.mod.mfg.db;
 
+import ft.lib.DLibRegistry;
 import ft.mod.DModConsts;
+import ft.mod.qty.db.DDbTestApp;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import sba.gui.util.DUtilConsts;
+import sba.lib.DLibConsts;
 import sba.lib.DLibUtils;
 import sba.lib.db.DDbConsts;
 import sba.lib.db.DDbRegistryUser;
@@ -21,7 +24,7 @@ import sba.lib.gui.DGuiSession;
  *
  * @author Sergio Flores
  */
-public class DDbJob extends DDbRegistryUser {
+public class DDbJob extends DDbRegistryUser implements DLibRegistry {
 
     protected int mnPkJobId;
     protected int mnNumber;
@@ -66,6 +69,8 @@ public class DDbJob extends DDbRegistryUser {
     protected ArrayList<DDbJobConsump> maChildConsumps;
     protected ArrayList<DDbJobMfgProd> maChildMfgProds;
     protected ArrayList<DDbJobVariable> maChildVariables;
+    protected ArrayList<DDbTestApp> maRegTestApps;
+    protected ArrayList<DDbTestApp> maRegFormerTestApps;
 
     public DDbJob() {
         super(DModConsts.M_JOB);
@@ -73,6 +78,8 @@ public class DDbJob extends DDbRegistryUser {
         maChildConsumps = new ArrayList<>();
         maChildMfgProds = new ArrayList<>();
         maChildVariables = new ArrayList<>();
+        maRegTestApps = new ArrayList<>();
+        maRegFormerTestApps = new ArrayList<>();
         initRegistry();
     }
 
@@ -165,6 +172,8 @@ public class DDbJob extends DDbRegistryUser {
     public ArrayList<DDbJobConsump> getChildConsumps() { return maChildConsumps; }
     public ArrayList<DDbJobMfgProd> getChildMfgProds() { return maChildMfgProds; }
     public ArrayList<DDbJobVariable> getChildVariables() { return maChildVariables; }
+    public ArrayList<DDbTestApp> getRegTestApps() { return maRegTestApps; }
+    public ArrayList<DDbTestApp> getRegFormerTestApps() { return maRegFormerTestApps; }
 
     @Override
     public void setPrimaryKey(int[] pk) {
@@ -219,6 +228,8 @@ public class DDbJob extends DDbRegistryUser {
         maChildConsumps.clear();
         maChildMfgProds.clear();
         maChildVariables.clear();
+        maRegTestApps.clear();
+        maRegFormerTestApps.clear();
     }
 
     @Override
@@ -338,6 +349,18 @@ public class DDbJob extends DDbRegistryUser {
                 child.read(session, new int[] { mnPkJobId, resultSet.getInt(1) });
                 maChildVariables.add(child);
             }
+            
+            // Read aswell embeeded registries:
+
+            msSql = "SELECT id_app FROM " + DModConsts.TablesMap.get(DModConsts.Q_APP) + " WHERE fk_job_n = " + mnPkJobId + " AND b_del = 0 " +
+                    "ORDER BY id_app ";
+            resultSet = statement.executeQuery(msSql);
+            while (resultSet.next()) {
+                DDbTestApp registry = new DDbTestApp();
+                registry.read(session, new int[] { resultSet.getInt(1) });
+                maRegTestApps.add(registry);
+                maRegFormerTestApps.add(registry);
+            }
 
             // Finish registry reading:
             
@@ -354,6 +377,10 @@ public class DDbJob extends DDbRegistryUser {
         
         compute(session);
 
+        if (mnNumber == 0) {
+            computeNumber(session);
+        }
+        
         if (mbRegistryNew) {
             computePrimaryKey(session);
             mbDeleted = false;
@@ -383,7 +410,7 @@ public class DDbJob extends DDbRegistryUser {
                     mnFkJobStatusId + ", " + 
                     mnFkDepartId + ", " + 
                     mnFkLineId + ", " + 
-                    mnFkJobId_n + ", " + 
+                    (mnFkJobId_n == DLibConsts.UNDEFINED ? "NULL" : "" + mnFkJobId_n) + ", " + 
                     mnFkFormulaId + ", " + 
                     mnFkFormulaTypeId + ", " + 
                     mnFkItemId + ", " + 
@@ -421,7 +448,7 @@ public class DDbJob extends DDbRegistryUser {
                     "fk_job_st = " + mnFkJobStatusId + ", " +
                     "fk_dep = " + mnFkDepartId + ", " +
                     "fk_lin = " + mnFkLineId + ", " +
-                    "fk_job_n = " + mnFkJobId_n + ", " +
+                    "fk_job_n = " + (mnFkJobId_n == DLibConsts.UNDEFINED ? "NULL" : "" + mnFkJobId_n) + ", " +
                     "fk_frm = " + mnFkFormulaId + ", " +
                     "fk_frm_tp = " + mnFkFormulaTypeId + ", " +
                     "fk_itm = " + mnFkItemId + ", " +
@@ -435,6 +462,8 @@ public class DDbJob extends DDbRegistryUser {
                     getSqlWhere();
         }
 
+        session.getStatement().execute(msSql);
+        
         // Save aswell child registries:
         
         msSql = "DELETE FROM " + DModConsts.TablesMap.get(DModConsts.M_JOB_REQ) + " " + getSqlWhere();
@@ -474,6 +503,17 @@ public class DDbJob extends DDbRegistryUser {
             child.save(session);
         }
 
+        // Save aswell embeeded registries:
+        
+        for (DDbTestApp registry : maRegFormerTestApps) {
+            registry.delete(session); // delete all former test applications
+        }
+        
+        for (DDbTestApp registry : maRegTestApps) {
+            registry.setFkJobId_n(mnPkJobId);
+            registry.save(session);
+        }
+        
         // Finish registry updating:
 
         session.getStatement().execute(msSql);
@@ -536,19 +576,33 @@ public class DDbJob extends DDbRegistryUser {
             registry.getChildVariables().add(child.clone());
         }
 
+        for (DDbTestApp app : maRegTestApps) {
+            registry.getRegTestApps().add(app.clone());
+        }
+
+        for (DDbTestApp app : maRegFormerTestApps) {
+            registry.getRegFormerTestApps().add(app.clone());
+        }
+
         registry.setRegistryNew(this.isRegistryNew());
         return registry;
     }
     
+    @Override
     public void compute(final DGuiSession session) {
         readRegMembers(session, true);
         
         mdJobQuantity_r = DLibUtils.round(mdFormulaQuantity * mdLoads, DLibUtils.getDecimalFormatQuantity().getMaximumFractionDigits());
         mdReqmentMass_r = DLibUtils.round(mdFormulaMass_r * mdLoads, DLibUtils.getDecimalFormatQuantity().getMaximumFractionDigits());
         
+        mdConsumpMass_r = 0;
+        
         for (DDbJobConsump child : maChildConsumps) {
             mdConsumpMass_r = DLibUtils.round(mdConsumpMass_r + child.getMass_r(), DLibUtils.getDecimalFormatQuantity().getMaximumFractionDigits());
         }
+        
+        mdMfgProdQuantity_r = 0;
+        mdMfgProdMass_r = 0;
         
         for (DDbJobMfgProd child : maChildMfgProds) {
             mdMfgProdQuantity_r = DLibUtils.round(mdMfgProdQuantity_r + child.getQuantity(), DLibUtils.getDecimalFormatQuantity().getMaximumFractionDigits());
@@ -556,5 +610,21 @@ public class DDbJob extends DDbRegistryUser {
         }
         
         mdPackingFactor = DLibUtils.round(mdReqmentMass_r == 0 ? 0 : mdConsumpMass_r / mdReqmentMass_r, DLibUtils.getDecimalFormatQuantity().getMaximumFractionDigits());
+    }
+    
+    public void computeNumber(final DGuiSession session) throws Exception {
+        String sql = "";
+        ResultSet resultSet = null;
+        
+        sql = "SELECT COALESCE(MAX(num), 0) + 1 "
+                + "FROM " + getSqlTable() + " "
+                + "WHERE b_del = 0 ";
+        resultSet = session.getStatement().executeQuery(sql);
+        if (!resultSet.next()) {
+            throw new Exception(DDbConsts.ERR_MSG_REG_NOT_FOUND);
+        }
+        else {
+            mnNumber = resultSet.getInt(1);
+        }
     }
 }

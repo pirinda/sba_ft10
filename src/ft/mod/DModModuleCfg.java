@@ -239,7 +239,8 @@ public class DModModuleCfg extends DGuiModule {
                         miClient.showMsgBoxError(DLibConsts.ERR_MSG_OPTION_UNKNOWN);
                 }
                 settings = new DGuiCatalogueSettings(label, 1);
-                sql = "SELECT id_bpr AS " + DDbConsts.FIELD_ID + "1, CONCAT(name, ' (', code, ')') AS " + DDbConsts.FIELD_ITEM + " " +
+                settings.setCodeApplying(true);
+                sql = "SELECT id_bpr AS " + DDbConsts.FIELD_ID + "1, CONCAT(name, ' (', code, ')') AS " + DDbConsts.FIELD_ITEM + ", i.code AS " + DDbConsts.FIELD_CODE + " " +
                         "FROM " + DModConsts.TablesMap.get(type) + " " +
                         "WHERE b_del = 0 AND fk_bpr_tp = " + subtype + " " +
                         "ORDER BY name, code, id_bpr ";

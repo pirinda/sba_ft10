@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ft.gui;
+package ft.lib;
 
 import sba.lib.grid.DGridRow;
 
@@ -11,7 +11,7 @@ import sba.lib.grid.DGridRow;
  *
  * @author Sergio Flores
  */
-public class DRowOption implements DGridRow {
+public class DLibRowOption implements DGridRow {
     
     public int OptionId;
     public String Code;
@@ -19,11 +19,11 @@ public class DRowOption implements DGridRow {
     public boolean Selected;
     public int Quantity;
     
-    public DRowOption(int optionId, String code, String name, boolean selected) {
+    public DLibRowOption(int optionId, String code, String name, boolean selected) {
         this(optionId, code, name, selected, 0);
     }
 
-    public DRowOption(int optionId, String code, String name, boolean selected, int quantity) {
+    public DLibRowOption(int optionId, String code, String name, boolean selected, int quantity) {
         OptionId = optionId;
         Code = code;
         Name = name;

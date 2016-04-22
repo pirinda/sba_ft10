@@ -46,6 +46,16 @@ public abstract class DCfgUtils {
         return ((DDbConfig) session.getConfigCompany()).getRegMassUnit().getName();
     }
     
+    public static double getMassUnitBasic(final DGuiSession session, final DDbUnit unit) {
+        double mass = 0;
+        
+        if (unit != null && unit.getFkUnitTypeId() == DModSysConsts.CS_UOM_TP_MSS && ((DDbConfig) session.getConfigCompany()).getRegMassUnit().getConversionFactor() != 0) {
+            mass = unit.getConversionFactor() / ((DDbConfig) session.getConfigCompany()).getRegMassUnit().getConversionFactor();
+        }
+        
+        return mass;
+    }
+    
     private static String getBizPartnerType(final DGuiSession session, final int bizPartnerType, final int field) {
         return (String) session.readField(DModConsts.CS_BPR_TP, new int[] { bizPartnerType }, field);
     }

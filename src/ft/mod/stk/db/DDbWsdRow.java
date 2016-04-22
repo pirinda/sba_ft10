@@ -5,6 +5,7 @@
 
 package ft.mod.stk.db;
 
+import ft.lib.DLibRegistry;
 import ft.mod.DModConsts;
 import ft.mod.DModSysConsts;
 import ft.mod.cfg.db.DDbItem;
@@ -23,7 +24,7 @@ import sba.lib.gui.DGuiSession;
  *
  * @author Sergio Flores
  */
-public class DDbWsdRow extends DDbRegistryUser implements DGridRow {
+public class DDbWsdRow extends DDbRegistryUser implements DGridRow, DLibRegistry {
 
     protected int mnPkWsdId;
     protected int mnPkRowId;
@@ -335,6 +336,7 @@ public class DDbWsdRow extends DDbRegistryUser implements DGridRow {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
+    @Override
     public void compute(final DGuiSession session) {
         readRegMembers(session, true);
         

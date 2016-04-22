@@ -5,6 +5,7 @@
 
 package ft.mod.mfg.db;
 
+import ft.lib.DLibRegistry;
 import ft.mod.DModConsts;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,7 +19,7 @@ import sba.lib.gui.DGuiSession;
  *
  * @author Sergio Flores
  */
-public class DDbJobVariable extends DDbRegistryUser implements DGridRow, DGridCellNumber {
+public class DDbJobVariable extends DDbRegistryUser implements DGridRow, DLibRegistry, DGridCellNumber {
 
     protected int mnPkJobId;
     protected int mnPkVariableId;
@@ -230,13 +231,14 @@ public class DDbJobVariable extends DDbRegistryUser implements DGridRow, DGridCe
             default:
         }
     }
+    
+    @Override
+    public void compute(final DGuiSession session) {
+        readRegMembers(session, true);
+    }
 
     @Override
     public int getDecimals() {
         return moRegVariable.getDecimals();
-    }
-    
-    public void compute(final DGuiSession session) {
-        readRegMembers(session, true);
     }
 }

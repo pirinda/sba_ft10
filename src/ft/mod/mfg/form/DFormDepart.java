@@ -142,8 +142,8 @@ public class DFormDepart extends DBeanForm {
         reloadCatalogues();
 
         if (moRegistry.isRegistryNew()) {
-            moRegistry.setCode("");
             moRegistry.initPrimaryKey();
+            moRegistry.setCode("");
             
             jtfRegistryKey.setText("");
         }

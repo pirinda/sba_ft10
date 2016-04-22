@@ -5,8 +5,10 @@
 
 package ft.mod.mfg.db;
 
+import ft.lib.DLibRegistry;
 import ft.mod.DModConsts;
 import ft.mod.DModSysConsts;
+import ft.mod.cfg.db.DCfgUtils;
 import ft.mod.cfg.db.DDbFamily;
 import ft.mod.cfg.db.DDbItem;
 import ft.mod.cfg.db.DDbUnit;
@@ -23,7 +25,7 @@ import sba.lib.gui.DGuiSession;
  *
  * @author Sergio Flores
  */
-public class DDbFormulaComp extends DDbRegistryUser implements DGridRow {
+public class DDbFormulaComp extends DDbRegistryUser implements DGridRow, DLibRegistry {
 
     protected int mnPkFormulaId;
     protected int mnPkCompId;
@@ -61,6 +63,9 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow {
                 
                 moRegUnit = (DDbUnit) session.readRegistry(DModConsts.CU_UOM, new int[] { mnFkUnitId });
                 
+                if (update) {
+                    mdMassUnit = DCfgUtils.getMassUnitBasic(session, moRegUnit);
+                }
                 break;
                 
             case DModSysConsts.MS_CMP_TP_ITM:
@@ -73,6 +78,10 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow {
                 }
                 
                 moRegUnit = (DDbUnit) session.readRegistry(DModConsts.CU_UOM, new int[] { mnFkUnitId });
+                
+                if (update) {
+                    mdMassUnit = moRegItem.getMassUnit();
+                }
                 break;
                 
             default:
@@ -374,21 +383,12 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow {
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
+    @Override
     public void compute(final DGuiSession session) {
         readRegMembers(session, true);
         readXtaMembers(session);
         
-        mdMass_r = 0;
-        
-        switch (mnFkCompTypeId) {
-            case DModSysConsts.MS_CMP_TP_FAM:
-                mdMass_r = DLibUtils.round(mdMassUnit * mdQuantity, DLibUtils.getDecimalFormatQuantity().getMaximumFractionDigits());
-                break;
-            case DModSysConsts.MS_CMP_TP_ITM:
-                mdMass_r = DLibUtils.round((mdMassUnit = moRegItem.getMassUnit()) * mdQuantity, DLibUtils.getDecimalFormatQuantity().getMaximumFractionDigits());
-                break;
-            default:
-        }
+        mdMass_r = DLibUtils.round(mdMassUnit * mdQuantity, DLibUtils.getDecimalFormatQuantity().getMaximumFractionDigits());
     }
     
     public DDbJobReqment createJobReqment(final double loads) throws CloneNotSupportedException {

@@ -450,8 +450,8 @@ public class DFormBizPartner extends DBeanForm implements ActionListener, ItemLi
         reloadCatalogues();
 
         if (moRegistry.isRegistryNew()) {
-            moRegistry.setCode("");
             moRegistry.initPrimaryKey();
+            moRegistry.setCode("");
             
             jtfRegistryKey.setText("");
         }
