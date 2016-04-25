@@ -14,6 +14,8 @@ import ft.mod.mfg.db.DDbFormulaComp;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.Vector;
@@ -35,6 +37,7 @@ import sba.lib.gui.DGuiFieldKeyGroup;
 import sba.lib.gui.DGuiFields;
 import sba.lib.gui.DGuiUtils;
 import sba.lib.gui.DGuiValidation;
+import sba.lib.gui.bean.DBeanFieldDecimal;
 import sba.lib.gui.bean.DBeanFieldKey;
 import sba.lib.gui.bean.DBeanFieldRadio;
 import sba.lib.gui.bean.DBeanForm;
@@ -43,12 +46,13 @@ import sba.lib.gui.bean.DBeanForm;
  *
  * @author Sergio Flores
  */
-public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, ActionListener, ItemListener {
+public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, ActionListener, ItemListener, FocusListener {
 
     private DDbFormula moRegistry;
     private DGuiFieldKeyGroup moKeyGroupItem;
     private DGuiFields moFieldsComps;
     private DGridPaneForm moPaneFormComps;
+    private DDbItem moItem;
     private JButton mjCompMoveUp;
     private JButton mjCompMoveDown;
 
@@ -106,6 +110,9 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
         jPanel22 = new javax.swing.JPanel();
         jlMassUnit = new javax.swing.JLabel();
         moCompMassUnit = new sba.lib.gui.bean.DBeanCompoundField();
+        jPanel1 = new javax.swing.JPanel();
+        jlMassCalc = new javax.swing.JLabel();
+        moCompMassCalc = new sba.lib.gui.bean.DBeanCompoundField();
         jPanel23 = new javax.swing.JPanel();
         jlMass = new javax.swing.JLabel();
         moCompMass = new sba.lib.gui.bean.DBeanCompoundField();
@@ -130,7 +137,7 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
         jpFormula.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos del registro:"));
         jpFormula.setLayout(new java.awt.GridLayout(1, 2));
 
-        jpFormula1.setLayout(new java.awt.GridLayout(6, 1, 0, 5));
+        jpFormula1.setLayout(new java.awt.GridLayout(7, 1, 0, 5));
 
         jPanel5.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
@@ -198,7 +205,7 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
 
         jpFormula.add(jpFormula1);
 
-        jpFormula2.setLayout(new java.awt.GridLayout(6, 1, 0, 5));
+        jpFormula2.setLayout(new java.awt.GridLayout(7, 1, 0, 5));
 
         jPanel18.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
@@ -260,6 +267,15 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
         jPanel22.add(moCompMassUnit);
 
         jpFormula2.add(jPanel22);
+
+        jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
+
+        jlMassCalc.setText("Masa calculada:");
+        jlMassCalc.setPreferredSize(new java.awt.Dimension(100, 23));
+        jPanel1.add(jlMassCalc);
+        jPanel1.add(moCompMassCalc);
+
+        jpFormula2.add(jPanel1);
 
         jPanel23.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
@@ -338,6 +354,7 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel15;
@@ -365,6 +382,7 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
     private javax.swing.JLabel jlItem;
     private javax.swing.JLabel jlItemType;
     private javax.swing.JLabel jlMass;
+    private javax.swing.JLabel jlMassCalc;
     private javax.swing.JLabel jlMassUnit;
     private javax.swing.JLabel jlName;
     private javax.swing.JLabel jlPresent;
@@ -383,6 +401,7 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
     private sba.lib.gui.bean.DBeanFieldBoolean moBoolCompStandard;
     private sba.lib.gui.bean.DBeanCompoundField moCompCompQuantity;
     private sba.lib.gui.bean.DBeanCompoundField moCompMass;
+    private sba.lib.gui.bean.DBeanCompoundField moCompMassCalc;
     private sba.lib.gui.bean.DBeanCompoundField moCompMassUnit;
     private sba.lib.gui.bean.DBeanCompoundField moCompQuantity;
     private sba.lib.gui.bean.DBeanFieldKey moKeyCompComponent;
@@ -449,9 +468,11 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
         
         mass = DCfgUtils.getMassUnitCode(miClient.getSession());
         moCompMassUnit.setCompoundText(mass);
+        moCompMassCalc.setCompoundText(mass);
         moCompMass.setCompoundText(mass);
         
         moCompMassUnit.setEditable(false);
+        moCompMassCalc.setEditable(false);
         moCompMass.setEditable(false);
         
         mjCompMoveUp = DGridUtils.createButton(new ImageIcon(getClass().getResource("/sba/lib/img/cmd_std_move_up.gif")), "Mover arriba", this);
@@ -494,9 +515,9 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
     }
     
     private void renderItem() {
-        DDbItem moItem = null;
-        
         if (moKeyItem.getSelectedIndex() <= 0) {
+            moItem = null;
+            
             jtfCode.setText("");
             jtfName.setText("");
             jtfUnit.setText("");
@@ -506,6 +527,7 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
         }
         else {
             moItem = (DDbItem) miClient.getSession().readRegistry(DModConsts.CU_ITM, moKeyItem.getValue());
+            
             jtfCode.setText(moItem.getCode());
             jtfName.setText(moItem.getName());
             jtfUnit.setText(moItem.getRegUnit().getName());
@@ -518,6 +540,8 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
             jtfUnit.setCaretPosition(0);
             jtfPresent.setCaretPosition(0);
         }
+        
+        calculateMassCalc();
     }
     
     private void renderCompComponent() {
@@ -537,6 +561,10 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
         }
         
         moCompMass.getField().setValue(mass);
+    }
+    
+    private void calculateMassCalc() {
+        moCompMassCalc.getField().setValue(moItem == null ? 0d : moCompQuantity.getField().getValue() * moItem.getMassUnit());
     }
     
     private void updateCompsNumbers() {
@@ -689,6 +717,10 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
         renderCompComponent();
     }
     
+    private void focusLostQuantity() {
+        calculateMassCalc();
+    }
+    
     /*
      * Public methods
      */
@@ -709,6 +741,7 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
         moKeyCompComponent.addItemListener(this);
         moRadCompTypeFamily.addItemListener(this);
         moRadCompTypeItem.addItemListener(this);
+        moCompQuantity.getField().getComponent().addFocusListener(this);
     }
 
     @Override
@@ -723,6 +756,7 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
         moKeyCompComponent.removeItemListener(this);
         moRadCompTypeFamily.removeItemListener(this);
         moRadCompTypeItem.removeItemListener(this);
+        moCompQuantity.getField().getComponent().removeFocusListener(this);
     }
 
     @Override
@@ -884,6 +918,22 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
                 else if (field == moRadCompTypeItem) {
                     itemStateChangedCompTypeItem();
                 }
+            }
+        }
+    }
+
+    @Override
+    public void focusGained(FocusEvent e) {
+
+    }
+
+    @Override
+    public void focusLost(FocusEvent e) {
+        if (e.getSource() instanceof DBeanFieldDecimal) {
+            DBeanFieldDecimal field = (DBeanFieldDecimal) e.getSource();
+            
+            if (field == moCompQuantity.getField()) {
+                focusLostQuantity();
             }
         }
     }

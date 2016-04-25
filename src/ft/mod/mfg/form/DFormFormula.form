@@ -55,7 +55,7 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridLayout">
                 <Property name="columns" type="int" value="1"/>
-                <Property name="rows" type="int" value="6"/>
+                <Property name="rows" type="int" value="7"/>
                 <Property name="verticalGap" type="int" value="5"/>
               </Layout>
               <SubComponents>
@@ -204,7 +204,7 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridLayout">
                 <Property name="columns" type="int" value="1"/>
-                <Property name="rows" type="int" value="6"/>
+                <Property name="rows" type="int" value="7"/>
                 <Property name="verticalGap" type="int" value="5"/>
               </Layout>
               <SubComponents>
@@ -328,6 +328,25 @@
                       </Properties>
                     </Component>
                     <Component class="sba.lib.gui.bean.DBeanCompoundField" name="moCompMassUnit">
+                    </Component>
+                  </SubComponents>
+                </Container>
+                <Container class="javax.swing.JPanel" name="jPanel1">
+
+                  <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout">
+                    <Property name="alignment" type="int" value="0"/>
+                    <Property name="verticalGap" type="int" value="0"/>
+                  </Layout>
+                  <SubComponents>
+                    <Component class="javax.swing.JLabel" name="jlMassCalc">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Masa calculada:"/>
+                        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[100, 23]"/>
+                        </Property>
+                      </Properties>
+                    </Component>
+                    <Component class="sba.lib.gui.bean.DBeanCompoundField" name="moCompMassCalc">
                     </Component>
                   </SubComponents>
                 </Container>

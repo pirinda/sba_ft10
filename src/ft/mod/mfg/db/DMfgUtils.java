@@ -136,7 +136,7 @@ public abstract class DMfgUtils {
         return lot;
     }
     
-    public static ArrayList<DDbVariable> readVariables(final DGuiSession session, final int idFamily) throws Exception {
+    public static ArrayList<DDbVariable> readVariablesForFamily(final DGuiSession session, final int idFamily) throws Exception {
         String sql = "";
         ResultSet resultSet = null;
         ArrayList<DDbVariable> variables = new ArrayList<>();

@@ -44,14 +44,14 @@ public class DDbTestApp extends DDbRegistryUser implements DLibRegistry {
     protected Date mtTsUserUpdate;
     */
     
-    protected ArrayList<DDbTestAppResult> maChildAppResults;
+    protected ArrayList<DDbTestAppResult> maChildResults;
     
     protected DDbTest moRegTest;
     protected DDbItem moRegItem;
     
     public DDbTestApp() {
         super(DModConsts.Q_APP);
-        maChildAppResults = new ArrayList<>();
+        maChildResults = new ArrayList<>();
         initRegistry();
     }
 
@@ -93,7 +93,7 @@ public class DDbTestApp extends DDbRegistryUser implements DLibRegistry {
     public Date getTsUserInsert() { return mtTsUserInsert; }
     public Date getTsUserUpdate() { return mtTsUserUpdate; }
 
-    public ArrayList<DDbTestAppResult> getChildAppResults() { return maChildAppResults; }
+    public ArrayList<DDbTestAppResult> getChildResults() { return maChildResults; }
     
     public void setRegTest(DDbTest o) { moRegTest = o; }
     public void setRegItem(DDbItem o) { moRegItem = o; }
@@ -129,7 +129,7 @@ public class DDbTestApp extends DDbRegistryUser implements DLibRegistry {
         mtTsUserInsert = null;
         mtTsUserUpdate = null;
         
-        maChildAppResults.clear();
+        maChildResults.clear();
         
         moRegTest = null;
         moRegItem = null;
@@ -202,7 +202,7 @@ public class DDbTestApp extends DDbRegistryUser implements DLibRegistry {
             while (resultSet.next()) {
                 DDbTestAppResult child = new DDbTestAppResult();
                 child.read(session, new int[] { mnPkAppId, resultSet.getInt(1), resultSet.getInt(2) });
-                maChildAppResults.add(child);
+                maChildResults.add(child);
             }
             
             // Read aswell embeeded registries:
@@ -274,7 +274,7 @@ public class DDbTestApp extends DDbRegistryUser implements DLibRegistry {
         msSql = "DELETE FROM " + DModConsts.TablesMap.get(DModConsts.Q_APP_RES) + " " + getSqlWhere();
         session.getStatement().execute(msSql);
         
-        for (DDbTestAppResult child : maChildAppResults) {
+        for (DDbTestAppResult child : maChildResults) {
             child.setRegistryNew(true);
             child.setPkAppId(mnPkAppId);
             child.save(session);
@@ -304,8 +304,8 @@ public class DDbTestApp extends DDbRegistryUser implements DLibRegistry {
         registry.setTsUserInsert(this.getTsUserInsert());
         registry.setTsUserUpdate(this.getTsUserUpdate());
 
-        for (DDbTestAppResult child : maChildAppResults) {
-            registry.getChildAppResults().add(child.clone());
+        for (DDbTestAppResult child : maChildResults) {
+            registry.getChildResults().add(child.clone());
         }
         
         registry.setRegTest(this.getRegTest() == null ? null : this.getRegTest());

@@ -23,7 +23,7 @@ public class DDbTestAppResult extends DDbRegistryUser {
     protected int mnPkAppId;
     protected int mnPkResultId;
     
-    protected ArrayList<DDbTestAppResultVariable> maChildAppResultVariables;
+    protected ArrayList<DDbTestAppResultVariable> maChildVariables;
 
     protected DDbTestApp moAuxTestApp;
 
@@ -38,7 +38,7 @@ public class DDbTestAppResult extends DDbRegistryUser {
     public int getPkAppId() { return mnPkAppId; }
     public int getPkResultId() { return mnPkResultId; }
 
-    public ArrayList<DDbTestAppResultVariable> getChildAppResultVariables() { return maChildAppResultVariables; }
+    public ArrayList<DDbTestAppResultVariable> getChildVariables() { return maChildVariables; }
     
     public void setAuxTestApp(DDbTestApp o) { moAuxTestApp = o; }
     
@@ -62,7 +62,7 @@ public class DDbTestAppResult extends DDbRegistryUser {
         mnPkAppId = 0;
         mnPkResultId = 0;
         
-        maChildAppResultVariables.clear();
+        maChildVariables.clear();
         
         moAuxTestApp = null;
     }
@@ -124,7 +124,7 @@ public class DDbTestAppResult extends DDbRegistryUser {
             while (resultSet.next()) {
                 DDbTestAppResultVariable child = new DDbTestAppResultVariable();
                 child.read(session, new int[] { mnPkAppId, mnPkResultId, resultSet.getInt(1) });
-                maChildAppResultVariables.add(child);
+                maChildVariables.add(child);
             }
             
             // Finish registry reading:
@@ -158,7 +158,7 @@ public class DDbTestAppResult extends DDbRegistryUser {
         msSql = "DELETE FROM " + DModConsts.TablesMap.get(DModConsts.Q_APP_RES_VAR) + " " + getSqlWhere();
         session.getStatement().execute(msSql);
         
-        for (DDbTestAppResultVariable child : maChildAppResultVariables) {
+        for (DDbTestAppResultVariable child : maChildVariables) {
             child.setRegistryNew(true);
             child.setPkAppId(mnPkAppId);
             child.setPkResultId(mnPkResultId);
@@ -177,8 +177,8 @@ public class DDbTestAppResult extends DDbRegistryUser {
         registry.setPkAppId(this.getPkAppId());
         registry.setPkResultId(this.getPkResultId());
         
-        for (DDbTestAppResultVariable child : maChildAppResultVariables) {
-            registry.getChildAppResultVariables().add(child.clone());
+        for (DDbTestAppResultVariable child : maChildVariables) {
+            registry.getChildVariables().add(child.clone());
         }
         
         registry.setRegistryNew(this.isRegistryNew());

@@ -40,8 +40,8 @@ public class DDbTest extends DDbRegistryUser {
     protected ArrayList<DDbTestVariable> maChildVariables;
     protected ArrayList<DDbTestFamily> maChildFamilies;
     
-    protected int mnAuxResults;
-    protected int mnAuxResultsApps;
+    protected int mnAuxApps;
+    protected int mnAuxAppResults;
 
     public DDbTest() {
         super(DModConsts.QU_TST);
@@ -75,11 +75,15 @@ public class DDbTest extends DDbRegistryUser {
     public ArrayList<DDbTestVariable> getChildVariables() { return maChildVariables; }
     public ArrayList<DDbTestFamily> getChildFamilies() { return maChildFamilies; }
     
-    public void setAuxResults(int n) { mnAuxResults = n; }
-    public void setAuxResultsApps(int n) { mnAuxResultsApps = n; }
+    public void setAuxApps(int n) { mnAuxApps = n; }
+    public void setAuxAppResults(int n) { mnAuxAppResults = n; }
 
-    public int getAuxResults() { return mnAuxResults; }
-    public int getAuxResultsApps() { return mnAuxResultsApps; }
+    public int getAuxApps() { return mnAuxApps; }
+    public int getAuxAppResults() { return mnAuxAppResults; }
+    
+    public void utilAddAuxAppResults(int add) {
+        mnAuxAppResults += add;
+    }
 
     public boolean isUtilVariableSelected(final int idVariable) {
         boolean checked = false;
@@ -148,8 +152,8 @@ public class DDbTest extends DDbRegistryUser {
         maChildVariables.clear();
         maChildFamilies.clear();
         
-        mnAuxResults = 0;
-        mnAuxResultsApps = 0;
+        mnAuxApps = 0;
+        mnAuxAppResults = 0;
     }
 
     @Override

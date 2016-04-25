@@ -16,7 +16,7 @@ import sba.lib.gui.DGuiSession;
  */
 public abstract class DQtyUtils {
     
-    public static ArrayList<DDbTest> readTests(final DGuiSession session, final int type, final int idFamily) throws Exception {
+    public static ArrayList<DDbTest> readTestsForFamily(final DGuiSession session, final int type, final int idFamily) throws Exception {
         String sql = "";
         ResultSet resultSet = null;
         ArrayList<DDbTest> tests = new ArrayList<>();
@@ -30,7 +30,7 @@ public abstract class DQtyUtils {
         while (resultSet.next()) {
             DDbTest test = new DDbTest();
             test.read(session, new int[] { resultSet.getInt("t.id_tst") });
-            test.setAuxResults(resultSet.getInt("tf.res"));
+            test.setAuxApps(resultSet.getInt("tf.res"));
             tests.add(test);
         }
         
