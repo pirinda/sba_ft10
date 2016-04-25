@@ -169,12 +169,12 @@ public class DModModuleMfg extends DGuiModule {
                         "FROM " + DModConsts.TablesMap.get(type) + " WHERE b_del = 0 ORDER BY sort ";
                 break;
             case DModConsts.MS_JOB_TP:
-                settings = new DGuiCatalogueSettings("Tipo orden", 1);
+                settings = new DGuiCatalogueSettings("Tipo orden producción", 1);
                 sql = "SELECT id_job_tp AS " + DDbConsts.FIELD_ID + "1, name AS " + DDbConsts.FIELD_ITEM + " " +
                         "FROM " + DModConsts.TablesMap.get(type) + " WHERE b_del = 0 ORDER BY sort ";
                 break;
             case DModConsts.MS_JOB_ST:
-                settings = new DGuiCatalogueSettings("Estatus orden", 1);
+                settings = new DGuiCatalogueSettings("Estatus orden producción", 1);
                 sql = "SELECT id_job_st AS " + DDbConsts.FIELD_ID + "1, name AS " + DDbConsts.FIELD_ITEM + " " +
                         "FROM " + DModConsts.TablesMap.get(type) + " WHERE b_del = 0 ORDER BY sort ";
                 break;
@@ -201,7 +201,7 @@ public class DModModuleMfg extends DGuiModule {
             case DModConsts.MU_FRM_BYP:
                 break;
             case DModConsts.MU_VAR:
-                settings = new DGuiCatalogueSettings("Variable", 1);
+                settings = new DGuiCatalogueSettings("Variable producción", 1);
                 settings.setCodeApplying(true);
                 sql = "SELECT id_var AS " + DDbConsts.FIELD_ID + "1, name AS " + DDbConsts.FIELD_ITEM + ", code AS " + DDbConsts.FIELD_CODE + " " +
                         "FROM " + DModConsts.TablesMap.get(type) + " WHERE b_del = 0 ORDER BY name, id_var ";

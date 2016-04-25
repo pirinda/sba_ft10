@@ -1265,7 +1265,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
             
             for (DDbTestVariable testVariable : moTest.getChildVariables()) {
                 DDbTestAppResult testAppResult = new DDbTestAppResult();
-                
+                /*
                 //result.setPkAppId(...);
                 testAppResult.setPkVariableId(testVariable.getPkVariableId());
                 //result.setPkResultId(...);
@@ -1274,6 +1274,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
                 testAppResult.setRegVariable(testVariable.getRegVariable());
                 
                 rows.add(testAppResult);
+                */
             }
         }
         
@@ -1579,7 +1580,18 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
     }
     
     private void processStatusPendingBackwards() {
+        moGridReqments.clearGridRows();
+        moGridConsumps.clearGridRows();
+        moGridMfgProds.clearGridRows();
+        maConsumps.clear();
         
+        moGridVariables.clearGridRows();
+        moGridTestApps.clearGridRows();
+        moGridTestAppsResults.clearGridRows();
+        maTestApps.clear();
+        
+        computeJobConsumps();
+        computeJobMfgProds();
     }
     
     private void processTestAppResultsDeletion(DGridRow gridRow) {
@@ -1604,7 +1616,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
             }
         }
 
-        appResult.getAuxTestApp().getAuxTest().setAuxResultsApps(appResult.getAuxTestApp().getAuxTest().getAuxResultsApps() - 1);
+        appResult.getAuxTestApp().getRegTest().setAuxResultsApps(appResult.getAuxTestApp().getRegTest().getAuxResultsApps() - 1);
         renderTest(); // update shown results applied
 
         appResults.remove((DDbTestAppResult) gridRow); // current row about to be deleted by grid
@@ -1773,21 +1785,30 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         }
         else {
             int index = 0;
-            DDbTestApp app = new DDbTestApp();
+            DDbTestApp testApp = null;
+            
+            for (DDbTestApp app : maTestApps) {
+                if (app.getFkTestId() == moTest.getPkTestId()) {
+                    testApp = app;
+                    break;
+                }
+            }
+            
+            if (testApp == null) {
+                testApp = new DDbTestApp();
+            }
             
             //app.setPkAppId(...);
-            app.setDate(moDateTestAppDate.getValue());
+            testApp.setDate(moDateTestAppDate.getValue());
             //app.setDeleted(...);
             //app.setSystem(...);
-            app.setFkTestId(moTest.getPkTestId());
+            testApp.setFkTestId(moTest.getPkTestId());
             //app.setFkTestTypeId(moTest.getFkTestTypeId()); // set on compute
-            app.setFkItemId(...);
+            testApp.setFkItemId(moFormula.getRegItem().getPkItemId());
             //app.setFkItemTypeId(...); // set on compute
             //app.setFkJobId_n(...); // set on save
             
-            app.compute(miClient.getSession());
-            
-            app.setAuxTest(moTest);
+            testApp.compute(miClient.getSession());
             
             moTest.setAuxResultsApps(moTest.getAuxResultsApps() + 1);
             renderTest(); // update shown results applied
@@ -1795,7 +1816,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
             for (DGridRow row : moGridTestApps.getModel().getGridRows()) {
                 DDbTestAppResult appResultBase = (DDbTestAppResult) row;
                 DDbTestAppResult appResultNew = new DDbTestAppResult();
-                
+                /*
                 //appResult.setPkAppId(...);
                 appResultNew.setPkVariableId(appResultBase.getPkVariableId());
                 appResultNew.setPkResultId(moTest.getAuxResultsApps());
@@ -1803,17 +1824,18 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
                 
                 appResultNew.setRegVariable(appResultBase.getRegVariable());
                 
-                appResultNew.setAuxTestApp(app);
+                appResultNew.setAuxTestApp(testApp);
                 
-                app.getChildAppResults().add(appResultNew);
+                testApp.getChildAppResults().add(appResultNew);
                 moGridTestAppsResults.addGridRow(appResultNew);
-                
+-                
                 appResultBase.setValue(0); // clear variable
+                */
             }
             
             // Add results:
             
-            maTestApps.add(app);
+            maTestApps.add(testApp);
             moGridTestAppsResults.renderGridRows();
             moGridTestAppsResults.setSelectedGridRow(moGridTestAppsResults.getTable().getRowCount() - 1);
             
@@ -1990,8 +2012,8 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
             jtfTestAppResults.setText("");
         }
         else {
-            jtfTestApp.setText(appResult.getAuxTestApp().getAuxTest().getName());
-            jtfTestAppResults.setText("" + DLibUtils.DecimalFormatInteger.format(appResult.getPkResultId()) + "/" + DLibUtils.DecimalFormatInteger.format(appResult.getAuxTestApp().getAuxTest().getAuxResults()));
+            jtfTestApp.setText(appResult.getAuxTestApp().getRegTest().getName());
+            jtfTestAppResults.setText("" + DLibUtils.DecimalFormatInteger.format(appResult.getPkResultId()) + "/" + DLibUtils.DecimalFormatInteger.format(appResult.getAuxTestApp().getRegTest().getAuxResults()));
             
             jtfTestApp.setCaretPosition(0);
             jtfTestAppResults.setCaretPosition(0);
@@ -2128,8 +2150,14 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         createTestItems();
         itemStateChangedTest();
         
+        maTestApps.clear();
+        maTestApps.addAll(moRegistry.getRegTestApps());
+        
         for (DDbTestApp app : moRegistry.getRegTestApps()) {
-            rows.addAll(app.getChildAppResults());
+            for (DDbTestAppResult appResult : app.getChildAppResults()) {
+                appResult.setAuxTestApp(app);
+                rows.addAll(appResult.getChildAppResultVariables());
+            }
         }
         moGridTestAppsResults.populateGrid(rows, this);
         
@@ -2203,9 +2231,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         }
         
         registry.getChildConsumps().clear();
-        for (DDbJobConsump consump : maConsumps) {
-            registry.getChildConsumps().add(consump);
-        }
+        registry.getChildConsumps().addAll(maConsumps);
 
         registry.getChildMfgProds().clear();
         for (DGridRow row : moGridMfgProds.getModel().getGridRows()) {

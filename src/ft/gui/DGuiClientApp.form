@@ -238,17 +238,17 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jmiMfgFormula">
               <Properties>
-                <Property name="text" type="java.lang.String" value="F&#xf3;rmulas de producto"/>
+                <Property name="text" type="java.lang.String" value="F&#xf3;rmulas"/>
               </Properties>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jmiMfgFormulaComp">
               <Properties>
-                <Property name="text" type="java.lang.String" value="F&#xf3;rmulas de producto y componentes"/>
+                <Property name="text" type="java.lang.String" value="F&#xf3;rmulas y componentes"/>
               </Properties>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jmiMfgFormulaByProd">
               <Properties>
-                <Property name="text" type="java.lang.String" value="F&#xf3;rmulas de producto y colaterales"/>
+                <Property name="text" type="java.lang.String" value="F&#xf3;rmulas y colaterales"/>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </MenuItem>

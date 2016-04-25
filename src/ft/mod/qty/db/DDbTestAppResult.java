@@ -5,29 +5,26 @@
 
 package ft.mod.qty.db;
 
-import ft.lib.DLibRegistry;
 import ft.mod.DModConsts;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import sba.lib.db.DDbConsts;
 import sba.lib.db.DDbRegistryUser;
-import sba.lib.grid.DGridRow;
-import sba.lib.grid.cell.DGridCellNumber;
 import sba.lib.gui.DGuiSession;
 
 /**
  *
  * @author Sergio Flores
  */
-public class DDbTestAppResult extends DDbRegistryUser implements DGridRow, DGridCellNumber, DLibRegistry {
+public class DDbTestAppResult extends DDbRegistryUser {
 
     protected int mnPkAppId;
-    protected int mnPkVariableId;
     protected int mnPkResultId;
-    protected double mdValue;
-
-    protected DDbVariable moRegVariable;
     
+    protected ArrayList<DDbTestAppResultVariable> maChildAppResultVariables;
+
     protected DDbTestApp moAuxTestApp;
 
     public DDbTestAppResult() {
@@ -35,24 +32,14 @@ public class DDbTestAppResult extends DDbRegistryUser implements DGridRow, DGrid
         initRegistry();
     }
 
-    private void readRegMembers(final DGuiSession session, final boolean update) {
-        moRegVariable = (DDbVariable) session.readRegistry(DModConsts.QU_VAR, new int[] { mnPkVariableId });
-    }
-    
     public void setPkAppId(int n) { mnPkAppId = n; }
-    public void setPkVariableId(int n) { mnPkVariableId = n; }
     public void setPkResultId(int n) { mnPkResultId = n; }
-    public void setValue(double d) { mdValue = d; }
 
     public int getPkAppId() { return mnPkAppId; }
-    public int getPkVariableId() { return mnPkVariableId; }
     public int getPkResultId() { return mnPkResultId; }
-    public double getValue() { return mdValue; }
 
-    public void setRegVariable(DDbVariable o) { moRegVariable = o; }
+    public ArrayList<DDbTestAppResultVariable> getChildAppResultVariables() { return maChildAppResultVariables; }
     
-    public DDbVariable getRegVariable() { return moRegVariable; }
-
     public void setAuxTestApp(DDbTestApp o) { moAuxTestApp = o; }
     
     public DDbTestApp getAuxTestApp() { return moAuxTestApp; }
@@ -60,13 +47,12 @@ public class DDbTestAppResult extends DDbRegistryUser implements DGridRow, DGrid
     @Override
     public void setPrimaryKey(int[] pk) {
         mnPkAppId = pk[0];
-        mnPkVariableId = pk[1];
-        mnPkResultId = pk[2];
+        mnPkResultId = pk[1];
     }
 
     @Override
     public int[] getPrimaryKey() {
-        return new int[] { mnPkVariableId, mnPkVariableId, mnPkResultId };
+        return new int[] { mnPkAppId, mnPkResultId };
     }
 
     @Override
@@ -74,11 +60,9 @@ public class DDbTestAppResult extends DDbRegistryUser implements DGridRow, DGrid
         initBaseRegistry();
 
         mnPkAppId = 0;
-        mnPkVariableId = 0;
         mnPkResultId = 0;
-        mdValue = 0;
         
-        moRegVariable = null;
+        maChildAppResultVariables.clear();
         
         moAuxTestApp = null;
     }
@@ -90,12 +74,12 @@ public class DDbTestAppResult extends DDbRegistryUser implements DGridRow, DGrid
 
     @Override
     public String getSqlWhere() {
-        return "WHERE id_app = " + mnPkAppId + " AND id_var = " + mnPkVariableId + " AND id_res = " + mnPkResultId + " ";
+        return "WHERE id_app = " + mnPkAppId + " AND id_res = " + mnPkResultId + " ";
     }
 
     @Override
     public String getSqlWhere(int[] pk) {
-        return "WHERE id_app = " + pk[1] + " AND id_var = " + pk[2] + " AND id_res = " + pk[3] + " ";
+        return "WHERE id_app = " + pk[0] + " AND id_res = " + pk[1] + " ";
     }
 
     @Override
@@ -105,7 +89,7 @@ public class DDbTestAppResult extends DDbRegistryUser implements DGridRow, DGrid
         mnPkResultId = 0;
 
         msSql = "SELECT COALESCE(MAX(id_var), 0) + 1 FROM " + getSqlTable() + " " +
-                "WHERE id_app = " + mnPkAppId + " AND id_var = " + mnPkVariableId + " ";
+                "WHERE id_app = " + mnPkAppId + " ";
         resultSet = session.getStatement().executeQuery(msSql);
         if (resultSet.next()) {
             mnPkResultId = resultSet.getInt(1);
@@ -114,6 +98,7 @@ public class DDbTestAppResult extends DDbRegistryUser implements DGridRow, DGrid
 
     @Override
     public void read(DGuiSession session, int[] pk) throws SQLException, Exception {
+        Statement statement = null;
         ResultSet resultSet = null;
 
         initRegistry();
@@ -127,11 +112,22 @@ public class DDbTestAppResult extends DDbRegistryUser implements DGridRow, DGrid
         }
         else {
             mnPkAppId = resultSet.getInt("id_app");
-            mnPkVariableId = resultSet.getInt("id_var");
             mnPkResultId = resultSet.getInt("id_res");
-            mdValue = resultSet.getDouble("val");
-
-            readRegMembers(session, false);
+            
+            // Read aswell child registries:
+            
+            statement = session.getStatement().getConnection().createStatement();
+            
+            msSql = "SELECT id_var FROM " + DModConsts.TablesMap.get(DModConsts.Q_APP_RES_VAR) + " " + getSqlWhere() +
+                    "ORDER BY id_var";
+            resultSet = statement.executeQuery(msSql);
+            while (resultSet.next()) {
+                DDbTestAppResultVariable child = new DDbTestAppResultVariable();
+                child.read(session, new int[] { mnPkAppId, mnPkResultId, resultSet.getInt(1) });
+                maChildAppResultVariables.add(child);
+            }
+            
+            // Finish registry reading:
 
             mbRegistryNew = false;
         }
@@ -144,15 +140,11 @@ public class DDbTestAppResult extends DDbRegistryUser implements DGridRow, DGrid
         initQueryMembers();
         mnQueryResultId = DDbConsts.SAVE_ERROR;
 
-        compute(session);
-
         if (mbRegistryNew) {
             computePrimaryKey(session);
             msSql = "INSERT INTO " + getSqlTable() + " VALUES (" +
                     mnPkAppId + ", " + 
-                    mnPkVariableId + ", " + 
-                    mnPkResultId + ", " + 
-                    mdValue + " " + 
+                    mnPkResultId + " " + 
                     ")";
         }
         else {
@@ -160,6 +152,20 @@ public class DDbTestAppResult extends DDbRegistryUser implements DGridRow, DGrid
         }
 
         session.getStatement().execute(msSql);
+        
+        // Save aswell child registries:
+        
+        msSql = "DELETE FROM " + DModConsts.TablesMap.get(DModConsts.Q_APP_RES_VAR) + " " + getSqlWhere();
+        session.getStatement().execute(msSql);
+        
+        for (DDbTestAppResultVariable child : maChildAppResultVariables) {
+            child.setRegistryNew(true);
+            child.setPkAppId(mnPkAppId);
+            child.setPkResultId(mnPkResultId);
+            child.save(session);
+        }
+        // Finish saving registry:
+        
         mbRegistryNew = false;
         mnQueryResultId = DDbConsts.SAVE_OK;
     }
@@ -169,102 +175,13 @@ public class DDbTestAppResult extends DDbRegistryUser implements DGridRow, DGrid
         DDbTestAppResult registry = new DDbTestAppResult();
 
         registry.setPkAppId(this.getPkAppId());
-        registry.setPkVariableId(this.getPkVariableId());
         registry.setPkResultId(this.getPkResultId());
-        registry.setValue(this.getValue());
         
-        registry.setRegVariable(this.getRegVariable() == null ? null : this.getRegVariable().clone());
-        
-        registry.setAuxTestApp(this.getAuxTestApp() == null ? null : this.getAuxTestApp().clone());
+        for (DDbTestAppResultVariable child : maChildAppResultVariables) {
+            registry.getChildAppResultVariables().add(child.clone());
+        }
         
         registry.setRegistryNew(this.isRegistryNew());
         return registry;
-    }
-
-    @Override
-    public int[] getRowPrimaryKey() {
-        return getPrimaryKey();
-    }
-
-    @Override
-    public String getRowCode() {
-        return getCode();
-    }
-
-    @Override
-    public String getRowName() {
-        return getName();
-    }
-
-    @Override
-    public boolean isRowSystem() {
-        return isSystem();
-    }
-
-    @Override
-    public boolean isRowDeletable() {
-        return isDeletable();
-    }
-
-    @Override
-    public boolean isRowEdited() {
-        return isRegistryEdited();
-    }
-
-    @Override
-    public void setRowEdited(boolean edited) {
-        setRegistryEdited(edited);
-    }
-
-    @Override
-    public Object getRowValueAt(int col) {
-        Object value = null;
-        
-        switch (col) {
-            case 0:
-                value = moAuxTestApp == null || moAuxTestApp.getAuxTest() == null ? 0 : moAuxTestApp.getAuxTest().getPkTestId();
-                break;
-            case 1:
-                value = mnPkResultId;
-                break;
-            case 2:
-                value = moRegVariable.getName();
-                break;
-            case 3:
-                value = mdValue;
-                break;
-            case 4:
-                value = moRegVariable.getUnit();
-                break;
-            default:
-        }
-        
-        return value;
-    }
-
-    @Override
-    public void setRowValueAt(Object value, int col) {
-        switch (col) {
-            case 0:
-            case 1:
-            case 2:
-                break;
-            case 3:
-                mdValue = (Double) value;
-                break;
-            case 4:
-                break;
-            default:
-        }
-    }
-
-    @Override
-    public int getDecimals() {
-        return moRegVariable.getDecimals();
-    }
-    
-    @Override
-    public void compute(final DGuiSession session) {
-        readRegMembers(session, true);
     }
 }

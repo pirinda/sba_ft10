@@ -5,7 +5,9 @@
 
 package ft.mod.qty.db;
 
+import ft.lib.DLibRegistry;
 import ft.mod.DModConsts;
+import ft.mod.cfg.db.DDbItem;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -22,7 +24,7 @@ import sba.lib.gui.DGuiSession;
  *
  * @author Sergio Flores
  */
-public class DDbTestApp extends DDbRegistryUser {
+public class DDbTestApp extends DDbRegistryUser implements DLibRegistry {
 
     protected int mnPkAppId;
     protected Date mtDate;
@@ -44,7 +46,8 @@ public class DDbTestApp extends DDbRegistryUser {
     
     protected ArrayList<DDbTestAppResult> maChildAppResults;
     
-    protected DDbTest moAuxTest;
+    protected DDbTest moRegTest;
+    protected DDbItem moRegItem;
     
     public DDbTestApp() {
         super(DModConsts.Q_APP);
@@ -52,6 +55,16 @@ public class DDbTestApp extends DDbRegistryUser {
         initRegistry();
     }
 
+    private void readRegMembers(final DGuiSession session, final boolean update) {
+        moRegTest = (DDbTest) session.readRegistry(DModConsts.QU_TST, new int[] { mnFkTestId });
+        moRegItem = (DDbItem) session.readRegistry(DModConsts.CU_ITM, new int[] { mnFkItemId });
+        
+        if (update) {
+            mnFkTestTypeId = moRegTest.getFkTestTypeId();
+            mnFkItemTypeId = moRegItem.getXtaFkItemTypeId();
+        }
+    }
+    
     public void setPkAppId(int n) { mnPkAppId = n; }
     public void setDate(Date t) { mtDate = t; }
     public void setDeleted(boolean b) { mbDeleted = b; }
@@ -82,9 +95,11 @@ public class DDbTestApp extends DDbRegistryUser {
 
     public ArrayList<DDbTestAppResult> getChildAppResults() { return maChildAppResults; }
     
-    public void setAuxTest(DDbTest o) { moAuxTest = o; }
+    public void setRegTest(DDbTest o) { moRegTest = o; }
+    public void setRegItem(DDbItem o) { moRegItem = o; }
     
-    public DDbTest getAuxTest() { return moAuxTest; }
+    public DDbTest getRegTest() { return moRegTest; }
+    public DDbItem getRegItem() { return moRegItem; }
     
     @Override
     public void setPrimaryKey(int[] pk) {
@@ -116,7 +131,8 @@ public class DDbTestApp extends DDbRegistryUser {
         
         maChildAppResults.clear();
         
-        moAuxTest = null;
+        moRegTest = null;
+        moRegItem = null;
     }
 
     @Override
@@ -189,6 +205,10 @@ public class DDbTestApp extends DDbRegistryUser {
                 maChildAppResults.add(child);
             }
             
+            // Read aswell embeeded registries:
+            
+            readRegMembers(session, false);
+            
             // Finish registry reading:
 
             mbRegistryNew = false;
@@ -201,6 +221,8 @@ public class DDbTestApp extends DDbRegistryUser {
     public void save(DGuiSession session) throws SQLException, Exception {
         initQueryMembers();
         mnQueryResultId = DDbConsts.SAVE_ERROR;
+        
+        compute(session);
 
         if (mbRegistryNew) {
             computePrimaryKey(session);
@@ -286,9 +308,14 @@ public class DDbTestApp extends DDbRegistryUser {
             registry.getChildAppResults().add(child.clone());
         }
         
-        registry.setAuxTest(this.getAuxTest() == null ? null : this.getAuxTest());
+        registry.setRegTest(this.getRegTest() == null ? null : this.getRegTest());
         
         registry.setRegistryNew(this.isRegistryNew());
         return registry;
+    }
+
+    @Override
+    public void compute(DGuiSession session) {
+        readRegMembers(session, true);
     }
 }

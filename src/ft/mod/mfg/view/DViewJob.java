@@ -35,6 +35,7 @@ public class DViewJob extends DGridPaneView {
         moPaneSettings.setSystemApplying(true);
         moPaneSettings.setUserInsertApplying(true);
         moPaneSettings.setUserUpdateApplying(true);
+        moPaneSettings.setDateApplying(true);
 
         filter = (Boolean) moFiltersMap.get(DGridConsts.FILTER_DELETED);
         if ((Boolean) filter) {
@@ -45,6 +46,15 @@ public class DViewJob extends DGridPaneView {
                 "v.id_job AS " + DDbConsts.FIELD_ID + "1, " +
                 "v.num AS " + DDbConsts.FIELD_CODE + ", " +
                 "v.num AS " + DDbConsts.FIELD_NAME + ", " +
+                "v.dat AS " + DDbConsts.FIELD_DATE + ", " +
+                "v.job_qty_r, " +
+                "v.lot, " +
+                "i.code, " +
+                "i.name, " +
+                "it.code, " +
+                "it.name, " +
+                "u.code, " +
+                "u.name, " +
                 "v.b_del AS " + DDbConsts.FIELD_IS_DEL + ", " +
                 "v.b_sys AS " + DDbConsts.FIELD_IS_SYS + ", " +
                 "v.fk_usr_ins AS " + DDbConsts.FIELD_USER_INS_ID + ", " +
@@ -55,6 +65,12 @@ public class DViewJob extends DGridPaneView {
                 "ui.name AS " + DDbConsts.FIELD_USER_INS_NAME + ", " +
                 "uu.name AS " + DDbConsts.FIELD_USER_UPD_NAME + " " +
                 "FROM " + DModConsts.TablesMap.get(DModConsts.M_JOB) + " AS v " +
+                "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_ITM) + " AS i ON " +
+                "v.fk_itm = i.id_itm " +
+                "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CS_ITM_TP) + " AS it ON " +
+                "v.fk_itm_tp = it.id_itm_tp " +
+                "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_UOM) + " AS u ON " +
+                "v.fk_uom = u.id_uom " +
                 "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_USR) + " AS ui ON " +
                 "v.fk_usr_ins = ui.id_usr " +
                 "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_USR) + " AS uu ON " +
@@ -66,9 +82,16 @@ public class DViewJob extends DGridPaneView {
     @Override
     public void createGridColumns() {
         int col = 0;
-        DGridColumnView[] columns = new DGridColumnView[7];
+        DGridColumnView[] columns = new DGridColumnView[14];
 
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_INT_RAW, DDbConsts.FIELD_NAME, DGridConsts.COL_TITLE_NUM);
+        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_INT_RAW, DDbConsts.FIELD_DATE, DGridConsts.COL_TITLE_DATE);
+        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_ITM_L, "i.name", DGridConsts.COL_TITLE_NAME + " producto");
+        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_CODE_ITM, "i.code", DGridConsts.COL_TITLE_CODE + " producto");
+        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_CODE_CAT, "it.code", DGridConsts.COL_TITLE_TYPE + " producto");
+        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_DEC_QTY, "v.job_qty_r", "Cantidad");
+        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_CODE_UNT, "u.code", "Unidad medida");
+        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_CAT_S, "v.lot", "Lote");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_BOOL_S, DDbConsts.FIELD_IS_DEL, DGridConsts.COL_TITLE_IS_DEL);
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_BOOL_S, DDbConsts.FIELD_IS_SYS, DGridConsts.COL_TITLE_IS_SYS);
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_USR, DDbConsts.FIELD_USER_INS_NAME, DGridConsts.COL_TITLE_USER_INS_NAME);

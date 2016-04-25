@@ -466,16 +466,16 @@ public class DDbJob extends DDbRegistryUser implements DLibRegistry {
         
         // Save aswell child registries:
         
-        msSql = "DELETE FROM " + DModConsts.TablesMap.get(DModConsts.M_JOB_REQ) + " " + getSqlWhere();
-        session.getStatement().execute(msSql);
-
-        msSql = "DELETE FROM " + DModConsts.TablesMap.get(DModConsts.M_JOB_CON) + " " + getSqlWhere();
+        msSql = "DELETE FROM " + DModConsts.TablesMap.get(DModConsts.M_JOB_VAR) + " " + getSqlWhere();
         session.getStatement().execute(msSql);
 
         msSql = "DELETE FROM " + DModConsts.TablesMap.get(DModConsts.M_JOB_MFG) + " " + getSqlWhere();
         session.getStatement().execute(msSql);
 
-        msSql = "DELETE FROM " + DModConsts.TablesMap.get(DModConsts.M_JOB_VAR) + " " + getSqlWhere();
+        msSql = "DELETE FROM " + DModConsts.TablesMap.get(DModConsts.M_JOB_CON) + " " + getSqlWhere();
+        session.getStatement().execute(msSql);
+
+        msSql = "DELETE FROM " + DModConsts.TablesMap.get(DModConsts.M_JOB_REQ) + " " + getSqlWhere();
         session.getStatement().execute(msSql);
 
         for (DDbJobReqment child : maChildReqments) {
@@ -516,7 +516,6 @@ public class DDbJob extends DDbRegistryUser implements DLibRegistry {
         
         // Finish registry updating:
 
-        session.getStatement().execute(msSql);
         mbRegistryNew = false;
         mnQueryResultId = DDbConsts.SAVE_OK;
     }

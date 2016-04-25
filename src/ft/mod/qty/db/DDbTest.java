@@ -37,12 +37,12 @@ public class DDbTest extends DDbRegistryUser {
     protected Date mtTsUserUpdate;
     */
     
-    protected int mnAuxResults;
-    protected int mnAuxResultsApps;
-
     protected ArrayList<DDbTestVariable> maChildVariables;
     protected ArrayList<DDbTestFamily> maChildFamilies;
     
+    protected int mnAuxResults;
+    protected int mnAuxResultsApps;
+
     public DDbTest() {
         super(DModConsts.QU_TST);
         maChildVariables = new ArrayList<>();
@@ -145,11 +145,11 @@ public class DDbTest extends DDbRegistryUser {
         mtTsUserInsert = null;
         mtTsUserUpdate = null;
         
-        mnAuxResults = 0;
-        mnAuxResultsApps = 0;
-        
         maChildVariables.clear();
         maChildFamilies.clear();
+        
+        mnAuxResults = 0;
+        mnAuxResultsApps = 0;
     }
 
     @Override
@@ -325,9 +325,6 @@ public class DDbTest extends DDbRegistryUser {
         registry.setTsUserInsert(this.getTsUserInsert());
         registry.setTsUserUpdate(this.getTsUserUpdate());
         
-        registry.setAuxResults(this.getAuxResults());
-        registry.setAuxResultsApps(this.getAuxResultsApps());
-
         for (DDbTestVariable child : maChildVariables) {
             registry.getChildVariables().add(child.clone());
         }

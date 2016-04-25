@@ -64,6 +64,7 @@ public class DViewWsd extends DGridPaneView implements ActionListener {
         moPaneSettings.setSystemApplying(true);
         moPaneSettings.setUserInsertApplying(true);
         moPaneSettings.setUserUpdateApplying(true);
+        moPaneSettings.setDateApplying(true);
 
         filter = (Boolean) moFiltersMap.get(DGridConsts.FILTER_DELETED);
         if ((Boolean) filter) {
@@ -75,7 +76,7 @@ public class DViewWsd extends DGridPaneView implements ActionListener {
                 "CONCAT(movt.code, '-', v.num) AS " + DDbConsts.FIELD_CODE + ", " +
                 "CONCAT(movt.code, '-', v.num) AS " + DDbConsts.FIELD_NAME + ", " +
                 "v.num, " +
-                "v.dat, " +
+                "v.dat AS " + DDbConsts.FIELD_DATE + ", " +
                 "v.ref, " +
                 "v.amt_r, " +
                 "v.mass_r, " +
@@ -147,7 +148,7 @@ public class DViewWsd extends DGridPaneView implements ActionListener {
 
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_CODE_CAT, "movt.code", DGridConsts.COL_TITLE_TYPE + " doc");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_REG_NUM, "v.num", DGridConsts.COL_TITLE_NUM + " doc");
-        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_DATE, "v.dat", DGridConsts.COL_TITLE_DATE + " doc");
+        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_DATE, DDbConsts.FIELD_DATE, DGridConsts.COL_TITLE_DATE + " doc");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_DEC_AMT, "v.amt_r", "Valor $");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_DEC_QTY, "v.mass_r", "Masa (" + DCfgUtils.getMassUnitCode(miClient.getSession()) + ")");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_CAT_S, "whs.name", "Almacén");

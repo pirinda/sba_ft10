@@ -68,7 +68,7 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
 
     public static final String APP_NAME = "FoodTrace 1.0";
     public static final String APP_RELEASE = "FoodTrace 1.0 007.01";
-    public static final String APP_COPYRIGHT = "Copyright © FoodTrace Co.";
+    public static final String APP_COPYRIGHT = "Copyright © FoodTrace";
     public static final String APP_PROVIDER = "http://www.foodtrace.com";
     
     private boolean mbFirstActivation;
@@ -421,13 +421,13 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
         jmMfg.add(jmiMfgJob);
         jmMfg.add(jsMfg1);
 
-        jmiMfgFormula.setText("Fórmulas de producto");
+        jmiMfgFormula.setText("Fórmulas");
         jmMfg.add(jmiMfgFormula);
 
-        jmiMfgFormulaComp.setText("Fórmulas de producto y componentes");
+        jmiMfgFormulaComp.setText("Fórmulas y componentes");
         jmMfg.add(jmiMfgFormulaComp);
 
-        jmiMfgFormulaByProd.setText("Fórmulas de producto y colaterales");
+        jmiMfgFormulaByProd.setText("Fórmulas y colaterales");
         jmiMfgFormulaByProd.setEnabled(false);
         jmMfg.add(jmiMfgFormulaByProd);
         jmMfg.add(jsMfg2);

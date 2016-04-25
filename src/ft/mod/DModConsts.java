@@ -83,6 +83,7 @@ public abstract class DModConsts {
 
     public static final int Q_APP = 413021;
     public static final int Q_APP_RES = 413026;
+    public static final int Q_APP_RES_VAR = 413027;
 
     public static final HashMap<Integer, String> TablesMap = new HashMap<Integer, String>();
 
@@ -151,5 +152,6 @@ public abstract class DModConsts {
 
         TablesMap.put(Q_APP, "q_app");
         TablesMap.put(Q_APP_RES, "q_app_res");
+        TablesMap.put(Q_APP_RES_VAR, "q_app_res_var");
     }
 }
