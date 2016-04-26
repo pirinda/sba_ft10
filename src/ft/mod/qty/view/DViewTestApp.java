@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package ft.mod.mfg.view;
+package ft.mod.qty.view;
 
 import ft.mod.DModConsts;
 import sba.lib.DLibConsts;
@@ -22,13 +22,13 @@ import sba.lib.gui.DGuiDate;
  *
  * @author Sergio Flores
  */
-public class DViewJob extends DGridPaneView {
+public class DViewTestApp extends DGridPaneView {
 
     private DGridFilterDatePeriod moFilterDatePeriod;
     
-    public DViewJob(DGuiClient client, String title) {
-        super(client, DGridConsts.GRID_VIEW_TAB, DModConsts.M_JOB, DLibConsts.UNDEFINED, title);
-        setRowButtonsEnabled(true, true, true, false, true);
+    public DViewTestApp(DGuiClient client, String title) {
+        super(client, DGridConsts.GRID_VIEW_TAB, DModConsts.Q_APP, DLibConsts.UNDEFINED, title);
+        setRowButtonsEnabled(false);
         
         moFilterDatePeriod = new DGridFilterDatePeriod(miClient, this, DGuiConsts.DATE_PICKER_DATE_PERIOD);
         moFilterDatePeriod.initFilter(new DGuiDate(DGuiConsts.GUI_DATE_MONTH, miClient.getSession().getWorkingDate().getTime()));
@@ -56,55 +56,59 @@ public class DViewJob extends DGridPaneView {
         sql += (sql.isEmpty() ? "" : "AND ") + DGridUtils.getSqlFilterDate("v.dat", (DGuiDate) filter);
         
         msSql = "SELECT " +
-                "v.id_job AS " + DDbConsts.FIELD_ID + "1, " +
-                "v.num AS " + DDbConsts.FIELD_CODE + ", " +
-                "v.num AS " + DDbConsts.FIELD_NAME + ", " +
+                "v.id_app AS " + DDbConsts.FIELD_ID + "1, " +
+                "t.code AS " + DDbConsts.FIELD_CODE + ", " +
+                "t.name AS " + DDbConsts.FIELD_NAME + ", " +
                 "v.dat AS " + DDbConsts.FIELD_DATE + ", " +
-                "v.job_qty_r, " +
-                "v.lot, " +
+                "tt.code, " +
+                "tt.name, " +
                 "i.code, " +
                 "i.name, " +
                 "it.code, " +
                 "it.name, " +
-                "u.code, " +
-                "u.name, " +
+                "j.num, " +
+                "j.dat, " +
                 "v.b_del AS " + DDbConsts.FIELD_IS_DEL + ", " +
                 "v.b_sys AS " + DDbConsts.FIELD_IS_SYS + ", " +
                 "v.fk_usr_ins AS " + DDbConsts.FIELD_USER_INS_ID + ", " +
                 "v.fk_usr_upd AS " + DDbConsts.FIELD_USER_UPD_ID + ", " +
                 "v.ts_usr_ins AS " + DDbConsts.FIELD_USER_INS_TS + ", " +
                 "v.ts_usr_upd AS " + DDbConsts.FIELD_USER_UPD_TS + ", " +
-                "v.ts_usr_upd AS " + DDbConsts.FIELD_USER_UPD_TS + ", " +
                 "ui.name AS " + DDbConsts.FIELD_USER_INS_NAME + ", " +
                 "uu.name AS " + DDbConsts.FIELD_USER_UPD_NAME + " " +
-                "FROM " + DModConsts.TablesMap.get(DModConsts.M_JOB) + " AS v " +
+                "FROM " + DModConsts.TablesMap.get(DModConsts.Q_APP) + " AS v " +
+                "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.QU_TST) + " AS t ON " +
+                "v.fk_tst = t.id_tst " +
+                "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.QS_TST_TP) + " AS tt ON " +
+                "v.fk_tst_tp = tt.id_tst_tp " +
                 "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_ITM) + " AS i ON " +
                 "v.fk_itm = i.id_itm " +
                 "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CS_ITM_TP) + " AS it ON " +
                 "v.fk_itm_tp = it.id_itm_tp " +
-                "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_UOM) + " AS u ON " +
-                "v.fk_uom = u.id_uom " +
                 "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_USR) + " AS ui ON " +
                 "v.fk_usr_ins = ui.id_usr " +
                 "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_USR) + " AS uu ON " +
                 "v.fk_usr_upd = uu.id_usr " +
+                "LEFT OUTER JOIN " + DModConsts.TablesMap.get(DModConsts.M_JOB) + " AS j ON " +
+                "v.fk_job_n = j.id_job " +
                 (sql.length() == 0 ? "" : "WHERE " + sql) +
-                "ORDER BY v.num, v.id_job ";
+                "ORDER BY v.dat, t.name, t.code, i.name, i.code, j.num, v.id_app ";
     }
 
     @Override
     public void createGridColumns() {
         int col = 0;
-        DGridColumnView[] columns = new DGridColumnView[14];
+        DGridColumnView[] columns = new DGridColumnView[15];
 
-        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_INT_RAW, DDbConsts.FIELD_NAME, DGridConsts.COL_TITLE_NUM);
-        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_DATE, DDbConsts.FIELD_DATE, DGridConsts.COL_TITLE_DATE);
-        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_ITM_L, "i.name", DGridConsts.COL_TITLE_NAME + " producto");
+        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_DATE, DDbConsts.FIELD_DATE, DGridConsts.COL_TITLE_DATE + " aplicación test calidad");
+        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_CAT_M, DDbConsts.FIELD_NAME, DGridConsts.COL_TITLE_NAME + " test calidad");
+        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_CODE_CAT, DDbConsts.FIELD_CODE, DGridConsts.COL_TITLE_CODE + " test calidad");
+        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_CODE_CAT, "tt.code", DGridConsts.COL_TITLE_TYPE + " test calidad");
+        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_ITM_S, "i.name", DGridConsts.COL_TITLE_NAME + " producto");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_CODE_ITM, "i.code", DGridConsts.COL_TITLE_CODE + " producto");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_CODE_CAT, "it.code", DGridConsts.COL_TITLE_TYPE + " producto");
-        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_DEC_QTY, "v.job_qty_r", "Cantidad");
-        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_CODE_UNT, "u.code", "Unidad medida");
-        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_CAT_S, "v.lot", "Lote");
+        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_INT_RAW, "j.num", DGridConsts.COL_TITLE_NUM + " orden producción");
+        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_DATE, "j.dat", DGridConsts.COL_TITLE_DATE + " orden producción");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_BOOL_S, DDbConsts.FIELD_IS_DEL, DGridConsts.COL_TITLE_IS_DEL);
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_BOOL_S, DDbConsts.FIELD_IS_SYS, DGridConsts.COL_TITLE_IS_SYS);
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_USR, DDbConsts.FIELD_USER_INS_NAME, DGridConsts.COL_TITLE_USER_INS_NAME);

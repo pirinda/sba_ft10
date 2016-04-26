@@ -29,6 +29,7 @@ public class DDbTestAppResult extends DDbRegistryUser {
 
     public DDbTestAppResult() {
         super(DModConsts.Q_APP_RES);
+        maChildVariables = new ArrayList<>();
         initRegistry();
     }
 
@@ -88,7 +89,7 @@ public class DDbTestAppResult extends DDbRegistryUser {
 
         mnPkResultId = 0;
 
-        msSql = "SELECT COALESCE(MAX(id_var), 0) + 1 FROM " + getSqlTable() + " " +
+        msSql = "SELECT COALESCE(MAX(id_res), 0) + 1 FROM " + getSqlTable() + " " +
                 "WHERE id_app = " + mnPkAppId + " ";
         resultSet = session.getStatement().executeQuery(msSql);
         if (resultSet.next()) {
@@ -119,7 +120,7 @@ public class DDbTestAppResult extends DDbRegistryUser {
             statement = session.getStatement().getConnection().createStatement();
             
             msSql = "SELECT id_var FROM " + DModConsts.TablesMap.get(DModConsts.Q_APP_RES_VAR) + " " + getSqlWhere() +
-                    "ORDER BY id_var";
+                    "ORDER BY id_var ";
             resultSet = statement.executeQuery(msSql);
             while (resultSet.next()) {
                 DDbTestAppResultVariable child = new DDbTestAppResultVariable();

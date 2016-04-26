@@ -139,7 +139,6 @@ public class DDbTestAppResultVariable extends DDbRegistryUser implements DGridRo
         verifyRegistryNew(session);
 
         if (mbRegistryNew) {
-            computePrimaryKey(session);
             msSql = "INSERT INTO " + getSqlTable() + " VALUES (" +
                     mnPkAppId + ", " + 
                     mnPkResultId + ", " + 
@@ -161,8 +160,8 @@ public class DDbTestAppResultVariable extends DDbRegistryUser implements DGridRo
         DDbTestAppResultVariable registry = new DDbTestAppResultVariable();
 
         registry.setPkAppId(this.getPkAppId());
-        registry.setPkVariableId(this.getPkVariableId());
         registry.setPkResultId(this.getPkResultId());
+        registry.setPkVariableId(this.getPkVariableId());
         registry.setValue(this.getValue());
         
         registry.setRegVariable(this.getRegVariable() == null ? null : this.getRegVariable().clone());

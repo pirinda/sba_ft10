@@ -196,12 +196,12 @@ public class DDbTestApp extends DDbRegistryUser implements DLibRegistry {
             
             statement = session.getStatement().getConnection().createStatement();
             
-            msSql = "SELECT id_var, id_res FROM " + DModConsts.TablesMap.get(DModConsts.Q_APP_RES) + " " + getSqlWhere() +
-                    "ORDER BY id_var, id_res ";
+            msSql = "SELECT id_res FROM " + DModConsts.TablesMap.get(DModConsts.Q_APP_RES) + " " + getSqlWhere() +
+                    "ORDER BY id_res ";
             resultSet = statement.executeQuery(msSql);
             while (resultSet.next()) {
                 DDbTestAppResult child = new DDbTestAppResult();
-                child.read(session, new int[] { mnPkAppId, resultSet.getInt(1), resultSet.getInt(2) });
+                child.read(session, new int[] { mnPkAppId, resultSet.getInt(1) });
                 maChildResults.add(child);
             }
             
@@ -271,6 +271,9 @@ public class DDbTestApp extends DDbRegistryUser implements DLibRegistry {
         
         // Save aswell child registries:
 
+        msSql = "DELETE FROM " + DModConsts.TablesMap.get(DModConsts.Q_APP_RES_VAR) + " " + getSqlWhere();
+        session.getStatement().execute(msSql);
+        
         msSql = "DELETE FROM " + DModConsts.TablesMap.get(DModConsts.Q_APP_RES) + " " + getSqlWhere();
         session.getStatement().execute(msSql);
         

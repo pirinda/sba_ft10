@@ -1111,7 +1111,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
                 DGridColumnForm[] columns = new DGridColumnForm[3];
 
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_NAME_CAT_S, DGridConsts.COL_TITLE_NAME + " variable");
-                columns[col] = new DGridColumnForm(DGridConsts.COL_TYPE_DEC_QTY, "Valor");
+                columns[col] = new DGridColumnForm(DGridConsts.COL_TYPE_DEC_AMT_UNIT, "Valor");
                 columns[col].setEditable(true);
                 columns[col++].setCellRenderer(new DGridCellRendererNumberVariable());
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_CODE_CAT, "Unidad medida"); // free text
@@ -1137,7 +1137,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_INT_1B, "Test calidad");
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_INT_1B, "# resultado");
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_NAME_CAT_S, DGridConsts.COL_TITLE_NAME + " variable");
-                columns[col] = new DGridColumnForm(DGridConsts.COL_TYPE_DEC_QTY, "Valor", new DGridCellRendererNumberVariable());
+                columns[col] = new DGridColumnForm(DGridConsts.COL_TYPE_DEC_AMT_UNIT, "Valor", new DGridCellRendererNumberVariable());
                 columns[col++].setEditable(true);
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_CODE_CAT, "Unidad medida"); // free text
 
@@ -1162,7 +1162,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_INT_1B, "Test calidad");
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_INT_1B, "# resultado");
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_NAME_CAT_S, DGridConsts.COL_TITLE_NAME + " variable");
-                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_DEC_QTY, "Valor", new DGridCellRendererNumberVariable());
+                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_DEC_AMT_UNIT, "Valor", new DGridCellRendererNumberVariable());
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_CODE_CAT, "Unidad medida"); // free text
 
                 for (col = 0; col < columns.length; col++) {
@@ -1825,6 +1825,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
             testAppResult.setPkResultId(moTest.getAuxAppResults());
             
             testAppResult.setAuxTestApp(testApp);
+            testApp.getChildResults().add(testAppResult);
             
             for (DGridRow row : moGridTestApps.getModel().getGridRows()) {
                 DDbTestAppResultVariable variableSrc = (DDbTestAppResultVariable) row;
@@ -1855,7 +1856,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
             
             index = moGridTestApps.getTable().getSelectedRow();
             moGridTestApps.renderGridRows();
-            moGridTestAppsResultVariables.setSelectedGridRow(index);
+            moGridTestApps.setSelectedGridRow(index);
         }
     }
     
@@ -2017,15 +2018,15 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
     }
     
     private void valueChangedTestAppsResultVariables() {
-        DDbTestAppResult appResult = (DDbTestAppResult) moGridTestAppsResultVariables.getSelectedGridRow();
+        DDbTestAppResultVariable variable = (DDbTestAppResultVariable) moGridTestAppsResultVariables.getSelectedGridRow();
         
-        if (appResult == null) {
+        if (variable == null) {
             jtfTestApp.setText("");
             jtfTestAppResults.setText("");
         }
         else {
-            jtfTestApp.setText(appResult.getAuxTestApp().getRegTest().getName());
-            jtfTestAppResults.setText("" + DLibUtils.DecimalFormatInteger.format(appResult.getPkResultId()) + "/" + DLibUtils.DecimalFormatInteger.format(appResult.getAuxTestApp().getRegTest().getAuxApps()));
+            jtfTestApp.setText(variable.getAuxTestAppResult().getAuxTestApp().getRegTest().getName());
+            jtfTestAppResults.setText("" + DLibUtils.DecimalFormatInteger.format(variable.getPkResultId()) + "/" + DLibUtils.DecimalFormatInteger.format(variable.getAuxTestAppResult().getAuxTestApp().getRegTest().getAuxApps()));
             
             jtfTestApp.setCaretPosition(0);
             jtfTestAppResults.setCaretPosition(0);

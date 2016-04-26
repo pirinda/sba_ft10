@@ -14,6 +14,8 @@ import ft.mod.qty.db.DDbVariable;
 import ft.mod.qty.form.DFormTest;
 import ft.mod.qty.form.DFormVariable;
 import ft.mod.qty.view.DViewTest;
+import ft.mod.qty.view.DViewTestApp;
+import ft.mod.qty.view.DViewTestAppResult;
 import ft.mod.qty.view.DViewVariable;
 import javax.swing.JMenu;
 import sba.lib.DLibConsts;
@@ -142,8 +144,10 @@ public class DModModuleQty extends DGuiModule {
             case DModConsts.QU_TST_FAM:
                 break;
             case DModConsts.Q_APP:
+                view = new DViewTestApp(miClient, "Aplicaciones tests calidad");
                 break;
             case DModConsts.Q_APP_RES:
+                view = new DViewTestAppResult(miClient, "Resultados tests calidad");
                 break;
             default:
                 miClient.showMsgBoxError(DLibConsts.ERR_MSG_OPTION_UNKNOWN);

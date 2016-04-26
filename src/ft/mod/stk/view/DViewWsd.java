@@ -18,11 +18,13 @@ import sba.lib.db.DDbConsts;
 import sba.lib.db.DDbRegistry;
 import sba.lib.grid.DGridColumnView;
 import sba.lib.grid.DGridConsts;
+import sba.lib.grid.DGridFilterDatePeriod;
 import sba.lib.grid.DGridPaneSettings;
 import sba.lib.grid.DGridPaneView;
 import sba.lib.grid.DGridUtils;
 import sba.lib.gui.DGuiClient;
 import sba.lib.gui.DGuiConsts;
+import sba.lib.gui.DGuiDate;
 import sba.lib.gui.DGuiParams;
 
 /**
@@ -34,6 +36,7 @@ public class DViewWsd extends DGridPaneView implements ActionListener {
     private JButton mjNewSal;
     private JButton mjNewPur;
     private JButton mjNewAdj;
+    private DGridFilterDatePeriod moFilterDatePeriod;
 
     public DViewWsd(DGuiClient client, int moveClass, String title) {
         super(client, DGridConsts.GRID_VIEW_TAB, DModConsts.S_WSD, moveClass, title);
@@ -52,6 +55,10 @@ public class DViewWsd extends DGridPaneView implements ActionListener {
         getPanelCommandsSys(DGuiConsts.PANEL_CENTER).add(mjNewSal);
         getPanelCommandsSys(DGuiConsts.PANEL_CENTER).add(mjNewPur);
         getPanelCommandsSys(DGuiConsts.PANEL_CENTER).add(mjNewAdj);
+        
+        moFilterDatePeriod = new DGridFilterDatePeriod(miClient, this, DGuiConsts.DATE_PICKER_DATE_PERIOD);
+        moFilterDatePeriod.initFilter(new DGuiDate(DGuiConsts.GUI_DATE_MONTH, miClient.getSession().getWorkingDate().getTime()));
+        getPanelCommandsSys(DGuiConsts.PANEL_CENTER).add(moFilterDatePeriod);
     }
 
     @Override
@@ -71,12 +78,15 @@ public class DViewWsd extends DGridPaneView implements ActionListener {
             sql += (sql.length() == 0 ? "" : "AND ") + "v.b_del = 0 ";
         }
 
+        filter = (DGuiDate) moFiltersMap.get(DGridConsts.FILTER_DATE_PERIOD);
+        sql += (sql.isEmpty() ? "" : "AND ") + DGridUtils.getSqlFilterDate("v.dat", (DGuiDate) filter);
+        
         msSql = "SELECT " +
                 "v.id_wsd AS " + DDbConsts.FIELD_ID + "1, " +
                 "CONCAT(movt.code, '-', v.num) AS " + DDbConsts.FIELD_CODE + ", " +
                 "CONCAT(movt.code, '-', v.num) AS " + DDbConsts.FIELD_NAME + ", " +
-                "v.num, " +
                 "v.dat AS " + DDbConsts.FIELD_DATE + ", " +
+                "v.num, " +
                 "v.ref, " +
                 "v.amt_r, " +
                 "v.mass_r, " +
@@ -147,7 +157,7 @@ public class DViewWsd extends DGridPaneView implements ActionListener {
         DGridColumnView[] columns = new DGridColumnView[22];
 
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_CODE_CAT, "movt.code", DGridConsts.COL_TITLE_TYPE + " doc");
-        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_REG_NUM, "v.num", DGridConsts.COL_TITLE_NUM + " doc");
+        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_INT_RAW, "v.num", DGridConsts.COL_TITLE_NUM + " doc");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_DATE, DDbConsts.FIELD_DATE, DGridConsts.COL_TITLE_DATE + " doc");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_DEC_AMT, "v.amt_r", "Valor $");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_DEC_QTY, "v.mass_r", "Masa (" + DCfgUtils.getMassUnitCode(miClient.getSession()) + ")");
