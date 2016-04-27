@@ -202,6 +202,7 @@ public class DDbTestApp extends DDbRegistryUser implements DLibRegistry {
             while (resultSet.next()) {
                 DDbTestAppResult child = new DDbTestAppResult();
                 child.read(session, new int[] { mnPkAppId, resultSet.getInt(1) });
+                child.setAuxTestApp(this);
                 maChildResults.add(child);
             }
             

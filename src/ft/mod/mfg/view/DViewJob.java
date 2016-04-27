@@ -6,7 +6,7 @@
 package ft.mod.mfg.view;
 
 import ft.mod.DModConsts;
-import sba.lib.DLibConsts;
+import ft.mod.DModSysConsts;
 import sba.lib.db.DDbConsts;
 import sba.lib.grid.DGridColumnView;
 import sba.lib.grid.DGridConsts;
@@ -26,9 +26,22 @@ public class DViewJob extends DGridPaneView {
 
     private DGridFilterDatePeriod moFilterDatePeriod;
     
-    public DViewJob(DGuiClient client, String title) {
-        super(client, DGridConsts.GRID_VIEW_TAB, DModConsts.M_JOB, DLibConsts.UNDEFINED, title);
-        setRowButtonsEnabled(true, true, true, false, true);
+    public DViewJob(DGuiClient client, int status, String title) {
+        super(client, DGridConsts.GRID_VIEW_TAB, DModConsts.M_JOB, status, title);
+        
+        switch (mnGridSubtype) {
+            case DModSysConsts.MS_JOB_ST_PEN:
+                setRowButtonsEnabled(true, true, true, true, false);
+                break;
+            case DModSysConsts.MS_JOB_ST_PRC:
+            case DModSysConsts.MS_JOB_ST_FIN:
+                setRowButtonsEnabled(false, true, false, false, false);
+                break;
+            case DModSysConsts.MS_JOB_ST_CAN:
+                setRowButtonsEnabled(false, false, false, true, false);
+                break;
+            default:
+        }
         
         moFilterDatePeriod = new DGridFilterDatePeriod(miClient, this, DGuiConsts.DATE_PICKER_DATE_PERIOD);
         moFilterDatePeriod.initFilter(new DGuiDate(DGuiConsts.GUI_DATE_MONTH, miClient.getSession().getWorkingDate().getTime()));
@@ -88,7 +101,7 @@ public class DViewJob extends DGridPaneView {
                 "v.fk_usr_ins = ui.id_usr " +
                 "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_USR) + " AS uu ON " +
                 "v.fk_usr_upd = uu.id_usr " +
-                (sql.length() == 0 ? "" : "WHERE " + sql) +
+                "WHERE v.fk_job_st = " + mnGridSubtype + " " + (sql.length() == 0 ? "" : "AND " + sql) +
                 "ORDER BY v.num, v.id_job ";
     }
 

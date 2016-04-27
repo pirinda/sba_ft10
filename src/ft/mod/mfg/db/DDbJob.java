@@ -7,6 +7,7 @@ package ft.mod.mfg.db;
 
 import ft.lib.DLibRegistry;
 import ft.mod.DModConsts;
+import ft.mod.DModSysConsts;
 import ft.mod.qty.db.DDbTestApp;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -585,6 +586,40 @@ public class DDbJob extends DDbRegistryUser implements DLibRegistry {
 
         registry.setRegistryNew(this.isRegistryNew());
         return registry;
+    }
+    
+    @Override
+    public boolean canDisable(final DGuiSession session) throws SQLException, Exception {
+        initQueryMembers();
+        return !mbSystem && mbDisableable && DLibUtils.belongsTo(mnFkJobStatusId, new int[] { DModSysConsts.MS_JOB_ST_PEN, DModSysConsts.MS_JOB_ST_CAN });
+    }
+    
+    @Override
+    public void disable(final DGuiSession session) throws SQLException, Exception {
+        initQueryMembers();
+        mnQueryResultId = DDbConsts.SAVE_ERROR;
+        
+        switch (mnFkJobStatusId) {
+            case DModSysConsts.MS_JOB_ST_PEN:
+                mnFkJobStatusId = DModSysConsts.MS_JOB_ST_CAN; // when pending set to cancelled
+                break;
+            case DModSysConsts.MS_JOB_ST_CAN:
+                mnFkJobStatusId = DModSysConsts.MS_JOB_ST_PEN; // when cancelled set to pending
+                break;
+            default:
+                throw new Exception(DLibConsts.ERR_MSG_OPTION_UNKNOWN);
+        }
+
+        mnFkUserUpdateId = session.getUser().getPkUserId();
+
+        msSql = "UPDATE " + getSqlTable() + " SET " +
+                "fk_job_st = " + mnFkJobStatusId + ", " +
+                "fk_usr_upd = " + mnFkUserUpdateId + ", " +
+                "ts_usr_upd = NOW() " +
+                getSqlWhere();
+
+        session.getStatement().execute(msSql);
+        mnQueryResultId = DDbConsts.SAVE_OK;
     }
     
     @Override

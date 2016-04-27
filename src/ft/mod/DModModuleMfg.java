@@ -231,6 +231,7 @@ public class DModModuleMfg extends DGuiModule {
 
     @Override
     public DGridPaneView getView(final int type, final int subtype, final DGuiParams params) {
+        String label = "";
         DGridPaneView view = null;
         
         switch (type) {
@@ -262,7 +263,18 @@ public class DModModuleMfg extends DGuiModule {
             case DModConsts.MU_VAR_FAM:
                 break;
             case DModConsts.M_JOB:
-                view = new DViewJob(miClient, "Órdenes producción");
+                label = ((String) miClient.getSession().readField(DModConsts.MS_JOB_ST, new int[] { subtype }, DDbRegistry.FIELD_NAME)).toLowerCase();
+                
+                switch (subtype) {
+                    case DModSysConsts.MS_JOB_ST_PRC:
+                        break;
+                    case DModSysConsts.MS_JOB_ST_PEN:
+                    case DModSysConsts.MS_JOB_ST_FIN:
+                    case DModSysConsts.MS_JOB_ST_CAN:
+                        label += "s";
+                        break;
+                }
+                view = new DViewJob(miClient, subtype, "Órdenes producción " + label);
                 break;
             case DModConsts.M_JOB_REQ:
                 break;

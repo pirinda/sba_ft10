@@ -1325,6 +1325,12 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         moKeyTest.addItem(new DGuiItem("- Test calidad -"));
         
         for (DDbTest test : tests) {
+            for (DDbTestApp app : maTestApps) {
+                if (app.getRegTest().getPkTestId() == test.getPkTestId()) {
+                    test.utilAddAuxAppResults(app.getChildResults().size());
+                }
+            }
+            
             moKeyTest.addItem(new DGuiItem(new int[] { test.getPkTestId() }, test.getName(), test));
         }
         
@@ -1566,7 +1572,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         }
     }
     
-    private void processStatusPendingForwards() {
+    private void processStatusForwardToPending() {
         try {
             computeJobLot();
             createGridReqmentRows();
@@ -1578,7 +1584,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         }
     }
     
-    private void processStatusPendingBackwards() {
+    private void processStatusBackToPending() {
         moGridReqments.clearGridRows();
         moGridConsumps.clearGridRows();
         moGridMfgProds.clearGridRows();
@@ -1591,6 +1597,15 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         
         computeJobConsumps();
         computeJobMfgProds();
+    }
+    
+    private void processStatusBackToInProcess() {
+        try {
+            createTestItems();
+        }
+        catch (Exception e) {
+            DLibUtils.showException(this, e);
+        }
     }
     
     private void processTestAppResultsDeletion(DGridRow gridRow) {
@@ -1643,8 +1658,11 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         updateFieldsJobStatus();
         
         if (mnJobStatus == DModSysConsts.MS_JOB_ST_PEN) {
-            processStatusPendingBackwards(); // must be called after fields update
+            processStatusBackToPending(); // must be called after fields update
             jbJobGoStatusNext.requestFocus();
+        }
+        else if (mnJobStatus == DModSysConsts.MS_JOB_ST_PRC) {
+            processStatusBackToInProcess();
         }
     }
     
@@ -1662,7 +1680,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
             updateFieldsJobStatus();
 
             if (mnJobStatus == DModSysConsts.MS_JOB_ST_PRC) {
-                processStatusPendingForwards(); // must be called after fields update
+                processStatusForwardToPending(); // must be called after fields update
             }
             else if (mnJobStatus == DModSysConsts.MS_JOB_ST_FIN) {
                 jbJobGoStatusPrev.requestFocus();
@@ -2160,15 +2178,11 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         moGridMfgProds.populateGrid(new Vector<DGridRow>(moRegistry.getChildMfgProds()));
         moGridVariables.populateGrid(new Vector<DGridRow>(moRegistry.getChildVariables()));
         
-        createTestItems();
-        itemStateChangedTest();
-        
         maTestApps.clear();
         maTestApps.addAll(moRegistry.getRegTestApps());
         
         for (DDbTestApp app : moRegistry.getRegTestApps()) {
             for (DDbTestAppResult appResult : app.getChildResults()) {
-                appResult.setAuxTestApp(app);
                 rows.addAll(appResult.getChildVariables());
             }
         }
@@ -2188,6 +2202,11 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         
         moKeyGroupConsumpItem.resetGroup();
         moKeyGroupMfgProdItem.resetGroup();
+        
+        if (mnJobStatus == DModSysConsts.MS_JOB_ST_PRC) {
+            createTestItems();
+        }
+        itemStateChangedTest();
         
         jtpJob.setSelectedIndex(TAB_MFG);
         

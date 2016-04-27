@@ -125,6 +125,7 @@ public class DDbTestAppResult extends DDbRegistryUser {
             while (resultSet.next()) {
                 DDbTestAppResultVariable child = new DDbTestAppResultVariable();
                 child.read(session, new int[] { mnPkAppId, mnPkResultId, resultSet.getInt(1) });
+                child.setAuxTestAppResult(this);
                 maChildVariables.add(child);
             }
             
