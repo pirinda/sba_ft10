@@ -1809,7 +1809,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         else {
             int index = 0;
             DDbTestApp testApp = null;
-            DDbTestAppResult testAppResult = new DDbTestAppResult();
+            DDbTestAppResult testAppResult = null;
             
             for (DDbTestApp app : maTestApps) {
                 if (app.getFkTestId() == moTest.getPkTestId()) {

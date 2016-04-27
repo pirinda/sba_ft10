@@ -86,7 +86,7 @@ public class DViewTestAppResult extends DGridPaneView {
                 "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.Q_APP_RES) + " AS ar ON " +
                 "arv.id_app = ar.id_app AND arv.id_res = ar.id_res " +
                 "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.Q_APP) + " AS a ON " +
-                "arv.id_app = ar.id_app " +
+                "arv.id_app = a.id_app " +
                 "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.QU_TST) + " AS t ON " +
                 "a.fk_tst = t.id_tst " +
                 "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.QS_TST_TP) + " AS tt ON " +
@@ -104,7 +104,7 @@ public class DViewTestAppResult extends DGridPaneView {
                 "LEFT OUTER JOIN " + DModConsts.TablesMap.get(DModConsts.M_JOB) + " AS j ON " +
                 "a.fk_job_n = j.id_job " +
                 (sql.length() == 0 ? "" : "WHERE " + sql) +
-                "ORDER BY a.dat, t.name, t.code, i.name, i.code, j.num, v.name, v.code, arv.id_app, arv.id_res, arv.id_var ";
+                "ORDER BY a.dat, t.name, t.code, i.name, i.code, j.num, arv.id_app, arv.id_res, v.name, v.code, arv.id_var ";
     }
 
     @Override
