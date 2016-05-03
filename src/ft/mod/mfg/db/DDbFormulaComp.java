@@ -73,7 +73,7 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow, DLibReg
                 moRegFamily = null;
                 
                 if (update) {
-                    mnFkItemTypeId = moRegItem.getXtaFkItemTypeId();
+                    mnFkItemTypeId = moRegItem.getRegFamily().getFkItemTypeId();
                     mnFkUnitId = moRegItem.getFkUnitId();
                 }
                 
@@ -336,7 +336,7 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow, DLibReg
                         value = moRegFamily.getXtaItemTypeCode();
                         break;
                     case DModSysConsts.MS_CMP_TP_ITM:
-                        value = moRegItem.getXtaItemTypeCode();
+                        value = moRegItem.getRegFamily().getXtaItemTypeCode();
                         break;
                     default:
                 }

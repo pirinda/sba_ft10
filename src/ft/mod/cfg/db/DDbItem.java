@@ -12,7 +12,6 @@ import java.util.Date;
 import sba.gui.util.DUtilConsts;
 import sba.lib.DLibConsts;
 import sba.lib.db.DDbConsts;
-import sba.lib.db.DDbRegistry;
 import sba.lib.db.DDbRegistryUser;
 import sba.lib.gui.DGuiSession;
 
@@ -42,29 +41,21 @@ public class DDbItem extends DDbRegistryUser {
     protected Date mtTsUserUpdate;
     */
     
+    protected DDbFamily moRegFamily;
     protected DDbUnit moRegUnit;
     protected DDbPresent moRegPresent;
     
-    protected int mnXtaFkItemTypeId;
-    protected String msXtaItemTypeCode;
-    protected String msXtaItemTypeName;
-
     public DDbItem() {
         super(DModConsts.CU_ITM);
         initRegistry();
     }
 
     private void readRegMembers(final DGuiSession session) {
+        moRegFamily = (DDbFamily) session.readRegistry(DModConsts.CU_FAM, new int[] { mnFkFamilyId }, DDbConsts.MODE_STEALTH);
         moRegUnit = (DDbUnit) session.readRegistry(DModConsts.CU_UOM, new int[] { mnFkUnitId }, DDbConsts.MODE_STEALTH);
         moRegPresent = (DDbPresent) session.readRegistry(DModConsts.CU_PRE, new int[] { mnFkPresentId }, DDbConsts.MODE_STEALTH);
     }
     
-    private void readXtaMembers(final DGuiSession session) {
-        mnXtaFkItemTypeId = ((DDbFamily) session.readRegistry(DModConsts.CU_FAM, new int[] { mnFkFamilyId }, DDbConsts.MODE_STEALTH)).getFkItemTypeId();
-        msXtaItemTypeCode = (String) session.readField(DModConsts.CS_ITM_TP, new int[] { mnXtaFkItemTypeId }, DDbRegistry.FIELD_CODE);
-        msXtaItemTypeName = (String) session.readField(DModConsts.CS_ITM_TP, new int[] { mnXtaFkItemTypeId }, DDbRegistry.FIELD_NAME);
-    }
-
     public void setPkItemId(int n) { mnPkItemId = n; }
     public void setCode(String s) { msCode = s; }
     public void setName(String s) { msName = s; }
@@ -97,19 +88,13 @@ public class DDbItem extends DDbRegistryUser {
     public Date getTsUserInsert() { return mtTsUserInsert; }
     public Date getTsUserUpdate() { return mtTsUserUpdate; }
 
+    public void setRegFamily(DDbFamily o) { moRegFamily = o; }
     public void setRegUnit(DDbUnit o) { moRegUnit = o; }
     public void setRegPresent(DDbPresent o) { moRegPresent = o; }
     
+    public DDbFamily getRegFamily() { return moRegFamily; }
     public DDbUnit getRegUnit() { return moRegUnit; }
     public DDbPresent getRegPresent() { return moRegPresent; }
-    
-    public void setXtaFkItemTypeId(int n) { mnXtaFkItemTypeId = n; }
-    public void setXtaItemTypeCode(String s) { msXtaItemTypeCode = s; }
-    public void setXtaItemTypeName(String s) { msXtaItemTypeName = s; }
-
-    public int getXtaFkItemTypeId() { return mnXtaFkItemTypeId; }
-    public String getXtaItemTypeCode() { return msXtaItemTypeCode; }
-    public String getXtaItemTypeName() { return msXtaItemTypeName; }
     
     @Override
     public void setPrimaryKey(int[] pk) {
@@ -141,12 +126,9 @@ public class DDbItem extends DDbRegistryUser {
         mtTsUserInsert = null;
         mtTsUserUpdate = null;
         
+        moRegFamily = null;
         moRegUnit = null;
         moRegPresent = null;
-        
-        mnXtaFkItemTypeId = 0;
-        msXtaItemTypeCode = "";
-        msXtaItemTypeName = "";
     }
 
     @Override
@@ -208,7 +190,6 @@ public class DDbItem extends DDbRegistryUser {
             mtTsUserUpdate = resultSet.getTimestamp("ts_usr_upd");
 
             readRegMembers(session);
-            readXtaMembers(session);
 
             mbRegistryNew = false;
         }
@@ -222,7 +203,6 @@ public class DDbItem extends DDbRegistryUser {
         mnQueryResultId = DDbConsts.SAVE_ERROR;
 
         readRegMembers(session);
-        readXtaMembers(session);
         
         if (mbRegistryNew) {
             computePrimaryKey(session);
@@ -300,12 +280,9 @@ public class DDbItem extends DDbRegistryUser {
         registry.setTsUserInsert(this.getTsUserInsert());
         registry.setTsUserUpdate(this.getTsUserUpdate());
 
+        registry.setRegFamily(this.getRegFamily() == null ? null : this.getRegFamily().clone());
         registry.setRegUnit(this.getRegUnit() == null ? null : this.getRegUnit().clone());
         registry.setRegPresent(this.getRegPresent() == null ? null : this.getRegPresent().clone());
-        
-        registry.setXtaFkItemTypeId(this.getXtaFkItemTypeId());
-        registry.setXtaItemTypeCode(this.getXtaItemTypeCode());
-        registry.setXtaItemTypeName(this.getXtaItemTypeName());
         
         registry.setRegistryNew(this.isRegistryNew());
         return registry;

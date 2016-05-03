@@ -69,7 +69,7 @@ public class DDbFormula extends DDbRegistryUser implements DLibRegistry {
         if (update) {
             msCode = moRegItem.getCode();
             msName = moRegItem.getName();
-            mnFkItemTypeId = moRegItem.getXtaFkItemTypeId();
+            mnFkItemTypeId = moRegItem.getRegFamily().getFkItemTypeId();
             mnFkUnitId = moRegItem.getFkUnitId();
             mnFkPresentId = moRegItem.getFkPresentId();
         }

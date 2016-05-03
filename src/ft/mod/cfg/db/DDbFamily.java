@@ -33,6 +33,8 @@ public class DDbFamily extends DDbRegistryUser {
     protected int mnFkItemTypeId;
     protected int mnFkUnitId;
     protected int mnFkFamilyBaseId_n;
+    protected int mnFkDepartId;
+    protected int mnFkLineId;
     /*
     protected int mnFkUserInsertId;
     protected int mnFkUserUpdateId;
@@ -62,6 +64,8 @@ public class DDbFamily extends DDbRegistryUser {
     public void setFkItemTypeId(int n) { mnFkItemTypeId = n; }
     public void setFkUnitId(int n) { mnFkUnitId = n; }
     public void setFkFamilyBaseId_n(int n) { mnFkFamilyBaseId_n = n; }
+    public void setFkDepartId(int n) { mnFkDepartId = n; }
+    public void setFkLineId(int n) { mnFkLineId = n; }
     public void setFkUserInsertId(int n) { mnFkUserInsertId = n; }
     public void setFkUserUpdateId(int n) { mnFkUserUpdateId = n; }
     public void setTsUserInsert(Date t) { mtTsUserInsert = t; }
@@ -76,6 +80,8 @@ public class DDbFamily extends DDbRegistryUser {
     public int getFkItemTypeId() { return mnFkItemTypeId; }
     public int getFkUnitId() { return mnFkUnitId; }
     public int getFkFamilyBaseId_n() { return mnFkFamilyBaseId_n; }
+    public int getFkDepartId() { return mnFkDepartId; }
+    public int getFkLineId() { return mnFkLineId; }
     public int getFkUserInsertId() { return mnFkUserInsertId; }
     public int getFkUserUpdateId() { return mnFkUserUpdateId; }
     public Date getTsUserInsert() { return mtTsUserInsert; }
@@ -110,6 +116,8 @@ public class DDbFamily extends DDbRegistryUser {
         mnFkItemTypeId = 0;
         mnFkUnitId = 0;
         mnFkFamilyBaseId_n = 0;
+        mnFkDepartId = 0;
+        mnFkLineId = 0;
         mnFkUserInsertId = 0;
         mnFkUserUpdateId = 0;
         mtTsUserInsert = null;
@@ -170,6 +178,8 @@ public class DDbFamily extends DDbRegistryUser {
             mnFkItemTypeId = resultSet.getInt("fk_itm_tp");
             mnFkUnitId = resultSet.getInt("fk_uom");
             mnFkFamilyBaseId_n = resultSet.getInt("fk_fam_bas_n");
+            mnFkDepartId = resultSet.getInt("fk_dpt");
+            mnFkLineId = resultSet.getInt("fk_lin");
             mnFkUserInsertId = resultSet.getInt("fk_usr_ins");
             mnFkUserUpdateId = resultSet.getInt("fk_usr_upd");
             mtTsUserInsert = resultSet.getTimestamp("ts_usr_ins");
@@ -211,6 +221,8 @@ public class DDbFamily extends DDbRegistryUser {
                     mnFkItemTypeId + ", " + 
                     mnFkUnitId + ", " + 
                     (mnFkFamilyBaseId_n == DLibConsts.UNDEFINED ? "NULL" : "" + mnFkFamilyBaseId_n) + ", " + 
+                    mnFkDepartId + ", " + 
+                    mnFkLineId + ", " + 
                     mnFkUserInsertId + ", " + 
                     mnFkUserUpdateId + ", " + 
                     "NOW()" + ", " + 
@@ -230,6 +242,8 @@ public class DDbFamily extends DDbRegistryUser {
                     "fk_itm_tp = " + mnFkItemTypeId + ", " +
                     "fk_uom = " + mnFkUnitId + ", " +
                     "fk_fam_bas_n = " + (mnFkFamilyBaseId_n == DLibConsts.UNDEFINED ? "NULL" : "" + mnFkFamilyBaseId_n) + ", " +
+                    "fk_dpt = " + mnFkDepartId + ", " +
+                    "fk_lin = " + mnFkLineId + ", " +
                     //"fk_usr_ins = " + mnFkUserInsertId + ", " +
                     "fk_usr_upd = " + mnFkUserUpdateId + ", " +
                     //"ts_usr_ins = " + "NOW()" + ", " +
@@ -255,6 +269,8 @@ public class DDbFamily extends DDbRegistryUser {
         registry.setFkItemTypeId(this.getFkItemTypeId());
         registry.setFkUnitId(this.getFkUnitId());
         registry.setFkFamilyBaseId_n(this.getFkFamilyBaseId_n());
+        registry.setFkDepartId(this.getFkDepartId());
+        registry.setFkLineId(this.getFkLineId());
         registry.setFkUserInsertId(this.getFkUserInsertId());
         registry.setFkUserUpdateId(this.getFkUserUpdateId());
         registry.setTsUserInsert(this.getTsUserInsert());

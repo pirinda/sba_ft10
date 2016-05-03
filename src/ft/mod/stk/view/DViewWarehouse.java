@@ -22,7 +22,7 @@ public class DViewWarehouse extends DGridPaneView {
 
     public DViewWarehouse(DGuiClient client, String title) {
         super(client, DGridConsts.GRID_VIEW_TAB, DModConsts.SU_WHS, DLibConsts.UNDEFINED, title);
-        setRowButtonsEnabled(false, false, true, false, false);
+        setRowButtonsEnabled(true, true, true, false, true);
     }
 
     @Override

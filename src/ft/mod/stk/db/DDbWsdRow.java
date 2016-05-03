@@ -52,7 +52,7 @@ public class DDbWsdRow extends DDbRegistryUser implements DGridRow, DLibRegistry
         moRegItem = (DDbItem) session.readRegistry(DModConsts.CU_ITM, new int[] { mnFkItemId });
         
         if (update) {
-            mnFkItemTypeId = moRegItem.getXtaFkItemTypeId();
+            mnFkItemTypeId = moRegItem.getRegFamily().getFkItemTypeId();
             mnFkUnitId = moRegItem.getFkUnitId();
             mdMassUnit = moRegItem.getMassUnit();
         }

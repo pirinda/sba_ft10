@@ -57,6 +57,8 @@ public class DDbJob extends DDbRegistryUser implements DLibRegistry {
     protected int mnFkItemTypeId;
     protected int mnFkUnitId;
     protected int mnFkPresentId;
+    protected int mnFkWarehouseMaterialsId;
+    protected int mnFkWarehouseProductsId;
     /*
     protected int mnFkUserInsertId;
     protected int mnFkUserUpdateId;
@@ -127,6 +129,8 @@ public class DDbJob extends DDbRegistryUser implements DLibRegistry {
     public void setFkItemTypeId(int n) { mnFkItemTypeId = n; }
     public void setFkUnitId(int n) { mnFkUnitId = n; }
     public void setFkPresentId(int n) { mnFkPresentId = n; }
+    public void setFkWarehouseMaterialsId(int n) { mnFkWarehouseMaterialsId = n; }
+    public void setFkWarehouseProductsId(int n) { mnFkWarehouseProductsId = n; }
     public void setFkUserInsertId(int n) { mnFkUserInsertId = n; }
     public void setFkUserUpdateId(int n) { mnFkUserUpdateId = n; }
     public void setTsUserInsert(Date t) { mtTsUserInsert = t; }
@@ -160,6 +164,8 @@ public class DDbJob extends DDbRegistryUser implements DLibRegistry {
     public int getFkItemTypeId() { return mnFkItemTypeId; }
     public int getFkUnitId() { return mnFkUnitId; }
     public int getFkPresentId() { return mnFkPresentId; }
+    public int getFkWarehouseMaterialsId() { return mnFkWarehouseMaterialsId; }
+    public int getFkWarehouseProductsId() { return mnFkWarehouseProductsId; }
     public int getFkUserInsertId() { return mnFkUserInsertId; }
     public int getFkUserUpdateId() { return mnFkUserUpdateId; }
     public Date getTsUserInsert() { return mtTsUserInsert; }
@@ -218,6 +224,8 @@ public class DDbJob extends DDbRegistryUser implements DLibRegistry {
         mnFkItemTypeId = 0;
         mnFkUnitId = 0;
         mnFkPresentId = 0;
+        mnFkWarehouseMaterialsId = 0;
+        mnFkWarehouseProductsId = 0;
         mnFkUserInsertId = 0;
         mnFkUserUpdateId = 0;
         mtTsUserInsert = null;
@@ -304,6 +312,8 @@ public class DDbJob extends DDbRegistryUser implements DLibRegistry {
             mnFkItemTypeId = resultSet.getInt("fk_itm_tp");
             mnFkUnitId = resultSet.getInt("fk_uom");
             mnFkPresentId = resultSet.getInt("fk_pre");
+            mnFkWarehouseMaterialsId = resultSet.getInt("fk_whs_mat");
+            mnFkWarehouseProductsId = resultSet.getInt("fk_whs_pro");
             mnFkUserInsertId = resultSet.getInt("fk_usr_ins");
             mnFkUserUpdateId = resultSet.getInt("fk_usr_upd");
             mtTsUserInsert = resultSet.getTimestamp("ts_usr_ins");
@@ -418,6 +428,8 @@ public class DDbJob extends DDbRegistryUser implements DLibRegistry {
                     mnFkItemTypeId + ", " + 
                     mnFkUnitId + ", " + 
                     mnFkPresentId + ", " + 
+                    mnFkWarehouseMaterialsId + ", " + 
+                    mnFkWarehouseProductsId + ", " + 
                     mnFkUserInsertId + ", " + 
                     mnFkUserUpdateId + ", " + 
                     "NOW()" + ", " + 
@@ -456,6 +468,8 @@ public class DDbJob extends DDbRegistryUser implements DLibRegistry {
                     "fk_itm_tp = " + mnFkItemTypeId + ", " +
                     "fk_uom = " + mnFkUnitId + ", " +
                     "fk_pre = " + mnFkPresentId + ", " +
+                    "fk_whs_mat = " + mnFkWarehouseMaterialsId + ", " +
+                    "fk_whs_pro = " + mnFkWarehouseProductsId + ", " +
                     //"fk_usr_ins = " + mnFkUserInsertId + ", " +
                     "fk_usr_upd = " + mnFkUserUpdateId + ", " +
                     //"ts_usr_ins = " + "NOW()" + ", " +
@@ -553,6 +567,8 @@ public class DDbJob extends DDbRegistryUser implements DLibRegistry {
         registry.setFkItemTypeId(this.getFkItemTypeId());
         registry.setFkUnitId(this.getFkUnitId());
         registry.setFkPresentId(this.getFkPresentId());
+        registry.setFkWarehouseMaterialsId(this.getFkWarehouseMaterialsId());
+        registry.setFkWarehouseProductsId(this.getFkWarehouseProductsId());
         registry.setFkUserInsertId(this.getFkUserInsertId());
         registry.setFkUserUpdateId(this.getFkUserUpdateId());
         registry.setTsUserInsert(this.getTsUserInsert());

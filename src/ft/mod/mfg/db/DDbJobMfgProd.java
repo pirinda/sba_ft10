@@ -52,7 +52,7 @@ public class DDbJobMfgProd extends DDbRegistryUser implements DGridRow, DLibRegi
         moRegItem = (DDbItem) session.readRegistry(DModConsts.CU_ITM, new int[] { mnFkItemId });
         
         if (update) {
-            mnFkItemTypeId = moRegItem.getXtaFkItemTypeId();
+            mnFkItemTypeId = moRegItem.getRegFamily().getFkItemTypeId();
             mnFkUnitId = moRegItem.getFkUnitId();
             mnFkPresentId = moRegItem.getFkPresentId();
             mdMassUnit = moRegItem.getMassUnit();

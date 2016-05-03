@@ -49,7 +49,7 @@ public class DDbFormulaByProd extends DDbRegistryUser implements DGridRow, DLibR
         moRegItem = (DDbItem) session.readRegistry(DModConsts.CU_ITM, new int[] { mnFkItemId });
         
         if (update) {
-            mnFkItemTypeId = moRegItem.getXtaFkItemTypeId();
+            mnFkItemTypeId = moRegItem.getRegFamily().getFkItemTypeId();
             mnFkUnitId = moRegItem.getFkUnitId();
         }
         
@@ -290,7 +290,7 @@ public class DDbFormulaByProd extends DDbRegistryUser implements DGridRow, DLibR
                 value = mnPkByProdId;
                 break;
             case 1:
-                value = moRegItem.getXtaItemTypeCode();
+                value = moRegItem.getRegFamily().getXtaItemTypeCode();
                 break;
             case 2:
                 value = moRegItem.getName();

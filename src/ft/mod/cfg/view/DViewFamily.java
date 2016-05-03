@@ -50,6 +50,10 @@ public class DViewFamily extends DGridPaneView {
                 "it.name, " +
                 "u.code, " +
                 "u.name, " +
+                "d.code, " +
+                "d.name, " +
+                "l.code, " +
+                "l.name, " +
                 "fb.code, " +
                 "fb.name, " +
                 "v.b_del AS " + DDbConsts.FIELD_IS_DEL + ", " +
@@ -65,6 +69,10 @@ public class DViewFamily extends DGridPaneView {
                 "v.fk_itm_tp = it.id_itm_tp " +
                 "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_UOM) + " AS u ON " +
                 "v.fk_uom = u.id_uom " +
+                "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.MU_DPT) + " AS d ON " +
+                "v.fk_dpt = d.id_dpt " +
+                "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.MU_LIN) + " AS l ON " +
+                "v.fk_lin = l.id_lin " +
                 "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_USR) + " AS ui ON " +
                 "v.fk_usr_ins = ui.id_usr " +
                 "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_USR) + " AS uu ON " +
@@ -78,7 +86,7 @@ public class DViewFamily extends DGridPaneView {
     @Override
     public void createGridColumns() {
         int col = 0;
-        DGridColumnView[] columns = new DGridColumnView[12];
+        DGridColumnView[] columns = new DGridColumnView[14];
 
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_CAT_M, DDbConsts.FIELD_NAME, DGridConsts.COL_TITLE_NAME);
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_CODE_CAT, DDbConsts.FIELD_CODE, DGridConsts.COL_TITLE_CODE);
@@ -86,6 +94,8 @@ public class DViewFamily extends DGridPaneView {
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_CAT_S, "u.name", "Unidad medida");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_CAT_S, "fb.name", "Familia base");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_CODE_CAT, "v.lot_code", DGridConsts.COL_TITLE_CODE + " lotes");
+        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_CAT_S, "l.name", "Línea producción");
+        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_CAT_S, "d.name", "Depto. producción");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_BOOL_S, DDbConsts.FIELD_IS_DEL, DGridConsts.COL_TITLE_IS_DEL);
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_BOOL_S, DDbConsts.FIELD_IS_SYS, DGridConsts.COL_TITLE_IS_SYS);
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_USR, DDbConsts.FIELD_USER_INS_NAME, DGridConsts.COL_TITLE_USER_INS_NAME);

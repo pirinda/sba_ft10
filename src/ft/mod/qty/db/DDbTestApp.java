@@ -61,7 +61,7 @@ public class DDbTestApp extends DDbRegistryUser implements DLibRegistry {
         
         if (update) {
             mnFkTestTypeId = moRegTest.getFkTestTypeId();
-            mnFkItemTypeId = moRegItem.getXtaFkItemTypeId();
+            mnFkItemTypeId = moRegItem.getRegFamily().getFkItemTypeId();
         }
     }
     

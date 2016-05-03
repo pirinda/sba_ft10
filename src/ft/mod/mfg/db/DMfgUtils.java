@@ -60,7 +60,7 @@ public abstract class DMfgUtils {
         
         item = (DDbItem) session.readRegistry(DModConsts.CU_ITM, new int[] { idItem });
         
-        switch (item.getXtaFkItemTypeId()) {
+        switch (item.getRegFamily().getFkItemTypeId()) {
             case DModSysConsts.CS_ITM_TP_PB:
                 lotFormat = ((DDbConfig) session.getConfigCompany()).getLotFormatProductBase();
                 break;
