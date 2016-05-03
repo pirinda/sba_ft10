@@ -9,6 +9,7 @@ import ft.lib.DLibRegistry;
 import ft.mod.DModConsts;
 import ft.mod.DModSysConsts;
 import ft.mod.qty.db.DDbTestApp;
+import ft.mod.stk.db.DDbWsd;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -66,15 +67,17 @@ public class DDbJob extends DDbRegistryUser implements DLibRegistry {
     protected Date mtTsUserUpdate;
     */
     
-    protected DDbFormula moRegFormula;
-    
     protected ArrayList<DDbJobReqment> maChildReqments;
     protected ArrayList<DDbJobConsump> maChildConsumps;
     protected ArrayList<DDbJobMfgProd> maChildMfgProds;
     protected ArrayList<DDbJobVariable> maChildVariables;
+
+    protected DDbFormula moRegFormula;
+    protected DDbWsd moRegWsdMaterials;
+    protected DDbWsd moRegWsdProducts;
     protected ArrayList<DDbTestApp> maRegTestApps;
     protected ArrayList<DDbTestApp> maRegFormerTestApps;
-
+    
     public DDbJob() {
         super(DModConsts.M_JOB);
         maChildReqments = new ArrayList<>();
@@ -86,7 +89,17 @@ public class DDbJob extends DDbRegistryUser implements DLibRegistry {
         initRegistry();
     }
 
-    private void readRegMembers(final DGuiSession session, final boolean update) {
+    /*
+     * Private methods
+     */
+
+    private void readRegMembers(final DGuiSession session, final boolean update) throws Exception {
+        String sql = "";
+        Statement statement = null;
+        ResultSet resultSet = null;
+        int[] warehouses = null;
+        DDbWsd[] wsds = null;
+        
         moRegFormula = (DDbFormula) session.readRegistry(DModConsts.MU_FRM, new int[] { mnFkFormulaId });
         
         if (update) {
@@ -99,8 +112,78 @@ public class DDbJob extends DDbRegistryUser implements DLibRegistry {
             mnFkUnitId = moRegFormula.getFkUnitId();
             mnFkPresentId = moRegFormula.getFkPresentId();
         }
+        
+        statement = session.getStatement().getConnection().createStatement();
+        warehouses = new int[] { mnFkWarehouseMaterialsId, mnFkWarehouseProductsId };
+        wsds = new DDbWsd[warehouses.length];
+        
+        for (int i = 0; i < warehouses.length; i++) {
+            sql = "SELECT id_wsd FROM " + DModConsts.TablesMap.get(DModConsts.S_WSD) + " "
+                    + "WHERE fk_job_n = " + mnPkJobId + " AND fk_whs = " + warehouses[i] + " AND b_del = 0 ";
+            resultSet = statement.executeQuery(sql);
+            if (resultSet.next()) {
+                wsds[i] = new DDbWsd();
+                wsds[i].read(session, warehouses);
+            }
+        }
+        
+        moRegWsdMaterials = wsds[0]; // if no WSD was found, then null assigned
+        moRegWsdProducts = wsds[1]; // if no WSD was found, then null assigned
     }
     
+    private void saveStock(final DGuiSession session) throws Exception {
+        DDbWsd formerWsdMaterials = moRegWsdMaterials;
+        DDbWsd formerWsdProducts = moRegWsdProducts;
+        
+        // Delete former stock movements:
+        
+        if (moRegWsdMaterials != null) {
+            moRegWsdMaterials.delete(session);
+        }
+        
+        if (moRegWsdProducts != null) {
+            moRegWsdProducts.delete(session);
+        }
+        
+        // Create and save new stock movements:
+        
+        if (!mbDeleted && mnFkJobStatusId == DModSysConsts.MS_JOB_ST_FIN) {
+            // Materials movements:
+            
+            moRegWsdMaterials = createWsd(DModSysConsts.SS_MOV_TP_OUT_MFG, DModSysConsts.SS_MFG_TP_MAT, DModSysConsts.CS_ITM_TP_RMI, mnFkWarehouseMaterialsId);
+            
+            if (formerWsdMaterials != null) {
+                moRegWsdMaterials.setPkWsdId(formerWsdMaterials.getPkWsdId());
+                moRegWsdMaterials.setNumber(formerWsdMaterials.getNumber());
+            }
+            
+            for (DDbJobConsump child : maChildConsumps) {
+                moRegWsdMaterials.getChildRows().add(child.createWsdRow());
+            }
+            
+            moRegWsdMaterials.save(session);
+            
+            // Products movements:
+            
+            moRegWsdProducts = createWsd(DModSysConsts.SS_MOV_TP_IN_MFG, DModSysConsts.SS_MFG_TP_PRO, DModSysConsts.CS_ITM_TP_PF, mnFkWarehouseProductsId);
+            
+            if (formerWsdProducts != null) {
+                moRegWsdProducts.setPkWsdId(formerWsdProducts.getPkWsdId());
+                moRegWsdProducts.setNumber(formerWsdProducts.getNumber());
+            }
+            
+            for (DDbJobMfgProd child : maChildMfgProds) {
+                moRegWsdProducts.getChildRows().add(child.createWsdRow(this));
+            }
+            
+            moRegWsdProducts.save(session);
+        }
+    }
+    
+    /*
+     * Public methods
+     */
+
     public void setPkJobId(int n) { mnPkJobId = n; }
     public void setNumber(int n) { mnNumber = n; }
     public void setDate(Date t) { mtDate = t; }
@@ -170,15 +253,19 @@ public class DDbJob extends DDbRegistryUser implements DLibRegistry {
     public int getFkUserUpdateId() { return mnFkUserUpdateId; }
     public Date getTsUserInsert() { return mtTsUserInsert; }
     public Date getTsUserUpdate() { return mtTsUserUpdate; }
-
-    public void setRegFormula(DDbFormula o) { moRegFormula = o; }
-    
-    public DDbFormula getRegFormula() { return moRegFormula; }
     
     public ArrayList<DDbJobReqment> getChildReqemnts() { return maChildReqments; }
     public ArrayList<DDbJobConsump> getChildConsumps() { return maChildConsumps; }
     public ArrayList<DDbJobMfgProd> getChildMfgProds() { return maChildMfgProds; }
     public ArrayList<DDbJobVariable> getChildVariables() { return maChildVariables; }
+
+    public void setRegFormula(DDbFormula o) { moRegFormula = o; }
+    public void setRegWsdMaterials(DDbWsd o) { moRegWsdMaterials = o; }
+    public void setRegWsdProducts(DDbWsd o) { moRegWsdProducts = o; }
+    
+    public DDbFormula getRegFormula() { return moRegFormula; }
+    public DDbWsd getRegWsdMaterials() { return moRegWsdMaterials; }
+    public DDbWsd getRegWsdProducts() { return moRegWsdProducts; }
     public ArrayList<DDbTestApp> getRegTestApps() { return maRegTestApps; }
     public ArrayList<DDbTestApp> getRegFormerTestApps() { return maRegFormerTestApps; }
 
@@ -231,12 +318,14 @@ public class DDbJob extends DDbRegistryUser implements DLibRegistry {
         mtTsUserInsert = null;
         mtTsUserUpdate = null;
         
-        moRegFormula = null;
-        
         maChildReqments.clear();
         maChildConsumps.clear();
         maChildMfgProds.clear();
         maChildVariables.clear();
+        
+        moRegFormula = null;
+        moRegWsdMaterials = null;
+        moRegWsdProducts = null;
         maRegTestApps.clear();
         maRegFormerTestApps.clear();
     }
@@ -319,8 +408,6 @@ public class DDbJob extends DDbRegistryUser implements DLibRegistry {
             mtTsUserInsert = resultSet.getTimestamp("ts_usr_ins");
             mtTsUserUpdate = resultSet.getTimestamp("ts_usr_upd");
 
-            readRegMembers(session, false);
-
             // Read aswell child registries:
 
             statement = session.getStatement().getConnection().createStatement();
@@ -363,6 +450,8 @@ public class DDbJob extends DDbRegistryUser implements DLibRegistry {
             
             // Read aswell embeeded registries:
 
+            readRegMembers(session, false);
+            
             msSql = "SELECT id_app FROM " + DModConsts.TablesMap.get(DModConsts.Q_APP) + " WHERE fk_job_n = " + mnPkJobId + " AND b_del = 0 " +
                     "ORDER BY id_app ";
             resultSet = statement.executeQuery(msSql);
@@ -372,7 +461,7 @@ public class DDbJob extends DDbRegistryUser implements DLibRegistry {
                 maRegTestApps.add(registry);
                 maRegFormerTestApps.add(registry);
             }
-
+            
             // Finish registry reading:
             
             mbRegistryNew = false;
@@ -529,6 +618,10 @@ public class DDbJob extends DDbRegistryUser implements DLibRegistry {
             registry.save(session);
         }
         
+        // Save stock:
+        
+        saveStock(session);
+        
         // Finish registry updating:
 
         mbRegistryNew = false;
@@ -574,8 +667,6 @@ public class DDbJob extends DDbRegistryUser implements DLibRegistry {
         registry.setTsUserInsert(this.getTsUserInsert());
         registry.setTsUserUpdate(this.getTsUserUpdate());
 
-        registry.setRegFormula(this.getRegFormula() == null ? null : this.getRegFormula().clone());
-        
         for (DDbJobReqment child : maChildReqments) {
             registry.getChildReqemnts().add(child.clone());
         }
@@ -592,6 +683,10 @@ public class DDbJob extends DDbRegistryUser implements DLibRegistry {
             registry.getChildVariables().add(child.clone());
         }
 
+        registry.setRegFormula(this.getRegFormula() == null ? null : this.getRegFormula().clone());
+        registry.setRegWsdMaterials(this.getRegWsdMaterials()== null ? null : this.getRegWsdMaterials().clone());
+        registry.setRegWsdProducts(this.getRegWsdProducts()== null ? null : this.getRegWsdProducts().clone());
+        
         for (DDbTestApp app : maRegTestApps) {
             registry.getRegTestApps().add(app.clone());
         }
@@ -639,8 +734,19 @@ public class DDbJob extends DDbRegistryUser implements DLibRegistry {
     }
     
     @Override
+    public void delete(final DGuiSession session) throws SQLException, Exception {
+        mbDeleted = !mbDeleted;
+        save(session);
+    }
+    
+    @Override
     public void compute(final DGuiSession session) {
-        readRegMembers(session, true);
+        try {
+            readRegMembers(session, true);
+        }
+        catch (Exception e) {
+            DLibUtils.printException(this, e);
+        }
         
         mdJobQuantity_r = DLibUtils.round(mdFormulaQuantity * mdLoads, DLibUtils.getDecimalFormatQuantity().getMaximumFractionDigits());
         mdReqmentMass_r = DLibUtils.round(mdFormulaMass_r * mdLoads, DLibUtils.getDecimalFormatQuantity().getMaximumFractionDigits());
@@ -676,5 +782,38 @@ public class DDbJob extends DDbRegistryUser implements DLibRegistry {
         else {
             mnNumber = resultSet.getInt(1);
         }
+    }
+    
+    public DDbWsd createWsd(final int[] keyMoveType, final int idMfgMoveType, final int idItemType, final int idWarehouse) {
+        DDbWsd wsd = new DDbWsd();
+        
+        //wsd.setPkWsdId(...);
+        //wsd.setNumber(...); // computed on save
+        wsd.setDate(this.getDate());
+        wsd.setReference("");
+        //wsd.setAmount_r(...); // computed on save
+        //wsd.setMass_r(...); // computed on save
+        //wsd.setDeleted(...);
+        wsd.setSystem(true);
+        wsd.setFkMoveClassId(keyMoveType[0]);
+        wsd.setFkMoveTypeId(keyMoveType[1]);
+        wsd.setFkTransactMoveTypeId(DModSysConsts.SS_TRN_TP_NA);
+        wsd.setFkMfgMoveTypeId(idMfgMoveType);
+        wsd.setFkStockAdjustTypeId(DModSysConsts.SS_ADJ_TP_NA);
+        wsd.setFkItemTypeId(idItemType);
+        wsd.setFkWarehouseId(idWarehouse);
+        //wsd.setFkWsdId_n(...); // not needed
+        //wsd.setFkBizPartnerId_n(...); // not needed
+        //wsd.setFkDepartId_n(...); // not needed
+        //wsd.setFkLineId_n(...); // not needed
+        wsd.setFkJobId_n(this.getFkJobId_n());
+        /*
+        wsd.setFkUserInsertId(...);
+        wsd.setFkUserUpdateId(...);
+        wsd.setTsUserInsert(...);
+        wsd.setTsUserUpdate(...);
+        */
+        
+        return wsd;
     }
 }

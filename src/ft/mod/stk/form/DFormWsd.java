@@ -795,7 +795,7 @@ public class DFormWsd extends DBeanForm implements DGridPaneFormOwner, ActionLis
         moCurAmount.getField().setValue(moRegistry.getAmount_r());
         moCompMass.getField().setValue(moRegistry.getMass_r());
         
-        moPaneFormRows.populateGrid(new Vector<>(moRegistry.getRows()));
+        moPaneFormRows.populateGrid(new Vector<>(moRegistry.getChildRows()));
         
         doRowClear();
         
@@ -843,9 +843,9 @@ public class DFormWsd extends DBeanForm implements DGridPaneFormOwner, ActionLis
         //registry.setFkLineId_n(...); // already set
         //registry.setFkJobId_n(...); // already set
         
-        registry.getRows().clear();
+        registry.getChildRows().clear();
         for (DGridRow row : moPaneFormRows.getModel().getGridRows()) {
-            registry.getRows().add((DDbWsdRow) row);
+            registry.getChildRows().add((DDbWsdRow) row);
         }
 
         return registry;

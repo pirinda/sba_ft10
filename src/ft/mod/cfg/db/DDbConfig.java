@@ -13,6 +13,7 @@ import java.util.Date;
 import sba.gui.util.DUtilConsts;
 import sba.lib.DLibConsts;
 import sba.lib.db.DDbConsts;
+import sba.lib.db.DDbRegistry;
 import sba.lib.db.DDbRegistryUser;
 import sba.lib.gui.DGuiConfigCompany;
 import sba.lib.gui.DGuiSession;
@@ -23,7 +24,7 @@ import sba.lib.gui.DGuiSession;
  */
 public class DDbConfig extends DDbRegistryUser implements DGuiConfigCompany {
 
-    public static final int FIELD_VERSION = 1;
+    public static final int FIELD_VERSION = DDbRegistry.FIELD_BASE + 1;
 
     protected int mnPkConfigId;
     protected int mnVersion;

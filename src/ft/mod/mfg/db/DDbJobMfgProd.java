@@ -10,6 +10,7 @@ import ft.mod.DModConsts;
 import ft.mod.cfg.db.DDbItem;
 import ft.mod.cfg.db.DDbPresent;
 import ft.mod.cfg.db.DDbUnit;
+import ft.mod.stk.db.DDbWsdRow;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import sba.lib.DLibConsts;
@@ -320,5 +321,25 @@ public class DDbJobMfgProd extends DDbRegistryUser implements DGridRow, DLibRegi
         readXtaMembers(session);
         
         mdMass_r = DLibUtils.round(mdMassUnit * mdQuantity, DLibUtils.getDecimalFormatQuantity().getMaximumFractionDigits());
+    }
+    
+    public DDbWsdRow createWsdRow(final DDbJob job) {
+        DDbWsdRow row = new DDbWsdRow();
+        
+        //row.setPkWsdId(...);
+        //row.setPkRowId(...);
+        row.setUnits(this.getQuantity());
+        row.setAmountUnit(0d);
+        //row.setAmount_r(...); // computed on save
+        row.setLot(job.getLot());
+        //row.setMassUnit(...); // updated on save
+        //row.setMass_r(...); // computed on save
+        row.setFkItemId(this.getFkItemId());
+        //row.setFkItemTypeId(...); // updated on save
+        //row.setFkUnitId(...); // updated on save
+        //row.setFkWsdWsdId_n(...); // not needed
+        //row.setFkWsdRowId_n(...); // not needed
+        
+        return row;
     }
 }

@@ -185,9 +185,17 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         jPanel1 = new javax.swing.JPanel();
         jlJobWarehouseMaterials = new javax.swing.JLabel();
         moKeyJobWarehouseMaterials = new sba.lib.gui.bean.DBeanFieldKey();
+        jPanel36 = new javax.swing.JPanel();
+        jlJobWsdMaterialsNumber = new javax.swing.JLabel();
+        jtfJobWsdMaterialsSeries = new javax.swing.JTextField();
+        jtfJobWsdMaterialsNumber = new javax.swing.JTextField();
         jPanel9 = new javax.swing.JPanel();
         jlJobWarehouseProducts = new javax.swing.JLabel();
         moKeyJobWarehouseProducts = new sba.lib.gui.bean.DBeanFieldKey();
+        jPanel38 = new javax.swing.JPanel();
+        jlJobWsdProductsNumber = new javax.swing.JLabel();
+        jtfJobWsdProductsSeries = new javax.swing.JTextField();
+        jtfJobWsdProductsNumber = new javax.swing.JTextField();
         jtpJob = new javax.swing.JTabbedPane();
         jpMfg = new javax.swing.JPanel();
         jpReqment = new javax.swing.JPanel();
@@ -511,18 +519,64 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         jlJobWarehouseMaterials.setText("Alm. materiales:*");
         jlJobWarehouseMaterials.setPreferredSize(new java.awt.Dimension(100, 23));
         jPanel1.add(jlJobWarehouseMaterials);
+
+        moKeyJobWarehouseMaterials.setPreferredSize(new java.awt.Dimension(115, 23));
         jPanel1.add(moKeyJobWarehouseMaterials);
 
         jpJob2.add(jPanel1);
+
+        jPanel36.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
+
+        jlJobWsdMaterialsNumber.setText("Folio docto. alm.:");
+        jlJobWsdMaterialsNumber.setPreferredSize(new java.awt.Dimension(100, 23));
+        jPanel36.add(jlJobWsdMaterialsNumber);
+
+        jtfJobWsdMaterialsSeries.setEditable(false);
+        jtfJobWsdMaterialsSeries.setText("S");
+        jtfJobWsdMaterialsSeries.setFocusable(false);
+        jtfJobWsdMaterialsSeries.setPreferredSize(new java.awt.Dimension(35, 23));
+        jPanel36.add(jtfJobWsdMaterialsSeries);
+
+        jtfJobWsdMaterialsNumber.setEditable(false);
+        jtfJobWsdMaterialsNumber.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
+        jtfJobWsdMaterialsNumber.setText("0");
+        jtfJobWsdMaterialsNumber.setFocusable(false);
+        jtfJobWsdMaterialsNumber.setPreferredSize(new java.awt.Dimension(75, 23));
+        jPanel36.add(jtfJobWsdMaterialsNumber);
+
+        jpJob2.add(jPanel36);
 
         jPanel9.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
         jlJobWarehouseProducts.setText("Alm. productos:*");
         jlJobWarehouseProducts.setPreferredSize(new java.awt.Dimension(100, 23));
         jPanel9.add(jlJobWarehouseProducts);
+
+        moKeyJobWarehouseProducts.setPreferredSize(new java.awt.Dimension(115, 23));
         jPanel9.add(moKeyJobWarehouseProducts);
 
         jpJob2.add(jPanel9);
+
+        jPanel38.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
+
+        jlJobWsdProductsNumber.setText("Folio docto. alm.:");
+        jlJobWsdProductsNumber.setPreferredSize(new java.awt.Dimension(100, 23));
+        jPanel38.add(jlJobWsdProductsNumber);
+
+        jtfJobWsdProductsSeries.setEditable(false);
+        jtfJobWsdProductsSeries.setText("S");
+        jtfJobWsdProductsSeries.setFocusable(false);
+        jtfJobWsdProductsSeries.setPreferredSize(new java.awt.Dimension(35, 23));
+        jPanel38.add(jtfJobWsdProductsSeries);
+
+        jtfJobWsdProductsNumber.setEditable(false);
+        jtfJobWsdProductsNumber.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
+        jtfJobWsdProductsNumber.setText("0");
+        jtfJobWsdProductsNumber.setFocusable(false);
+        jtfJobWsdProductsNumber.setPreferredSize(new java.awt.Dimension(75, 23));
+        jPanel38.add(jtfJobWsdProductsNumber);
+
+        jpJob2.add(jPanel38);
 
         jpJob.add(jpJob2, java.awt.BorderLayout.EAST);
 
@@ -817,7 +871,9 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
     private javax.swing.JPanel jPanel33;
     private javax.swing.JPanel jPanel34;
     private javax.swing.JPanel jPanel35;
+    private javax.swing.JPanel jPanel36;
     private javax.swing.JPanel jPanel37;
+    private javax.swing.JPanel jPanel38;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
@@ -861,6 +917,8 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
     private javax.swing.JLabel jlJobTimeStart;
     private javax.swing.JLabel jlJobWarehouseMaterials;
     private javax.swing.JLabel jlJobWarehouseProducts;
+    private javax.swing.JLabel jlJobWsdMaterialsNumber;
+    private javax.swing.JLabel jlJobWsdProductsNumber;
     private javax.swing.JLabel jlMfgProdItem;
     private javax.swing.JLabel jlMfgProdItemType;
     private javax.swing.JLabel jlMfgProdQuantity;
@@ -890,6 +948,10 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
     private javax.swing.JTextField jtfJobNumber;
     private javax.swing.JTextField jtfJobSeries;
     private javax.swing.JTextField jtfJobStatus;
+    private javax.swing.JTextField jtfJobWsdMaterialsNumber;
+    private javax.swing.JTextField jtfJobWsdMaterialsSeries;
+    private javax.swing.JTextField jtfJobWsdProductsNumber;
+    private javax.swing.JTextField jtfJobWsdProductsSeries;
     private javax.swing.JTextField jtfTest;
     private javax.swing.JTextField jtfTestApp;
     private javax.swing.JTextField jtfTestAppResults;
@@ -2235,6 +2297,24 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         moTimeJobTimeEnd.setValue(moRegistry.getTsEnd_n());
         moKeyJobWarehouseMaterials.setValue(new int[] { moRegistry.getFkWarehouseMaterialsId() });
         moKeyJobWarehouseProducts.setValue(new int[] { moRegistry.getFkWarehouseProductsId() });
+        
+        if (moRegistry.getRegWsdMaterials() == null) {
+            jtfJobWsdMaterialsSeries.setText("");
+            jtfJobWsdMaterialsNumber.setText("");
+        }
+        else {
+            jtfJobWsdMaterialsSeries.setText((String) miClient.getSession().readField(DModConsts.SS_MOV_TP, moRegistry.getRegWsdMaterials().getKeyMoveType(), DDbRegistry.FIELD_CODE));
+            jtfJobWsdMaterialsNumber.setText("" + moRegistry.getRegWsdMaterials().getNumber());
+        }
+        
+        if (moRegistry.getRegWsdProducts() == null) {
+            jtfJobWsdProductsSeries.setText("");
+            jtfJobWsdProductsNumber.setText("");
+        }
+        else {
+            jtfJobWsdProductsSeries.setText((String) miClient.getSession().readField(DModConsts.SS_MOV_TP, moRegistry.getRegWsdProducts().getKeyMoveType(), DDbRegistry.FIELD_CODE));
+            jtfJobWsdProductsNumber.setText("" + moRegistry.getRegWsdProducts().getNumber());
+        }
         
         maConsumps.clear();
         maConsumps.addAll(moRegistry.getChildConsumps());

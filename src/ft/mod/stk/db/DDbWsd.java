@@ -65,11 +65,11 @@ public class DDbWsd extends DDbRegistryUser implements DLibRegistry {
     protected Date mtTsUserUpdate;
     */
     
-    protected ArrayList<DDbWsdRow> maRows;
+    protected ArrayList<DDbWsdRow> maChildRows;
 
     public DDbWsd() {
         super(DModConsts.S_WSD);
-        maRows = new ArrayList<>();
+        maChildRows = new ArrayList<>();
         initRegistry();
     }
     
@@ -79,11 +79,8 @@ public class DDbWsd extends DDbRegistryUser implements DLibRegistry {
     
     private void saveStock(final DGuiSession session) throws Exception {
         String sql = "";
-        ArrayList<DDbStock> stocks = new ArrayList<>();
         
-        for (DDbWsdRow child : maRows) {
-            stocks.add(child.createStock(this));
-        }
+        // Delete former stock movements:
         
         sql = "UPDATE " + DModConsts.TablesMap.get(DModConsts.S_STK) + " SET "
                 + "b_del = 1, "
@@ -92,8 +89,12 @@ public class DDbWsd extends DDbRegistryUser implements DLibRegistry {
                 + "WHERE fk_wsd_wsd = " + mnPkWsdId + " AND b_del = 0 ";
         session.getStatement().execute(sql);
         
-        for (DDbStock stock : stocks) {
-            stock.save(session);
+        // Create and save new stock movements:
+        
+        if (!mbDeleted) {
+            for (DDbWsdRow child : maChildRows) {
+                child.createStock(this).save(session);
+            }
         }
     }
 
@@ -151,7 +152,7 @@ public class DDbWsd extends DDbRegistryUser implements DLibRegistry {
     public Date getTsUserInsert() { return mtTsUserInsert; }
     public Date getTsUserUpdate() { return mtTsUserUpdate; }
 
-    public ArrayList<DDbWsdRow> getRows() { return maRows; }
+    public ArrayList<DDbWsdRow> getChildRows() { return maChildRows; }
     
     public int[] getKeyMoveType() { return new int[] { mnFkMoveClassId, mnFkMoveTypeId }; }
     
@@ -194,7 +195,7 @@ public class DDbWsd extends DDbRegistryUser implements DLibRegistry {
         mtTsUserInsert = null;
         mtTsUserUpdate = null;
         
-        maRows.clear();
+        maChildRows.clear();
     }
 
     @Override
@@ -275,7 +276,7 @@ public class DDbWsd extends DDbRegistryUser implements DLibRegistry {
             while (resultSet.next()) {
                 DDbWsdRow child = new DDbWsdRow();
                 child.read(session, new int[] { mnPkWsdId, resultSet.getInt(1) });
-                maRows.add(child);
+                maChildRows.add(child);
             }
             
             // Finish registry reading:
@@ -369,11 +370,13 @@ public class DDbWsd extends DDbRegistryUser implements DLibRegistry {
         msSql = "DELETE FROM " + DModConsts.TablesMap.get(DModConsts.S_WSD_ROW) + " " + getSqlWhere();
         session.getStatement().execute(msSql);
 
-        for (DDbWsdRow child : maRows) {
+        for (DDbWsdRow child : maChildRows) {
             child.setRegistryNew(true);
             child.setPkWsdId(mnPkWsdId);
             child.save(session);
         }
+        
+        // Save stock:
         
         saveStock(session);
 
@@ -412,8 +415,8 @@ public class DDbWsd extends DDbRegistryUser implements DLibRegistry {
         registry.setTsUserInsert(this.getTsUserInsert());
         registry.setTsUserUpdate(this.getTsUserUpdate());
 
-        for (DDbWsdRow child : maRows) {
-            registry.getRows().add(child.clone());
+        for (DDbWsdRow child : maChildRows) {
+            registry.getChildRows().add(child.clone());
         }
         
         registry.setRegistryNew(this.isRegistryNew());
@@ -547,13 +550,19 @@ public class DDbWsd extends DDbRegistryUser implements DLibRegistry {
     }
     
     @Override
+    public void delete(final DGuiSession session) throws SQLException, Exception {
+        mbDeleted = !mbDeleted;
+        save(session);
+    }
+    
+    @Override
     public void compute(final DGuiSession session) {
         int row = 0;
         
         mdAmount_r = 0;
         mdMass_r = 0;
         
-        for (DDbWsdRow child : maRows) {
+        for (DDbWsdRow child : maChildRows) {
             child.setPkRowId(++row);
             
             if (!child.isDeleted()) {

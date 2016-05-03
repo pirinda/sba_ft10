@@ -102,8 +102,8 @@ public abstract class DModSysConsts {
     public static final int SS_TRN_TP_CON = 5;
 
     public static final int SS_MFG_TP_NA = 1;
-    public static final int SS_MFG_TP_M = 2;
-    public static final int SS_MFG_TP_P = 3;
+    public static final int SS_MFG_TP_MAT = 2;
+    public static final int SS_MFG_TP_PRO = 3;
     
     public static final int SS_ADJ_TP_NA = 1;
     public static final int SS_ADJ_TP_DAM = 2;
