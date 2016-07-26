@@ -19,7 +19,6 @@ import ft.mod.mfg.db.DDbJobReqment;
 import ft.mod.mfg.db.DDbJobVariable;
 import ft.mod.mfg.db.DDbVariable;
 import ft.mod.mfg.db.DMfgUtils;
-import ft.mod.qty.db.DDbTest;
 import ft.mod.qty.db.DDbTestApp;
 import ft.mod.qty.db.DDbTestAppResult;
 import ft.mod.qty.db.DDbTestAppResultVariable;
@@ -34,6 +33,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Vector;
 import javax.swing.JButton;
 import javax.swing.ListSelectionModel;
@@ -1420,21 +1420,80 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         }
     }
     
-    @SuppressWarnings("unchecked")
-    private void createTestItems() throws Exception {
-        ArrayList<DDbTest> tests = moFormula == null ? new ArrayList<>() : DQtyUtils.readTestsForFamily(miClient.getSession(), DModSysConsts.QS_TST_TP_PRO, moFormula.getRegItem().getFkFamilyId());
+    //@SuppressWarnings("unchecked")
+    private void createTestAppGuiItems() throws Exception {
+        int idApp = 0;
+        HashSet<Integer> consumps = new HashSet<>();
+        HashSet<Integer> mfgProds = new HashSet<>();
+        ArrayList<DDbTestApp> testAppsAux = new ArrayList<>();
+        ArrayList<DDbTestApp> testApps = new ArrayList<>();
+        
+        // Obtain tests for items of consumed materials:
+        
+        for (DDbJobConsump consump : maConsumps) {
+            if (!consumps.contains(consump.getFkItemId())) {
+                consumps.add(consump.getFkItemId());
+                testAppsAux = DQtyUtils.createTestAppsForFamily(miClient.getSession(), consump.getRegItem().getFkFamilyId(), DModSysConsts.QS_TST_TP_INP);
+                for (DDbTestApp testApp : testAppsAux) {
+                    testApp.setPkJobId(moRegistry.getPkJobId());
+                    testApp.setPkJobId(++idApp);
+                    testApp.setFkItemId(consump.getFkItemId());
+                    testApp.setFkItemTypeId(consump.getFkItemTypeId());
+                    testApp.setRegItem(consump.getRegItem());
+                }
+                testApps.addAll(testAppsAux);
+            }
+        }
+        
+        // Obtain tests for items of manufactured products:
+        
+        for (DGridRow row : moGridMfgProds.getModel().getGridRows()) {
+            DDbJobMfgProd mfgProd = (DDbJobMfgProd) row;
+            if (!mfgProds.contains(mfgProd.getFkItemId())) {
+                mfgProds.add(mfgProd.getFkItemId());
+                testAppsAux = DQtyUtils.createTestAppsForFamily(miClient.getSession(), mfgProd.getRegItem().getFkFamilyId(), DModSysConsts.QS_TST_TP_PRO);
+                for (DDbTestApp testApp : testAppsAux) {
+                    testApp.setPkJobId(moRegistry.getPkJobId());
+                    testApp.setPkJobId(++idApp);
+                    testApp.setFkItemId(mfgProd.getFkItemId());
+                    testApp.setFkItemTypeId(mfgProd.getFkItemTypeId());
+                    testApp.setRegItem(mfgProd.getRegItem());
+                }
+                testApps.addAll(testAppsAux);
+            }
+        }
+
+        // Obtain tests for items of product of formula (if needed):
+        
+        if (moFormula != null) {
+            if (!mfgProds.contains(moFormula.getFkItemId())) {
+                mfgProds.add(moFormula.getFkItemId());
+                testAppsAux = DQtyUtils.createTestAppsForFamily(miClient.getSession(), moFormula.getRegItem().getFkFamilyId(), DModSysConsts.QS_TST_TP_PRO);
+                for (DDbTestApp testApp : testAppsAux) {
+                    testApp.setPkJobId(moRegistry.getPkJobId());
+                    testApp.setPkJobId(++idApp);
+                    testApp.setFkItemId(moFormula.getFkItemId());
+                    testApp.setFkItemTypeId(moFormula.getFkItemTypeId());
+                    testApp.setRegItem(moFormula.getRegItem());
+                }
+                testApps.addAll(testAppsAux);
+            }
+        }
+        
+        // Populate combo box of test applications:
         
         moKeyTestApp.removeAllItems();
         moKeyTestApp.addItem(new DGuiItem("- Test calidad -"));
         
-        for (DDbTest test : tests) {
-            for (DDbTestApp app : maTestApps) {
-                if (app.getRegTest().getPkTestId() == test.getPkTestId()) {
-                    test.utilAddAuxAppResults(app.getChildResults().size());
+        for (DDbTestApp testApp : testApps) {
+            for (DDbTestApp testAppMade : maTestApps) {
+                if (testApp.getFkTestId() == testAppMade.getFkTestId() && testApp.getFkTestTypeId()== testAppMade.getFkTestTypeId() && 
+                        testApp.getFkItemId() == testAppMade.getFkItemId() && testApp.getFkItemTypeId() == testAppMade.getFkItemTypeId()) {
+                    testApp.getChildResults().addAll(testAppMade.getChildResults());
                 }
             }
             
-            moKeyTestApp.addItem(new DGuiItem(new int[] { test.getPkTestId() }, test.getName(), test));
+            moKeyTestApp.addItem(new DGuiItem(testApp.getPrimaryKey(), testApp.getRegTest().getName() + ", " + testApp.getRegItem().getName(), testApp));
         }
         
         moKeyTestApp.setSelectedIndex(0);
@@ -1730,8 +1789,6 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         try {
             computeJobLot();
             createGridReqmentRows();
-            createGridVariableRows();
-            createTestItems();
         }
         catch (Exception e) {
             DLibUtils.showException(this, e);
@@ -1739,7 +1796,13 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
     }
     
     private void processStatusForwardToInQuality() {
-        XXX
+        try {
+            createGridVariableRows();
+            createTestAppGuiItems();
+        }
+        catch (Exception e) {
+            DLibUtils.showException(this, e);
+        }
     }
     
     private void processStatusBackToNew() {
@@ -1759,7 +1822,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
     
     private void processStatusBackToInProcess() {
         try {
-            createTestItems();
+            
         }
         catch (Exception e) {
             DLibUtils.showException(this, e);
@@ -1767,7 +1830,12 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
     }
     
     private void processStatusBackToInQuality() {
-        XXX
+        try {
+            createTestAppGuiItems();
+        }
+        catch (Exception e) {
+            DLibUtils.showException(this, e);
+        }
     }
     
     private void processTestAppResultsDeletion(DGridRow gridRow) {
@@ -1793,7 +1861,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
             }
         }
 
-        appResultVariable.getAuxTestAppResult().getAuxTestApp().getRegTest().utilAddAuxAppResults(-1); // minus one result
+        // XXX appResultVariable.getAuxTestAppResult().getAuxTestApp().getRegTest().utilAddAuxAppResults(-1); // minus one result
         renderTestApp(); // update shown results applied
 
         variables.remove((DDbTestAppResultVariable) gridRow); // current row about to be deleted by grid
@@ -2012,40 +2080,12 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         }
         else {
             int index = 0;
-            DDbTestApp testApp = null;
-            DDbTestAppResult testAppResult = null;
+            DDbTestApp testApp = (DDbTestApp) moKeyTestApp.getSelectedItem().getComplement();
+            DDbTestAppResult testAppResult = new DDbTestAppResult();
             
-            for (DDbTestApp app : maTestApps) {
-                if (app.getFkTestId() == moTest.getPkTestId()) {
-                    testApp = app;
-                    break;
-                }
-            }
-            
-            if (testApp == null) {
-                testApp = new DDbTestApp();
-
-                //testApp.setPkAppId(...);
-                testApp.setDate(moDateTestAppDate.getValue());
-                //testApp.setDeleted(...);
-                //testApp.setSystem(...);
-                testApp.setFkTestId(moTest.getPkTestId());
-                //testApp.setFkTestTypeId(moTest.getFkTestTypeId()); // set on compute
-                testApp.setFkItemId(moFormula.getRegItem().getPkItemId());
-                //testApp.setFkItemTypeId(...); // set on compute
-                //testApp.setFkJobId_n(...); // set on save
-
-                testApp.compute(miClient.getSession());
-            }
-            
-            moTest.utilAddAuxAppResults(1); // plus one result
-            renderTestApp(); // update shown results applied
-            
-            testAppResult = new DDbTestAppResult();
-            
-            //testAppResult.setPkAppId(...);
-            testAppResult.setPkResultId(moTest.getAuxAppResults());
-            
+            testAppResult.setPkJobId(testApp.getPkJobId());
+            testAppResult.setPkAppId(testApp.getPkAppId());
+            testAppResult.setPkResultId(testApp.getChildResults().size() + 1);
             testAppResult.setAuxTestApp(testApp);
             testApp.getChildResults().add(testAppResult);
             
@@ -2067,6 +2107,8 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
                 
                 variableSrc.setValue(0); // clear source variable
             }
+            
+            renderTestApp(); // update shown results applied
             
             // Add results:
             
@@ -2248,7 +2290,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         }
         else {
             jtfTestAppResultTest.setText(variable.getAuxTestAppResult().getAuxTestApp().getRegTest().getName());
-            jtfTestAppResultResults.setText("" + DLibUtils.DecimalFormatInteger.format(variable.getPkResultId()) + "/" + DLibUtils.DecimalFormatInteger.format(variable.getAuxTestAppResult().getAuxTestApp().getRegTest().getAuxApps()));
+            jtfTestAppResultResults.setText("" + DLibUtils.DecimalFormatInteger.format(variable.getPkResultId()) + "/" + DLibUtils.DecimalFormatInteger.format(variable.getAuxTestAppResult().getAuxTestApp().getChildResults().size()));
             
             jtfTestAppResultTest.setCaretPosition(0);
             jtfTestAppResultResults.setCaretPosition(0);
@@ -2433,7 +2475,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         moKeyGroupMfgProdItem.resetGroup();
         
         if (mnJobStatus == DModSysConsts.MS_JOB_ST_PRC) {
-            createTestItems();
+            createTestAppGuiItems();
         }
         itemStateChangedTestApp();
         
