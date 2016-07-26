@@ -30,15 +30,13 @@ public class DViewJob extends DGridPaneView {
         super(client, DGridConsts.GRID_VIEW_TAB, DModConsts.M_JOB, status, title);
         
         switch (mnGridSubtype) {
-            case DModSysConsts.MS_JOB_ST_PEN:
+            case DModSysConsts.MS_JOB_ST_NEW:
                 setRowButtonsEnabled(true, true, true, true, false);
                 break;
             case DModSysConsts.MS_JOB_ST_PRC:
+            case DModSysConsts.MS_JOB_ST_QTY:
             case DModSysConsts.MS_JOB_ST_FIN:
                 setRowButtonsEnabled(false, true, false, false, false);
-                break;
-            case DModSysConsts.MS_JOB_ST_CAN:
-                setRowButtonsEnabled(false, false, false, true, false);
                 break;
             default:
         }

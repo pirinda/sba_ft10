@@ -7,6 +7,7 @@ package ft.mod.qty.db;
 
 import ft.mod.DModConsts;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import sba.lib.gui.DGuiSession;
 
@@ -16,24 +17,40 @@ import sba.lib.gui.DGuiSession;
  */
 public abstract class DQtyUtils {
     
-    public static ArrayList<DDbTest> readTestsForFamily(final DGuiSession session, final int type, final int idFamily) throws Exception {
+    public static ArrayList<DDbTestApp> createTestAppsForFamily(final DGuiSession session, final int idFamily, final int typeTest) throws Exception {
         String sql = "";
+        Statement statement = null;
         ResultSet resultSet = null;
-        ArrayList<DDbTest> tests = new ArrayList<>();
+        ArrayList<DDbTestApp> testApps = new ArrayList<>();
         
-        sql = "SELECT DISTINCT t.name, t.code, t.id_tst, tf.res "
+        statement = session.getStatement().getConnection().createStatement();
+        
+        sql = "SELECT t.name, t.code, t.id_tst "
                 + "FROM " + DModConsts.TablesMap.get(DModConsts.QU_TST_FAM) + " AS tf "
                 + "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.QU_TST) + " AS t ON tf.id_tst = t.id_tst "
-                + "WHERE tf.id_fam = " + idFamily + " AND t.fk_tst_tp = " + type + " AND t.b_del = 0 "
+                + "WHERE tf.id_fam = " + idFamily + " AND t.fk_tst_tp = " + typeTest + " AND t.b_del = 0 "
                 + "ORDER BY t.name, t.code, t.id_tst ";
-        resultSet = session.getStatement().getConnection().createStatement().executeQuery(sql);
+        resultSet = statement.executeQuery(sql);
         while (resultSet.next()) {
-            DDbTest test = new DDbTest();
-            test.read(session, new int[] { resultSet.getInt("t.id_tst") });
-            test.setAuxApps(resultSet.getInt("tf.res"));
-            tests.add(test);
+            DDbTest test = (DDbTest) session.readRegistry(DModConsts.QU_TST, new int[] { resultSet.getInt("t.id_tst") });
+            DDbTestApp testApp = new DDbTestApp();
+            
+            //testApp.setPkJobId(...); // to be set by caller
+            //testApp.setPkAppId(...); // to be set by caller
+            testApp.setResultsDesired(resultSet.getInt("tf.res"));
+            //testApp.setDeleted(...);
+            //testApp.setSystem(...);
+            testApp.setFkTestId(test.getPkTestId());
+            testApp.setFkTestTypeId(test.getFkTestTypeId());
+            //testApp.setFkItemId(...); // to be set by caller
+            //testApp.setFkItemTypeId(...); // to be set by caller
+            
+            testApp.setRegTest(test);
+            //testApp.setRegItem(...); // to be set by caller
+            
+            testApps.add(testApp);
         }
         
-        return tests;
+        return testApps;
     }
 }

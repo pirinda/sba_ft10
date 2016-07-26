@@ -229,9 +229,9 @@
             <Property name="text" type="java.lang.String" value="Producci&#xf3;n"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jmiMfgJobPen">
+            <MenuItem class="javax.swing.JMenuItem" name="jmiMfgJobNew">
               <Properties>
-                <Property name="text" type="java.lang.String" value="&#xd3;rdenes de producci&#xf3;n pendientes"/>
+                <Property name="text" type="java.lang.String" value="&#xd3;rdenes de producci&#xf3;n nuevas"/>
               </Properties>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jmiMfgJobPrc">
@@ -239,14 +239,14 @@
                 <Property name="text" type="java.lang.String" value="&#xd3;rdenes de producci&#xf3;n en proceso"/>
               </Properties>
             </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jmiMfgJobQty">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="&#xd3;rdenes de producci&#xf3;n en calidad"/>
+              </Properties>
+            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jmiMfgJobFin">
               <Properties>
                 <Property name="text" type="java.lang.String" value="&#xd3;rdenes de producci&#xf3;n terminadas"/>
-              </Properties>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jmiMfgJobCan">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="&#xd3;rdenes de producci&#xf3;n canceladas"/>
               </Properties>
             </MenuItem>
             <MenuItem class="javax.swing.JPopupMenu$Separator" name="jsMfg1">

@@ -326,7 +326,7 @@ public class DFormTest extends DBeanForm {
                 DDbTestFamily testFamily = new DDbTestFamily();
                 //variableFamily.setPkTestId(...);
                 testFamily.setPkFamilyId(((DLibRowOption) row).OptionId);
-                testFamily.setResults(((DLibRowOption) row).Quantity);
+                testFamily.setResultsDesired(((DLibRowOption) row).Quantity);
                 registry.getChildFamilies().add(testFamily);
             }
         }

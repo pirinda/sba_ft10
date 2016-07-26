@@ -192,10 +192,10 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
         jmiStkStock = new javax.swing.JMenuItem();
         jmiStkStockLot = new javax.swing.JMenuItem();
         jmMfg = new javax.swing.JMenu();
-        jmiMfgJobPen = new javax.swing.JMenuItem();
+        jmiMfgJobNew = new javax.swing.JMenuItem();
         jmiMfgJobPrc = new javax.swing.JMenuItem();
+        jmiMfgJobQty = new javax.swing.JMenuItem();
         jmiMfgJobFin = new javax.swing.JMenuItem();
-        jmiMfgJobCan = new javax.swing.JMenuItem();
         jsMfg1 = new javax.swing.JPopupMenu.Separator();
         jmiMfgFormula = new javax.swing.JMenuItem();
         jmiMfgFormulaComp = new javax.swing.JMenuItem();
@@ -420,17 +420,17 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
 
         jmMfg.setText("Producción");
 
-        jmiMfgJobPen.setText("Órdenes de producción pendientes");
-        jmMfg.add(jmiMfgJobPen);
+        jmiMfgJobNew.setText("Órdenes de producción nuevas");
+        jmMfg.add(jmiMfgJobNew);
 
         jmiMfgJobPrc.setText("Órdenes de producción en proceso");
         jmMfg.add(jmiMfgJobPrc);
 
+        jmiMfgJobQty.setText("Órdenes de producción en calidad");
+        jmMfg.add(jmiMfgJobQty);
+
         jmiMfgJobFin.setText("Órdenes de producción terminadas");
         jmMfg.add(jmiMfgJobFin);
-
-        jmiMfgJobCan.setText("Órdenes de producción canceladas");
-        jmMfg.add(jmiMfgJobCan);
         jmMfg.add(jsMfg1);
 
         jmiMfgFormula.setText("Fórmulas");
@@ -616,10 +616,10 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
         jmiStkWsmOut.addActionListener(this);
         jmiStkStock.addActionListener(this);
         jmiStkStockLot.addActionListener(this);
-        jmiMfgJobPen.addActionListener(this);
+        jmiMfgJobNew.addActionListener(this);
         jmiMfgJobPrc.addActionListener(this);
+        jmiMfgJobQty.addActionListener(this);
         jmiMfgJobFin.addActionListener(this);
-        jmiMfgJobCan.addActionListener(this);
         jmiMfgFormula.addActionListener(this);
         jmiMfgFormulaComp.addActionListener(this);
         jmiMfgFormulaByProd.addActionListener(this);
@@ -911,10 +911,10 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
     private javax.swing.JMenuItem jmiMfgFormula;
     private javax.swing.JMenuItem jmiMfgFormulaByProd;
     private javax.swing.JMenuItem jmiMfgFormulaComp;
-    private javax.swing.JMenuItem jmiMfgJobCan;
     private javax.swing.JMenuItem jmiMfgJobFin;
-    private javax.swing.JMenuItem jmiMfgJobPen;
+    private javax.swing.JMenuItem jmiMfgJobNew;
     private javax.swing.JMenuItem jmiMfgJobPrc;
+    private javax.swing.JMenuItem jmiMfgJobQty;
     private javax.swing.JMenuItem jmiMfgVariable;
     private javax.swing.JMenuItem jmiQtyTest;
     private javax.swing.JMenuItem jmiQtyTestApp;
@@ -1309,17 +1309,17 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
             else if (menuItem == jmiStkStockLot) {
                 moSession.showView(DModConsts.S_STK, DModSysConsts.SX_STK_LOT, null);
             }
-            else if (menuItem == jmiMfgJobPen) {
-                moSession.showView(DModConsts.M_JOB, DModSysConsts.MS_JOB_ST_PEN, null);
+            else if (menuItem == jmiMfgJobNew) {
+                moSession.showView(DModConsts.M_JOB, DModSysConsts.MS_JOB_ST_NEW, null);
             }
             else if (menuItem == jmiMfgJobPrc) {
                 moSession.showView(DModConsts.M_JOB, DModSysConsts.MS_JOB_ST_PRC, null);
             }
+            else if (menuItem == jmiMfgJobQty) {
+                moSession.showView(DModConsts.M_JOB, DModSysConsts.MS_JOB_ST_QTY, null);
+            }
             else if (menuItem == jmiMfgJobFin) {
                 moSession.showView(DModConsts.M_JOB, DModSysConsts.MS_JOB_ST_FIN, null);
-            }
-            else if (menuItem == jmiMfgJobCan) {
-                moSession.showView(DModConsts.M_JOB, DModSysConsts.MS_JOB_ST_CAN, null);
             }
             else if (menuItem == jmiMfgFormula) {
                 moSession.showView(DModConsts.MU_FRM, DLibConsts.UNDEFINED, null);

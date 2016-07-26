@@ -14,8 +14,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import sba.gui.util.DUtilConsts;
-import sba.lib.DLibConsts;
-import sba.lib.DLibUtils;
 import sba.lib.db.DDbConsts;
 import sba.lib.db.DDbRegistryUser;
 import sba.lib.gui.DGuiSession;
@@ -26,8 +24,9 @@ import sba.lib.gui.DGuiSession;
  */
 public class DDbTestApp extends DDbRegistryUser implements DLibRegistry {
 
+    protected int mnPkJobId;
     protected int mnPkAppId;
-    protected Date mtDate;
+    protected int mnResultsDesired;
     /*
     protected boolean mbDeleted;
     protected boolean mbSystem;
@@ -36,7 +35,6 @@ public class DDbTestApp extends DDbRegistryUser implements DLibRegistry {
     protected int mnFkTestTypeId;
     protected int mnFkItemId;
     protected int mnFkItemTypeId;
-    protected int mnFkJobId_n;
     /*
     protected int mnFkUserInsertId;
     protected int mnFkUserUpdateId;
@@ -65,29 +63,29 @@ public class DDbTestApp extends DDbRegistryUser implements DLibRegistry {
         }
     }
     
+    public void setPkJobId(int n) { mnPkJobId = n; }
     public void setPkAppId(int n) { mnPkAppId = n; }
-    public void setDate(Date t) { mtDate = t; }
+    public void setResultsDesired(int n) { mnResultsDesired = n; }
     public void setDeleted(boolean b) { mbDeleted = b; }
     public void setSystem(boolean b) { mbSystem = b; }
     public void setFkTestId(int n) { mnFkTestId = n; }
     public void setFkTestTypeId(int n) { mnFkTestTypeId = n; }
     public void setFkItemId(int n) { mnFkItemId = n; }
     public void setFkItemTypeId(int n) { mnFkItemTypeId = n; }
-    public void setFkJobId_n(int n) { mnFkJobId_n = n; }
     public void setFkUserInsertId(int n) { mnFkUserInsertId = n; }
     public void setFkUserUpdateId(int n) { mnFkUserUpdateId = n; }
     public void setTsUserInsert(Date t) { mtTsUserInsert = t; }
     public void setTsUserUpdate(Date t) { mtTsUserUpdate = t; }
 
+    public int getPkJobId() { return mnPkJobId; }
     public int getPkAppId() { return mnPkAppId; }
-    public Date getDate() { return mtDate; }
+    public int getResultsDesired() { return mnResultsDesired; }
     public boolean isDeleted() { return mbDeleted; }
     public boolean isSystem() { return mbSystem; }
     public int getFkTestId() { return mnFkTestId; }
     public int getFkTestTypeId() { return mnFkTestTypeId; }
     public int getFkItemId() { return mnFkItemId; }
     public int getFkItemTypeId() { return mnFkItemTypeId; }
-    public int getFkJobId_n() { return mnFkJobId_n; }
     public int getFkUserInsertId() { return mnFkUserInsertId; }
     public int getFkUserUpdateId() { return mnFkUserUpdateId; }
     public Date getTsUserInsert() { return mtTsUserInsert; }
@@ -103,27 +101,28 @@ public class DDbTestApp extends DDbRegistryUser implements DLibRegistry {
     
     @Override
     public void setPrimaryKey(int[] pk) {
-        mnPkAppId = pk[0];
+        mnPkJobId = pk[0];
+        mnPkAppId = pk[1];
     }
 
     @Override
     public int[] getPrimaryKey() {
-        return new int[] { mnPkAppId };
+        return new int[] { mnPkJobId, mnPkAppId };
     }
 
     @Override
     public void initRegistry() {
         initBaseRegistry();
 
+        mnPkJobId = 0;
         mnPkAppId = 0;
-        mtDate = null;
+        mnResultsDesired = 0;
         mbDeleted = false;
         mbSystem = false;
         mnFkTestId = 0;
         mnFkTestTypeId = 0;
         mnFkItemId = 0;
         mnFkItemTypeId = 0;
-        mnFkJobId_n = 0;
         mnFkUserInsertId = 0;
         mnFkUserUpdateId = 0;
         mtTsUserInsert = null;
@@ -142,12 +141,12 @@ public class DDbTestApp extends DDbRegistryUser implements DLibRegistry {
 
     @Override
     public String getSqlWhere() {
-        return "WHERE id_app = " + mnPkAppId + " ";
+        return "WHERE id_job = " + mnPkJobId + " AND id_app = " + mnPkAppId + " ";
     }
 
     @Override
     public String getSqlWhere(int[] pk) {
-        return "WHERE id_app = " + pk[0] + " ";
+        return "WHERE id_job = " + pk[0] + " AND id_app = " + pk[1] + " ";
     }
 
     @Override
@@ -156,7 +155,8 @@ public class DDbTestApp extends DDbRegistryUser implements DLibRegistry {
 
         mnPkAppId = 0;
 
-        msSql = "SELECT COALESCE(MAX(id_app), 0) + 1 FROM " + getSqlTable();
+        msSql = "SELECT COALESCE(MAX(id_app), 0) + 1 FROM " + getSqlTable() + 
+                "WHERE id_job = " + mnPkJobId + " ";
         resultSet = session.getStatement().executeQuery(msSql);
         if (resultSet.next()) {
             mnPkAppId = resultSet.getInt(1);
@@ -178,15 +178,15 @@ public class DDbTestApp extends DDbRegistryUser implements DLibRegistry {
             throw new Exception(DDbConsts.ERR_MSG_REG_NOT_FOUND);
         }
         else {
+            mnPkJobId = resultSet.getInt("id_job");
             mnPkAppId = resultSet.getInt("id_app");
-            mtDate = resultSet.getDate("dat");
+            mnResultsDesired = resultSet.getInt("res");
             mbDeleted = resultSet.getBoolean("b_del");
             mbSystem = resultSet.getBoolean("b_sys");
             mnFkTestId = resultSet.getInt("fk_tst");
             mnFkTestTypeId = resultSet.getInt("fk_tst_tp");
             mnFkItemId = resultSet.getInt("fk_itm");
             mnFkItemTypeId = resultSet.getInt("fk_itm_tp");
-            mnFkJobId_n = resultSet.getInt("fk_job_n");
             mnFkUserInsertId = resultSet.getInt("fk_usr_ins");
             mnFkUserUpdateId = resultSet.getInt("fk_usr_upd");
             mtTsUserInsert = resultSet.getTimestamp("ts_usr_ins");
@@ -201,7 +201,7 @@ public class DDbTestApp extends DDbRegistryUser implements DLibRegistry {
             resultSet = statement.executeQuery(msSql);
             while (resultSet.next()) {
                 DDbTestAppResult child = new DDbTestAppResult();
-                child.read(session, new int[] { mnPkAppId, resultSet.getInt(1) });
+                child.read(session, new int[] { mnPkJobId, mnPkAppId, resultSet.getInt(1) });
                 child.setAuxTestApp(this);
                 maChildResults.add(child);
             }
@@ -233,15 +233,15 @@ public class DDbTestApp extends DDbRegistryUser implements DLibRegistry {
             mnFkUserUpdateId = DUtilConsts.USR_NA_ID;
 
             msSql = "INSERT INTO " + getSqlTable() + " VALUES (" +
+                    mnPkJobId + ", " + 
                     mnPkAppId + ", " + 
-                    "'" + DLibUtils.DbmsDateFormatDate.format(mtDate) + "', " + 
+                    mnResultsDesired + ", " + 
                     (mbDeleted ? 1 : 0) + ", " + 
                     (mbSystem ? 1 : 0) + ", " + 
                     mnFkTestId + ", " + 
                     mnFkTestTypeId + ", " + 
                     mnFkItemId + ", " + 
                     mnFkItemTypeId + ", " + 
-                    (mnFkJobId_n == DLibConsts.UNDEFINED ? "NULL" : "" + mnFkJobId_n) + ", " + 
                     mnFkUserInsertId + ", " + 
                     mnFkUserUpdateId + ", " + 
                     "NOW()" + ", " + 
@@ -252,15 +252,15 @@ public class DDbTestApp extends DDbRegistryUser implements DLibRegistry {
             mnFkUserUpdateId = session.getUser().getPkUserId();
 
             msSql = "UPDATE " + getSqlTable() + " SET " +
+                    //"id_job = " + mnPkJobId + ", " +
                     //"id_app = " + mnPkAppId + ", " +
-                    "dat = '" + DLibUtils.DbmsDateFormatDate.format(mtDate) + "', " +
+                    "res = " + mnResultsDesired + ", " +
                     "b_del = " + (mbDeleted ? 1 : 0) + ", " +
                     "b_sys = " + (mbSystem ? 1 : 0) + ", " +
                     "fk_tst = " + mnFkTestId + ", " +
                     "fk_tst_tp = " + mnFkTestTypeId + ", " +
                     "fk_itm = " + mnFkItemId + ", " +
                     "fk_itm_tp = " + mnFkItemTypeId + ", " +
-                    "fk_job_n = " + (mnFkJobId_n == DLibConsts.UNDEFINED ? "NULL" : "" + mnFkJobId_n) + ", " +
                     //"fk_usr_ins = " + mnFkUserInsertId + ", " +
                     "fk_usr_upd = " + mnFkUserUpdateId + ", " +
                     //"ts_usr_ins = " + "NOW()" + ", " +
@@ -294,15 +294,15 @@ public class DDbTestApp extends DDbRegistryUser implements DLibRegistry {
     public DDbTestApp clone() throws CloneNotSupportedException {
         DDbTestApp registry = new DDbTestApp();
 
+        registry.setPkJobId(this.getPkJobId());
         registry.setPkAppId(this.getPkAppId());
-        registry.setDate(this.getDate());
+        registry.setResultsDesired(this.getResultsDesired());
         registry.setDeleted(this.isDeleted());
         registry.setSystem(this.isSystem());
         registry.setFkTestId(this.getFkTestId());
         registry.setFkTestTypeId(this.getFkTestTypeId());
         registry.setFkItemId(this.getFkItemId());
         registry.setFkItemTypeId(this.getFkItemTypeId());
-        registry.setFkJobId_n(this.getFkJobId_n());
         registry.setFkUserInsertId(this.getFkUserInsertId());
         registry.setFkUserUpdateId(this.getFkUserUpdateId());
         registry.setTsUserInsert(this.getTsUserInsert());

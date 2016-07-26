@@ -128,15 +128,15 @@ public abstract class DModSysConsts {
     public static final int MS_JOB_TP_SMP = 1;
     public static final int MS_JOB_TP_CMP = 2;
 
-    public static final int MS_JOB_ST_PEN = 1;
-    public static final int MS_JOB_ST_PRC = 2;
-    public static final int MS_JOB_ST_FIN = 3;
-    public static final int MS_JOB_ST_CAN = 9;
+    public static final int MS_JOB_ST_NEW = 1;
+    public static final int MS_JOB_ST_PRC = 3;
+    public static final int MS_JOB_ST_QTY = 5;
+    public static final int MS_JOB_ST_FIN = 9;
 
     public static final int MU_DPT_DEF = 1;
 
     public static final int MU_LIN_DEF = 1;
 
-    public static final int QS_TST_TP_MAT = 1;
+    public static final int QS_TST_TP_INP = 1;
     public static final int QS_TST_TP_PRO = 2;
 }

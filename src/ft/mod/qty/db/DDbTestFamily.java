@@ -20,7 +20,7 @@ public class DDbTestFamily extends DDbRegistryUser {
 
     protected int mnPkTestId;
     protected int mnPkFamilyId;
-    protected int mnResults;
+    protected int mnResultsDesired;
     
     public DDbTestFamily() {
         super(DModConsts.QU_TST_FAM);
@@ -29,11 +29,11 @@ public class DDbTestFamily extends DDbRegistryUser {
 
     public void setPkTestId(int n) { mnPkTestId = n; }
     public void setPkFamilyId(int n) { mnPkFamilyId = n; }
-    public void setResults(int n) { mnResults = n; }
+    public void setResultsDesired(int n) { mnResultsDesired = n; }
 
     public int getPkTestId() { return mnPkTestId; }
     public int getPkFamilyId() { return mnPkFamilyId; }
-    public int getResults() { return mnResults; }
+    public int getResultsDesired() { return mnResultsDesired; }
 
     @Override
     public void setPrimaryKey(int[] pk) {
@@ -52,7 +52,7 @@ public class DDbTestFamily extends DDbRegistryUser {
 
         mnPkTestId = 0;
         mnPkFamilyId = 0;
-        mnResults = 0;
+        mnResultsDesired = 0;
     }
 
     @Override
@@ -93,7 +93,7 @@ public class DDbTestFamily extends DDbRegistryUser {
         else {
             mnPkTestId = resultSet.getInt("id_tst");
             mnPkFamilyId = resultSet.getInt("id_fam");
-            mnResults = resultSet.getInt("res");
+            mnResultsDesired = resultSet.getInt("res");
 
             mbRegistryNew = false;
         }
@@ -112,7 +112,7 @@ public class DDbTestFamily extends DDbRegistryUser {
             msSql = "INSERT INTO " + getSqlTable() + " VALUES (" +
                     mnPkTestId + ", " + 
                     mnPkFamilyId + ", " + 
-                    mnResults + " " + 
+                    mnResultsDesired + " " + 
                     ")";
         }
         else {
@@ -130,7 +130,7 @@ public class DDbTestFamily extends DDbRegistryUser {
 
         registry.setPkTestId(this.getPkTestId());
         registry.setPkFamilyId(this.getPkFamilyId());
-        registry.setResults(this.getResults());
+        registry.setResultsDesired(this.getResultsDesired());
 
         registry.setRegistryNew(this.isRegistryNew());
         return registry;

@@ -20,6 +20,7 @@ import sba.lib.gui.DGuiSession;
  */
 public class DDbTestAppResult extends DDbRegistryUser {
 
+    protected int mnPkJobId;
     protected int mnPkAppId;
     protected int mnPkResultId;
     
@@ -33,9 +34,11 @@ public class DDbTestAppResult extends DDbRegistryUser {
         initRegistry();
     }
 
+    public void setPkJobId(int n) { mnPkJobId = n; }
     public void setPkAppId(int n) { mnPkAppId = n; }
     public void setPkResultId(int n) { mnPkResultId = n; }
 
+    public int getPkJobId() { return mnPkJobId; }
     public int getPkAppId() { return mnPkAppId; }
     public int getPkResultId() { return mnPkResultId; }
 
@@ -47,19 +50,21 @@ public class DDbTestAppResult extends DDbRegistryUser {
 
     @Override
     public void setPrimaryKey(int[] pk) {
-        mnPkAppId = pk[0];
-        mnPkResultId = pk[1];
+        mnPkJobId = pk[0];
+        mnPkAppId = pk[1];
+        mnPkResultId = pk[2];
     }
 
     @Override
     public int[] getPrimaryKey() {
-        return new int[] { mnPkAppId, mnPkResultId };
+        return new int[] { mnPkJobId, mnPkAppId, mnPkResultId };
     }
 
     @Override
     public void initRegistry() {
         initBaseRegistry();
 
+        mnPkJobId = 0;
         mnPkAppId = 0;
         mnPkResultId = 0;
         
@@ -75,12 +80,12 @@ public class DDbTestAppResult extends DDbRegistryUser {
 
     @Override
     public String getSqlWhere() {
-        return "WHERE id_app = " + mnPkAppId + " AND id_res = " + mnPkResultId + " ";
+        return "WHERE id_job = " + mnPkJobId + " AND id_app = " + mnPkAppId + " AND id_res = " + mnPkResultId + " ";
     }
 
     @Override
     public String getSqlWhere(int[] pk) {
-        return "WHERE id_app = " + pk[0] + " AND id_res = " + pk[1] + " ";
+        return "WHERE id_job = " + pk[0] + " AND id_app = " + pk[1] + " AND id_res = " + pk[2] + " ";
     }
 
     @Override
@@ -90,7 +95,7 @@ public class DDbTestAppResult extends DDbRegistryUser {
         mnPkResultId = 0;
 
         msSql = "SELECT COALESCE(MAX(id_res), 0) + 1 FROM " + getSqlTable() + " " +
-                "WHERE id_app = " + mnPkAppId + " ";
+                "WHERE id_job = " + mnPkJobId + " AND id_app = " + mnPkAppId + " ";
         resultSet = session.getStatement().executeQuery(msSql);
         if (resultSet.next()) {
             mnPkResultId = resultSet.getInt(1);
@@ -112,6 +117,7 @@ public class DDbTestAppResult extends DDbRegistryUser {
             throw new Exception(DDbConsts.ERR_MSG_REG_NOT_FOUND);
         }
         else {
+            mnPkJobId = resultSet.getInt("id_job");
             mnPkAppId = resultSet.getInt("id_app");
             mnPkResultId = resultSet.getInt("id_res");
             
@@ -124,7 +130,7 @@ public class DDbTestAppResult extends DDbRegistryUser {
             resultSet = statement.executeQuery(msSql);
             while (resultSet.next()) {
                 DDbTestAppResultVariable child = new DDbTestAppResultVariable();
-                child.read(session, new int[] { mnPkAppId, mnPkResultId, resultSet.getInt(1) });
+                child.read(session, new int[] { mnPkJobId, mnPkAppId, mnPkResultId, resultSet.getInt(1) });
                 child.setAuxTestAppResult(this);
                 maChildVariables.add(child);
             }
@@ -145,6 +151,7 @@ public class DDbTestAppResult extends DDbRegistryUser {
         if (mbRegistryNew) {
             computePrimaryKey(session);
             msSql = "INSERT INTO " + getSqlTable() + " VALUES (" +
+                    mnPkJobId + ", " + 
                     mnPkAppId + ", " + 
                     mnPkResultId + " " + 
                     ")";
@@ -176,6 +183,7 @@ public class DDbTestAppResult extends DDbRegistryUser {
     public DDbTestAppResult clone() throws CloneNotSupportedException {
         DDbTestAppResult registry = new DDbTestAppResult();
 
+        registry.setPkJobId(this.getPkJobId());
         registry.setPkAppId(this.getPkAppId());
         registry.setPkResultId(this.getPkResultId());
         

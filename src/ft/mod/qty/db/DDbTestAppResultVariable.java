@@ -21,6 +21,7 @@ import sba.lib.gui.DGuiSession;
  */
 public class DDbTestAppResultVariable extends DDbRegistryUser implements DGridRow, DGridCellNumber, DLibRegistry {
 
+    protected int mnPkJobId;
     protected int mnPkAppId;
     protected int mnPkResultId;
     protected int mnPkVariableId;
@@ -39,11 +40,13 @@ public class DDbTestAppResultVariable extends DDbRegistryUser implements DGridRo
         moRegVariable = (DDbVariable) session.readRegistry(DModConsts.QU_VAR, new int[] { mnPkVariableId });
     }
     
+    public void setPkJobId(int n) { mnPkJobId = n; }
     public void setPkAppId(int n) { mnPkAppId = n; }
     public void setPkResultId(int n) { mnPkResultId = n; }
     public void setPkVariableId(int n) { mnPkVariableId = n; }
     public void setValue(double d) { mdValue = d; }
 
+    public int getPkJobId() { return mnPkJobId; }
     public int getPkAppId() { return mnPkAppId; }
     public int getPkResultId() { return mnPkResultId; }
     public int getPkVariableId() { return mnPkVariableId; }
@@ -59,20 +62,22 @@ public class DDbTestAppResultVariable extends DDbRegistryUser implements DGridRo
 
     @Override
     public void setPrimaryKey(int[] pk) {
-        mnPkAppId = pk[0];
-        mnPkResultId = pk[1];
-        mnPkVariableId = pk[2];
+        mnPkJobId = pk[0];
+        mnPkAppId = pk[1];
+        mnPkResultId = pk[2];
+        mnPkVariableId = pk[3];
     }
 
     @Override
     public int[] getPrimaryKey() {
-        return new int[] { mnPkAppId, mnPkResultId, mnPkVariableId };
+        return new int[] { mnPkJobId, mnPkAppId, mnPkResultId, mnPkVariableId };
     }
 
     @Override
     public void initRegistry() {
         initBaseRegistry();
 
+        mnPkJobId = 0;
         mnPkAppId = 0;
         mnPkResultId = 0;
         mnPkVariableId = 0;
@@ -90,12 +95,12 @@ public class DDbTestAppResultVariable extends DDbRegistryUser implements DGridRo
 
     @Override
     public String getSqlWhere() {
-        return "WHERE id_app = " + mnPkAppId + " AND id_res = " + mnPkResultId + " AND id_var = " + mnPkVariableId + " ";
+        return "WHERE id_job = " + mnPkJobId + " AND id_app = " + mnPkAppId + " AND id_res = " + mnPkResultId + " AND id_var = " + mnPkVariableId + " ";
     }
 
     @Override
     public String getSqlWhere(int[] pk) {
-        return "WHERE id_app = " + pk[0] + " AND id_res = " + pk[1] + " AND id_var = " + pk[2] + " ";
+        return "WHERE id_job = " + pk[0] + " AND id_app = " + pk[1] + " AND id_res = " + pk[2] + " AND id_var = " + pk[3] + " ";
     }
 
     @Override
@@ -117,6 +122,7 @@ public class DDbTestAppResultVariable extends DDbRegistryUser implements DGridRo
             throw new Exception(DDbConsts.ERR_MSG_REG_NOT_FOUND);
         }
         else {
+            mnPkJobId = resultSet.getInt("id_job");
             mnPkAppId = resultSet.getInt("id_app");
             mnPkResultId = resultSet.getInt("id_res");
             mnPkVariableId = resultSet.getInt("id_var");
@@ -140,6 +146,7 @@ public class DDbTestAppResultVariable extends DDbRegistryUser implements DGridRo
 
         if (mbRegistryNew) {
             msSql = "INSERT INTO " + getSqlTable() + " VALUES (" +
+                    mnPkJobId + ", " + 
                     mnPkAppId + ", " + 
                     mnPkResultId + ", " + 
                     mnPkVariableId + ", " + 
@@ -159,6 +166,7 @@ public class DDbTestAppResultVariable extends DDbRegistryUser implements DGridRo
     public DDbTestAppResultVariable clone() throws CloneNotSupportedException {
         DDbTestAppResultVariable registry = new DDbTestAppResultVariable();
 
+        registry.setPkJobId(this.getPkJobId());
         registry.setPkAppId(this.getPkAppId());
         registry.setPkResultId(this.getPkResultId());
         registry.setPkVariableId(this.getPkVariableId());

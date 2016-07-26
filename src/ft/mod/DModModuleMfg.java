@@ -267,10 +267,10 @@ public class DModModuleMfg extends DGuiModule {
                 
                 switch (subtype) {
                     case DModSysConsts.MS_JOB_ST_PRC:
+                    case DModSysConsts.MS_JOB_ST_QTY:
                         break;
-                    case DModSysConsts.MS_JOB_ST_PEN:
+                    case DModSysConsts.MS_JOB_ST_NEW:
                     case DModSysConsts.MS_JOB_ST_FIN:
-                    case DModSysConsts.MS_JOB_ST_CAN:
                         label += "s";
                         break;
                 }

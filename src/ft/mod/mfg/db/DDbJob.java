@@ -43,6 +43,7 @@ public class DDbJob extends DDbRegistryUser implements DLibRegistry {
     protected double mdMfgProdMass_r;
     protected String msLot;
     protected double mdPackingFactor;
+    protected boolean mbAnnuled;
     /*
     protected boolean mbDeleted;
     protected boolean mbSystem;
@@ -199,6 +200,7 @@ public class DDbJob extends DDbRegistryUser implements DLibRegistry {
     public void setMfgProdMass_r(double d) { mdMfgProdMass_r = d; }
     public void setLot(String s) { msLot = s; }
     public void setPackingFactor(double d) { mdPackingFactor = d; }
+    public void setAnnuled(boolean b) { mbAnnuled = b; }
     public void setDeleted(boolean b) { mbDeleted = b; }
     public void setSystem(boolean b) { mbSystem = b; }
     public void setFkJobTypeId(int n) { mnFkJobTypeId = n; }
@@ -234,6 +236,7 @@ public class DDbJob extends DDbRegistryUser implements DLibRegistry {
     public double getMfgProdMass_r() { return mdMfgProdMass_r; }
     public String getLot() { return msLot; }
     public double getPackingFactor() { return mdPackingFactor; }
+    public boolean isAnnuled() { return mbAnnuled; }
     public boolean isDeleted() { return mbDeleted; }
     public boolean isSystem() { return mbSystem; }
     public int getFkJobTypeId() { return mnFkJobTypeId; }
@@ -298,6 +301,7 @@ public class DDbJob extends DDbRegistryUser implements DLibRegistry {
         mdMfgProdMass_r = 0;
         msLot = "";
         mdPackingFactor = 0;
+        mbAnnuled = false;
         mbDeleted = false;
         mbSystem = false;
         mnFkJobTypeId = 0;
@@ -388,6 +392,7 @@ public class DDbJob extends DDbRegistryUser implements DLibRegistry {
             mdMfgProdMass_r = resultSet.getDouble("mfg_mass_r");
             msLot = resultSet.getString("lot");
             mdPackingFactor = resultSet.getDouble("pack_fac");
+            mbAnnuled = resultSet.getBoolean("b_ann");
             mbDeleted = resultSet.getBoolean("b_del");
             mbSystem = resultSet.getBoolean("b_sys");
             mnFkJobTypeId = resultSet.getInt("fk_job_tp");
@@ -504,6 +509,7 @@ public class DDbJob extends DDbRegistryUser implements DLibRegistry {
                     mdMfgProdMass_r + ", " + 
                     "'" + msLot + "', " + 
                     mdPackingFactor + ", " + 
+                    (mbAnnuled ? 1 : 0) + ", " + 
                     (mbDeleted ? 1 : 0) + ", " + 
                     (mbSystem ? 1 : 0) + ", " + 
                     mnFkJobTypeId + ", " + 
@@ -544,6 +550,7 @@ public class DDbJob extends DDbRegistryUser implements DLibRegistry {
                     "mfg_mass_r = " + mdMfgProdMass_r + ", " +
                     "lot = '" + msLot + "', " +
                     "pack_fac = " + mdPackingFactor + ", " +
+                    "b_ann = " + (mbAnnuled ? 1 : 0) + ", " +
                     "b_del = " + (mbDeleted ? 1 : 0) + ", " +
                     "b_sys = " + (mbSystem ? 1 : 0) + ", " +
                     "fk_job_tp = " + mnFkJobTypeId + ", " +
@@ -614,7 +621,7 @@ public class DDbJob extends DDbRegistryUser implements DLibRegistry {
         }
         
         for (DDbTestApp registry : maRegTestApps) {
-            registry.setFkJobId_n(mnPkJobId);
+            registry.setPkJobId(mnPkJobId);
             registry.save(session);
         }
         
@@ -647,6 +654,7 @@ public class DDbJob extends DDbRegistryUser implements DLibRegistry {
         registry.setMfgProdMass_r(this.getMfgProdMass_r());
         registry.setLot(this.getLot());
         registry.setPackingFactor(this.getPackingFactor());
+        registry.setAnnuled(this.isAnnuled());
         registry.setDeleted(this.isDeleted());
         registry.setSystem(this.isSystem());
         registry.setFkJobTypeId(this.getFkJobTypeId());
@@ -702,7 +710,7 @@ public class DDbJob extends DDbRegistryUser implements DLibRegistry {
     @Override
     public boolean canDisable(final DGuiSession session) throws SQLException, Exception {
         initQueryMembers();
-        return !mbSystem && mbDisableable && DLibUtils.belongsTo(mnFkJobStatusId, new int[] { DModSysConsts.MS_JOB_ST_PEN, DModSysConsts.MS_JOB_ST_CAN });
+        return !mbSystem && mbDisableable && mnFkJobStatusId == DModSysConsts.MS_JOB_ST_NEW;
     }
     
     @Override
@@ -711,11 +719,8 @@ public class DDbJob extends DDbRegistryUser implements DLibRegistry {
         mnQueryResultId = DDbConsts.SAVE_ERROR;
         
         switch (mnFkJobStatusId) {
-            case DModSysConsts.MS_JOB_ST_PEN:
-                mnFkJobStatusId = DModSysConsts.MS_JOB_ST_CAN; // when pending set to cancelled
-                break;
-            case DModSysConsts.MS_JOB_ST_CAN:
-                mnFkJobStatusId = DModSysConsts.MS_JOB_ST_PEN; // when cancelled set to pending
+            case DModSysConsts.MS_JOB_ST_NEW:
+                mbAnnuled = !mbAnnuled;
                 break;
             default:
                 throw new Exception(DLibConsts.ERR_MSG_OPTION_UNKNOWN);
@@ -724,7 +729,7 @@ public class DDbJob extends DDbRegistryUser implements DLibRegistry {
         mnFkUserUpdateId = session.getUser().getPkUserId();
 
         msSql = "UPDATE " + getSqlTable() + " SET " +
-                "fk_job_st = " + mnFkJobStatusId + ", " +
+                "b_ann = " + (mbAnnuled ? 1 : 0) + ", " +
                 "fk_usr_upd = " + mnFkUserUpdateId + ", " +
                 "ts_usr_upd = NOW() " +
                 getSqlWhere();
