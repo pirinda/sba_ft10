@@ -38,32 +38,32 @@ public class DViewTest extends DGridPaneView {
 
         filter = (Boolean) moFiltersMap.get(DGridConsts.FILTER_DELETED);
         if ((Boolean) filter) {
-            sql += (sql.length() == 0 ? "" : "AND ") + "v.b_del = 0 ";
+            sql += (sql.length() == 0 ? "" : "AND ") + "t.b_del = 0 ";
         }
 
         msSql = "SELECT " +
-                "v.id_tst AS " + DDbConsts.FIELD_ID + "1, " +
-                "v.code AS " + DDbConsts.FIELD_CODE + ", " +
-                "v.name AS " + DDbConsts.FIELD_NAME + ", " +
+                "t.id_tst AS " + DDbConsts.FIELD_ID + "1, " +
+                "t.code AS " + DDbConsts.FIELD_CODE + ", " +
+                "t.name AS " + DDbConsts.FIELD_NAME + ", " +
                 "tt.code, " +
                 "tt.name, " +
-                "v.b_del AS " + DDbConsts.FIELD_IS_DEL + ", " +
-                "v.b_sys AS " + DDbConsts.FIELD_IS_SYS + ", " +
-                "v.fk_usr_ins AS " + DDbConsts.FIELD_USER_INS_ID + ", " +
-                "v.fk_usr_upd AS " + DDbConsts.FIELD_USER_UPD_ID + ", " +
-                "v.ts_usr_ins AS " + DDbConsts.FIELD_USER_INS_TS + ", " +
-                "v.ts_usr_upd AS " + DDbConsts.FIELD_USER_UPD_TS + ", " +
+                "t.b_del AS " + DDbConsts.FIELD_IS_DEL + ", " +
+                "t.b_sys AS " + DDbConsts.FIELD_IS_SYS + ", " +
+                "t.fk_usr_ins AS " + DDbConsts.FIELD_USER_INS_ID + ", " +
+                "t.fk_usr_upd AS " + DDbConsts.FIELD_USER_UPD_ID + ", " +
+                "t.ts_usr_ins AS " + DDbConsts.FIELD_USER_INS_TS + ", " +
+                "t.ts_usr_upd AS " + DDbConsts.FIELD_USER_UPD_TS + ", " +
                 "ui.name AS " + DDbConsts.FIELD_USER_INS_NAME + ", " +
                 "uu.name AS " + DDbConsts.FIELD_USER_UPD_NAME + " " +
-                "FROM " + DModConsts.TablesMap.get(DModConsts.QU_TST) + " AS v " +
+                "FROM " + DModConsts.TablesMap.get(DModConsts.QU_TST) + " AS t " +
                 "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.QS_TST_TP) + " AS tt ON " +
-                "v.fk_tst_tp = tt.id_tst_tp " +
+                "t.fk_tst_tp = tt.id_tst_tp " +
                 "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_USR) + " AS ui ON " +
-                "v.fk_usr_ins = ui.id_usr " +
+                "t.fk_usr_ins = ui.id_usr " +
                 "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_USR) + " AS uu ON " +
-                "v.fk_usr_upd = uu.id_usr " +
+                "t.fk_usr_upd = uu.id_usr " +
                 (sql.length() == 0 ? "" : "WHERE " + sql) +
-                "ORDER BY v.name, v.code, v.id_tst ";
+                "ORDER BY t.name, t.code, t.id_tst ";
     }
 
     @Override

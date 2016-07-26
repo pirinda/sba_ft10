@@ -9,6 +9,7 @@ import ft.lib.DLibRegistry;
 import ft.mod.DModConsts;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import sba.lib.DLibConsts;
 import sba.lib.db.DDbConsts;
 import sba.lib.db.DDbRegistryUser;
 import sba.lib.grid.DGridRow;
@@ -29,7 +30,7 @@ public class DDbTestAppResultVariable extends DDbRegistryUser implements DGridRo
 
     protected DDbVariable moRegVariable;
     
-    protected DDbTestAppResult moAuxTestAppResult;
+    protected DDbTestAppResult moParentTestAppResult;
 
     public DDbTestAppResultVariable() {
         super(DModConsts.Q_APP_RES_VAR);
@@ -56,10 +57,20 @@ public class DDbTestAppResultVariable extends DDbRegistryUser implements DGridRo
     
     public DDbVariable getRegVariable() { return moRegVariable; }
 
-    public void setAuxTestAppResult(DDbTestAppResult o) { moAuxTestAppResult = o; }
+    public void setParentTestAppResult(DDbTestAppResult o) { moParentTestAppResult = o; }
     
-    public DDbTestAppResult getAuxTestAppResult() { return moAuxTestAppResult; }
+    public DDbTestAppResult getParentTestAppResult() { return moParentTestAppResult; }
 
+    public void decrementResultId() {
+        if (mnPkResultId > DLibConsts.UNDEFINED) {
+            mnPkResultId--;
+        }
+    }
+    
+    public void incrementResultId() {
+        mnPkResultId++;
+    }
+    
     @Override
     public void setPrimaryKey(int[] pk) {
         mnPkJobId = pk[0];
@@ -85,7 +96,7 @@ public class DDbTestAppResultVariable extends DDbRegistryUser implements DGridRo
         
         moRegVariable = null;
         
-        moAuxTestAppResult = null;
+        moParentTestAppResult = null;
     }
 
     @Override
@@ -128,7 +139,11 @@ public class DDbTestAppResultVariable extends DDbRegistryUser implements DGridRo
             mnPkVariableId = resultSet.getInt("id_var");
             mdValue = resultSet.getDouble("val");
 
+            // Read aswell embeeded registries:
+            
             readRegMembers(session, false);
+
+            // Finish registry reading:
 
             mbRegistryNew = false;
         }
@@ -173,6 +188,8 @@ public class DDbTestAppResultVariable extends DDbRegistryUser implements DGridRo
         registry.setValue(this.getValue());
         
         registry.setRegVariable(this.getRegVariable() == null ? null : this.getRegVariable().clone());
+        
+        registry.setParentTestAppResult(moParentTestAppResult); // same parent object, not needed to be cloned!
         
         registry.setRegistryNew(this.isRegistryNew());
         return registry;
@@ -219,7 +236,7 @@ public class DDbTestAppResultVariable extends DDbRegistryUser implements DGridRo
         
         switch (col) {
             case 0:
-                value = moAuxTestAppResult == null || moAuxTestAppResult.getAuxTestApp() == null  || moAuxTestAppResult.getAuxTestApp().getRegTest() == null ? 0 : moAuxTestAppResult.getAuxTestApp().getRegTest().getPkTestId();
+                value = moParentTestAppResult == null || moParentTestAppResult.getParentTestApp() == null  || moParentTestAppResult.getParentTestApp().getRegTest() == null ? 0 : moParentTestAppResult.getParentTestApp().getRegTest().getPkTestId();
                 break;
             case 1:
                 value = mnPkResultId;

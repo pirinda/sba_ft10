@@ -49,12 +49,12 @@ public class DDbFormula extends DDbRegistryUser implements DLibRegistry {
     protected Date mtTsUserUpdate;
     */
     
+    protected ArrayList<DDbFormulaComp> maChildComps;
+    protected ArrayList<DDbFormulaByProd> maChildByProds;
+    
     protected DDbItem moRegItem;
     protected DDbUnit moRegUnit;
     protected DDbPresent moRegPresent;
-    
-    protected ArrayList<DDbFormulaComp> maChildComps;
-    protected ArrayList<DDbFormulaByProd> maChildByProds;
     
     public DDbFormula() {
         super(DModConsts.MU_FRM);
@@ -113,6 +113,9 @@ public class DDbFormula extends DDbRegistryUser implements DLibRegistry {
     public int getFkUserUpdateId() { return mnFkUserUpdateId; }
     public Date getTsUserInsert() { return mtTsUserInsert; }
     public Date getTsUserUpdate() { return mtTsUserUpdate; }
+    
+    public ArrayList<DDbFormulaComp> getChildComps() { return maChildComps; }
+    public ArrayList<DDbFormulaByProd> getChildByProds() { return maChildByProds; }
 
     public void setRegItem(DDbItem o) { moRegItem = o; }
     public void setRegUnit(DDbUnit o) { moRegUnit = o; }
@@ -121,9 +124,6 @@ public class DDbFormula extends DDbRegistryUser implements DLibRegistry {
     public DDbItem getRegItem() { return moRegItem; }
     public DDbUnit getRegUnit() { return moRegUnit; }
     public DDbPresent getRegPresent() { return moRegPresent; }
-    
-    public ArrayList<DDbFormulaComp> getChildComps() { return maChildComps; }
-    public ArrayList<DDbFormulaByProd> getChildByProds() { return maChildByProds; }
     
     @Override
     public void setPrimaryKey(int[] pk) {
@@ -157,12 +157,12 @@ public class DDbFormula extends DDbRegistryUser implements DLibRegistry {
         mtTsUserInsert = null;
         mtTsUserUpdate = null;
         
+        maChildComps.clear();
+        maChildByProds.clear();
+        
         moRegItem = null;
         moRegUnit = null;
         moRegPresent = null;
-        
-        maChildComps.clear();
-        maChildByProds.clear();
     }
 
     @Override
@@ -226,8 +226,6 @@ public class DDbFormula extends DDbRegistryUser implements DLibRegistry {
             mtTsUserInsert = resultSet.getTimestamp("ts_usr_ins");
             mtTsUserUpdate = resultSet.getTimestamp("ts_usr_upd");
             
-            readRegMembers(session, false);
-
             // Read aswell child registries:
 
             statement = session.getStatement().getConnection().createStatement();
@@ -250,6 +248,10 @@ public class DDbFormula extends DDbRegistryUser implements DLibRegistry {
                 maChildByProds.add(child);
             }
             
+            // Read aswell embeeded registries:
+
+            readRegMembers(session, false);
+
             // Finish registry reading:
 
             mbRegistryNew = false;
@@ -365,10 +367,6 @@ public class DDbFormula extends DDbRegistryUser implements DLibRegistry {
         registry.setFkUserUpdateId(this.getFkUserUpdateId());
         registry.setTsUserInsert(this.getTsUserInsert());
         registry.setTsUserUpdate(this.getTsUserUpdate());
-
-        registry.setRegItem(this.getRegItem() == null ? null : this.getRegItem().clone());
-        registry.setRegUnit(this.getRegUnit() == null ? null : this.getRegUnit().clone());
-        registry.setRegPresent(this.getRegPresent()== null ? null : this.getRegPresent().clone());
     
         for (DDbFormulaComp child : maChildComps) {
             registry.getChildComps().add(child.clone());
@@ -377,6 +375,10 @@ public class DDbFormula extends DDbRegistryUser implements DLibRegistry {
         for (DDbFormulaByProd child : maChildByProds) {
             registry.getChildByProds().add(child.clone());
         }
+
+        registry.setRegItem(this.getRegItem() == null ? null : this.getRegItem().clone());
+        registry.setRegUnit(this.getRegUnit() == null ? null : this.getRegUnit().clone());
+        registry.setRegPresent(this.getRegPresent()== null ? null : this.getRegPresent().clone());
 
         registry.setRegistryNew(this.isRegistryNew());
         return registry;

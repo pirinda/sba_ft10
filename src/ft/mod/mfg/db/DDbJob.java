@@ -148,7 +148,7 @@ public class DDbJob extends DDbRegistryUser implements DLibRegistry {
         
         // Create and save new stock movements:
         
-        if (!mbDeleted && mnFkJobStatusId == DModSysConsts.MS_JOB_ST_FIN) {
+        if (!mbDeleted && !mbAnnuled && mnFkJobStatusId > DModSysConsts.MS_JOB_ST_PRC) {
             // Materials movements:
             
             moRegWsdMaterials = createWsd(DModSysConsts.SS_MOV_TP_OUT_MFG, DModSysConsts.SS_MFG_TP_MAT, DModSysConsts.CS_ITM_TP_RMI, mnFkWarehouseMaterialsId);
@@ -457,12 +457,12 @@ public class DDbJob extends DDbRegistryUser implements DLibRegistry {
 
             readRegMembers(session, false);
             
-            msSql = "SELECT id_app FROM " + DModConsts.TablesMap.get(DModConsts.Q_APP) + " WHERE fk_job_n = " + mnPkJobId + " AND b_del = 0 " +
+            msSql = "SELECT id_app FROM " + DModConsts.TablesMap.get(DModConsts.Q_APP) + " " + getSqlWhere() + " AND b_del = 0 " +
                     "ORDER BY id_app ";
             resultSet = statement.executeQuery(msSql);
             while (resultSet.next()) {
                 DDbTestApp registry = new DDbTestApp();
-                registry.read(session, new int[] { resultSet.getInt(1) });
+                registry.read(session, new int[] { mnPkJobId, resultSet.getInt(1) });
                 maRegTestApps.add(registry);
                 maRegFormerTestApps.add(registry);
             }

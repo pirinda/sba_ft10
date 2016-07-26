@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import sba.lib.DLibConsts;
 import sba.lib.db.DDbConsts;
 import sba.lib.db.DDbRegistryUser;
 import sba.lib.gui.DGuiSession;
@@ -26,7 +27,7 @@ public class DDbTestAppResult extends DDbRegistryUser {
     
     protected ArrayList<DDbTestAppResultVariable> maChildVariables;
 
-    protected DDbTestApp moAuxTestApp;
+    protected DDbTestApp moParentTestApp;
 
     public DDbTestAppResult() {
         super(DModConsts.Q_APP_RES);
@@ -44,9 +45,29 @@ public class DDbTestAppResult extends DDbRegistryUser {
 
     public ArrayList<DDbTestAppResultVariable> getChildVariables() { return maChildVariables; }
     
-    public void setAuxTestApp(DDbTestApp o) { moAuxTestApp = o; }
+    public void setParentTestApp(DDbTestApp o) { moParentTestApp = o; }
     
-    public DDbTestApp getAuxTestApp() { return moAuxTestApp; }
+    public DDbTestApp getParentTestApp() { return moParentTestApp; }
+    
+    public void decrementResultId() {
+        if (mnPkResultId > DLibConsts.UNDEFINED) {
+            for (DDbTestAppResultVariable child : maChildVariables) {
+                if (child.getPkResultId() == mnPkResultId) {
+                    child.decrementResultId();
+                }
+            }
+            mnPkResultId--;
+        }
+    }
+
+    public void incrementResultId() {
+        for (DDbTestAppResultVariable child : maChildVariables) {
+            if (child.getPkResultId() == mnPkResultId) {
+                child.incrementResultId();
+            }
+        }
+        mnPkResultId++;
+    }
 
     @Override
     public void setPrimaryKey(int[] pk) {
@@ -70,7 +91,7 @@ public class DDbTestAppResult extends DDbRegistryUser {
         
         maChildVariables.clear();
         
-        moAuxTestApp = null;
+        moParentTestApp = null;
     }
 
     @Override
@@ -131,7 +152,7 @@ public class DDbTestAppResult extends DDbRegistryUser {
             while (resultSet.next()) {
                 DDbTestAppResultVariable child = new DDbTestAppResultVariable();
                 child.read(session, new int[] { mnPkJobId, mnPkAppId, mnPkResultId, resultSet.getInt(1) });
-                child.setAuxTestAppResult(this);
+                child.setParentTestAppResult(this);
                 maChildVariables.add(child);
             }
             
@@ -190,6 +211,8 @@ public class DDbTestAppResult extends DDbRegistryUser {
         for (DDbTestAppResultVariable child : maChildVariables) {
             registry.getChildVariables().add(child.clone());
         }
+        
+        registry.setParentTestApp(moParentTestApp); // same parent object, not needed to be cloned!
         
         registry.setRegistryNew(this.isRegistryNew());
         return registry;

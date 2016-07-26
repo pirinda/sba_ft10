@@ -155,7 +155,7 @@ public class DDbTestApp extends DDbRegistryUser implements DLibRegistry {
 
         mnPkAppId = 0;
 
-        msSql = "SELECT COALESCE(MAX(id_app), 0) + 1 FROM " + getSqlTable() + 
+        msSql = "SELECT COALESCE(MAX(id_app), 0) + 1 FROM " + getSqlTable() + " " +
                 "WHERE id_job = " + mnPkJobId + " ";
         resultSet = session.getStatement().executeQuery(msSql);
         if (resultSet.next()) {
@@ -202,7 +202,7 @@ public class DDbTestApp extends DDbRegistryUser implements DLibRegistry {
             while (resultSet.next()) {
                 DDbTestAppResult child = new DDbTestAppResult();
                 child.read(session, new int[] { mnPkJobId, mnPkAppId, resultSet.getInt(1) });
-                child.setAuxTestApp(this);
+                child.setParentTestApp(this);
                 maChildResults.add(child);
             }
             
@@ -313,6 +313,7 @@ public class DDbTestApp extends DDbRegistryUser implements DLibRegistry {
         }
         
         registry.setRegTest(this.getRegTest() == null ? null : this.getRegTest());
+        registry.setRegItem(this.getRegItem() == null ? null : this.getRegItem());
         
         registry.setRegistryNew(this.isRegistryNew());
         return registry;

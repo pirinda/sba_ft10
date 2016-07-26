@@ -101,7 +101,7 @@ public class DModModuleQty extends DGuiModule {
                 break;
             case DModConsts.QU_VAR:
                 settings = new DGuiCatalogueSettings("Variable calidad", 1);
-                settings.setCodeApplying(true);
+                settings.setCodeSettings(true, false);
                 sql = "SELECT id_var AS " + DDbConsts.FIELD_ID + "1, name AS " + DDbConsts.FIELD_ITEM + ", code AS " + DDbConsts.FIELD_CODE + " " +
                         "FROM " + DModConsts.TablesMap.get(type) + " WHERE b_del = 0 ORDER BY name, id_var ";
                 break;

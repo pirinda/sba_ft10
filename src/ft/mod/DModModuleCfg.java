@@ -239,15 +239,15 @@ public class DModModuleCfg extends DGuiModule {
                         miClient.showMsgBoxError(DLibConsts.ERR_MSG_OPTION_UNKNOWN);
                 }
                 settings = new DGuiCatalogueSettings(label, 1);
-                settings.setCodeApplying(true);
-                sql = "SELECT id_bpr AS " + DDbConsts.FIELD_ID + "1, CONCAT(name, ' (', code, ')') AS " + DDbConsts.FIELD_ITEM + ", i.code AS " + DDbConsts.FIELD_CODE + " " +
+                settings.setCodeSettings(true, false);
+                sql = "SELECT id_bpr AS " + DDbConsts.FIELD_ID + "1, name AS " + DDbConsts.FIELD_ITEM + ", i.code AS " + DDbConsts.FIELD_CODE + " " +
                         "FROM " + DModConsts.TablesMap.get(type) + " " +
                         "WHERE b_del = 0 AND fk_bpr_tp = " + subtype + " " +
                         "ORDER BY name, code, id_bpr ";
                 break;
             case DModConsts.CU_UOM:
                 settings = new DGuiCatalogueSettings("Unidad medida", 1);
-                settings.setCodeApplying(true);
+                settings.setCodeSettings(true, true);
                 sql = "SELECT id_uom AS " + DDbConsts.FIELD_ID + "1, name AS " + DDbConsts.FIELD_ITEM + ", code AS " + DDbConsts.FIELD_CODE + " " +
                         "FROM " + DModConsts.TablesMap.get(type) + " " +
                         "WHERE b_del = 0 " +
@@ -256,13 +256,13 @@ public class DModModuleCfg extends DGuiModule {
                 break;
             case DModConsts.CU_PRE:
                 settings = new DGuiCatalogueSettings("Presentación producto", 1);
-                settings.setCodeApplying(true);
+                settings.setCodeSettings(true, false);
                 sql = "SELECT id_pre AS " + DDbConsts.FIELD_ID + "1, name AS " + DDbConsts.FIELD_ITEM + ", code AS " + DDbConsts.FIELD_CODE + " " +
                         "FROM " + DModConsts.TablesMap.get(type) + " WHERE b_del = 0 ORDER BY name, id_pre ";
                 break;
             case DModConsts.CU_FAM:
                 settings = new DGuiCatalogueSettings("Familia", 1, 1, DLibConsts.DATA_TYPE_TEXT);
-                settings.setCodeApplying(true);
+                settings.setCodeSettings(true, false);
                 sql = "SELECT f.id_fam AS " + DDbConsts.FIELD_ID + "1, f.name AS " + DDbConsts.FIELD_ITEM + ", f.code AS " + DDbConsts.FIELD_CODE + ", " +
                         "u.code AS " + DDbConsts.FIELD_COMP + ", f.fk_itm_tp AS " + DDbConsts.FIELD_FK + "1 " + // default FK: item type, even when not requested
                         "FROM " + DModConsts.TablesMap.get(type) + " AS f " +
@@ -275,7 +275,7 @@ public class DModModuleCfg extends DGuiModule {
             case DModConsts.CX_ITM_FK_ITM_TP:
             case DModConsts.CX_ITM_FK_FAM:
                 settings = new DGuiCatalogueSettings("Ítem", 1, 1, DLibConsts.DATA_TYPE_TEXT);
-                settings.setCodeApplying(true);
+                settings.setCodeSettings(true, false);
                 sql = "SELECT i.id_itm AS " + DDbConsts.FIELD_ID + "1, i.name AS " + DDbConsts.FIELD_ITEM + ", i.code AS " + DDbConsts.FIELD_CODE + ", " +
                         "u.code AS " + DDbConsts.FIELD_COMP + ", ";
                 
