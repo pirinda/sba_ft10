@@ -6,6 +6,8 @@
 package ft.mod.cfg.view;
 
 import ft.mod.DModConsts;
+import ft.mod.cfg.db.DCfgConsts;
+import ft.mod.cfg.db.DCfgUtils;
 import sba.lib.DLibConsts;
 import sba.lib.db.DDbConsts;
 import sba.lib.grid.DGridColumnView;
@@ -46,6 +48,9 @@ public class DViewFamily extends DGridPaneView {
                 "v.code AS " + DDbConsts.FIELD_CODE + ", " +
                 "v.name AS " + DDbConsts.FIELD_NAME + ", " +
                 "v.lot_code, " +
+                "v.mass_unt, " +
+                "v.b_brix, " +
+                "v.brix, " +
                 "it.code, " +
                 "it.name, " +
                 "u.code, " +
@@ -86,7 +91,7 @@ public class DViewFamily extends DGridPaneView {
     @Override
     public void createGridColumns() {
         int col = 0;
-        DGridColumnView[] columns = new DGridColumnView[14];
+        DGridColumnView[] columns = new DGridColumnView[17];
 
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_CAT_M, DDbConsts.FIELD_NAME, DGridConsts.COL_TITLE_NAME);
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_CODE_CAT, DDbConsts.FIELD_CODE, DGridConsts.COL_TITLE_CODE);
@@ -94,6 +99,9 @@ public class DViewFamily extends DGridPaneView {
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_CAT_S, "u.name", "Unidad medida");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_CAT_S, "fb.name", "Familia base");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_CODE_CAT, "v.lot_code", DGridConsts.COL_TITLE_CODE + " lotes");
+        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_DEC_AMT_UNIT, "v.mass_unt", "Masa unitaria (" + DCfgUtils.getMassUnitCode(miClient.getSession()) + ")");
+        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_BOOL_S, "v.b_brix", "Aplican " + DCfgConsts.BRIX);
+        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_DEC_AMT_UNIT, "v.brix", DCfgConsts.BRIX);
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_CAT_S, "l.name", "Línea producción");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_CAT_S, "d.name", "Depto. producción");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_BOOL_S, DDbConsts.FIELD_IS_DEL, DGridConsts.COL_TITLE_IS_DEL);

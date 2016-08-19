@@ -17,15 +17,17 @@ public abstract class DModConsts {
     public static final int SU_COM = 110002;
 
     public static final int CS_MOD = 111001;
-    public static final int CS_USR_TP = 111101;
-    public static final int CS_ACS_TP = 111106;
+    public static final int CS_USR_TP = 111111;
+    public static final int CS_ACS_TP = 111116;
     public static final int CS_PER_TP = 111201;
     public static final int CS_BPR_TP = 111206;
     public static final int CS_UOM_TP = 111311;
     public static final int CS_ITM_TP = 111326;
 
-    public static final int CU_USR = 112101;
-    public static final int CU_USR_MOD = 112106;
+    public static final int CU_UPR = 112101;
+    public static final int CU_UPR_ACS = 112102;
+    public static final int CU_USR = 112111;
+    public static final int CU_USR_UPR = 112112;
     public static final int CU_BPR = 112206;
     public static final int CU_UOM = 112311;
     public static final int CU_PRE = 112316;
@@ -57,6 +59,7 @@ public abstract class DModConsts {
 
     public static final int MS_FRM_TP = 311041;
     public static final int MS_CMP_TP = 311046;
+    public static final int MS_CMP_INC_TP = 311047;
     public static final int MS_JOB_TP = 311061;
     public static final int MS_JOB_ST = 311066;
 
@@ -99,8 +102,10 @@ public abstract class DModConsts {
         TablesMap.put(CS_UOM_TP, "cs_uom_tp");
         TablesMap.put(CS_ITM_TP, "cs_itm_tp");
 
+        TablesMap.put(CU_UPR, "cu_upr");
+        TablesMap.put(CU_UPR_ACS, "cu_upr_acs");
         TablesMap.put(CU_USR, "cu_usr");
-        TablesMap.put(CU_USR_MOD, "cu_usr_mod");
+        TablesMap.put(CU_USR_UPR, "cu_usr_upr");
         TablesMap.put(CU_BPR, "cu_bpr");
         TablesMap.put(CU_UOM, "cu_uom");
         TablesMap.put(CU_PRE, "cu_pre");
@@ -126,6 +131,7 @@ public abstract class DModConsts {
 
         TablesMap.put(MS_FRM_TP, "ms_frm_tp");
         TablesMap.put(MS_CMP_TP, "ms_cmp_tp");
+        TablesMap.put(MS_CMP_INC_TP, "ms_cmp_inc_tp");
         TablesMap.put(MS_JOB_TP, "ms_job_tp");
         TablesMap.put(MS_JOB_ST, "ms_job_st");
 

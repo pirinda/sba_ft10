@@ -30,6 +30,10 @@ public abstract class DCfgUtils {
         return DLibUtils.belongsTo(itemType, new int[] { DModSysConsts.CS_ITM_TP_RMI, DModSysConsts.CS_ITM_TP_PB, DModSysConsts.CS_ITM_TP_PF, DModSysConsts.CS_ITM_TP_BP, DModSysConsts.CS_ITM_TP_SC });
     }
 
+    public static boolean doesItemTypeRequireBrix(final int itemType) {
+        return DLibUtils.belongsTo(itemType, new int[] { DModSysConsts.CS_ITM_TP_RMI, DModSysConsts.CS_ITM_TP_PB, DModSysConsts.CS_ITM_TP_PF, DModSysConsts.CS_ITM_TP_BP, DModSysConsts.CS_ITM_TP_SC });
+    }
+
     public static boolean doesItemTypeRequireFamilyBase(final int itemType) {
         return itemType == DModSysConsts.CS_ITM_TP_PF;
     }

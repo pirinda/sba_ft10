@@ -11,11 +11,18 @@ package ft.mod;
  */
 public abstract class DModSysConsts {
 
-    public static final int CS_MOD_CFG = 110000;
-    public static final int CS_MOD_STK = 210000;
-    public static final int CS_MOD_MFG = 310000;
-    public static final int CS_MOD_QTY = 410000;
-    public static final int CS_MOD_CST = 510000;
+    public static final int CX_PAC_CFG = 100000;
+    public static final int CX_PAC_STK = 200000;
+    public static final int CX_PAC_MFG = 300000;
+    public static final int CX_PAC_QTY = 400000;
+    
+    public static final int CS_MOD_CFG = 1;
+    public static final int CS_MOD_FRM = 2;
+    public static final int CS_MOD_MFG = 3;
+    public static final int CS_MOD_QTY = 4;
+    public static final int CS_MOD_STK = 5;
+    public static final int CS_MOD_PUR = 6;
+    public static final int CS_MOD_SAL = 7;
 
     public static final int CS_USR_TP_USR = 1;
     public static final int CS_USR_TP_ADM = 2;
@@ -38,6 +45,7 @@ public abstract class DModSysConsts {
     public static final int CS_UOM_TP_VOL = 3;
     public static final int CS_UOM_TP_MSS = 4;
 
+    public static final int CS_ITM_TP_NA = 1;
     public static final int CS_ITM_TP_RMI = 11;
     public static final int CS_ITM_TP_RMP = 12;
     public static final int CS_ITM_TP_MI = 16;
@@ -47,6 +55,16 @@ public abstract class DModSysConsts {
     public static final int CS_ITM_TP_BP = 27;
     public static final int CS_ITM_TP_SC = 29;
     public static final int CS_ITM_TP_MO = 31;
+
+    public static final int CU_UPR_CFG = 1;
+    public static final int CU_UPR_FRM = 2;
+    public static final int CU_UPR_MFG = 3;
+    public static final int CU_UPR_QTY = 4;
+    public static final int CU_UPR_STK = 5;
+    public static final int CU_UPR_PUR = 6;
+    public static final int CU_UPR_SAL = 7;
+    public static final int CU_UPR_COO = 11;
+    public static final int CU_UPR_CEO = 19;
 
     public static final int CU_USR_NA = 1;
     public static final int CU_USR_ADM = 2;
@@ -69,6 +87,12 @@ public abstract class DModSysConsts {
 
     public static final int CU_PRE_NA = 1;
 
+    public static final int CU_FAM_ND = 0;
+    
+    public static final int CU_ITM_ND = 0;
+    
+    public static final int C_CFG_CFG = 1;
+    
     public static final int SS_WHS_TP_MAT = 1;
     public static final int SS_WHS_TP_PRO = 2;
 
@@ -125,6 +149,11 @@ public abstract class DModSysConsts {
     public static final int MS_CMP_TP_ITM = 1;
     public static final int MS_CMP_TP_FAM = 2;
 
+    public static final int MS_CMP_MIX_TP_SNG_REQ = 11;
+    public static final int MS_CMP_MIX_TP_SNG_OPT = 12;
+    public static final int MS_CMP_MIX_TP_EXC_REQ = 21;
+    public static final int MS_CMP_MIX_TP_EXC_OPT = 22;
+    
     public static final int MS_JOB_TP_SMP = 1;
     public static final int MS_JOB_TP_CMP = 2;
 

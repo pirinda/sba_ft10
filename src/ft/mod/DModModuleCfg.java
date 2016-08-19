@@ -13,7 +13,7 @@ import ft.mod.cfg.db.DDbPresent;
 import ft.mod.cfg.db.DDbUnit;
 import ft.mod.cfg.db.DDbUser;
 import ft.mod.cfg.db.DDbUserGui;
-import ft.mod.cfg.db.DDbUserModule;
+import ft.mod.cfg.db.DDbUserProfile;
 import ft.mod.cfg.db.DDbYear;
 import ft.mod.cfg.form.DFormBizPartner;
 import ft.mod.cfg.form.DFormFamily;
@@ -65,7 +65,7 @@ public class DModModuleCfg extends DGuiModule {
     private DFormYear moFormYear;
 
     public DModModuleCfg(DGuiClient client) {
-        super(client, DModSysConsts.CS_MOD_CFG, DLibConsts.UNDEFINED);
+        super(client, DModSysConsts.CX_PAC_CFG, DLibConsts.UNDEFINED);
     }
 
     @Override
@@ -141,11 +141,15 @@ public class DModModuleCfg extends DGuiModule {
                     public String getSqlWhere(int[] pk) { return "WHERE id_itm_tp = " + pk[0] + " "; }
                 };
                 break;
+            case DModConsts.CU_UPR:
+                break;
+            case DModConsts.CU_UPR_ACS:
+                break;
             case DModConsts.CU_USR:
                 registry = new DDbUser();
                 break;
-            case DModConsts.CU_USR_MOD:
-                registry = new DDbUserModule();
+            case DModConsts.CU_USR_UPR:
+                registry = new DDbUserProfile();
                 break;
             case DModConsts.CU_BPR:
                 registry = new DDbBizPartner();
@@ -220,9 +224,13 @@ public class DModModuleCfg extends DGuiModule {
                 sql = "SELECT id_itm_tp AS " + DDbConsts.FIELD_ID + "1, name AS " + DDbConsts.FIELD_ITEM + " " +
                         "FROM " + DModConsts.TablesMap.get(type) + " WHERE b_del = 0 ORDER BY sort ";
                 break;
+            case DModConsts.CU_UPR:
+                break;
+            case DModConsts.CU_UPR_ACS:
+                break;
             case DModConsts.CU_USR:
                 break;
-            case DModConsts.CU_USR_MOD:
+            case DModConsts.CU_USR_UPR:
                 break;
             case DModConsts.CU_BPR:
                 switch (subtype) {
@@ -352,9 +360,13 @@ public class DModModuleCfg extends DGuiModule {
                 break;
             case DModConsts.CS_ITM_TP:
                 break;
+            case DModConsts.CU_UPR:
+                break;
+            case DModConsts.CU_UPR_ACS:
+                break;
             case DModConsts.CU_USR:
                 break;
-            case DModConsts.CU_USR_MOD:
+            case DModConsts.CU_USR_UPR:
                 break;
             case DModConsts.CU_BPR:
                 switch (subtype) {
@@ -453,9 +465,13 @@ public class DModModuleCfg extends DGuiModule {
                 break;
             case DModConsts.CS_ITM_TP:
                 break;
+            case DModConsts.CU_UPR:
+                break;
+            case DModConsts.CU_UPR_ACS:
+                break;
             case DModConsts.CU_USR:
                 break;
-            case DModConsts.CU_USR_MOD:
+            case DModConsts.CU_USR_UPR:
                 break;
             case DModConsts.CU_BPR:
                 switch (subtype) {

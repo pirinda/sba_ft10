@@ -22,20 +22,17 @@ public class DModUtils implements DGuiModuleUtils {
     public int getModuleTypeByType(final int type) {
         int module = DLibConsts.UNDEFINED;
 
-        if (type < DModSysConsts.CS_MOD_STK) {
-            module = DModSysConsts.CS_MOD_CFG;
+        if (type < DModSysConsts.CX_PAC_STK) {
+            module = DModSysConsts.CX_PAC_CFG;
         }
-        else if (type < DModSysConsts.CS_MOD_MFG) {
-            module = DModSysConsts.CS_MOD_STK;
+        else if (type < DModSysConsts.CX_PAC_MFG) {
+            module = DModSysConsts.CX_PAC_STK;
         }
-        else if (type < DModSysConsts.CS_MOD_QTY) {
-            module = DModSysConsts.CS_MOD_MFG;
-        }
-        else if (type < DModSysConsts.CS_MOD_CST) {
-            module = DModSysConsts.CS_MOD_QTY;
+        else if (type < DModSysConsts.CX_PAC_QTY) {
+            module = DModSysConsts.CX_PAC_MFG;
         }
         else {
-            module = DModSysConsts.CS_MOD_CST;
+            module = DModSysConsts.CX_PAC_QTY;
         }
 
         return module;

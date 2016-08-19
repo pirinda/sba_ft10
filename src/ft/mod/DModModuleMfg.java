@@ -54,7 +54,7 @@ public class DModModuleMfg extends DGuiModule {
     private DFormJob moFormJob;
 
     public DModModuleMfg(DGuiClient client) {
-        super(client, DModSysConsts.CS_MOD_MFG, DLibConsts.UNDEFINED);
+        super(client, DModSysConsts.CX_PAC_MFG, DLibConsts.UNDEFINED);
     }
 
     @Override
@@ -83,6 +83,15 @@ public class DModModuleMfg extends DGuiModule {
                     
                     @Override
                     public String getSqlWhere(int[] pk) { return "WHERE id_cmp_tp = " + pk[0] + " "; }
+                };
+                break;
+            case DModConsts.MS_CMP_INC_TP:
+                registry = new DDbRegistrySysFly(type) {
+                    @Override
+                    public String getSqlTable() { return DModConsts.TablesMap.get(type); }
+                    
+                    @Override
+                    public String getSqlWhere(int[] pk) { return "WHERE id_cmp_inc_tp = " + pk[0] + " "; }
                 };
                 break;
             case DModConsts.MS_JOB_TP:
@@ -168,6 +177,11 @@ public class DModModuleMfg extends DGuiModule {
                 sql = "SELECT id_cmp_tp AS " + DDbConsts.FIELD_ID + "1, name AS " + DDbConsts.FIELD_ITEM + " " +
                         "FROM " + DModConsts.TablesMap.get(type) + " WHERE b_del = 0 ORDER BY sort ";
                 break;
+            case DModConsts.MS_CMP_INC_TP:
+                settings = new DGuiCatalogueSettings("Tipo incorporación", 1);
+                sql = "SELECT id_cmp_inc_tp AS " + DDbConsts.FIELD_ID + "1, name AS " + DDbConsts.FIELD_ITEM + " " +
+                        "FROM " + DModConsts.TablesMap.get(type) + " WHERE b_del = 0 ORDER BY sort ";
+                break;
             case DModConsts.MS_JOB_TP:
                 settings = new DGuiCatalogueSettings("Tipo orden producción", 1);
                 sql = "SELECT id_job_tp AS " + DDbConsts.FIELD_ID + "1, name AS " + DDbConsts.FIELD_ITEM + " " +
@@ -239,6 +253,8 @@ public class DModModuleMfg extends DGuiModule {
                 break;
             case DModConsts.MS_CMP_TP:
                 break;
+            case DModConsts.MS_CMP_INC_TP:
+                break;
             case DModConsts.MS_JOB_TP:
                 break;
             case DModConsts.MS_JOB_ST:
@@ -304,6 +320,8 @@ public class DModModuleMfg extends DGuiModule {
             case DModConsts.MS_FRM_TP:
                 break;
             case DModConsts.MS_CMP_TP:
+                break;
+            case DModConsts.MS_CMP_INC_TP:
                 break;
             case DModConsts.MS_JOB_TP:
                 break;

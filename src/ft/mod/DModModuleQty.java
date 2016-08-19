@@ -41,7 +41,7 @@ public class DModModuleQty extends DGuiModule {
     private DFormTest moFormTest;
     
     public DModModuleQty(DGuiClient client) {
-        super(client, DModSysConsts.CS_MOD_QTY, DLibConsts.UNDEFINED);
+        super(client, DModSysConsts.CX_PAC_QTY, DLibConsts.UNDEFINED);
     }
 
     @Override

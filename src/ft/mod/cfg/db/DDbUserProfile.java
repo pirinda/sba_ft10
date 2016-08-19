@@ -16,34 +16,31 @@ import sba.lib.gui.DGuiSession;
  *
  * @author Sergio Flores
  */
-public class DDbUserModule extends DDbRegistryUser {
+public class DDbUserProfile extends DDbRegistryUser {
 
     protected int mnPkUserId;
-    protected int mnPkModuleId;
-    protected int mnPkAccessTypeId;
+    protected int mnPkProfileId;
 
-    public DDbUserModule() {
-        super(DModConsts.CU_USR_MOD);
+    public DDbUserProfile() {
+        super(DModConsts.CU_USR_UPR);
         initRegistry();
     }
 
     public void setPkUserId(int n) { mnPkUserId = n; }
-    public void setPkModuleId(int n) { mnPkModuleId = n; }
-    public void setPkAccessTypeId(int n) { mnPkAccessTypeId = n; }
+    public void setPkProfileId(int n) { mnPkProfileId = n; }
 
     public int getPkUserId() { return mnPkUserId; }
-    public int getPkModuleId() { return mnPkModuleId; }
-    public int getPkAccessTypeId() { return mnPkAccessTypeId; }
+    public int getPkProfileId() { return mnPkProfileId; }
 
     @Override
     public void setPrimaryKey(int[] pk) {
         mnPkUserId = pk[0];
-        mnPkModuleId = pk[1];
+        mnPkProfileId = pk[1];
     }
 
     @Override
     public int[] getPrimaryKey() {
-        return new int[] { mnPkUserId, mnPkModuleId };
+        return new int[] { mnPkUserId, mnPkProfileId };
     }
 
     @Override
@@ -51,8 +48,7 @@ public class DDbUserModule extends DDbRegistryUser {
         initBaseRegistry();
 
         mnPkUserId = 0;
-        mnPkModuleId = 0;
-        mnPkAccessTypeId = 0;
+        mnPkProfileId = 0;
     }
 
     @Override
@@ -62,12 +58,12 @@ public class DDbUserModule extends DDbRegistryUser {
 
     @Override
     public String getSqlWhere() {
-        return "WHERE id_usr = " + mnPkUserId+ " AND id_mod = " + mnPkModuleId + " ";
+        return "WHERE id_usr = " + mnPkUserId+ " AND id_upr = " + mnPkProfileId + " ";
     }
 
     @Override
     public String getSqlWhere(int[] pk) {
-        return "WHERE id_usr = " + pk[0] + " AND id_mod = " + pk[1] + " ";
+        return "WHERE id_usr = " + pk[0] + " AND id_upr = " + pk[1] + " ";
     }
 
     @Override
@@ -90,8 +86,7 @@ public class DDbUserModule extends DDbRegistryUser {
         }
         else {
             mnPkUserId = resultSet.getInt("id_usr");
-            mnPkModuleId = resultSet.getInt("id_mod");
-            mnPkAccessTypeId = resultSet.getInt("fk_acs_tp");
+            mnPkProfileId = resultSet.getInt("id_upr");
 
             mbRegistryNew = false;
         }
@@ -111,18 +106,11 @@ public class DDbUserModule extends DDbRegistryUser {
         if (mbRegistryNew) {
             msSql = "INSERT INTO " + getSqlTable() + " VALUES (" +
                     mnPkUserId + ", " + 
-                    mnPkModuleId + ", " + 
-                    mnPkAccessTypeId + " " + 
+                    mnPkProfileId + ", " + 
                     ")";
         }
         else {
-            msSql = "UPDATE " + getSqlTable() + " SET " +
-                    /*
-                    "id_usr = " + mnPkUserId + ", " +
-                    "id_mod = " + mnPkModuleId + ", " +
-                    */
-                    "fk_acs_tp = " + mnPkAccessTypeId + " " +
-                    getSqlWhere();
+            throw new Exception (DDbConsts.ERR_MSG_REG_NON_UPDATABLE);
         }
 
         session.getStatement().execute(msSql);
@@ -132,12 +120,11 @@ public class DDbUserModule extends DDbRegistryUser {
     }
 
     @Override
-    public DDbUserModule clone() throws CloneNotSupportedException {
-        DDbUserModule registry = new DDbUserModule();
+    public DDbUserProfile clone() throws CloneNotSupportedException {
+        DDbUserProfile registry = new DDbUserProfile();
 
         registry.setPkUserId(this.getPkUserId());
-        registry.setPkModuleId(this.getPkModuleId());
-        registry.setPkAccessTypeId(this.getPkAccessTypeId());
+        registry.setPkProfileId(this.getPkProfileId());
 
         registry.setRegistryNew(this.isRegistryNew());
         return registry;

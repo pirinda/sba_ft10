@@ -34,10 +34,12 @@ public class DDbConfig extends DDbRegistryUser implements DGuiConfigCompany {
     protected boolean mbLotRawMaterialIngredient;
     protected boolean mbLotRawMaterialPackage;
     protected boolean mbModuleCfg;
-    protected boolean mbModuleStk;
+    protected boolean mbModuleFrm;
     protected boolean mbModuleMfg;
     protected boolean mbModuleQty;
-    protected boolean mbModuleCst;
+    protected boolean mbModuleStk;
+    protected boolean mbModulePur;
+    protected boolean mbModuleSal;
     /*
     protected boolean mbDeleted;
     protected boolean mbSystem;
@@ -71,10 +73,12 @@ public class DDbConfig extends DDbRegistryUser implements DGuiConfigCompany {
     public void setLotRawMaterialIngredient(boolean b) { mbLotRawMaterialIngredient = b; }
     public void setLotRawMaterialPackage(boolean b) { mbLotRawMaterialPackage = b; }
     public void setModuleCfg(boolean b) { mbModuleCfg = b; }
-    public void setModuleStk(boolean b) { mbModuleStk = b; }
+    public void setModuleFrm(boolean b) { mbModuleFrm = b; }
     public void setModuleMfg(boolean b) { mbModuleMfg = b; }
     public void setModuleQty(boolean b) { mbModuleQty = b; }
-    public void setModuleCst(boolean b) { mbModuleCst = b; }
+    public void setModuleStk(boolean b) { mbModuleStk = b; }
+    public void setModulePur(boolean b) { mbModulePur = b; }
+    public void setModuleSal(boolean b) { mbModuleSal = b; }
     public void setDeleted(boolean b) { mbDeleted = b; }
     public void setSystem(boolean b) { mbSystem = b; }
     public void setFkMassUnitId(int n) { mnFkMassUnitId = n; }
@@ -93,10 +97,12 @@ public class DDbConfig extends DDbRegistryUser implements DGuiConfigCompany {
     public boolean isLotRawMaterialIngredient() { return mbLotRawMaterialIngredient; }
     public boolean isLotRawMaterialPackage() { return mbLotRawMaterialPackage; }
     public boolean isModuleCfg() { return mbModuleCfg; }
-    public boolean isModuleStk() { return mbModuleStk; }
+    public boolean isModuleFrm() { return mbModuleFrm; }
     public boolean isModuleMfg() { return mbModuleMfg; }
     public boolean isModuleQty() { return mbModuleQty; }
-    public boolean isModuleCst() { return mbModuleCst; }
+    public boolean isModuleStk() { return mbModuleStk; }
+    public boolean isModulePur() { return mbModulePur; }
+    public boolean isModuleSal() { return mbModuleSal; }
     public boolean isDeleted() { return mbDeleted; }
     public boolean isSystem() { return mbSystem; }
     public int getFkMassUnitId() { return mnFkMassUnitId; }
@@ -133,10 +139,12 @@ public class DDbConfig extends DDbRegistryUser implements DGuiConfigCompany {
         mbLotRawMaterialIngredient = false;
         mbLotRawMaterialPackage = false;
         mbModuleCfg = false;
-        mbModuleStk = false;
+        mbModuleFrm = false;
         mbModuleMfg = false;
         mbModuleQty = false;
-        mbModuleCst = false;
+        mbModuleStk = false;
+        mbModulePur = false;
+        mbModuleSal = false;
         mbDeleted = false;
         mbSystem = false;
         mnFkMassUnitId = 0;
@@ -200,10 +208,12 @@ public class DDbConfig extends DDbRegistryUser implements DGuiConfigCompany {
             mbLotRawMaterialIngredient = resultSet.getBoolean("b_lot_rmi");
             mbLotRawMaterialPackage = resultSet.getBoolean("b_lot_rmp");
             mbModuleCfg = resultSet.getBoolean("b_mod_cfg");
-            mbModuleStk = resultSet.getBoolean("b_mod_stk");
+            mbModuleFrm = resultSet.getBoolean("b_mod_frm");
             mbModuleMfg = resultSet.getBoolean("b_mod_mfg");
             mbModuleQty = resultSet.getBoolean("b_mod_qty");
-            mbModuleCst = resultSet.getBoolean("b_mod_cst");
+            mbModuleStk = resultSet.getBoolean("b_mod_stk");
+            mbModulePur = resultSet.getBoolean("b_mod_pur");
+            mbModuleSal = resultSet.getBoolean("b_mod_sal");
             mbDeleted = resultSet.getBoolean("b_del");
             mbSystem = resultSet.getBoolean("b_sys");
             mnFkMassUnitId = resultSet.getInt("fk_mass_uom");
@@ -244,10 +254,12 @@ public class DDbConfig extends DDbRegistryUser implements DGuiConfigCompany {
                     (mbLotRawMaterialIngredient ? 1 : 0) + ", " + 
                     (mbLotRawMaterialPackage ? 1 : 0) + ", " + 
                     (mbModuleCfg ? 1 : 0) + ", " + 
-                    (mbModuleStk ? 1 : 0) + ", " + 
+                    (mbModuleFrm ? 1 : 0) + ", " + 
                     (mbModuleMfg ? 1 : 0) + ", " + 
                     (mbModuleQty ? 1 : 0) + ", " + 
-                    (mbModuleCst ? 1 : 0) + ", " + 
+                    (mbModuleStk ? 1 : 0) + ", " + 
+                    (mbModulePur ? 1 : 0) + ", " + 
+                    (mbModuleSal ? 1 : 0) + ", " + 
                     (mbDeleted ? 1 : 0) + ", " + 
                     (mbSystem ? 1 : 0) + ", " + 
                     mnFkMassUnitId + ", " + 
@@ -271,10 +283,12 @@ public class DDbConfig extends DDbRegistryUser implements DGuiConfigCompany {
                     "b_lot_rmi = " + (mbLotRawMaterialIngredient ? 1 : 0) + ", " +
                     "b_lot_rmp = " + (mbLotRawMaterialPackage ? 1 : 0) + ", " +
                     "b_mod_cfg = " + (mbModuleCfg ? 1 : 0) + ", " +
-                    "b_mod_stk = " + (mbModuleStk ? 1 : 0) + ", " +
+                    "b_mod_frm = " + (mbModuleFrm ? 1 : 0) + ", " +
                     "b_mod_mfg = " + (mbModuleMfg ? 1 : 0) + ", " +
                     "b_mod_qty = " + (mbModuleQty ? 1 : 0) + ", " +
-                    "b_mod_cst = " + (mbModuleCst ? 1 : 0) + ", " +
+                    "b_mod_stk = " + (mbModuleStk ? 1 : 0) + ", " +
+                    "b_mod_pur = " + (mbModulePur ? 1 : 0) + ", " +
+                    "b_mod_sal = " + (mbModuleSal ? 1 : 0) + ", " +
                     "b_del = " + (mbDeleted ? 1 : 0) + ", " +
                     "b_sys = " + (mbSystem ? 1 : 0) + ", " +
                     "fk_mass_uom = " + mnFkMassUnitId + ", " +
@@ -305,10 +319,12 @@ public class DDbConfig extends DDbRegistryUser implements DGuiConfigCompany {
         registry.setLotRawMaterialIngredient(this.isLotRawMaterialIngredient());
         registry.setLotRawMaterialPackage(this.isLotRawMaterialPackage());
         registry.setModuleCfg(this.isModuleCfg());
-        registry.setModuleStk(this.isModuleStk());
+        registry.setModuleFrm(this.isModuleFrm());
         registry.setModuleMfg(this.isModuleMfg());
         registry.setModuleQty(this.isModuleQty());
-        registry.setModuleCst(this.isModuleCst());
+        registry.setModuleStk(this.isModuleStk());
+        registry.setModulePur(this.isModulePur());
+        registry.setModuleSal(this.isModuleSal());
         registry.setDeleted(this.isDeleted());
         registry.setSystem(this.isSystem());
         registry.setFkMassUnitId(this.getFkMassUnitId());

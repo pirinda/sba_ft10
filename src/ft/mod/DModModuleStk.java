@@ -39,7 +39,7 @@ public class DModModuleStk extends DGuiModule {
     private DFormWsd moFormWsdOut;
 
     public DModModuleStk(DGuiClient client) {
-        super(client, DModSysConsts.CS_MOD_STK, DLibConsts.UNDEFINED);
+        super(client, DModSysConsts.CX_PAC_STK, DLibConsts.UNDEFINED);
     }
 
     @Override

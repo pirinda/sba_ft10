@@ -162,7 +162,7 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
         jmiCfgYear = new javax.swing.JMenuItem();
         jsCfg3 = new javax.swing.JPopupMenu.Separator();
         jmiCfgUser = new javax.swing.JMenuItem();
-        jmiCfgUserModule = new javax.swing.JMenuItem();
+        jmiCfgUserProfile = new javax.swing.JMenuItem();
         jsCfg4 = new javax.swing.JPopupMenu.Separator();
         jmiCfgConfig = new javax.swing.JMenuItem();
         jmCat = new javax.swing.JMenu();
@@ -339,9 +339,9 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
         jmiCfgUser.setEnabled(false);
         jmCfg.add(jmiCfgUser);
 
-        jmiCfgUserModule.setText("Accesos de usuarios");
-        jmiCfgUserModule.setEnabled(false);
-        jmCfg.add(jmiCfgUserModule);
+        jmiCfgUserProfile.setText("Usuarios y perfiles");
+        jmiCfgUserProfile.setEnabled(false);
+        jmCfg.add(jmiCfgUserProfile);
         jmCfg.add(jsCfg4);
 
         jmiCfgConfig.setText("Configuración del sistema");
@@ -596,7 +596,7 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
         jmiCfgCompany.addActionListener(this);
         jmiCfgYear.addActionListener(this);
         jmiCfgUser.addActionListener(this);
-        jmiCfgUserModule.addActionListener(this);
+        jmiCfgUserProfile.addActionListener(this);
         jmiCfgConfig.addActionListener(this);
         jmiCatItemPf.addActionListener(this);
         jmiCatItemPb.addActionListener(this);
@@ -897,7 +897,7 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
     private javax.swing.JMenuItem jmiCfgDepart;
     private javax.swing.JMenuItem jmiCfgLine;
     private javax.swing.JMenuItem jmiCfgUser;
-    private javax.swing.JMenuItem jmiCfgUserModule;
+    private javax.swing.JMenuItem jmiCfgUserProfile;
     private javax.swing.JMenuItem jmiCfgWarehouse;
     private javax.swing.JMenuItem jmiCfgYear;
     private javax.swing.JMenuItem jmiFileCloseSession;
@@ -1249,8 +1249,8 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
             else if (menuItem == jmiCfgUser) {
                 moSession.showView(DModConsts.CU_USR, DLibConsts.UNDEFINED, null);
             }
-            else if (menuItem == jmiCfgUserModule) {
-                moSession.showView(DModConsts.CU_USR_MOD, DLibConsts.UNDEFINED, null);
+            else if (menuItem == jmiCfgUserProfile) {
+                moSession.showView(DModConsts.CU_USR_UPR, DLibConsts.UNDEFINED, null);
             }
             else if (menuItem == jmiCfgConfig) {
                 moSession.showView(DModConsts.C_CFG, DLibConsts.UNDEFINED, null);

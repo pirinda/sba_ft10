@@ -5,6 +5,7 @@
 
 package ft.mod.cfg.db;
 
+import ft.lib.DLibRegistry;
 import ft.mod.DModConsts;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,13 +20,15 @@ import sba.lib.gui.DGuiSession;
  *
  * @author Sergio Flores
  */
-public class DDbItem extends DDbRegistryUser {
+public class DDbItem extends DDbRegistryUser implements DLibRegistry {
 
     protected int mnPkItemId;
     protected String msCode;
     protected String msName;
     protected String msLotCode;
     protected double mdMassUnit;
+    protected boolean mbBrix;
+    protected double mdBrix;
     /*
     protected boolean mbDeleted;
     protected boolean mbSystem;
@@ -61,6 +64,8 @@ public class DDbItem extends DDbRegistryUser {
     public void setName(String s) { msName = s; }
     public void setLotCode(String s) { msLotCode = s; }
     public void setMassUnit(double d) { mdMassUnit = d; }
+    public void setBrix(boolean b) { mbBrix = b; }
+    public void setBrix(double d) { mdBrix = d; }
     public void setDeleted(boolean b) { mbDeleted = b; }
     public void setSystem(boolean b) { mbSystem = b; }
     public void setFkFamilyId(int n) { mnFkFamilyId = n; }
@@ -77,6 +82,8 @@ public class DDbItem extends DDbRegistryUser {
     public String getName() { return msName; }
     public String getLotCode() { return msLotCode; }
     public double getMassUnit() { return mdMassUnit; }
+    public boolean isBrix() { return mbBrix; }
+    public double getBrix() { return mdBrix; }
     public boolean isDeleted() { return mbDeleted; }
     public boolean isSystem() { return mbSystem; }
     public int getFkFamilyId() { return mnFkFamilyId; }
@@ -115,6 +122,8 @@ public class DDbItem extends DDbRegistryUser {
         msName = "";
         msLotCode = "";
         mdMassUnit = 0;
+        mbBrix = false;
+        mdBrix = 0;
         mbDeleted = false;
         mbSystem = false;
         mnFkFamilyId = 0;
@@ -178,6 +187,8 @@ public class DDbItem extends DDbRegistryUser {
             msName = resultSet.getString("name");
             msLotCode = resultSet.getString("lot_code");
             mdMassUnit = resultSet.getDouble("mass_unt");
+            mbBrix = resultSet.getBoolean("b_brix");
+            mdBrix = resultSet.getDouble("brix");
             mbDeleted = resultSet.getBoolean("b_del");
             mbSystem = resultSet.getBoolean("b_sys");
             mnFkFamilyId = resultSet.getInt("fk_fam");
@@ -202,7 +213,7 @@ public class DDbItem extends DDbRegistryUser {
         initQueryMembers();
         mnQueryResultId = DDbConsts.SAVE_ERROR;
 
-        readRegMembers(session);
+        compute(session);
         
         if (mbRegistryNew) {
             computePrimaryKey(session);
@@ -221,6 +232,8 @@ public class DDbItem extends DDbRegistryUser {
                     "'" + msName + "', " + 
                     "'" + msLotCode + "', " + 
                     mdMassUnit + ", " + 
+                    (mbBrix ? 1 : 0) + ", " + 
+                    mdBrix + ", " + 
                     (mbDeleted ? 1 : 0) + ", " + 
                     (mbSystem ? 1 : 0) + ", " + 
                     mnFkFamilyId + ", " + 
@@ -242,6 +255,8 @@ public class DDbItem extends DDbRegistryUser {
                     "name = '" + msName + "', " +
                     "lot_code = '" + msLotCode + "', " +
                     "mass_unt = " + mdMassUnit + ", " +
+                    "b_brix = " + (mbBrix ? 1 : 0) + ", " +
+                    "brix = " + mdBrix + ", " +
                     "b_del = " + (mbDeleted ? 1 : 0) + ", " +
                     "b_sys = " + (mbSystem ? 1 : 0) + ", " +
                     "fk_fam = " + mnFkFamilyId + ", " +
@@ -269,6 +284,8 @@ public class DDbItem extends DDbRegistryUser {
         registry.setName(this.getName());
         registry.setLotCode(this.getLotCode());
         registry.setMassUnit(this.getMassUnit());
+        registry.setBrix(this.isBrix());
+        registry.setBrix(this.getBrix());
         registry.setDeleted(this.isDeleted());
         registry.setSystem(this.isSystem());
         registry.setFkFamilyId(this.getFkFamilyId());
@@ -286,5 +303,15 @@ public class DDbItem extends DDbRegistryUser {
         
         registry.setRegistryNew(this.isRegistryNew());
         return registry;
+    }
+
+    @Override
+    public void compute(DGuiSession session) {
+        readRegMembers(session);
+        
+        if (!moRegFamily.isBrix()) {
+            mbBrix = false;
+            mdBrix = DCfgConsts.BRIX_MAX;
+        }
     }
 }
