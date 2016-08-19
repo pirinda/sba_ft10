@@ -196,7 +196,7 @@ public class DFormBizPartner extends DBeanForm implements ActionListener, ItemLi
 
         jPanel14.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
-        jlAddress1.setText("Calle:");
+        jlAddress1.setText("Calle y número:");
         jlAddress1.setPreferredSize(new java.awt.Dimension(100, 23));
         jPanel14.add(jlAddress1);
 
