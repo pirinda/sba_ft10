@@ -105,7 +105,7 @@ public class DDbJob extends DDbRegistryUser implements DLibRegistry {
         
         if (update) {
             mdFormulaQuantity = moRegFormula.getQuantity();
-            mdFormulaMass_r = moRegFormula.getMass_r();
+            mdFormulaMass_r = moRegFormula.getFormulaMass_r();
             
             mnFkFormulaTypeId = moRegFormula.getFkFormulaTypeId();
             mnFkItemId = moRegFormula.getFkItemId();

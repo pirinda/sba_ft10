@@ -48,7 +48,7 @@ public class DViewFormula extends DGridPaneView {
                 "v.name AS " + DDbConsts.FIELD_NAME + ", " +
                 "v.ref, " +
                 "v.qty, " +
-                "v.mass_r, " +
+                "v.frm_mass_r, " +
                 "ft.code, " +
                 "ft.name, " +
                 "i.code, " +
@@ -100,7 +100,7 @@ public class DViewFormula extends DGridPaneView {
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_CAT_S, "p.name", "Presentación");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_DEC_QTY, "v.qty", "Cantidad");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_CODE_UNT, "u.code", "Unidad medida");
-        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_DEC_QTY, "v.mass_r", "Masa (" + DCfgUtils.getMassUnitCode(miClient.getSession()) + ")");
+        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_DEC_QTY, "v.frm_mass_r", "Masa (" + DCfgUtils.getMassUnitCode(miClient.getSession()) + ")");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_BOOL_S, DDbConsts.FIELD_IS_DEL, DGridConsts.COL_TITLE_IS_DEL);
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_BOOL_S, DDbConsts.FIELD_IS_SYS, DGridConsts.COL_TITLE_IS_SYS);
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_USR, DDbConsts.FIELD_USER_INS_NAME, DGridConsts.COL_TITLE_USER_INS_NAME);

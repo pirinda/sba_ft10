@@ -83,8 +83,6 @@ public class DFormUnit extends DBeanForm implements ItemListener {
         jlCode.setText("Código:*");
         jlCode.setPreferredSize(new java.awt.Dimension(100, 23));
         jPanel3.add(jlCode);
-
-        moTextCode.setPreferredSize(new java.awt.Dimension(50, 23));
         jPanel3.add(moTextCode);
 
         jPanel1.add(jPanel3);
@@ -105,8 +103,6 @@ public class DFormUnit extends DBeanForm implements ItemListener {
         jlSortingPos.setText("Posición catálogo:");
         jlSortingPos.setPreferredSize(new java.awt.Dimension(100, 23));
         jPanel7.add(jlSortingPos);
-
-        moIntSortingPos.setPreferredSize(new java.awt.Dimension(50, 23));
         jPanel7.add(moIntSortingPos);
 
         jPanel1.add(jPanel7);

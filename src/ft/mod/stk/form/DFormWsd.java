@@ -338,6 +338,8 @@ public class DFormWsd extends DBeanForm implements DGridPaneFormOwner, ActionLis
         jlAmount.setText("Valor:");
         jlAmount.setPreferredSize(new java.awt.Dimension(75, 23));
         jPanel22.add(jlAmount);
+
+        moCurAmount.setEditable(false);
         jPanel22.add(moCurAmount);
 
         jPanel11.add(jPanel22);
@@ -347,6 +349,8 @@ public class DFormWsd extends DBeanForm implements DGridPaneFormOwner, ActionLis
         jlMass.setText("Masa:");
         jlMass.setPreferredSize(new java.awt.Dimension(75, 23));
         jPanel23.add(jlMass);
+
+        moCompMass.setEditable(false);
         jPanel23.add(moCompMass);
 
         jPanel11.add(jPanel23);
@@ -374,7 +378,7 @@ public class DFormWsd extends DBeanForm implements DGridPaneFormOwner, ActionLis
         jlRowLot.setPreferredSize(new java.awt.Dimension(100, 23));
         jPanel9.add(jlRowLot);
 
-        jlRowAmountUnit.setText("Valor unitario:*");
+        jlRowAmountUnit.setText("Valor unit.:*");
         jlRowAmountUnit.setPreferredSize(new java.awt.Dimension(140, 23));
         jPanel9.add(jlRowAmountUnit);
 
@@ -557,7 +561,7 @@ public class DFormWsd extends DBeanForm implements DGridPaneFormOwner, ActionLis
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_NAME_CAT_S, "Lote");
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_DEC_AMT_UNIT, "Valor unitario $");
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_DEC_AMT, "Valor $");
-                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_DEC_AMT_UNIT, "Masa unitaria");
+                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_DEC_AMT_UNIT, "Masa unit.");
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_DEC_QTY, "Masa");
 
                 for (col = 0; col < columns.length; col++) {
@@ -802,8 +806,6 @@ public class DFormWsd extends DBeanForm implements DGridPaneFormOwner, ActionLis
         setFormEditable(true);
 
         updateFieldsRegistry();
-        moCurAmount.setEditable(false);
-        moCompMass.setEditable(false);
         
         if (moRegistry.isRegistryNew()) {
             moKeyGroupItem.resetGroup();

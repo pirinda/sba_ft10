@@ -145,8 +145,6 @@ public class DFormItem extends DBeanForm implements ItemListener {
         jlLotCode.setText("Código lotes:");
         jlLotCode.setPreferredSize(new java.awt.Dimension(100, 23));
         jPanel11.add(jlLotCode);
-
-        moTextLotCode.setPreferredSize(new java.awt.Dimension(50, 23));
         jPanel11.add(moTextLotCode);
 
         jPanel1.add(jPanel11);
@@ -175,7 +173,7 @@ public class DFormItem extends DBeanForm implements ItemListener {
 
         jPanel6.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
-        jlMassUnit.setText("Masa unitaria:*");
+        jlMassUnit.setText("Masa unit.:*");
         jlMassUnit.setPreferredSize(new java.awt.Dimension(100, 23));
         jPanel6.add(jlMassUnit);
         jPanel6.add(moCompMassUnit);
@@ -184,7 +182,7 @@ public class DFormItem extends DBeanForm implements ItemListener {
 
         jPanel12.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
-        moBoolBrix.setText("Aplican °Bx:");
+        moBoolBrix.setText("Aplican °Bx:*");
         jPanel12.add(moBoolBrix);
         jPanel12.add(moCompBrix);
 
@@ -251,7 +249,7 @@ public class DFormItem extends DBeanForm implements ItemListener {
         moCompMassUnit.getField().setDecimalSettings(DGuiUtils.getLabelName(jlMassUnit), DGuiConsts.GUI_TYPE_DEC_AMT_UNIT, true);
         moBoolBrix.setBooleanSettings(DGuiUtils.getLabelName(moBoolBrix.getText()), false);
         moCompBrix.setCompoundFieldSettings(miClient);
-        moCompBrix.getField().setDecimalSettings(DGuiUtils.getLabelName(moBoolBrix.getText()), DGuiConsts.GUI_TYPE_DEC_AMT_UNIT, false);
+        moCompBrix.getField().setDecimalSettings(DGuiUtils.getLabelName(moBoolBrix.getText()), DGuiConsts.GUI_TYPE_DEC_QTY, true);
         moCompBrix.getField().setMaxDouble(DCfgConsts.BRIX_MAX);
         
         moFields.addField(moKeyFamily);
@@ -407,10 +405,12 @@ public class DFormItem extends DBeanForm implements ItemListener {
         moKeyItemBase.setValue(new int[] { moRegistry.getFkItemBaseId_n() });
         moTextCode.setValue(moRegistry.getCode());
         moTextName.setValue(moRegistry.getName());
+        moTextLotCode.setValue(moRegistry.getLotCode());
         moKeyUnit.setValue(new int[] { moRegistry.getFkUnitId() });
         moKeyPresent.setValue(new int[] { moRegistry.getFkPresentId() });
         moCompMassUnit.getField().setValue(moRegistry.getMassUnit());
-        moTextLotCode.setValue(moRegistry.getLotCode());
+        moBoolBrix.setValue(moRegistry.isBrix());
+        moCompBrix.getField().setValue(moRegistry.getBrix());
         
         setFormEditable(true);
         
@@ -445,6 +445,8 @@ public class DFormItem extends DBeanForm implements ItemListener {
         registry.setName(moTextName.getValue());
         registry.setLotCode(moTextLotCode.getValue());
         registry.setMassUnit(moCompMassUnit.getField().getValue());
+        registry.setBrix(!moBoolBrix.isEnabled() ? false : moBoolBrix.getValue());
+        registry.setBrix(!moCompBrix.isEditable() ? DCfgConsts.BRIX_MAX : moCompBrix.getField().getValue());
         //registry.setDeleted(...);
         //registry.setSystem(...);
         registry.setFkFamilyId(moKeyFamily.getValue()[0]);

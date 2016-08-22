@@ -46,12 +46,18 @@ public class DDbFamily extends DDbRegistryUser implements DLibRegistry {
     protected Date mtTsUserUpdate;
     */
 
+    protected DDbUnit moRegUnit;
+    
     protected String msXtaItemTypeCode;
     protected String msXtaItemTypeName;
     
     public DDbFamily() {
         super(DModConsts.CU_FAM);
         initRegistry();
+    }
+    
+    private void readRegMembers(final DGuiSession session) {
+        moRegUnit = (DDbUnit) session.readRegistry(DModConsts.CU_UOM, new int[] { mnFkUnitId }, DDbConsts.MODE_STEALTH);
     }
     
     private void readXtaMembers(final DGuiSession session) {
@@ -97,6 +103,10 @@ public class DDbFamily extends DDbRegistryUser implements DLibRegistry {
     public Date getTsUserInsert() { return mtTsUserInsert; }
     public Date getTsUserUpdate() { return mtTsUserUpdate; }
 
+    public void setRegUnit(DDbUnit o) { moRegUnit = o; }
+    
+    public DDbUnit getRegUnit() { return moRegUnit; }
+    
     public void setXtaItemTypeCode(String s) { msXtaItemTypeCode = s; }
     public void setXtaItemTypeName(String s) { msXtaItemTypeName = s; }
 
@@ -135,6 +145,8 @@ public class DDbFamily extends DDbRegistryUser implements DLibRegistry {
         mnFkUserUpdateId = 0;
         mtTsUserInsert = null;
         mtTsUserUpdate = null;
+        
+        moRegUnit = null;
         
         msXtaItemTypeCode = "";
         msXtaItemTypeName = "";
@@ -201,6 +213,7 @@ public class DDbFamily extends DDbRegistryUser implements DLibRegistry {
             mtTsUserInsert = resultSet.getTimestamp("ts_usr_ins");
             mtTsUserUpdate = resultSet.getTimestamp("ts_usr_upd");
 
+            readRegMembers(session);
             readXtaMembers(session);
 
             mbRegistryNew = false;
@@ -301,6 +314,8 @@ public class DDbFamily extends DDbRegistryUser implements DLibRegistry {
         registry.setTsUserInsert(this.getTsUserInsert());
         registry.setTsUserUpdate(this.getTsUserUpdate());
 
+        registry.setRegUnit(this.getRegUnit() == null ? null : this.getRegUnit().clone());
+        
         registry.setXtaItemTypeCode(this.getXtaItemTypeCode());
         registry.setXtaItemTypeName(this.getXtaItemTypeName());
         
@@ -310,6 +325,11 @@ public class DDbFamily extends DDbRegistryUser implements DLibRegistry {
 
     @Override
     public void compute(DGuiSession session) {
+        readRegMembers(session);
         readXtaMembers(session);
+        
+        if (!mbBrix) {
+            mdBrix = DCfgConsts.BRIX_MAX;
+        }
     }
 }

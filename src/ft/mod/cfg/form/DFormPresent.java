@@ -51,15 +51,15 @@ public class DFormPresent extends DBeanForm implements ItemListener {
         jPanel4 = new javax.swing.JPanel();
         jlName = new javax.swing.JLabel();
         moTextName = new sba.lib.gui.bean.DBeanFieldText();
+        jPanel7 = new javax.swing.JPanel();
+        jlLotCode = new javax.swing.JLabel();
+        moTextLotCode = new sba.lib.gui.bean.DBeanFieldText();
         jPanel5 = new javax.swing.JPanel();
         jlUnit = new javax.swing.JLabel();
         moKeyUnit = new sba.lib.gui.bean.DBeanFieldKey();
         jPanel6 = new javax.swing.JPanel();
         jlContentUnit = new javax.swing.JLabel();
         moCompContentUnit = new sba.lib.gui.bean.DBeanCompoundField();
-        jPanel7 = new javax.swing.JPanel();
-        jlLotCode = new javax.swing.JLabel();
-        moTextLotCode = new sba.lib.gui.bean.DBeanFieldText();
 
         jpContainer.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos del registro:"));
         jpContainer.setLayout(new java.awt.BorderLayout());
@@ -71,8 +71,6 @@ public class DFormPresent extends DBeanForm implements ItemListener {
         jlCode.setText("Código:*");
         jlCode.setPreferredSize(new java.awt.Dimension(100, 23));
         jPanel3.add(jlCode);
-
-        moTextCode.setPreferredSize(new java.awt.Dimension(50, 23));
         jPanel3.add(moTextCode);
 
         jPanel1.add(jPanel3);
@@ -88,9 +86,18 @@ public class DFormPresent extends DBeanForm implements ItemListener {
 
         jPanel1.add(jPanel4);
 
+        jPanel7.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
+
+        jlLotCode.setText("Código lotes:");
+        jlLotCode.setPreferredSize(new java.awt.Dimension(100, 23));
+        jPanel7.add(jlLotCode);
+        jPanel7.add(moTextLotCode);
+
+        jPanel1.add(jPanel7);
+
         jPanel5.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
-        jlUnit.setText("Unidad contenido:*");
+        jlUnit.setText("Unidad cont. neto:*");
         jlUnit.setPreferredSize(new java.awt.Dimension(100, 23));
         jPanel5.add(jlUnit);
 
@@ -101,23 +108,12 @@ public class DFormPresent extends DBeanForm implements ItemListener {
 
         jPanel6.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
-        jlContentUnit.setText("Contenido neto:*");
+        jlContentUnit.setText("Cont. neto:*");
         jlContentUnit.setPreferredSize(new java.awt.Dimension(100, 23));
         jPanel6.add(jlContentUnit);
         jPanel6.add(moCompContentUnit);
 
         jPanel1.add(jPanel6);
-
-        jPanel7.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
-
-        jlLotCode.setText("Código lotes:");
-        jlLotCode.setPreferredSize(new java.awt.Dimension(100, 23));
-        jPanel7.add(jlLotCode);
-
-        moTextLotCode.setPreferredSize(new java.awt.Dimension(50, 23));
-        jPanel7.add(moTextLotCode);
-
-        jPanel1.add(jPanel7);
 
         jpContainer.add(jPanel1, java.awt.BorderLayout.NORTH);
 

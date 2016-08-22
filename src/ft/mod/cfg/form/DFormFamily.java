@@ -116,8 +116,6 @@ public class DFormFamily extends DBeanForm implements ItemListener {
         jlCode.setText("Código:*");
         jlCode.setPreferredSize(new java.awt.Dimension(100, 23));
         jPanel3.add(jlCode);
-
-        moTextCode.setPreferredSize(new java.awt.Dimension(50, 23));
         jPanel3.add(moTextCode);
 
         jPanel1.add(jPanel3);
@@ -138,8 +136,6 @@ public class DFormFamily extends DBeanForm implements ItemListener {
         jlLotCode.setText("Código lotes:");
         jlLotCode.setPreferredSize(new java.awt.Dimension(100, 23));
         jPanel8.add(jlLotCode);
-
-        moTextLotCode.setPreferredSize(new java.awt.Dimension(50, 23));
         jPanel8.add(moTextLotCode);
 
         jPanel1.add(jPanel8);
@@ -157,7 +153,7 @@ public class DFormFamily extends DBeanForm implements ItemListener {
 
         jPanel6.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
-        jlMassUnit.setText("Masa unitaria:");
+        jlMassUnit.setText("Masa unit.:");
         jlMassUnit.setPreferredSize(new java.awt.Dimension(100, 23));
         jPanel6.add(jlMassUnit);
         jPanel6.add(moCompMassUnit);
@@ -251,7 +247,7 @@ public class DFormFamily extends DBeanForm implements ItemListener {
         moCompMassUnit.getField().setDecimalSettings(DGuiUtils.getLabelName(jlMassUnit), DGuiConsts.GUI_TYPE_DEC_AMT_UNIT, false);
         moBoolBrix.setBooleanSettings(DGuiUtils.getLabelName(moBoolBrix.getText()), false);
         moCompBrix.setCompoundFieldSettings(miClient);
-        moCompBrix.getField().setDecimalSettings(DGuiUtils.getLabelName(moBoolBrix.getText()), DGuiConsts.GUI_TYPE_DEC_AMT_UNIT, false);
+        moCompBrix.getField().setDecimalSettings(DGuiUtils.getLabelName(moBoolBrix.getText()), DGuiConsts.GUI_TYPE_DEC_QTY, false);
         moCompBrix.getField().setMaxDouble(DCfgConsts.BRIX_MAX);
         moKeyDepart.setKeySettings(miClient, DGuiUtils.getLabelName(jlDepart), true);
         moKeyLine.setKeySettings(miClient, DGuiUtils.getLabelName(jlLine), true);
@@ -436,7 +432,7 @@ public class DFormFamily extends DBeanForm implements ItemListener {
         registry.setLotCode(moTextLotCode.getValue());
         registry.setMassUnit(!moCompMassUnit.isEditable() ? 0d : moCompMassUnit.getField().getValue());
         registry.setBrix(!moBoolBrix.isEnabled() ? false : moBoolBrix.getValue());
-        registry.setBrix(!moCompBrix.isEditable() ? 0d : moCompBrix.getField().getValue());
+        registry.setBrix(!moCompBrix.isEditable() ? DCfgConsts.BRIX_MAX : moCompBrix.getField().getValue());
         //registry.setDeleted(...);
         //registry.setSystem(...);
         registry.setFkItemTypeId(moKeyItemType.getValue()[0]);

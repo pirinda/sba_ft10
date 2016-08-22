@@ -1355,7 +1355,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         }
         else {
             moCompJobFormulaQuantity.getField().setValue(moFormula.getQuantity());
-            moCompJobFormulaMass.getField().setValue(moFormula.getMass_r());
+            moCompJobFormulaMass.getField().setValue(moFormula.getFormulaMass_r());
             moDecJobLoads.setValue(1d);
             
             moCompJobFormulaQuantity.setCompoundText(moFormula.getRegUnit().getCode());
@@ -1765,7 +1765,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         }
         else {
             moCompJobJobQuantity.getField().setValue(moFormula.getQuantity() * moDecJobLoads.getValue());
-            moCompJobReqmentMass.getField().setValue(moFormula.getMass_r()* moDecJobLoads.getValue());
+            moCompJobReqmentMass.getField().setValue(moFormula.getFormulaMass_r()* moDecJobLoads.getValue());
         }
     }
     
@@ -2333,7 +2333,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
                     
                     moCompConsumpQuantity.setCompoundText("");
                     
-                    miClient.getSession().populateCatalogue(moKeyConsumpItem, DModConsts.CU_ITM, DLibConsts.UNDEFINED, new DGuiParams(new int[] { reqment.getFkCompId() }));
+                    miClient.getSession().populateCatalogue(moKeyConsumpItem, DModConsts.CU_ITM, DLibConsts.UNDEFINED, new DGuiParams(new int[] { reqment.getFkFamilyId() }));
                     break;
                     
                 default:

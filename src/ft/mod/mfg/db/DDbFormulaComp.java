@@ -8,7 +8,7 @@ package ft.mod.mfg.db;
 import ft.lib.DLibRegistry;
 import ft.mod.DModConsts;
 import ft.mod.DModSysConsts;
-import ft.mod.cfg.db.DCfgUtils;
+import ft.mod.cfg.db.DCfgConsts;
 import ft.mod.cfg.db.DDbFamily;
 import ft.mod.cfg.db.DDbItem;
 import ft.mod.cfg.db.DDbUnit;
@@ -32,9 +32,13 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow, DLibReg
     protected double mdQuantity;
     protected double mdMassUnit;
     protected double mdMass_r;
-    protected boolean mbStandard;
+    protected double mdBrix;
+    protected double mdMassSolid_r;
+    protected String msExclusionLabel;
     protected int mnFkCompTypeId;
-    protected int mnFkCompId;
+    protected int mnFkCompIncTypeId;
+    protected int mnFkItemId;
+    protected int mnFkFamilyId;
     protected int mnFkItemTypeId;
     protected int mnFkUnitId;
     
@@ -44,6 +48,8 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow, DLibReg
 
     protected String msXtaCompTypeCode;
     protected String msXtaCompTypeName;
+    protected String msXtaCompIncTypeCode;
+    protected String msXtaCompIncTypeName;
     
     public DDbFormulaComp() {
         super(DModConsts.MU_FRM_CMP);
@@ -53,7 +59,7 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow, DLibReg
     private void readRegMembers(final DGuiSession session, final boolean update) {
         switch (mnFkCompTypeId) {
             case DModSysConsts.MS_CMP_TP_FAM:
-                moRegFamily = (DDbFamily) session.readRegistry(DModConsts.CU_FAM, new int[] { mnFkCompId });
+                moRegFamily = (DDbFamily) session.readRegistry(DModConsts.CU_FAM, new int[] { mnFkFamilyId });
                 moRegItem = null;
                 
                 if (update) {
@@ -64,12 +70,13 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow, DLibReg
                 moRegUnit = (DDbUnit) session.readRegistry(DModConsts.CU_UOM, new int[] { mnFkUnitId });
                 
                 if (update) {
-                    mdMassUnit = DCfgUtils.getMassUnitBasic(session, moRegUnit);
+                    mdMassUnit = moRegFamily.getMassUnit();
+                    mdBrix = moRegFamily.getBrix();
                 }
                 break;
                 
             case DModSysConsts.MS_CMP_TP_ITM:
-                moRegItem = (DDbItem) session.readRegistry(DModConsts.CU_ITM, new int[] { mnFkCompId });
+                moRegItem = (DDbItem) session.readRegistry(DModConsts.CU_ITM, new int[] { mnFkItemId });
                 moRegFamily = null;
                 
                 if (update) {
@@ -81,6 +88,7 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow, DLibReg
                 
                 if (update) {
                     mdMassUnit = moRegItem.getMassUnit();
+                    mdBrix = moRegItem.getBrix();
                 }
                 break;
                 
@@ -91,6 +99,8 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow, DLibReg
     private void readXtaMembers(final DGuiSession session) {
         msXtaCompTypeCode = (String) session.readField(DModConsts.MS_CMP_TP, new int[] { mnFkCompTypeId }, DDbRegistry.FIELD_CODE);
         msXtaCompTypeName = (String) session.readField(DModConsts.MS_CMP_TP, new int[] { mnFkCompTypeId }, DDbRegistry.FIELD_NAME);
+        msXtaCompIncTypeCode = (String) session.readField(DModConsts.MS_CMP_TP, new int[] { mnFkCompTypeId }, DDbRegistry.FIELD_CODE);
+        msXtaCompIncTypeName = (String) session.readField(DModConsts.MS_CMP_TP, new int[] { mnFkCompTypeId }, DDbRegistry.FIELD_NAME);
     }
 
     public void setPkFormulaId(int n) { mnPkFormulaId = n; }
@@ -98,9 +108,13 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow, DLibReg
     public void setQuantity(double d) { mdQuantity = d; }
     public void setMassUnit(double d) { mdMassUnit = d; }
     public void setMass_r(double d) { mdMass_r = d; }
-    public void setStandard(boolean b) { mbStandard = b; }
+    public void setBrix(double d) { mdBrix = d; }
+    public void setMassSolid_r(double d) { mdMassSolid_r = d; }
+    public void setExclusionLabel(String s) { msExclusionLabel = s; }
     public void setFkCompTypeId(int n) { mnFkCompTypeId = n; }
-    public void setFkCompId(int n) { mnFkCompId = n; }
+    public void setFkCompIncTypeId(int n) { mnFkCompIncTypeId = n; }
+    public void setFkItemId(int n) { mnFkItemId = n; }
+    public void setFkFamilyId(int n) { mnFkFamilyId = n; }
     public void setFkItemTypeId(int n) { mnFkItemTypeId = n; }
     public void setFkUnitId(int n) { mnFkUnitId = n; }
 
@@ -109,9 +123,13 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow, DLibReg
     public double getQuantity() { return mdQuantity; }
     public double getMassUnit() { return mdMassUnit; }
     public double getMass_r() { return mdMass_r; }
-    public boolean isStandard() { return mbStandard; }
+    public double getBrix() { return mdBrix; }
+    public double getMassSolid_r() { return mdMassSolid_r; }
+    public String getExclusionLabel() { return msExclusionLabel; }
     public int getFkCompTypeId() { return mnFkCompTypeId; }
-    public int getFkCompId() { return mnFkCompId; }
+    public int getFkCompIncTypeId() { return mnFkCompIncTypeId; }
+    public int getFkItemId() { return mnFkItemId; }
+    public int getFkFamilyId() { return mnFkFamilyId; }
     public int getFkItemTypeId() { return mnFkItemTypeId; }
     public int getFkUnitId() { return mnFkUnitId; }
     
@@ -125,9 +143,13 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow, DLibReg
 
     public void setXtaCompTypeCode(String s) { msXtaCompTypeCode = s; }
     public void setXtaCompTypeName(String s) { msXtaCompTypeName = s; }
+    public void setXtaCompIncTypeCode(String s) { msXtaCompIncTypeCode = s; }
+    public void setXtaCompIncTypeName(String s) { msXtaCompIncTypeName = s; }
     
     public String getXtaCompTypeCode() { return msXtaCompTypeCode; }
     public String getXtaCompTypeName() { return msXtaCompTypeName; }
+    public String getXtaCompIncTypeCode() { return msXtaCompIncTypeCode; }
+    public String getXtaCompIncTypeName() { return msXtaCompIncTypeName; }
     
     @Override
     public void setPrimaryKey(int[] pk) {
@@ -149,9 +171,13 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow, DLibReg
         mdQuantity = 0;
         mdMassUnit = 0;
         mdMass_r = 0;
-        mbStandard = false;
+        mdBrix = 0;
+        mdMassSolid_r = 0;
+        msExclusionLabel = "";
         mnFkCompTypeId = 0;
-        mnFkCompId = 0;
+        mnFkCompIncTypeId = 0;
+        mnFkItemId = 0;
+        mnFkFamilyId = 0;
         mnFkItemTypeId = 0;
         mnFkUnitId = 0;
         
@@ -161,6 +187,8 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow, DLibReg
         
         msXtaCompTypeCode = "";
         msXtaCompTypeName = "";
+        msXtaCompIncTypeCode = "";
+        msXtaCompIncTypeName = "";
     }
 
     @Override
@@ -211,9 +239,13 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow, DLibReg
             mdQuantity = resultSet.getDouble("qty");
             mdMassUnit = resultSet.getDouble("mass_unt");
             mdMass_r = resultSet.getDouble("mass_r");
-            mbStandard = resultSet.getBoolean("b_std");
+            mdBrix = resultSet.getDouble("brix");
+            mdMassSolid_r = resultSet.getDouble("mass_sld_r");
+            msExclusionLabel = resultSet.getString("exc_lab");
             mnFkCompTypeId = resultSet.getInt("fk_cmp_tp");
-            mnFkCompId = resultSet.getInt("fk_cmp");
+            mnFkCompIncTypeId = resultSet.getInt("fk_cmp_inc_tp");
+            mnFkItemId = resultSet.getInt("fk_itm");
+            mnFkFamilyId = resultSet.getInt("fk_fam");
             mnFkItemTypeId = resultSet.getInt("fk_itm_tp");
             mnFkUnitId = resultSet.getInt("fk_uom");
 
@@ -238,16 +270,20 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow, DLibReg
 
             msSql = "INSERT INTO " + getSqlTable() + " VALUES (" +
                     mnPkFormulaId + ", " + 
-                   mnPkCompId + ", " + 
-                   mdQuantity + ", " + 
-                   mdMassUnit + ", " + 
-                   mdMass_r + ", " + 
-                   (mbStandard ? 1 : 0) + ", " + 
-                   mnFkCompTypeId + ", " + 
-                   mnFkCompId + ", " + 
-                   mnFkItemTypeId + ", " + 
-                   mnFkUnitId + " " + 
-                   ")";
+                    mnPkCompId + ", " + 
+                    mdQuantity + ", " + 
+                    mdMassUnit + ", " + 
+                    mdMass_r + ", " + 
+                    mdBrix + ", " + 
+                    mdMassSolid_r + ", " + 
+                    "'" + msExclusionLabel + "', " + 
+                    mnFkCompTypeId + ", " + 
+                    mnFkCompIncTypeId + ", " + 
+                    mnFkItemId + ", " + 
+                    mnFkFamilyId + ", " + 
+                    mnFkItemTypeId + ", " + 
+                    mnFkUnitId + " " + 
+                    ")";
         }
         else {
             throw new Exception(DDbConsts.ERR_MSG_REG_NON_UPDATABLE);
@@ -267,9 +303,13 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow, DLibReg
         registry.setQuantity(this.getQuantity());
         registry.setMassUnit(this.getMassUnit());
         registry.setMass_r(this.getMass_r());
-        registry.setStandard(this.isStandard());
+        registry.setBrix(this.getBrix());
+        registry.setMassSolid_r(this.getMassSolid_r());
+        registry.setExclusionLabel(this.getExclusionLabel());
         registry.setFkCompTypeId(this.getFkCompTypeId());
-        registry.setFkCompId(this.getFkCompId());
+        registry.setFkCompIncTypeId(this.getFkCompIncTypeId());
+        registry.setFkItemId(this.getFkItemId());
+        registry.setFkFamilyId(this.getFkFamilyId());
         registry.setFkItemTypeId(this.getFkItemTypeId());
         registry.setFkUnitId(this.getFkUnitId());
 
@@ -279,6 +319,8 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow, DLibReg
         
         registry.setXtaCompTypeCode(this.getXtaCompTypeCode());
         registry.setXtaCompTypeName(this.getXtaCompTypeName());
+        registry.setXtaCompIncTypeCode(this.getXtaCompIncTypeCode());
+        registry.setXtaCompIncTypeName(this.getXtaCompIncTypeName());
         
         registry.setRegistryNew(this.isRegistryNew());
         return registry;
@@ -370,7 +412,16 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow, DLibReg
                 value = moRegUnit.getCode();
                 break;
             case 7:
-                value = mbStandard;
+                value = mdMass_r;
+                break;
+            case 8:
+                value = mdMassSolid_r;
+                break;
+            case 9:
+                value = msXtaCompIncTypeCode;
+                break;
+            case 10:
+                value = msExclusionLabel;
                 break;
             default:
         }
@@ -389,6 +440,7 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow, DLibReg
         readXtaMembers(session);
         
         mdMass_r = DLibUtils.round(mdMassUnit * mdQuantity, DLibUtils.getDecimalFormatQuantity().getMaximumFractionDigits());
+        mdMassSolid_r = DLibUtils.round(mdMass_r * (mdBrix / DCfgConsts.BRIX_MAX), DLibUtils.getDecimalFormatQuantity().getMaximumFractionDigits());
     }
     
     public DDbJobReqment createJobReqment(final double loads) throws CloneNotSupportedException {
@@ -399,9 +451,13 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow, DLibReg
         registry.setQuantity(this.getQuantity() * loads);
         registry.setMassUnit(this.getMassUnit());
         registry.setMass_r(this.getMass_r() * loads);
-        registry.setStandard(this.isStandard());
+        registry.setBrix(this.getBrix());
+        registry.setMassSolid_r(this.getMassSolid_r() * loads);
+        registry.setExclusionLabel(this.getExclusionLabel());
         registry.setFkCompTypeId(this.getFkCompTypeId());
-        registry.setFkCompId(this.getFkCompId());
+        registry.setFkCompIncTypeId(this.getFkCompIncTypeId());
+        registry.setFkItemId(this.getFkItemId());
+        registry.setFkFamilyId(this.getFkFamilyId());
         registry.setFkItemTypeId(this.getFkItemTypeId());
         registry.setFkUnitId(this.getFkUnitId());
         
@@ -411,6 +467,8 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow, DLibReg
         
         registry.setXtaCompTypeCode(this.getXtaCompTypeCode());
         registry.setXtaCompTypeName(this.getXtaCompTypeName());
+        registry.setXtaCompIncTypeCode(this.getXtaCompIncTypeCode());
+        registry.setXtaCompIncTypeName(this.getXtaCompIncTypeName());
         
         registry.setRegistryNew(this.isRegistryNew());
         return registry;

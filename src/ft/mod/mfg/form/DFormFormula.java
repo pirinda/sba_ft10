@@ -7,7 +7,9 @@ package ft.mod.mfg.form;
 
 import ft.mod.DModConsts;
 import ft.mod.DModSysConsts;
+import ft.mod.cfg.db.DCfgConsts;
 import ft.mod.cfg.db.DCfgUtils;
+import ft.mod.cfg.db.DDbFamily;
 import ft.mod.cfg.db.DDbItem;
 import ft.mod.mfg.db.DDbFormula;
 import ft.mod.mfg.db.DDbFormulaComp;
@@ -50,9 +52,12 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
 
     private DDbFormula moRegistry;
     private DGuiFieldKeyGroup moKeyGroupItem;
+    private DGuiFieldKeyGroup moKeyGroupComp;
     private DGuiFields moFieldsComps;
     private DGridPaneForm moPaneFormComps;
-    private DDbItem moItem;
+    private DDbItem moItemForm;
+    private DDbItem moItemComp;
+    private DDbFamily moFamilyComp;
     private JButton mjCompMoveUp;
     private JButton mjCompMoveDown;
 
@@ -80,62 +85,106 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
         jlFormulaType = new javax.swing.JLabel();
         moKeyFormulaType = new sba.lib.gui.bean.DBeanFieldKey();
         jPanel6 = new javax.swing.JPanel();
-        jlItemType = new javax.swing.JLabel();
-        moKeyItemType = new sba.lib.gui.bean.DBeanFieldKey();
+        jlFormItemType = new javax.swing.JLabel();
+        moKeyFormItemType = new sba.lib.gui.bean.DBeanFieldKey();
         jPanel16 = new javax.swing.JPanel();
-        jlFamily = new javax.swing.JLabel();
-        moKeyFamily = new sba.lib.gui.bean.DBeanFieldKey();
+        jlFormFamily = new javax.swing.JLabel();
+        moKeyFormFamily = new sba.lib.gui.bean.DBeanFieldKey();
         jPanel15 = new javax.swing.JPanel();
-        jlItem = new javax.swing.JLabel();
-        moKeyItem = new sba.lib.gui.bean.DBeanFieldKey();
-        jPanel9 = new javax.swing.JPanel();
-        jlQuantity = new javax.swing.JLabel();
-        moCompQuantity = new sba.lib.gui.bean.DBeanCompoundField();
-        jPanel12 = new javax.swing.JPanel();
-        jlReference = new javax.swing.JLabel();
-        moTextReference = new sba.lib.gui.bean.DBeanFieldText();
-        jpFormula2 = new javax.swing.JPanel();
-        jPanel18 = new javax.swing.JPanel();
-        jlCode = new javax.swing.JLabel();
-        jtfCode = new javax.swing.JTextField();
-        jPanel19 = new javax.swing.JPanel();
-        jlName = new javax.swing.JLabel();
-        jtfName = new javax.swing.JTextField();
+        jlFormItem = new javax.swing.JLabel();
+        moKeyFormItem = new sba.lib.gui.bean.DBeanFieldKey();
         jPanel21 = new javax.swing.JPanel();
-        jlUnit = new javax.swing.JLabel();
-        jtfUnit = new javax.swing.JTextField();
+        jlFormUnit = new javax.swing.JLabel();
+        jtfFormUnit = new javax.swing.JTextField();
         jPanel8 = new javax.swing.JPanel();
-        jlPresent = new javax.swing.JLabel();
-        jtfPresent = new javax.swing.JTextField();
+        jlFormPresent = new javax.swing.JLabel();
+        jtfFormPresent = new javax.swing.JTextField();
+        jPanel12 = new javax.swing.JPanel();
+        jlFormReference = new javax.swing.JLabel();
+        moTextFormReference = new sba.lib.gui.bean.DBeanFieldText();
+        jpFormula2 = new javax.swing.JPanel();
+        jpFormula21 = new javax.swing.JPanel();
+        jPanel9 = new javax.swing.JPanel();
+        jlItemQuantity = new javax.swing.JLabel();
+        moCompItemQuantity = new sba.lib.gui.bean.DBeanCompoundField();
         jPanel22 = new javax.swing.JPanel();
-        jlMassUnit = new javax.swing.JLabel();
-        moCompMassUnit = new sba.lib.gui.bean.DBeanCompoundField();
+        jlItemMassUnit = new javax.swing.JLabel();
+        moCompItemMassUnit = new sba.lib.gui.bean.DBeanCompoundField();
         jPanel1 = new javax.swing.JPanel();
-        jlMassCalc = new javax.swing.JLabel();
-        moCompMassCalc = new sba.lib.gui.bean.DBeanCompoundField();
+        jlItemMass = new javax.swing.JLabel();
+        moCompItemMass = new sba.lib.gui.bean.DBeanCompoundField();
         jPanel23 = new javax.swing.JPanel();
-        jlMass = new javax.swing.JLabel();
-        moCompMass = new sba.lib.gui.bean.DBeanCompoundField();
-        jpFormulaComps = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
-        jPanel4 = new javax.swing.JPanel();
-        moRadCompTypeFamily = new sba.lib.gui.bean.DBeanFieldRadio();
-        jlCompItemType = new javax.swing.JLabel();
-        jlCompComponent = new javax.swing.JLabel();
-        jlCompQuantity = new javax.swing.JLabel();
-        jPanel11 = new javax.swing.JPanel();
+        jlItemBrix = new javax.swing.JLabel();
+        moCompItemBrix = new sba.lib.gui.bean.DBeanCompoundField();
+        jPanel24 = new javax.swing.JPanel();
+        jlItemMassSolid = new javax.swing.JLabel();
+        moCompItemMassSolid = new sba.lib.gui.bean.DBeanCompoundField();
+        jpFormula22 = new javax.swing.JPanel();
+        jPanel10 = new javax.swing.JPanel();
+        jlFormMass = new javax.swing.JLabel();
+        moCompFormMass = new sba.lib.gui.bean.DBeanCompoundField();
+        jPanel25 = new javax.swing.JPanel();
+        jlFormMassSolid = new javax.swing.JLabel();
+        moCompFormMassSolid = new sba.lib.gui.bean.DBeanCompoundField();
+        jPanel13 = new javax.swing.JPanel();
+        jlFormBrix = new javax.swing.JLabel();
+        moCompFormBrix = new sba.lib.gui.bean.DBeanCompoundField();
+        jPanel26 = new javax.swing.JPanel();
+        jlObjectiveBrix = new javax.swing.JLabel();
+        moCompObjectiveBrix = new sba.lib.gui.bean.DBeanCompoundField();
+        jPanel27 = new javax.swing.JPanel();
+        jlObjectiveMass = new javax.swing.JLabel();
+        moCompObjectiveMass = new sba.lib.gui.bean.DBeanCompoundField();
+        jpComps = new javax.swing.JPanel();
+        jpComps1 = new javax.swing.JPanel();
+        jpComps11 = new javax.swing.JPanel();
+        jPanel14 = new javax.swing.JPanel();
         moRadCompTypeItem = new sba.lib.gui.bean.DBeanFieldRadio();
+        moRadCompTypeFamily = new sba.lib.gui.bean.DBeanFieldRadio();
+        jPanel17 = new javax.swing.JPanel();
+        jlCompItemType = new javax.swing.JLabel();
         moKeyCompItemType = new sba.lib.gui.bean.DBeanFieldKey();
-        moKeyCompComponent = new sba.lib.gui.bean.DBeanFieldKey();
+        jPanel20 = new javax.swing.JPanel();
+        jlCompFamily = new javax.swing.JLabel();
+        moKeyCompFamily = new sba.lib.gui.bean.DBeanFieldKey();
+        jPanel18 = new javax.swing.JPanel();
+        jlCompItem = new javax.swing.JLabel();
+        moKeyCompItem = new sba.lib.gui.bean.DBeanFieldKey();
+        jPanel19 = new javax.swing.JPanel();
+        jlCompUnit = new javax.swing.JLabel();
+        jtfCompUnit = new javax.swing.JTextField();
+        jpComps12 = new javax.swing.JPanel();
+        jpComps121 = new javax.swing.JPanel();
+        jPanel11 = new javax.swing.JPanel();
+        jlCompQuantity = new javax.swing.JLabel();
         moCompCompQuantity = new sba.lib.gui.bean.DBeanCompoundField();
-        moBoolCompStandard = new sba.lib.gui.bean.DBeanFieldBoolean();
+        jPanel7 = new javax.swing.JPanel();
+        jlCompMassUnit = new javax.swing.JLabel();
+        moCompCompMassUnit = new sba.lib.gui.bean.DBeanCompoundField();
+        jPanel4 = new javax.swing.JPanel();
+        jlCompMass = new javax.swing.JLabel();
+        moCompCompMass = new sba.lib.gui.bean.DBeanCompoundField();
+        jPanel31 = new javax.swing.JPanel();
+        jlCompBrix = new javax.swing.JLabel();
+        moCompCompBrix = new sba.lib.gui.bean.DBeanCompoundField();
+        jPanel32 = new javax.swing.JPanel();
+        jlCompMassSolid = new javax.swing.JLabel();
+        moCompCompMassSolid = new sba.lib.gui.bean.DBeanCompoundField();
+        jpComps122 = new javax.swing.JPanel();
+        jPanel34 = new javax.swing.JPanel();
+        jlCompCompIncType = new javax.swing.JLabel();
+        moKeyCompCompIncType = new sba.lib.gui.bean.DBeanFieldKey();
+        jPanel35 = new javax.swing.JPanel();
+        jlCompExclusionLabel = new javax.swing.JLabel();
+        moTextCompExclusionLabel = new sba.lib.gui.bean.DBeanFieldText();
+        jPanel33 = new javax.swing.JPanel();
         jbCompAdd = new javax.swing.JButton();
         jbCompClear = new javax.swing.JButton();
 
         jpContainer.setLayout(new java.awt.BorderLayout());
 
         jpFormula.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos del registro:"));
-        jpFormula.setLayout(new java.awt.GridLayout(1, 2));
+        jpFormula.setLayout(new java.awt.BorderLayout());
 
         jpFormula1.setLayout(new java.awt.GridLayout(7, 1, 0, 5));
 
@@ -152,267 +201,477 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
 
         jPanel6.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
-        jlItemType.setText("Tipo producto:*");
-        jlItemType.setPreferredSize(new java.awt.Dimension(100, 23));
-        jPanel6.add(jlItemType);
+        jlFormItemType.setText("Tipo ítem:*");
+        jlFormItemType.setPreferredSize(new java.awt.Dimension(100, 23));
+        jPanel6.add(jlFormItemType);
 
-        moKeyItemType.setPreferredSize(new java.awt.Dimension(200, 23));
-        jPanel6.add(moKeyItemType);
+        moKeyFormItemType.setPreferredSize(new java.awt.Dimension(200, 23));
+        jPanel6.add(moKeyFormItemType);
 
         jpFormula1.add(jPanel6);
 
         jPanel16.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
-        jlFamily.setText("Familia:*");
-        jlFamily.setPreferredSize(new java.awt.Dimension(100, 23));
-        jPanel16.add(jlFamily);
+        jlFormFamily.setText("Familia:*");
+        jlFormFamily.setPreferredSize(new java.awt.Dimension(100, 23));
+        jPanel16.add(jlFormFamily);
 
-        moKeyFamily.setPreferredSize(new java.awt.Dimension(200, 23));
-        jPanel16.add(moKeyFamily);
+        moKeyFormFamily.setPreferredSize(new java.awt.Dimension(200, 23));
+        jPanel16.add(moKeyFormFamily);
 
         jpFormula1.add(jPanel16);
 
         jPanel15.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
-        jlItem.setText("Producto:*");
-        jlItem.setPreferredSize(new java.awt.Dimension(100, 23));
-        jPanel15.add(jlItem);
+        jlFormItem.setText("Producto:*");
+        jlFormItem.setPreferredSize(new java.awt.Dimension(100, 23));
+        jPanel15.add(jlFormItem);
 
-        moKeyItem.setPreferredSize(new java.awt.Dimension(300, 23));
-        jPanel15.add(moKeyItem);
+        moKeyFormItem.setPreferredSize(new java.awt.Dimension(300, 23));
+        jPanel15.add(moKeyFormItem);
 
         jpFormula1.add(jPanel15);
 
-        jPanel9.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
-
-        jlQuantity.setText("Cantidad:*");
-        jlQuantity.setPreferredSize(new java.awt.Dimension(100, 23));
-        jPanel9.add(jlQuantity);
-        jPanel9.add(moCompQuantity);
-
-        jpFormula1.add(jPanel9);
-
-        jPanel12.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
-
-        jlReference.setText("Referencia:");
-        jlReference.setPreferredSize(new java.awt.Dimension(100, 23));
-        jPanel12.add(jlReference);
-
-        moTextReference.setPreferredSize(new java.awt.Dimension(200, 23));
-        jPanel12.add(moTextReference);
-
-        jpFormula1.add(jPanel12);
-
-        jpFormula.add(jpFormula1);
-
-        jpFormula2.setLayout(new java.awt.GridLayout(7, 1, 0, 5));
-
-        jPanel18.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
-
-        jlCode.setText("Código producto:");
-        jlCode.setPreferredSize(new java.awt.Dimension(100, 23));
-        jPanel18.add(jlCode);
-
-        jtfCode.setEditable(false);
-        jtfCode.setFocusable(false);
-        jtfCode.setPreferredSize(new java.awt.Dimension(100, 23));
-        jPanel18.add(jtfCode);
-
-        jpFormula2.add(jPanel18);
-
-        jPanel19.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
-
-        jlName.setText("Nombre producto:");
-        jlName.setPreferredSize(new java.awt.Dimension(100, 23));
-        jPanel19.add(jlName);
-
-        jtfName.setEditable(false);
-        jtfName.setFocusable(false);
-        jtfName.setPreferredSize(new java.awt.Dimension(300, 23));
-        jPanel19.add(jtfName);
-
-        jpFormula2.add(jPanel19);
-
         jPanel21.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
-        jlUnit.setText("Unidad medida:");
-        jlUnit.setPreferredSize(new java.awt.Dimension(100, 23));
-        jPanel21.add(jlUnit);
+        jlFormUnit.setText("Unidad medida:");
+        jlFormUnit.setPreferredSize(new java.awt.Dimension(100, 23));
+        jPanel21.add(jlFormUnit);
 
-        jtfUnit.setEditable(false);
-        jtfUnit.setFocusable(false);
-        jtfUnit.setPreferredSize(new java.awt.Dimension(200, 23));
-        jPanel21.add(jtfUnit);
+        jtfFormUnit.setEditable(false);
+        jtfFormUnit.setFocusable(false);
+        jtfFormUnit.setPreferredSize(new java.awt.Dimension(200, 23));
+        jPanel21.add(jtfFormUnit);
 
-        jpFormula2.add(jPanel21);
+        jpFormula1.add(jPanel21);
 
         jPanel8.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
-        jlPresent.setText("Presentación:");
-        jlPresent.setPreferredSize(new java.awt.Dimension(100, 23));
-        jPanel8.add(jlPresent);
+        jlFormPresent.setText("Presentación:");
+        jlFormPresent.setPreferredSize(new java.awt.Dimension(100, 23));
+        jPanel8.add(jlFormPresent);
 
-        jtfPresent.setEditable(false);
-        jtfPresent.setFocusable(false);
-        jtfPresent.setPreferredSize(new java.awt.Dimension(200, 23));
-        jPanel8.add(jtfPresent);
+        jtfFormPresent.setEditable(false);
+        jtfFormPresent.setFocusable(false);
+        jtfFormPresent.setPreferredSize(new java.awt.Dimension(200, 23));
+        jPanel8.add(jtfFormPresent);
 
-        jpFormula2.add(jPanel8);
+        jpFormula1.add(jPanel8);
+
+        jPanel12.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
+
+        jlFormReference.setText("Referencia:");
+        jlFormReference.setPreferredSize(new java.awt.Dimension(100, 23));
+        jPanel12.add(jlFormReference);
+
+        moTextFormReference.setPreferredSize(new java.awt.Dimension(200, 23));
+        jPanel12.add(moTextFormReference);
+
+        jpFormula1.add(jPanel12);
+
+        jpFormula.add(jpFormula1, java.awt.BorderLayout.CENTER);
+
+        jpFormula2.setLayout(new java.awt.GridLayout(1, 2));
+
+        jpFormula21.setLayout(new java.awt.GridLayout(7, 1, 0, 5));
+
+        jPanel9.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
+
+        jlItemQuantity.setText("Cantidad prod.:*");
+        jlItemQuantity.setPreferredSize(new java.awt.Dimension(100, 23));
+        jPanel9.add(jlItemQuantity);
+        jPanel9.add(moCompItemQuantity);
+
+        jpFormula21.add(jPanel9);
 
         jPanel22.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
-        jlMassUnit.setText("Masa unitaria:");
-        jlMassUnit.setPreferredSize(new java.awt.Dimension(100, 23));
-        jPanel22.add(jlMassUnit);
-        jPanel22.add(moCompMassUnit);
+        jlItemMassUnit.setText("Masa unit. prod.:");
+        jlItemMassUnit.setPreferredSize(new java.awt.Dimension(100, 23));
+        jPanel22.add(jlItemMassUnit);
 
-        jpFormula2.add(jPanel22);
+        moCompItemMassUnit.setEditable(false);
+        jPanel22.add(moCompItemMassUnit);
+
+        jpFormula21.add(jPanel22);
 
         jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
-        jlMassCalc.setText("Masa calculada:");
-        jlMassCalc.setPreferredSize(new java.awt.Dimension(100, 23));
-        jPanel1.add(jlMassCalc);
-        jPanel1.add(moCompMassCalc);
+        jlItemMass.setText("Masa prod.:");
+        jlItemMass.setPreferredSize(new java.awt.Dimension(100, 23));
+        jPanel1.add(jlItemMass);
 
-        jpFormula2.add(jPanel1);
+        moCompItemMass.setEditable(false);
+        jPanel1.add(moCompItemMass);
+
+        jpFormula21.add(jPanel1);
 
         jPanel23.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
-        jlMass.setText("Masa fórmula:");
-        jlMass.setPreferredSize(new java.awt.Dimension(100, 23));
-        jPanel23.add(jlMass);
-        jPanel23.add(moCompMass);
+        jlItemBrix.setText("°Bx prod.:");
+        jlItemBrix.setPreferredSize(new java.awt.Dimension(100, 23));
+        jPanel23.add(jlItemBrix);
 
-        jpFormula2.add(jPanel23);
+        moCompItemBrix.setEditable(false);
+        jPanel23.add(moCompItemBrix);
 
-        jpFormula.add(jpFormula2);
+        jpFormula21.add(jPanel23);
+
+        jPanel24.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
+
+        jlItemMassSolid.setText("Masa sólida prod.:");
+        jlItemMassSolid.setPreferredSize(new java.awt.Dimension(100, 23));
+        jPanel24.add(jlItemMassSolid);
+
+        moCompItemMassSolid.setEditable(false);
+        jPanel24.add(moCompItemMassSolid);
+
+        jpFormula21.add(jPanel24);
+
+        jpFormula2.add(jpFormula21);
+
+        jpFormula22.setLayout(new java.awt.GridLayout(7, 1, 0, 5));
+
+        jPanel10.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
+
+        jlFormMass.setText("Masa fórm.:");
+        jlFormMass.setPreferredSize(new java.awt.Dimension(100, 23));
+        jPanel10.add(jlFormMass);
+
+        moCompFormMass.setEditable(false);
+        jPanel10.add(moCompFormMass);
+
+        jpFormula22.add(jPanel10);
+
+        jPanel25.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
+
+        jlFormMassSolid.setText("Masa sólida fórm.:");
+        jlFormMassSolid.setPreferredSize(new java.awt.Dimension(100, 23));
+        jPanel25.add(jlFormMassSolid);
+
+        moCompFormMassSolid.setEditable(false);
+        jPanel25.add(moCompFormMassSolid);
+
+        jpFormula22.add(jPanel25);
+
+        jPanel13.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
+
+        jlFormBrix.setText("°Bx fórm.:");
+        jlFormBrix.setPreferredSize(new java.awt.Dimension(100, 23));
+        jPanel13.add(jlFormBrix);
+
+        moCompFormBrix.setEditable(false);
+        jPanel13.add(moCompFormBrix);
+
+        jpFormula22.add(jPanel13);
+
+        jPanel26.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
+
+        jlObjectiveBrix.setText("°Bx meta fórm.:*");
+        jlObjectiveBrix.setPreferredSize(new java.awt.Dimension(100, 23));
+        jPanel26.add(jlObjectiveBrix);
+        jPanel26.add(moCompObjectiveBrix);
+
+        jpFormula22.add(jPanel26);
+
+        jPanel27.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
+
+        jlObjectiveMass.setText("Masa meta fórm.:");
+        jlObjectiveMass.setPreferredSize(new java.awt.Dimension(100, 23));
+        jPanel27.add(jlObjectiveMass);
+
+        moCompObjectiveMass.setEditable(false);
+        jPanel27.add(moCompObjectiveMass);
+
+        jpFormula22.add(jPanel27);
+
+        jpFormula2.add(jpFormula22);
+
+        jpFormula.add(jpFormula2, java.awt.BorderLayout.EAST);
 
         jpContainer.add(jpFormula, java.awt.BorderLayout.NORTH);
 
-        jpFormulaComps.setBorder(javax.swing.BorderFactory.createTitledBorder("Componentes:"));
-        jpFormulaComps.setLayout(new java.awt.BorderLayout());
+        jpComps.setBorder(javax.swing.BorderFactory.createTitledBorder("Componentes:"));
+        jpComps.setLayout(new java.awt.BorderLayout());
 
-        jPanel3.setLayout(new java.awt.GridLayout(2, 1, 0, 5));
+        jpComps1.setLayout(new java.awt.BorderLayout());
 
-        jPanel4.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
+        jpComps11.setLayout(new java.awt.GridLayout(5, 1, 0, 5));
 
-        jbgCompType.add(moRadCompTypeFamily);
-        moRadCompTypeFamily.setText("Familia");
-        jPanel4.add(moRadCompTypeFamily);
-
-        jlCompItemType.setText("Tipo ítem:*");
-        jlCompItemType.setPreferredSize(new java.awt.Dimension(200, 23));
-        jPanel4.add(jlCompItemType);
-
-        jlCompComponent.setText("Componente:*");
-        jlCompComponent.setPreferredSize(new java.awt.Dimension(300, 23));
-        jPanel4.add(jlCompComponent);
-
-        jlCompQuantity.setText("Cantidad:");
-        jlCompQuantity.setPreferredSize(new java.awt.Dimension(140, 23));
-        jPanel4.add(jlCompQuantity);
-
-        jPanel3.add(jPanel4);
-
-        jPanel11.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
+        jPanel14.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
         jbgCompType.add(moRadCompTypeItem);
         moRadCompTypeItem.setText("Ítem");
-        jPanel11.add(moRadCompTypeItem);
+        jPanel14.add(moRadCompTypeItem);
+
+        jbgCompType.add(moRadCompTypeFamily);
+        moRadCompTypeFamily.setText("Familia");
+        jPanel14.add(moRadCompTypeFamily);
+
+        jpComps11.add(jPanel14);
+
+        jPanel17.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
+
+        jlCompItemType.setText("Tipo ítem:*");
+        jlCompItemType.setPreferredSize(new java.awt.Dimension(100, 23));
+        jPanel17.add(jlCompItemType);
 
         moKeyCompItemType.setToolTipText("Tipo componente");
         moKeyCompItemType.setPreferredSize(new java.awt.Dimension(200, 23));
-        jPanel11.add(moKeyCompItemType);
+        jPanel17.add(moKeyCompItemType);
 
-        moKeyCompComponent.setToolTipText("Componente");
-        moKeyCompComponent.setPreferredSize(new java.awt.Dimension(300, 23));
-        jPanel11.add(moKeyCompComponent);
+        jpComps11.add(jPanel17);
+
+        jPanel20.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
+
+        jlCompFamily.setText("Familia:*");
+        jlCompFamily.setPreferredSize(new java.awt.Dimension(100, 23));
+        jPanel20.add(jlCompFamily);
+
+        moKeyCompFamily.setPreferredSize(new java.awt.Dimension(200, 23));
+        jPanel20.add(moKeyCompFamily);
+
+        jpComps11.add(jPanel20);
+
+        jPanel18.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
+
+        jlCompItem.setText("Componente:*");
+        jlCompItem.setPreferredSize(new java.awt.Dimension(100, 23));
+        jPanel18.add(jlCompItem);
+
+        moKeyCompItem.setToolTipText("Componente");
+        moKeyCompItem.setPreferredSize(new java.awt.Dimension(300, 23));
+        jPanel18.add(moKeyCompItem);
+
+        jpComps11.add(jPanel18);
+
+        jPanel19.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
+
+        jlCompUnit.setText("Unidad medida:");
+        jlCompUnit.setPreferredSize(new java.awt.Dimension(100, 23));
+        jPanel19.add(jlCompUnit);
+
+        jtfCompUnit.setEditable(false);
+        jtfCompUnit.setFocusable(false);
+        jtfCompUnit.setPreferredSize(new java.awt.Dimension(200, 23));
+        jPanel19.add(jtfCompUnit);
+
+        jpComps11.add(jPanel19);
+
+        jpComps1.add(jpComps11, java.awt.BorderLayout.CENTER);
+
+        jpComps12.setLayout(new java.awt.GridLayout(1, 2));
+
+        jpComps121.setLayout(new java.awt.GridLayout(5, 1, 0, 5));
+
+        jPanel11.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
+
+        jlCompQuantity.setText("Cantidad comp.:*");
+        jlCompQuantity.setPreferredSize(new java.awt.Dimension(100, 23));
+        jPanel11.add(jlCompQuantity);
         jPanel11.add(moCompCompQuantity);
 
-        moBoolCompStandard.setText("Estándar");
-        moBoolCompStandard.setPreferredSize(new java.awt.Dimension(75, 23));
-        jPanel11.add(moBoolCompStandard);
+        jpComps121.add(jPanel11);
+
+        jPanel7.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
+
+        jlCompMassUnit.setText("Masa unit. comp.:");
+        jlCompMassUnit.setPreferredSize(new java.awt.Dimension(100, 23));
+        jPanel7.add(jlCompMassUnit);
+
+        moCompCompMassUnit.setEditable(false);
+        jPanel7.add(moCompCompMassUnit);
+
+        jpComps121.add(jPanel7);
+
+        jPanel4.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
+
+        jlCompMass.setText("Masa comp.:");
+        jlCompMass.setPreferredSize(new java.awt.Dimension(100, 23));
+        jPanel4.add(jlCompMass);
+
+        moCompCompMass.setEditable(false);
+        jPanel4.add(moCompCompMass);
+
+        jpComps121.add(jPanel4);
+
+        jPanel31.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
+
+        jlCompBrix.setText("°Bx comp.:");
+        jlCompBrix.setPreferredSize(new java.awt.Dimension(100, 23));
+        jPanel31.add(jlCompBrix);
+
+        moCompCompBrix.setEditable(false);
+        jPanel31.add(moCompCompBrix);
+
+        jpComps121.add(jPanel31);
+
+        jPanel32.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
+
+        jlCompMassSolid.setText("Masa sólida comp.:");
+        jlCompMassSolid.setPreferredSize(new java.awt.Dimension(100, 23));
+        jPanel32.add(jlCompMassSolid);
+
+        moCompCompMassSolid.setEditable(false);
+        jPanel32.add(moCompCompMassSolid);
+
+        jpComps121.add(jPanel32);
+
+        jpComps12.add(jpComps121);
+
+        jpComps122.setLayout(new java.awt.GridLayout(5, 1, 0, 5));
+
+        jPanel34.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
+
+        jlCompCompIncType.setText("Tipo incorp.:*");
+        jlCompCompIncType.setPreferredSize(new java.awt.Dimension(100, 23));
+        jPanel34.add(jlCompCompIncType);
+
+        moKeyCompCompIncType.setPreferredSize(new java.awt.Dimension(140, 23));
+        jPanel34.add(moKeyCompCompIncType);
+
+        jpComps122.add(jPanel34);
+
+        jPanel35.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
+
+        jlCompExclusionLabel.setText("Etiq. exclusión:*");
+        jlCompExclusionLabel.setPreferredSize(new java.awt.Dimension(100, 23));
+        jPanel35.add(jlCompExclusionLabel);
+
+        moTextCompExclusionLabel.setPreferredSize(new java.awt.Dimension(140, 23));
+        jPanel35.add(moTextCompExclusionLabel);
+
+        jpComps122.add(jPanel35);
+
+        jPanel33.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT, 5, 0));
 
         jbCompAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sba/lib/img/cmd_std_add.gif"))); // NOI18N
         jbCompAdd.setToolTipText("Agregar");
         jbCompAdd.setPreferredSize(new java.awt.Dimension(23, 23));
-        jPanel11.add(jbCompAdd);
+        jPanel33.add(jbCompAdd);
 
         jbCompClear.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sba/lib/img/cmd_std_clear.gif"))); // NOI18N
         jbCompClear.setToolTipText("Limpiar");
         jbCompClear.setPreferredSize(new java.awt.Dimension(23, 23));
-        jPanel11.add(jbCompClear);
+        jPanel33.add(jbCompClear);
 
-        jPanel3.add(jPanel11);
+        jpComps122.add(jPanel33);
 
-        jpFormulaComps.add(jPanel3, java.awt.BorderLayout.PAGE_START);
+        jpComps12.add(jpComps122);
 
-        jpContainer.add(jpFormulaComps, java.awt.BorderLayout.CENTER);
+        jpComps1.add(jpComps12, java.awt.BorderLayout.EAST);
+
+        jpComps.add(jpComps1, java.awt.BorderLayout.NORTH);
+
+        jpContainer.add(jpComps, java.awt.BorderLayout.CENTER);
 
         getContentPane().add(jpContainer, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel13;
+    private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel16;
+    private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel18;
     private javax.swing.JPanel jPanel19;
+    private javax.swing.JPanel jPanel20;
     private javax.swing.JPanel jPanel21;
     private javax.swing.JPanel jPanel22;
     private javax.swing.JPanel jPanel23;
-    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel24;
+    private javax.swing.JPanel jPanel25;
+    private javax.swing.JPanel jPanel26;
+    private javax.swing.JPanel jPanel27;
+    private javax.swing.JPanel jPanel31;
+    private javax.swing.JPanel jPanel32;
+    private javax.swing.JPanel jPanel33;
+    private javax.swing.JPanel jPanel34;
+    private javax.swing.JPanel jPanel35;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JButton jbCompAdd;
     private javax.swing.JButton jbCompClear;
     private javax.swing.ButtonGroup jbgCompType;
-    private javax.swing.JLabel jlCode;
-    private javax.swing.JLabel jlCompComponent;
+    private javax.swing.JLabel jlCompBrix;
+    private javax.swing.JLabel jlCompCompIncType;
+    private javax.swing.JLabel jlCompExclusionLabel;
+    private javax.swing.JLabel jlCompFamily;
+    private javax.swing.JLabel jlCompItem;
     private javax.swing.JLabel jlCompItemType;
+    private javax.swing.JLabel jlCompMass;
+    private javax.swing.JLabel jlCompMassSolid;
+    private javax.swing.JLabel jlCompMassUnit;
     private javax.swing.JLabel jlCompQuantity;
-    private javax.swing.JLabel jlFamily;
+    private javax.swing.JLabel jlCompUnit;
+    private javax.swing.JLabel jlFormBrix;
+    private javax.swing.JLabel jlFormFamily;
+    private javax.swing.JLabel jlFormItem;
+    private javax.swing.JLabel jlFormItemType;
+    private javax.swing.JLabel jlFormMass;
+    private javax.swing.JLabel jlFormMassSolid;
+    private javax.swing.JLabel jlFormPresent;
+    private javax.swing.JLabel jlFormReference;
+    private javax.swing.JLabel jlFormUnit;
     private javax.swing.JLabel jlFormulaType;
-    private javax.swing.JLabel jlItem;
-    private javax.swing.JLabel jlItemType;
-    private javax.swing.JLabel jlMass;
-    private javax.swing.JLabel jlMassCalc;
-    private javax.swing.JLabel jlMassUnit;
-    private javax.swing.JLabel jlName;
-    private javax.swing.JLabel jlPresent;
-    private javax.swing.JLabel jlQuantity;
-    private javax.swing.JLabel jlReference;
-    private javax.swing.JLabel jlUnit;
+    private javax.swing.JLabel jlItemBrix;
+    private javax.swing.JLabel jlItemMass;
+    private javax.swing.JLabel jlItemMassSolid;
+    private javax.swing.JLabel jlItemMassUnit;
+    private javax.swing.JLabel jlItemQuantity;
+    private javax.swing.JLabel jlObjectiveBrix;
+    private javax.swing.JLabel jlObjectiveMass;
+    private javax.swing.JPanel jpComps;
+    private javax.swing.JPanel jpComps1;
+    private javax.swing.JPanel jpComps11;
+    private javax.swing.JPanel jpComps12;
+    private javax.swing.JPanel jpComps121;
+    private javax.swing.JPanel jpComps122;
     private javax.swing.JPanel jpContainer;
     private javax.swing.JPanel jpFormula;
     private javax.swing.JPanel jpFormula1;
     private javax.swing.JPanel jpFormula2;
-    private javax.swing.JPanel jpFormulaComps;
-    private javax.swing.JTextField jtfCode;
-    private javax.swing.JTextField jtfName;
-    private javax.swing.JTextField jtfPresent;
-    private javax.swing.JTextField jtfUnit;
-    private sba.lib.gui.bean.DBeanFieldBoolean moBoolCompStandard;
+    private javax.swing.JPanel jpFormula21;
+    private javax.swing.JPanel jpFormula22;
+    private javax.swing.JTextField jtfCompUnit;
+    private javax.swing.JTextField jtfFormPresent;
+    private javax.swing.JTextField jtfFormUnit;
+    private sba.lib.gui.bean.DBeanCompoundField moCompCompBrix;
+    private sba.lib.gui.bean.DBeanCompoundField moCompCompMass;
+    private sba.lib.gui.bean.DBeanCompoundField moCompCompMassSolid;
+    private sba.lib.gui.bean.DBeanCompoundField moCompCompMassUnit;
     private sba.lib.gui.bean.DBeanCompoundField moCompCompQuantity;
-    private sba.lib.gui.bean.DBeanCompoundField moCompMass;
-    private sba.lib.gui.bean.DBeanCompoundField moCompMassCalc;
-    private sba.lib.gui.bean.DBeanCompoundField moCompMassUnit;
-    private sba.lib.gui.bean.DBeanCompoundField moCompQuantity;
-    private sba.lib.gui.bean.DBeanFieldKey moKeyCompComponent;
+    private sba.lib.gui.bean.DBeanCompoundField moCompFormBrix;
+    private sba.lib.gui.bean.DBeanCompoundField moCompFormMass;
+    private sba.lib.gui.bean.DBeanCompoundField moCompFormMassSolid;
+    private sba.lib.gui.bean.DBeanCompoundField moCompItemBrix;
+    private sba.lib.gui.bean.DBeanCompoundField moCompItemMass;
+    private sba.lib.gui.bean.DBeanCompoundField moCompItemMassSolid;
+    private sba.lib.gui.bean.DBeanCompoundField moCompItemMassUnit;
+    private sba.lib.gui.bean.DBeanCompoundField moCompItemQuantity;
+    private sba.lib.gui.bean.DBeanCompoundField moCompObjectiveBrix;
+    private sba.lib.gui.bean.DBeanCompoundField moCompObjectiveMass;
+    private sba.lib.gui.bean.DBeanFieldKey moKeyCompCompIncType;
+    private sba.lib.gui.bean.DBeanFieldKey moKeyCompFamily;
+    private sba.lib.gui.bean.DBeanFieldKey moKeyCompItem;
     private sba.lib.gui.bean.DBeanFieldKey moKeyCompItemType;
-    private sba.lib.gui.bean.DBeanFieldKey moKeyFamily;
+    private sba.lib.gui.bean.DBeanFieldKey moKeyFormFamily;
+    private sba.lib.gui.bean.DBeanFieldKey moKeyFormItem;
+    private sba.lib.gui.bean.DBeanFieldKey moKeyFormItemType;
     private sba.lib.gui.bean.DBeanFieldKey moKeyFormulaType;
-    private sba.lib.gui.bean.DBeanFieldKey moKeyItem;
-    private sba.lib.gui.bean.DBeanFieldKey moKeyItemType;
     private sba.lib.gui.bean.DBeanFieldRadio moRadCompTypeFamily;
     private sba.lib.gui.bean.DBeanFieldRadio moRadCompTypeItem;
-    private sba.lib.gui.bean.DBeanFieldText moTextReference;
+    private sba.lib.gui.bean.DBeanFieldText moTextCompExclusionLabel;
+    private sba.lib.gui.bean.DBeanFieldText moTextFormReference;
     // End of variables declaration//GEN-END:variables
 
     /*
@@ -425,60 +684,114 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
         DGuiUtils.setWindowBounds(this, 960, 600);
         
         moKeyFormulaType.setKeySettings(miClient, DGuiUtils.getLabelName(jlFormulaType), true);
-        moKeyItemType.setKeySettings(miClient, DGuiUtils.getLabelName(jlItemType), true);
-        moKeyFamily.setKeySettings(miClient, DGuiUtils.getLabelName(jlFamily), true);
-        moKeyItem.setKeySettings(miClient, DGuiUtils.getLabelName(jlItem), true);
-        moCompQuantity.setCompoundFieldSettings(miClient);
-        moCompQuantity.getField().setDecimalSettings(DGuiUtils.getLabelName(jlQuantity), DGuiConsts.GUI_TYPE_DEC_QTY, true);
-        moTextReference.setTextSettings(DGuiUtils.getLabelName(jlReference), 50, 0);
-        moCompMassUnit.setCompoundFieldSettings(miClient);
-        moCompMassUnit.getField().setDecimalSettings(DGuiUtils.getLabelName(jlMassUnit), DGuiConsts.GUI_TYPE_DEC_AMT_UNIT, false);
-        moCompMass.setCompoundFieldSettings(miClient);
-        moCompMass.getField().setDecimalSettings(DGuiUtils.getLabelName(jlMass), DGuiConsts.GUI_TYPE_DEC_QTY, false);
-        moRadCompTypeFamily.setBooleanSettings(moRadCompTypeFamily.getText(), true);
-        moRadCompTypeItem.setBooleanSettings(moRadCompTypeItem.getText(), false);
-        moKeyCompItemType.setKeySettings(miClient, moKeyCompItemType.getToolTipText(), false);
-        moKeyCompComponent.setKeySettings(miClient, moKeyCompComponent.getToolTipText(), false);
+        moKeyFormItemType.setKeySettings(miClient, DGuiUtils.getLabelName(jlFormItemType), true);
+        moKeyFormFamily.setKeySettings(miClient, DGuiUtils.getLabelName(jlFormFamily), true);
+        moKeyFormItem.setKeySettings(miClient, DGuiUtils.getLabelName(jlFormItem), true);
+        moTextFormReference.setTextSettings(DGuiUtils.getLabelName(jlFormReference), 50, 0);
+        
+        moCompItemQuantity.setCompoundFieldSettings(miClient);
+        moCompItemQuantity.getField().setDecimalSettings(DGuiUtils.getLabelName(jlItemQuantity), DGuiConsts.GUI_TYPE_DEC_QTY, true);
+        moCompItemMassUnit.setCompoundFieldSettings(miClient);
+        moCompItemMassUnit.getField().setDecimalSettings(DGuiUtils.getLabelName(jlItemMassUnit), DGuiConsts.GUI_TYPE_DEC_AMT_UNIT, false);
+        moCompItemMass.setCompoundFieldSettings(miClient);
+        moCompItemMass.getField().setDecimalSettings(DGuiUtils.getLabelName(jlItemMass), DGuiConsts.GUI_TYPE_DEC_QTY, false);
+        moCompItemBrix.setCompoundFieldSettings(miClient);
+        moCompItemBrix.getField().setDecimalSettings(DGuiUtils.getLabelName(jlItemBrix), DGuiConsts.GUI_TYPE_DEC_QTY, false);
+        moCompItemMassSolid.setCompoundFieldSettings(miClient);
+        moCompItemMassSolid.getField().setDecimalSettings(DGuiUtils.getLabelName(jlItemMassSolid), DGuiConsts.GUI_TYPE_DEC_QTY, false);
+        moCompFormMass.setCompoundFieldSettings(miClient);
+        moCompFormMass.getField().setDecimalSettings(DGuiUtils.getLabelName(jlFormMass), DGuiConsts.GUI_TYPE_DEC_QTY, false);
+        moCompFormMassSolid.setCompoundFieldSettings(miClient);
+        moCompFormMassSolid.getField().setDecimalSettings(DGuiUtils.getLabelName(jlFormMassSolid), DGuiConsts.GUI_TYPE_DEC_QTY, false);
+        moCompFormBrix.setCompoundFieldSettings(miClient);
+        moCompFormBrix.getField().setDecimalSettings(DGuiUtils.getLabelName(jlFormBrix), DGuiConsts.GUI_TYPE_DEC_QTY, false);
+        moCompObjectiveBrix.setCompoundFieldSettings(miClient);
+        moCompObjectiveBrix.getField().setDecimalSettings(DGuiUtils.getLabelName(jlObjectiveBrix), DGuiConsts.GUI_TYPE_DEC_QTY, true);
+        moCompObjectiveBrix.getField().setMaxDouble(DCfgConsts.BRIX_MAX);
+        moCompObjectiveMass.setCompoundFieldSettings(miClient);
+        moCompObjectiveMass.getField().setDecimalSettings(DGuiUtils.getLabelName(jlObjectiveMass), DGuiConsts.GUI_TYPE_DEC_QTY, false);
+        
+        moRadCompTypeItem.setBooleanSettings(moRadCompTypeItem.getText(), true);
+        moRadCompTypeFamily.setBooleanSettings(moRadCompTypeFamily.getText(), false);
+        moKeyCompItemType.setKeySettings(miClient, DGuiUtils.getLabelName(jlCompItemType), true);
+        moKeyCompFamily.setKeySettings(miClient, DGuiUtils.getLabelName(jlCompFamily), true);
+        moKeyCompItem.setKeySettings(miClient, DGuiUtils.getLabelName(jlCompItem), true);
+        
         moCompCompQuantity.setCompoundFieldSettings(miClient);
         moCompCompQuantity.getField().setDecimalSettings(DGuiUtils.getLabelName(jlCompQuantity), DGuiConsts.GUI_TYPE_DEC_QTY, false);
-        moBoolCompStandard.setBooleanSettings(moBoolCompStandard.getText(), false);
+        moCompCompMassUnit.setCompoundFieldSettings(miClient);
+        moCompCompMassUnit.getField().setDecimalSettings(DGuiUtils.getLabelName(jlCompMassUnit), DGuiConsts.GUI_TYPE_DEC_AMT_UNIT, false);
+        moCompCompMass.setCompoundFieldSettings(miClient);
+        moCompCompMass.getField().setDecimalSettings(DGuiUtils.getLabelName(jlCompMass), DGuiConsts.GUI_TYPE_DEC_QTY, false);
+        moCompCompBrix.setCompoundFieldSettings(miClient);
+        moCompCompBrix.getField().setDecimalSettings(DGuiUtils.getLabelName(jlCompBrix), DGuiConsts.GUI_TYPE_DEC_QTY, false);
+        moCompCompMassSolid.setCompoundFieldSettings(miClient);
+        moCompCompMassSolid.getField().setDecimalSettings(DGuiUtils.getLabelName(jlCompMassSolid), DGuiConsts.GUI_TYPE_DEC_QTY, false);
+        moKeyCompCompIncType.setKeySettings(miClient, DGuiUtils.getLabelName(jlCompCompIncType), true);
+        moTextCompExclusionLabel.setTextSettings(DGuiUtils.getLabelName(jlCompExclusionLabel), 25);
         
         moFields.addField(moKeyFormulaType);
-        moFields.addField(moKeyItemType);
-        moFields.addField(moKeyFamily);
-        moFields.addField(moKeyItem);
-        moFields.addField(moCompQuantity.getField());
-        moFields.addField(moTextReference);
-        //moFields.addField(moCompMassUnit.getField()); // always disabled
-        //moFields.addField(moCompMass.getField()); // always disabled
+        moFields.addField(moKeyFormItemType);
+        moFields.addField(moKeyFormFamily);
+        moFields.addField(moKeyFormItem);
+        moFields.addField(moTextFormReference);
+        
+        moFields.addField(moCompItemQuantity.getField());
+        //moFields.addField(moCompItemMassUnit.getField()); // always disabled
+        //moFields.addField(moCompItemMass.getField()); // always disabled
+        //moFields.addField(moCompItemBrix.getField()); // always disabled
+        //moFields.addField(moCompItemMassSolid.getField()); // always disabled
+        //moFields.addField(moCompFormMass.getField()); // always disabled
+        //moFields.addField(moCompFormMassSolid.getField()); // always disabled
+        //moFields.addField(moCompFormBrix.getField()); // always disabled
+        moFields.addField(moCompObjectiveBrix.getField());
+        //moFields.addField(moCompObjectiveMass.getField()); // always disabled
+        
         //moFields.setFormButton(jbSave); // not required
         
-        moTextReference.setNextField(moRadCompTypeFamily);
-        
         moFieldsComps = new DGuiFields();
-        moFieldsComps.addField(moRadCompTypeFamily);
         moFieldsComps.addField(moRadCompTypeItem);
+        moFieldsComps.addField(moRadCompTypeFamily);
         moFieldsComps.addField(moKeyCompItemType);
-        moFieldsComps.addField(moKeyCompComponent);
+        moFieldsComps.addField(moKeyCompFamily);
+        moFieldsComps.addField(moKeyCompItem);
+        
         moFieldsComps.addField(moCompCompQuantity.getField());
-        moFieldsComps.addField(moBoolCompStandard);
+        //moFields.addField(moCompCompMassUnit.getField()); // always disabled
+        //moFields.addField(moCompCompMass.getField()); // always disabled
+        //moFields.addField(moCompCompBrix.getField()); // always disabled
+        //moFields.addField(moCompCompMassSolid.getField()); // always disabled
+        moFieldsComps.addField(moKeyCompCompIncType);
+        moFieldsComps.addField(moTextCompExclusionLabel);
+        
         moFieldsComps.setFormButton(jbCompAdd);
         
         moKeyGroupItem = new DGuiFieldKeyGroup(miClient);
+        moKeyGroupComp = new DGuiFieldKeyGroup(miClient);
         
         mass = DCfgUtils.getMassUnitCode(miClient.getSession());
-        moCompMassUnit.setCompoundText(mass);
-        moCompMassCalc.setCompoundText(mass);
-        moCompMass.setCompoundText(mass);
         
-        moCompMassUnit.setEditable(false);
-        moCompMassCalc.setEditable(false);
-        moCompMass.setEditable(false);
+        moCompItemMassUnit.setCompoundText(mass);
+        moCompItemMass.setCompoundText(mass);
+        moCompItemMassSolid.setCompoundText(mass);
+        moCompFormMass.setCompoundText(mass);
+        moCompFormMassSolid.setCompoundText(mass);
+        moCompObjectiveMass.setCompoundText(mass);
+        
+        moCompCompMassUnit.setCompoundText(mass);
+        moCompCompMass.setCompoundText(mass);
+        moCompCompMassSolid.setCompoundText(mass);
+        
+        moCompItemBrix.setCompoundText(DCfgConsts.BRIX);
+        moCompFormBrix.setCompoundText(DCfgConsts.BRIX);
+        moCompObjectiveBrix.setCompoundText(DCfgConsts.BRIX);
+        
+        moCompCompBrix.setCompoundText(DCfgConsts.BRIX);
         
         mjCompMoveUp = DGridUtils.createButton(new ImageIcon(getClass().getResource("/sba/lib/img/cmd_std_move_up.gif")), "Mover arriba", this);
         mjCompMoveDown = DGridUtils.createButton(new ImageIcon(getClass().getResource("/sba/lib/img/cmd_std_move_down.gif")), "Mover abajo", this);
         
-        moPaneFormComps = new DGridPaneForm(miClient, mnFormType, DModConsts.MU_FRM_CMP, DGuiUtils.getLabelName(((TitledBorder) jpFormulaComps.getBorder()).getTitle())) {
+        moPaneFormComps = new DGridPaneForm(miClient, mnFormType, DModConsts.MU_FRM_CMP, DGuiUtils.getLabelName(((TitledBorder) jpComps.getBorder()).getTitle())) {
             
             @Override
             public void initGrid() {
@@ -488,16 +801,19 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
             @Override
             public void createGridColumns() {
                 int col = 0;
-                DGridColumnForm[] columns = new DGridColumnForm[8];
+                DGridColumnForm[] columns = new DGridColumnForm[11];
 
-                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_INT_1B, "# componente");
-                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_CODE_CAT, DGridConsts.COL_TITLE_TYPE + " componente");
+                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_INT_1B, "# comp");
+                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_CODE_CAT, DGridConsts.COL_TITLE_TYPE + " comp");
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_CODE_CAT, DGridConsts.COL_TITLE_TYPE + " ítem");
-                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_NAME_ITM_L, DGridConsts.COL_TITLE_NAME + " componente");
-                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_CODE_ITM, DGridConsts.COL_TITLE_CODE + " componente");
-                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_DEC_QTY, "Cant componente");
-                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_CODE_UNT, "Unidad medida componente");
-                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_BOOL_M, "Estándar componente");
+                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_NAME_ITM_L, DGridConsts.COL_TITLE_NAME + " comp");
+                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_CODE_ITM, DGridConsts.COL_TITLE_CODE + " comp");
+                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_DEC_QTY, "Cant");
+                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_CODE_UNT, "Unidad medida");
+                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_DEC_QTY, "Masa");
+                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_DEC_QTY, "Masa sólida");
+                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_CODE_CAT, "Tipo incorp");
+                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_NAME_CAT_S, "Etiq exclusión");
 
                 for (col = 0; col < columns.length; col++) {
                     moModel.getGridColumns().add(columns[col]);
@@ -509,62 +825,116 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
         moPaneFormComps.getPanelCommandsSys(DGuiConsts.PANEL_CENTER).add(mjCompMoveUp);
         moPaneFormComps.getPanelCommandsSys(DGuiConsts.PANEL_CENTER).add(mjCompMoveDown);
         
-        jpFormulaComps.add(moPaneFormComps, BorderLayout.CENTER);
+        jpComps.add(moPaneFormComps, BorderLayout.CENTER);
         
         mvFormGrids.add(moPaneFormComps);
     }
     
-    private void renderItem() {
-        if (moKeyItem.getSelectedIndex() <= 0) {
-            moItem = null;
+    private void renderFormItem() {
+        if (moKeyFormItem.getSelectedIndex() <= 0) {
+            moItemForm = null;
             
-            jtfCode.setText("");
-            jtfName.setText("");
-            jtfUnit.setText("");
-            jtfPresent.setText("");
-            moCompMassUnit.getField().resetField();
-            moCompQuantity.setCompoundText("");
+            jtfFormUnit.setText("");
+            jtfFormPresent.setText("");
+            moCompItemMassUnit.getField().resetField();
+            moCompItemBrix.getField().resetField();
+            moCompItemQuantity.setCompoundText("");
         }
         else {
-            moItem = (DDbItem) miClient.getSession().readRegistry(DModConsts.CU_ITM, moKeyItem.getValue());
+            moItemForm = (DDbItem) miClient.getSession().readRegistry(DModConsts.CU_ITM, moKeyFormItem.getValue());
             
-            jtfCode.setText(moItem.getCode());
-            jtfName.setText(moItem.getName());
-            jtfUnit.setText(moItem.getRegUnit().getName());
-            jtfPresent.setText(moItem.getRegPresent().getName());
-            moCompMassUnit.getField().setValue(moItem.getMassUnit());
-            moCompQuantity.setCompoundText(moItem.getRegUnit().getCode());
+            jtfFormUnit.setText(moItemForm.getRegUnit().getName());
+            jtfFormPresent.setText(moItemForm.getRegPresent().getName());
+            moCompItemMassUnit.getField().setValue(moItemForm.getMassUnit());
+            moCompItemBrix.getField().setValue(moItemForm.getBrix());
+            moCompItemQuantity.setCompoundText(moItemForm.getRegUnit().getCode());
             
-            jtfCode.setCaretPosition(0);
-            jtfName.setCaretPosition(0);
-            jtfUnit.setCaretPosition(0);
-            jtfPresent.setCaretPosition(0);
+            jtfFormUnit.setCaretPosition(0);
+            jtfFormPresent.setCaretPosition(0);
         }
         
-        calculateMassCalc();
+        calculateItemMass();
     }
     
-    private void renderCompComponent() {
-        if (moKeyCompComponent.getSelectedIndex() <= 0) {
+    private void renderCompItem() {
+        if (!moRadCompTypeItem.isSelected() || moKeyCompItem.getSelectedIndex() <= 0) {
+            moItemComp = null;
+            
+            jtfCompUnit.setText("");
+            moCompCompMassUnit.getField().resetField();
+            moCompCompBrix.getField().resetField();
             moCompCompQuantity.setCompoundText("");
         }
         else {
-            moCompCompQuantity.setCompoundText((String) moKeyCompComponent.getSelectedItem().getComplement()); // unit code
+            moItemComp = (DDbItem) miClient.getSession().readRegistry(DModConsts.CU_ITM, moKeyCompItem.getValue());
+            
+            jtfCompUnit.setText(moItemComp.getRegUnit().getName());
+            moCompCompMassUnit.getField().setValue(moItemComp.getMassUnit());
+            moCompCompBrix.getField().setValue(moItemComp.getBrix());
+            moCompCompQuantity.setCompoundText(moItemComp.getRegUnit().getCode());
+            
+            jtfCompUnit.setCaretPosition(0);
         }
+        
+        calculateCompMassItem();
+    }
+    
+    private void renderCompFamily() {
+        if (!moRadCompTypeFamily.isSelected() || moKeyCompFamily.getSelectedIndex() <= 0) {
+            moFamilyComp = null;
+            
+            jtfCompUnit.setText("");
+            moCompCompMassUnit.getField().resetField();
+            moCompCompBrix.getField().resetField();
+            moCompCompQuantity.setCompoundText("");
+        }
+        else {
+            moFamilyComp = (DDbFamily) miClient.getSession().readRegistry(DModConsts.CU_FAM, moKeyCompFamily.getValue());
+            
+            jtfCompUnit.setText(moFamilyComp.getRegUnit().getName());
+            moCompCompMassUnit.getField().setValue(moFamilyComp.getMassUnit());
+            moCompCompBrix.getField().setValue(moFamilyComp.getBrix());
+            moCompCompQuantity.setCompoundText(moFamilyComp.getRegUnit().getCode());
+            
+            jtfCompUnit.setCaretPosition(0);
+        }
+        
+        calculateCompMassFamily();
     }
     
     private void compute() {
         double mass = 0d;
+        double massSolid = 0d;
         
         for (DGridRow row : moPaneFormComps.getModel().getGridRows()) {
             mass += ((DDbFormulaComp) row).getMass_r();
+            massSolid += ((DDbFormulaComp) row).getMassSolid_r();
         }
         
-        moCompMass.getField().setValue(mass);
+        moCompFormMass.getField().setValue(mass);
+        moCompFormMassSolid.getField().setValue(massSolid);
+        moCompFormBrix.getField().setValue(mass == 0d ? 0d : (massSolid / mass * DCfgConsts.BRIX_MAX));
+        
+        calculateObjectiveMass();
     }
     
-    private void calculateMassCalc() {
-        moCompMassCalc.getField().setValue(moItem == null ? 0d : moCompQuantity.getField().getValue() * moItem.getMassUnit());
+    private void calculateObjectiveMass() {
+        moCompObjectiveMass.getField().setValue(moCompObjectiveBrix.getField().getValue() == 0d ? 0d : (moCompFormMassSolid.getField().getValue() / moCompObjectiveBrix.getField().getValue() * DCfgConsts.BRIX_MAX));
+    }
+    
+    private void calculateItemMass() {
+        moCompItemMass.getField().setValue(moItemForm == null ? 0d : moCompItemQuantity.getField().getValue() * moItemForm.getMassUnit());
+        moCompItemMassSolid.getField().setValue(moItemForm == null ? 0d : moCompItemMass.getField().getValue() * (moItemForm.getBrix() / DCfgConsts.BRIX_MAX));
+    }
+    
+    private void calculateCompMassItem() {
+        moCompCompMass.getField().setValue(moItemComp == null ? 0d : moCompCompQuantity.getField().getValue() * moItemComp.getMassUnit());
+        moCompCompMassSolid.getField().setValue(moItemComp == null ? 0d : moCompCompMass.getField().getValue() * (moItemComp.getBrix() / DCfgConsts.BRIX_MAX));
+    }
+    
+    private void calculateCompMassFamily() {
+        moCompCompMass.getField().setValue(moFamilyComp == null ? 0d : moCompCompQuantity.getField().getValue() * moFamilyComp.getMassUnit());
+        moCompCompMassSolid.getField().setValue(moFamilyComp == null ? 0d : moCompCompMass.getField().getValue() * (moFamilyComp.getBrix() / DCfgConsts.BRIX_MAX));
     }
     
     private void updateCompsNumbers() {
@@ -579,7 +949,7 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
         DGuiValidation validation = moFieldsComps.validateFields();
 
         if (validation.isValid()) {
-            if (moBoolCompStandard.isSelected() && moCompCompQuantity.getField().getValue() == 0) {
+            if (moCompCompQuantity.getField().getValue() == 0) {
                 validation.setMessage(DGuiConsts.ERR_MSG_FIELD_REQ + "'" + DGuiUtils.getLabelName(jlCompQuantity) + "'.");
                 validation.setComponent(moCompCompQuantity.getField().getComponent());
             }
@@ -587,16 +957,21 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
             if (validation.isValid()) {
                 DDbFormulaComp comp = new DDbFormulaComp();
                 int indexItemType = moKeyCompItemType.getSelectedIndex();
-                int indexItem = moKeyCompComponent.getSelectedIndex();
+                int indexFamily = moKeyCompFamily.getSelectedIndex();
+                int indexItem = moKeyCompItem.getSelectedIndex();
 
                 //comp.setPkFormulaId(...);
                 //comp.setPkCompId(...);
                 comp.setQuantity(moCompCompQuantity.getField().getValue());
                 //comp.setMassUnit(...);
                 //comp.setMass_r(...);
-                comp.setStandard(moBoolCompStandard.getValue());
+                //comp.setBrix(...);
+                //comp.setMassSolid_r(...);
+                comp.setExclusionLabel(moTextCompExclusionLabel.getValue());
                 comp.setFkCompTypeId(moRadCompTypeItem.isSelected() ? DModSysConsts.MS_CMP_TP_ITM : DModSysConsts.MS_CMP_TP_FAM);
-                comp.setFkCompId(moKeyCompComponent.getValue()[0]);
+                comp.setFkCompIncTypeId(moKeyCompCompIncType.getValue()[0]);
+                comp.setFkItemId(moRadCompTypeItem.isSelected() ? moKeyCompItem.getValue()[0] : DModSysConsts.CU_ITM_ND);
+                comp.setFkFamilyId(moRadCompTypeFamily.isSelected() ? moKeyCompFamily.getValue()[0] : DModSysConsts.CU_FAM_ND);
                 //comp.setFkItemTypeId(...);
                 //comp.setFkUnitId(...);
 
@@ -609,8 +984,16 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
 
                 compute();
                 actionPerformedCompClear();
-                moKeyCompItemType.setSelectedIndex(indexItemType);
-                moKeyCompComponent.setSelectedIndex(indexItem);
+                
+                if (indexItemType < moKeyCompItemType.getItemCount()) {
+                    moKeyCompItemType.setSelectedIndex(indexItemType);
+                    if (indexFamily < moKeyCompFamily.getItemCount()) {
+                        moKeyCompFamily.setSelectedIndex(indexFamily);
+                        if (indexItem < moKeyCompItem.getItemCount()) {
+                            moKeyCompItem.setSelectedIndex(indexItem);
+                        }
+                    }
+                }
             }
         }
         
@@ -625,7 +1008,6 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
     
     private void doRowClear() {
         moFieldsComps.resetFields();
-        moBoolCompStandard.setSelected(moKeyFormulaType.getValue()[0] == DModSysConsts.MS_FRM_TP_STD);
     }
     
     private void actionPerformedCompAdd() {
@@ -671,54 +1053,72 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
     
     private void itemStateChangedFormulaType() {
         if (moKeyFormulaType.getSelectedIndex() <= 0) {
-            moBoolCompStandard.setSelected(false);
+            moKeyCompCompIncType.resetField();
+            
+            moKeyCompCompIncType.setEnabled(false);
         }
         else {
-            moBoolCompStandard.setSelected(moKeyFormulaType.getValue()[0] == DModSysConsts.MS_FRM_TP_STD);
+            moKeyCompCompIncType.setEnabled(moKeyFormulaType.getValue()[0] == DModSysConsts.MS_FRM_TP_VAR);
         }
     }
     
-    private void itemStateChangedItem() {
-        renderItem();
-    }
-    
-    private void itemStateChangedCompTypeFamily() {
-        moKeyCompItemType.setSelectedIndex(0);
+    private void itemStateChangedFormItem() {
+        renderFormItem();
     }
     
     private void itemStateChangedCompTypeItem() {
-        moKeyCompItemType.setSelectedIndex(0);
+        moKeyGroupComp.initGroup();
+        moKeyGroupComp.addFieldKey(moKeyCompItemType, DModConsts.CX_ITM_TP_CMP, DLibConsts.UNDEFINED, null);
+        moKeyGroupComp.addFieldKey(moKeyCompFamily, DModConsts.CU_FAM, DLibConsts.UNDEFINED, null);
+        moKeyGroupComp.addFieldKey(moKeyCompItem, DModConsts.CX_ITM_FK_FAM, DLibConsts.UNDEFINED, null);
+        moKeyGroupComp.populateCatalogues();
+        moKeyGroupComp.resetGroup();
     }
     
-    private void itemStateChangedCompItemType() {
-        int type = DLibConsts.UNDEFINED;
+    private void itemStateChangedCompTypeFamily() {
+        moKeyGroupComp.initGroup();
+        moKeyGroupComp.addFieldKey(moKeyCompItemType, DModConsts.CX_ITM_TP_CMP, DLibConsts.UNDEFINED, null);
+        moKeyGroupComp.addFieldKey(moKeyCompFamily, DModConsts.CU_FAM, DLibConsts.UNDEFINED, null);
+        moKeyGroupComp.populateCatalogues();
+        moKeyGroupComp.resetGroup();
         
+        moKeyCompItem.removeAllItems();
+        moKeyCompItem.setEnabled(false);
+    }
+    
+    private void itemStateChangedCompItem() {
+        renderCompItem();
+    }
+    
+    private void itemStateChangedCompFamily() {
+        renderCompFamily();
+    }
+    
+    private void itemStateChangedCompCompIncType() {
+        if (moKeyCompCompIncType.getSelectedIndex() <= 0) {
+            moTextCompExclusionLabel.resetField();
+            moTextCompExclusionLabel.setEditable(false);
+        }
+        else {
+            moTextCompExclusionLabel.setEditable(DLibUtils.belongsTo(moKeyCompCompIncType.getValue()[0], new int[] { DModSysConsts.MS_CMP_INC_TP_EXC_REQ, DModSysConsts.MS_CMP_INC_TP_EXC_OPT }));
+        }
+    }
+    
+    private void focusLostObjectiveBrix() {
+        calculateObjectiveMass();
+    }
+    
+    private void focusLostItemQuantity() {
+        calculateItemMass();
+    }
+    
+    private void focusLostCompQuantity() {
         if (moRadCompTypeItem.isSelected()) {
-            type = DModConsts.CU_ITM;
+            calculateCompMassItem();
         }
         else {
-            type = DModConsts.CU_FAM;
+            calculateCompMassFamily();
         }
-        
-        moKeyCompComponent.setEnabled(false);
-        
-        if (moKeyCompItemType.getSelectedIndex() <= 0) {
-            moKeyCompComponent.removeAllItems();
-        }
-        else {
-            miClient.getSession().populateCatalogue(moKeyCompComponent, type, moKeyCompItemType.getValue()[0], null);
-            moKeyCompComponent.setEnabled(true);
-        }
-        
-        renderCompComponent();
-    }
-    
-    private void itemStateChangedCompComponent() {
-        renderCompComponent();
-    }
-    
-    private void focusLostQuantity() {
-        calculateMassCalc();
     }
     
     /*
@@ -736,12 +1136,15 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
         mjCompMoveUp.addActionListener(this);
         mjCompMoveDown.addActionListener(this);
         moKeyFormulaType.addItemListener(this);
-        moKeyItem.addItemListener(this);
-        moKeyCompItemType.addItemListener(this);
-        moKeyCompComponent.addItemListener(this);
+        moKeyFormItem.addItemListener(this);
+        moKeyCompFamily.addItemListener(this);
+        moKeyCompItem.addItemListener(this);
         moRadCompTypeFamily.addItemListener(this);
         moRadCompTypeItem.addItemListener(this);
-        moCompQuantity.getField().getComponent().addFocusListener(this);
+        moKeyCompCompIncType.addItemListener(this);
+        moCompItemQuantity.getField().getComponent().addFocusListener(this);
+        moCompObjectiveBrix.getField().getComponent().addFocusListener(this);
+        moCompCompQuantity.getField().getComponent().addFocusListener(this);
     }
 
     @Override
@@ -751,12 +1154,15 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
         mjCompMoveUp.removeActionListener(this);
         mjCompMoveDown.removeActionListener(this);
         moKeyFormulaType.removeItemListener(this);
-        moKeyItem.removeItemListener(this);
-        moKeyCompItemType.removeItemListener(this);
-        moKeyCompComponent.removeItemListener(this);
+        moKeyFormItem.removeItemListener(this);
+        moKeyCompFamily.removeItemListener(this);
+        moKeyCompItem.removeItemListener(this);
         moRadCompTypeFamily.removeItemListener(this);
         moRadCompTypeItem.removeItemListener(this);
-        moCompQuantity.getField().getComponent().removeFocusListener(this);
+        moKeyCompCompIncType.removeItemListener(this);
+        moCompItemQuantity.getField().getComponent().removeFocusListener(this);
+        moCompObjectiveBrix.getField().getComponent().removeFocusListener(this);
+        moCompCompQuantity.getField().getComponent().removeFocusListener(this);
     }
 
     @Override
@@ -764,12 +1170,12 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
         miClient.getSession().populateCatalogue(moKeyFormulaType, DModConsts.MS_FRM_TP, DLibConsts.UNDEFINED, null);
         
         moKeyGroupItem.initGroup();
-        moKeyGroupItem.addFieldKey(moKeyItemType, DModConsts.CX_ITM_TP_PRO_MFG, DLibConsts.UNDEFINED, null);
-        moKeyGroupItem.addFieldKey(moKeyFamily, DModConsts.CU_FAM, DLibConsts.UNDEFINED, null);
-        moKeyGroupItem.addFieldKey(moKeyItem, DModConsts.CX_ITM_FK_FAM, DLibConsts.UNDEFINED, null);
+        moKeyGroupItem.addFieldKey(moKeyFormItemType, DModConsts.CX_ITM_TP_PRO_MFG, DLibConsts.UNDEFINED, null);
+        moKeyGroupItem.addFieldKey(moKeyFormFamily, DModConsts.CU_FAM, DLibConsts.UNDEFINED, null);
+        moKeyGroupItem.addFieldKey(moKeyFormItem, DModConsts.CX_ITM_FK_FAM, DLibConsts.UNDEFINED, null);
         moKeyGroupItem.populateCatalogues();
         
-        miClient.getSession().populateCatalogue(moKeyCompItemType, DModConsts.CX_ITM_TP_CMP, DLibConsts.UNDEFINED, null);
+        miClient.getSession().populateCatalogue(moKeyCompCompIncType, DModConsts.MS_CMP_INC_TP, DLibConsts.UNDEFINED, null);
     }
 
     @Override
@@ -792,23 +1198,33 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
         }
 
         moKeyFormulaType.setValue(new int[] { moRegistry.getFkFormulaTypeId() });
-        moKeyItemType.setValue(new int[] { moRegistry.getFkItemTypeId() });
-        moKeyFamily.setValue(new int[] { moRegistry.getRegItem() == null ? DLibConsts.UNDEFINED : moRegistry.getRegItem().getFkFamilyId() });
-        moKeyItem.setValue(new int[] { moRegistry.getFkItemId() });
-        moCompQuantity.getField().setValue(moRegistry.getQuantity());
-        moTextReference.setValue(moRegistry.getReference());
-        moCompMass.getField().setValue(moRegistry.getMass_r());
+        moKeyFormItemType.setValue(new int[] { moRegistry.getFkItemTypeId() });
+        moKeyFormFamily.setValue(new int[] { moRegistry.getRegItem() == null ? DLibConsts.UNDEFINED : moRegistry.getRegItem().getFkFamilyId() });
+        moKeyFormItem.setValue(new int[] { moRegistry.getFkItemId() });
+        moTextFormReference.setValue(moRegistry.getReference());
+        moCompItemQuantity.getField().setValue(moRegistry.getQuantity());
+        moCompItemMassUnit.getField().setValue(moRegistry.getItemMassUnit());
+        moCompItemMass.getField().setValue(moRegistry.getItemMass_r());
+        moCompItemBrix.getField().setValue(moRegistry.getItemBrix());
+        moCompItemMassSolid.getField().setValue(moRegistry.getItemMassSolid_r());
+        moCompFormMass.getField().setValue(moRegistry.getFormulaMass_r());
+        moCompFormMassSolid.getField().setValue(moRegistry.getFormulaMassSolid_r());
+        moCompFormBrix.getField().setValue(moRegistry.getFormulaBrix_r());
+        moCompObjectiveBrix.getField().setValue(moRegistry.getObjectiveBrix());
+        moCompObjectiveMass.getField().setValue(moRegistry.getObjectiveMass_r());
         
         itemStateChangedFormulaType();
-        itemStateChangedItem();
+        itemStateChangedFormItem();
         
         moRadCompTypeItem.setSelected(true);
         itemStateChangedCompTypeItem();
-        itemStateChangedCompItemType();
         
         moPaneFormComps.populateGrid(new Vector<>(moRegistry.getChildComps()));
         
         setFormEditable(true);
+        
+        doRowClear();
+        itemStateChangedCompCompIncType();
         
         if (moRegistry.isRegistryNew()) {
             moKeyGroupItem.resetGroup();
@@ -829,13 +1245,21 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
 
         //registry.setCode(...);
         //registry.setName(...);
-        registry.setReference(moTextReference.getValue());
-        registry.setQuantity(moCompQuantity.getField().getValue());
-        //registry.setMass_r(...);
+        registry.setReference(moTextFormReference.getValue());
+        registry.setQuantity(moCompItemQuantity.getField().getValue());
+        //registry.setItemMassUnit(...);
+        //registry.setItemMass_r(...);
+        //registry.setItemBrix(...);
+        //registry.setItemMassSolid_r(...);
+        //registry.setFormulaMass_r(...);
+        //registry.setFormulaMassSolid_r(...);
+        //registry.setFormulaBrix_r(...);
+        registry.setObjectiveBrix(moCompObjectiveBrix.getField().getValue());
+        //registry.setObjectiveMass_r(...);
         //registry.setDeleted(...);
         //registry.setSystem(...);
         registry.setFkFormulaTypeId(moKeyFormulaType.getValue()[0]);
-        registry.setFkItemId(moKeyItem.getValue()[0]);
+        registry.setFkItemId(moKeyFormItem.getValue()[0]);
         //registry.setFkItemTypeId(...);
         //registry.setFkUnitId(...);
         //registry.setFkPresentId(...);
@@ -897,14 +1321,17 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
                 if (field == moKeyFormulaType) {
                     itemStateChangedFormulaType();
                 }
-                else if (field == moKeyItem) {
-                    itemStateChangedItem();
+                else if (field == moKeyFormItem) {
+                    itemStateChangedFormItem();
                 }
-                else if (field == moKeyCompItemType) {
-                    itemStateChangedCompItemType();
+                else if (field == moKeyCompItem) {
+                    itemStateChangedCompItem();
                 }
-                else if (field == moKeyCompComponent) {
-                    itemStateChangedCompComponent();
+                else if (field == moKeyCompFamily) {
+                    itemStateChangedCompFamily();
+                }
+                else if (field == moKeyCompCompIncType) {
+                    itemStateChangedCompCompIncType();
                 }
             }
         }
@@ -912,11 +1339,11 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
             if (e.getStateChange() == ItemEvent.SELECTED) {
                 DBeanFieldRadio field = (DBeanFieldRadio) e.getSource();
 
-                if (field == moRadCompTypeFamily) {
-                    itemStateChangedCompTypeFamily();
-                }
-                else if (field == moRadCompTypeItem) {
+                if (field == moRadCompTypeItem) {
                     itemStateChangedCompTypeItem();
+                }
+                else if (field == moRadCompTypeFamily) {
+                    itemStateChangedCompTypeFamily();
                 }
             }
         }
@@ -932,8 +1359,14 @@ public class DFormFormula extends DBeanForm implements DGridPaneFormOwner, Actio
         if (e.getSource() instanceof DBeanFieldDecimal) {
             DBeanFieldDecimal field = (DBeanFieldDecimal) e.getSource();
             
-            if (field == moCompQuantity.getField()) {
-                focusLostQuantity();
+            if (field == moCompItemQuantity.getField()) {
+                focusLostItemQuantity();
+            }
+            else if (field == moCompObjectiveBrix.getField()) {
+                focusLostObjectiveBrix();
+            }
+            else if (field == moCompCompQuantity.getField()) {
+                focusLostCompQuantity();
             }
         }
     }

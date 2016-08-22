@@ -311,6 +311,9 @@ public class DDbItem extends DDbRegistryUser implements DLibRegistry {
         
         if (!moRegFamily.isBrix()) {
             mbBrix = false;
+        }
+        
+        if (!mbBrix) {
             mdBrix = DCfgConsts.BRIX_MAX;
         }
     }

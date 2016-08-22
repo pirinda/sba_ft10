@@ -73,8 +73,6 @@ public class DFormLine extends DBeanForm {
         jlCode.setText("Código:*");
         jlCode.setPreferredSize(new java.awt.Dimension(100, 23));
         jPanel3.add(jlCode);
-
-        moTextCode.setPreferredSize(new java.awt.Dimension(50, 23));
         jPanel3.add(moTextCode);
 
         jPanel1.add(jPanel3);

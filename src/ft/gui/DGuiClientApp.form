@@ -89,13 +89,11 @@
             <MenuItem class="javax.swing.JMenuItem" name="jmiCfgUser">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Usuarios"/>
-                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jmiCfgUserProfile">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Usuarios y perfiles"/>
-                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </MenuItem>
             <MenuItem class="javax.swing.JPopupMenu$Separator" name="jsCfg4">
@@ -103,7 +101,6 @@
             <MenuItem class="javax.swing.JMenuItem" name="jmiCfgConfig">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Configuraci&#xf3;n del sistema"/>
-                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </MenuItem>
           </SubComponents>
@@ -171,14 +168,14 @@
                 <Property name="text" type="java.lang.String" value="Familias"/>
               </Properties>
             </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jmiCatPresent">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Presentaciones"/>
+              </Properties>
+            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jmiCatUnit">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Unidades de medida"/>
-              </Properties>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jmiCatPresent">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Presentaciones de producto"/>
               </Properties>
             </MenuItem>
             <MenuItem class="javax.swing.JPopupMenu$Separator" name="jsCat5">
@@ -195,31 +192,24 @@
             </MenuItem>
           </SubComponents>
         </Menu>
-        <Menu class="javax.swing.JMenu" name="jmStk">
+        <Menu class="javax.swing.JMenu" name="jmFrm">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Inventarios"/>
+            <Property name="text" type="java.lang.String" value="Formulaci&#xf3;n"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jmiStkWsmIn">
+            <MenuItem class="javax.swing.JMenuItem" name="jmiFrmFormula">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Doctos. de almac&#xe9;n de entradas"/>
+                <Property name="text" type="java.lang.String" value="F&#xf3;rmulas"/>
               </Properties>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jmiStkWsmOut">
+            <MenuItem class="javax.swing.JMenuItem" name="jmiFrmFormulaComp">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Doctos. de almac&#xe9;n de salidas"/>
+                <Property name="text" type="java.lang.String" value="F&#xf3;rmulas y componentes"/>
               </Properties>
             </MenuItem>
-            <MenuItem class="javax.swing.JPopupMenu$Separator" name="jsStk1">
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jmiStkStock">
+            <MenuItem class="javax.swing.JMenuItem" name="jmiFrmFormulaByProd">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Existencias"/>
-              </Properties>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jmiStkStockLot">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Existencias por lote"/>
+                <Property name="text" type="java.lang.String" value="F&#xf3;rmulas y subproductos"/>
               </Properties>
             </MenuItem>
           </SubComponents>
@@ -250,24 +240,6 @@
               </Properties>
             </MenuItem>
             <MenuItem class="javax.swing.JPopupMenu$Separator" name="jsMfg1">
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jmiMfgFormula">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="F&#xf3;rmulas"/>
-              </Properties>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jmiMfgFormulaComp">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="F&#xf3;rmulas y componentes"/>
-              </Properties>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jmiMfgFormulaByProd">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="F&#xf3;rmulas y colaterales"/>
-                <Property name="enabled" type="boolean" value="false"/>
-              </Properties>
-            </MenuItem>
-            <MenuItem class="javax.swing.JPopupMenu$Separator" name="jsMfg2">
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jmiMfgVariable">
               <Properties>
@@ -304,6 +276,45 @@
               </Properties>
             </MenuItem>
           </SubComponents>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="jmStk">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Almacenes"/>
+          </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="jmiStkWsmIn">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Doctos. de almac&#xe9;n de entradas"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jmiStkWsmOut">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Doctos. de almac&#xe9;n de salidas"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JPopupMenu$Separator" name="jsStk1">
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jmiStkStock">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Existencias"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jmiStkStockLot">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Existencias por lote"/>
+              </Properties>
+            </MenuItem>
+          </SubComponents>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="jmPur">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Compras"/>
+          </Properties>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="jmSal">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Ventas"/>
+          </Properties>
         </Menu>
         <Menu class="javax.swing.JMenu" name="jmRep">
           <Properties>

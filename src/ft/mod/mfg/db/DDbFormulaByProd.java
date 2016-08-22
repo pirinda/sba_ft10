@@ -7,6 +7,7 @@ package ft.mod.mfg.db;
 
 import ft.lib.DLibRegistry;
 import ft.mod.DModConsts;
+import ft.mod.cfg.db.DCfgConsts;
 import ft.mod.cfg.db.DDbItem;
 import ft.mod.cfg.db.DDbUnit;
 import java.sql.ResultSet;
@@ -29,6 +30,8 @@ public class DDbFormulaByProd extends DDbRegistryUser implements DGridRow, DLibR
     protected double mdQuantity;
     protected double mdMassUnit;
     protected double mdMass_r;
+    protected double mdBrix;
+    protected double mdMassSolid_r;
     protected boolean mbStandard;
     protected int mnFkItemId;
     protected int mnFkItemTypeId;
@@ -70,6 +73,8 @@ public class DDbFormulaByProd extends DDbRegistryUser implements DGridRow, DLibR
     public void setQuantity(double d) { mdQuantity = d; }
     public void setMassUnit(double d) { mdMassUnit = d; }
     public void setMass_r(double d) { mdMass_r = d; }
+    public void setBrix(double d) { mdBrix = d; }
+    public void setMassSolid_r(double d) { mdMassSolid_r = d; }
     public void setStandard(boolean b) { mbStandard = b; }
     public void setFkItemId(int n) { mnFkItemId = n; }
     public void setFkItemTypeId(int n) { mnFkItemTypeId = n; }
@@ -80,6 +85,8 @@ public class DDbFormulaByProd extends DDbRegistryUser implements DGridRow, DLibR
     public double getQuantity() { return mdQuantity; }
     public double getMassUnit() { return mdMassUnit; }
     public double getMass_r() { return mdMass_r; }
+    public double getBrix() { return mdBrix; }
+    public double getMassSolid_r() { return mdMassSolid_r; }
     public boolean isStandard() { return mbStandard; }
     public int getFkItemId() { return mnFkItemId; }
     public int getFkItemTypeId() { return mnFkItemTypeId; }
@@ -117,6 +124,8 @@ public class DDbFormulaByProd extends DDbRegistryUser implements DGridRow, DLibR
         mdQuantity = 0;
         mdMassUnit = 0;
         mdMass_r = 0;
+        mdBrix = 0;
+        mdMassSolid_r = 0;
         mbStandard = false;
         mnFkItemId = 0;
         mnFkItemTypeId = 0;
@@ -177,6 +186,8 @@ public class DDbFormulaByProd extends DDbRegistryUser implements DGridRow, DLibR
             mdQuantity = resultSet.getDouble("qty");
             mdMassUnit = resultSet.getDouble("mass_unt");
             mdMass_r = resultSet.getDouble("mass_r");
+            mdBrix = resultSet.getDouble("brix");
+            mdMassSolid_r = resultSet.getDouble("mass_sld_r");
             mbStandard = resultSet.getBoolean("b_std");
             mnFkItemId = resultSet.getInt("fk_itm");
             mnFkItemTypeId = resultSet.getInt("fk_itm_tp");
@@ -207,6 +218,8 @@ public class DDbFormulaByProd extends DDbRegistryUser implements DGridRow, DLibR
                    mdQuantity + ", " + 
                    mdMassUnit + ", " + 
                    mdMass_r + ", " + 
+                    mdBrix + ", " + 
+                    mdMassSolid_r + ", " + 
                    (mbStandard ? 1 : 0) + ", " + 
                    mnFkItemTypeId + ", " + 
                    mnFkItemId + ", " + 
@@ -232,6 +245,8 @@ public class DDbFormulaByProd extends DDbRegistryUser implements DGridRow, DLibR
         registry.setQuantity(this.getQuantity());
         registry.setMassUnit(this.getMassUnit());
         registry.setMass_r(this.getMass_r());
+        registry.setBrix(this.getBrix());
+        registry.setMassSolid_r(this.getMassSolid_r());
         registry.setStandard(this.isStandard());
         registry.setFkItemId(this.getFkItemId());
         registry.setFkItemTypeId(this.getFkItemTypeId());
@@ -321,5 +336,6 @@ public class DDbFormulaByProd extends DDbRegistryUser implements DGridRow, DLibR
         readXtaMembers(session);
         
         mdMass_r = DLibUtils.round(mdMassUnit * mdQuantity, DLibUtils.getDecimalFormatQuantity().getMaximumFractionDigits());
+        mdMassSolid_r = DLibUtils.round(mdMass_r * (mdBrix / DCfgConsts.BRIX_MAX), DLibUtils.getDecimalFormatQuantity().getMaximumFractionDigits());
     }
 }

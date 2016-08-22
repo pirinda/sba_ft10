@@ -64,11 +64,6 @@
                   </Properties>
                 </Component>
                 <Component class="sba.lib.gui.bean.DBeanFieldText" name="moTextCode">
-                  <Properties>
-                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[50, 23]"/>
-                    </Property>
-                  </Properties>
                 </Component>
               </SubComponents>
             </Container>
@@ -96,6 +91,25 @@
                 </Component>
               </SubComponents>
             </Container>
+            <Container class="javax.swing.JPanel" name="jPanel7">
+
+              <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout">
+                <Property name="alignment" type="int" value="0"/>
+                <Property name="verticalGap" type="int" value="0"/>
+              </Layout>
+              <SubComponents>
+                <Component class="javax.swing.JLabel" name="jlLotCode">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="C&#xf3;digo lotes:"/>
+                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                      <Dimension value="[100, 23]"/>
+                    </Property>
+                  </Properties>
+                </Component>
+                <Component class="sba.lib.gui.bean.DBeanFieldText" name="moTextLotCode">
+                </Component>
+              </SubComponents>
+            </Container>
             <Container class="javax.swing.JPanel" name="jPanel5">
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout">
@@ -105,7 +119,7 @@
               <SubComponents>
                 <Component class="javax.swing.JLabel" name="jlUnit">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Unidad contenido:*"/>
+                    <Property name="text" type="java.lang.String" value="Unidad cont. neto:*"/>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[100, 23]"/>
                     </Property>
@@ -129,37 +143,13 @@
               <SubComponents>
                 <Component class="javax.swing.JLabel" name="jlContentUnit">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Contenido neto:*"/>
+                    <Property name="text" type="java.lang.String" value="Cont. neto:*"/>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[100, 23]"/>
                     </Property>
                   </Properties>
                 </Component>
                 <Component class="sba.lib.gui.bean.DBeanCompoundField" name="moCompContentUnit">
-                </Component>
-              </SubComponents>
-            </Container>
-            <Container class="javax.swing.JPanel" name="jPanel7">
-
-              <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout">
-                <Property name="alignment" type="int" value="0"/>
-                <Property name="verticalGap" type="int" value="0"/>
-              </Layout>
-              <SubComponents>
-                <Component class="javax.swing.JLabel" name="jlLotCode">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="C&#xf3;digo lotes:"/>
-                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[100, 23]"/>
-                    </Property>
-                  </Properties>
-                </Component>
-                <Component class="sba.lib.gui.bean.DBeanFieldText" name="moTextLotCode">
-                  <Properties>
-                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[50, 23]"/>
-                    </Property>
-                  </Properties>
                 </Component>
               </SubComponents>
             </Container>

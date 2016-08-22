@@ -149,10 +149,10 @@ public abstract class DModSysConsts {
     public static final int MS_CMP_TP_ITM = 1;
     public static final int MS_CMP_TP_FAM = 2;
 
-    public static final int MS_CMP_MIX_TP_SNG_REQ = 11;
-    public static final int MS_CMP_MIX_TP_SNG_OPT = 12;
-    public static final int MS_CMP_MIX_TP_EXC_REQ = 21;
-    public static final int MS_CMP_MIX_TP_EXC_OPT = 22;
+    public static final int MS_CMP_INC_TP_SNG_REQ = 11;
+    public static final int MS_CMP_INC_TP_SNG_OPT = 12;
+    public static final int MS_CMP_INC_TP_EXC_REQ = 21;
+    public static final int MS_CMP_INC_TP_EXC_OPT = 22;
     
     public static final int MS_JOB_TP_SMP = 1;
     public static final int MS_JOB_TP_CMP = 2;

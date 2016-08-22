@@ -40,8 +40,8 @@ public abstract class DModConsts {
 
     public static final int CX_ITM_FK_ITM_TP = 115326;
     public static final int CX_ITM_FK_FAM = 115327;
-    public static final int CX_ITM_TP_PRO_MFG = 115331;
-    public static final int CX_ITM_TP_PRO_MFG_ALL = 115332;
+    public static final int CX_ITM_TP_PRO_MFG = 115331;     // PB, PF
+    public static final int CX_ITM_TP_PRO_MFG_ALL = 115332; // PB, PF, BP, SC
     public static final int CX_ITM_TP_CMP = 115336;
 
     public static final int SS_WHS_TP = 211001;

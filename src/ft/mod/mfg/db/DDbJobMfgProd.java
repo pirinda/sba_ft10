@@ -7,6 +7,7 @@ package ft.mod.mfg.db;
 
 import ft.lib.DLibRegistry;
 import ft.mod.DModConsts;
+import ft.mod.cfg.db.DCfgConsts;
 import ft.mod.cfg.db.DDbItem;
 import ft.mod.cfg.db.DDbPresent;
 import ft.mod.cfg.db.DDbUnit;
@@ -32,6 +33,8 @@ public class DDbJobMfgProd extends DDbRegistryUser implements DGridRow, DLibRegi
     protected double mdQuantity;
     protected double mdMassUnit;
     protected double mdMass_r;
+    protected double mdBrix;
+    protected double mdMassSolid_r;
     protected int mnFkItemId;
     protected int mnFkItemTypeId;
     protected int mnFkUnitId;
@@ -73,6 +76,8 @@ public class DDbJobMfgProd extends DDbRegistryUser implements DGridRow, DLibRegi
     public void setQuantity(double d) { mdQuantity = d; }
     public void setMassUnit(double d) { mdMassUnit = d; }
     public void setMass_r(double d) { mdMass_r = d; }
+    public void setBrix(double d) { mdBrix = d; }
+    public void setMassSolid_r(double d) { mdMassSolid_r = d; }
     public void setFkItemId(int n) { mnFkItemId = n; }
     public void setFkItemTypeId(int n) { mnFkItemTypeId = n; }
     public void setFkUnitId(int n) { mnFkUnitId = n; }
@@ -83,6 +88,8 @@ public class DDbJobMfgProd extends DDbRegistryUser implements DGridRow, DLibRegi
     public double getQuantity() { return mdQuantity; }
     public double getMassUnit() { return mdMassUnit; }
     public double getMass_r() { return mdMass_r; }
+    public double getBrix() { return mdBrix; }
+    public double getMassSolid_r() { return mdMassSolid_r; }
     public int getFkItemId() { return mnFkItemId; }
     public int getFkItemTypeId() { return mnFkItemTypeId; }
     public int getFkUnitId() { return mnFkUnitId; }
@@ -122,6 +129,8 @@ public class DDbJobMfgProd extends DDbRegistryUser implements DGridRow, DLibRegi
         mdQuantity = 0;
         mdMassUnit = 0;
         mdMass_r = 0;
+        mdBrix = 0;
+        mdMassSolid_r = 0;
         mnFkItemId = 0;
         mnFkItemTypeId = 0;
         mnFkUnitId = 0;
@@ -183,6 +192,8 @@ public class DDbJobMfgProd extends DDbRegistryUser implements DGridRow, DLibRegi
             mdQuantity = resultSet.getDouble("qty");
             mdMassUnit = resultSet.getDouble("mass_unt");
             mdMass_r = resultSet.getDouble("mass_r");
+            mdBrix = resultSet.getDouble("brix");
+            mdMassSolid_r = resultSet.getDouble("mass_sld_r");
             mnFkItemId = resultSet.getInt("fk_itm");
             mnFkItemTypeId = resultSet.getInt("fk_itm_tp");
             mnFkUnitId = resultSet.getInt("fk_uom");
@@ -212,6 +223,8 @@ public class DDbJobMfgProd extends DDbRegistryUser implements DGridRow, DLibRegi
                     mdQuantity + ", " + 
                     mdMassUnit + ", " + 
                     mdMass_r + ", " + 
+                    mdBrix + ", " + 
+                    mdMassSolid_r + ", " + 
                     mnFkItemId + ", " + 
                     mnFkItemTypeId + ", " + 
                     mnFkUnitId + ", " + 
@@ -236,6 +249,8 @@ public class DDbJobMfgProd extends DDbRegistryUser implements DGridRow, DLibRegi
         registry.setQuantity(this.getQuantity());
         registry.setMassUnit(this.getMassUnit());
         registry.setMass_r(this.getMass_r());
+        registry.setBrix(this.getBrix());
+        registry.setMassSolid_r(this.getMassSolid_r());
         registry.setFkItemId(this.getFkItemId());
         registry.setFkItemTypeId(this.getFkItemTypeId());
         registry.setFkUnitId(this.getFkUnitId());
@@ -304,6 +319,9 @@ public class DDbJobMfgProd extends DDbRegistryUser implements DGridRow, DLibRegi
             case 3:
                 value = mdMass_r;
                 break;
+            case 4:
+                value = mdMassSolid_r;
+                break;
             default:
         }
         
@@ -321,6 +339,7 @@ public class DDbJobMfgProd extends DDbRegistryUser implements DGridRow, DLibRegi
         readXtaMembers(session);
         
         mdMass_r = DLibUtils.round(mdMassUnit * mdQuantity, DLibUtils.getDecimalFormatQuantity().getMaximumFractionDigits());
+        mdMassSolid_r = DLibUtils.round(mdMass_r * (mdBrix / DCfgConsts.BRIX_MAX), DLibUtils.getDecimalFormatQuantity().getMaximumFractionDigits());
     }
     
     public DDbWsdRow createWsdRow(final DDbJob job) {
