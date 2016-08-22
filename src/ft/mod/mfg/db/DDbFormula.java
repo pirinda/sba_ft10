@@ -40,8 +40,8 @@ public class DDbFormula extends DDbRegistryUser implements DLibRegistry {
     protected double mdFormulaMass_r;
     protected double mdFormulaMassSolid_r;
     protected double mdFormulaBrix_r;
-    protected double mdObjectiveBrix;
-    protected double mdObjectiveMass_r;
+    protected double mdTargetBrix;
+    protected double mdTargetMass_r;
     /*
     protected boolean mbDeleted;
     protected boolean mbSystem;
@@ -105,8 +105,8 @@ public class DDbFormula extends DDbRegistryUser implements DLibRegistry {
     public void setFormulaMass_r(double d) { mdFormulaMass_r = d; }
     public void setFormulaMassSolid_r(double d) { mdFormulaMassSolid_r = d; }
     public void setFormulaBrix_r(double d) { mdFormulaBrix_r = d; }
-    public void setObjectiveBrix(double d) { mdObjectiveBrix = d; }
-    public void setObjectiveMass_r(double d) { mdObjectiveMass_r = d; }
+    public void setTargetBrix(double d) { mdTargetBrix = d; }
+    public void setTargetMass_r(double d) { mdTargetMass_r = d; }
     public void setDeleted(boolean b) { mbDeleted = b; }
     public void setSystem(boolean b) { mbSystem = b; }
     public void setFkFormulaTypeId(int n) { mnFkFormulaTypeId = n; }
@@ -131,8 +131,8 @@ public class DDbFormula extends DDbRegistryUser implements DLibRegistry {
     public double getFormulaMass_r() { return mdFormulaMass_r; }
     public double getFormulaMassSolid_r() { return mdFormulaMassSolid_r; }
     public double getFormulaBrix_r() { return mdFormulaBrix_r; }
-    public double getObjectiveBrix() { return mdObjectiveBrix; }
-    public double getObjectiveMass_r() { return mdObjectiveMass_r; }
+    public double getTargetBrix() { return mdTargetBrix; }
+    public double getTargetMass_r() { return mdTargetMass_r; }
     public boolean isDeleted() { return mbDeleted; }
     public boolean isSystem() { return mbSystem; }
     public int getFkFormulaTypeId() { return mnFkFormulaTypeId; }
@@ -182,8 +182,8 @@ public class DDbFormula extends DDbRegistryUser implements DLibRegistry {
         mdFormulaMass_r = 0;
         mdFormulaMassSolid_r = 0;
         mdFormulaBrix_r = 0;
-        mdObjectiveBrix = 0;
-        mdObjectiveMass_r = 0;
+        mdTargetBrix = 0;
+        mdTargetMass_r = 0;
         mbDeleted = false;
         mbSystem = false;
         mnFkFormulaTypeId = 0;
@@ -259,8 +259,8 @@ public class DDbFormula extends DDbRegistryUser implements DLibRegistry {
             mdFormulaMass_r = resultSet.getDouble("frm_mass_r");
             mdFormulaMassSolid_r = resultSet.getDouble("frm_mass_sld_r");
             mdFormulaBrix_r = resultSet.getDouble("frm_brix_r");
-            mdObjectiveBrix = resultSet.getDouble("obj_brix");
-            mdObjectiveMass_r = resultSet.getDouble("obj_mass_r");
+            mdTargetBrix = resultSet.getDouble("tar_brix");
+            mdTargetMass_r = resultSet.getDouble("tar_mass_r");
             mbDeleted = resultSet.getBoolean("b_del");
             mbSystem = resultSet.getBoolean("b_sys");
             mnFkFormulaTypeId = resultSet.getInt("fk_frm_tp");
@@ -334,8 +334,8 @@ public class DDbFormula extends DDbRegistryUser implements DLibRegistry {
                     mdFormulaMass_r + ", " + 
                     mdFormulaMassSolid_r + ", " + 
                     mdFormulaBrix_r + ", " + 
-                    mdObjectiveBrix + ", " + 
-                    mdObjectiveMass_r + ", " + 
+                    mdTargetBrix + ", " + 
+                    mdTargetMass_r + ", " + 
                     (mbDeleted ? 1 : 0) + ", " + 
                     (mbSystem ? 1 : 0) + ", " + 
                     mnFkFormulaTypeId + ", " + 
@@ -365,8 +365,8 @@ public class DDbFormula extends DDbRegistryUser implements DLibRegistry {
                     "frm_mass_r = " + mdFormulaMass_r + ", " +
                     "frm_mass_sld_r = " + mdFormulaMassSolid_r + ", " +
                     "frm_brix_r = " + mdFormulaBrix_r + ", " +
-                    "obj_brix = " + mdObjectiveBrix + ", " +
-                    "obj_mass_r = " + mdObjectiveMass_r + ", " +
+                    "tar_brix = " + mdTargetBrix + ", " +
+                    "tar_mass_r = " + mdTargetMass_r + ", " +
                     "b_del = " + (mbDeleted ? 1 : 0) + ", " +
                     "b_sys = " + (mbSystem ? 1 : 0) + ", " +
                     "fk_frm_tp = " + mnFkFormulaTypeId + ", " +
@@ -425,8 +425,8 @@ public class DDbFormula extends DDbRegistryUser implements DLibRegistry {
         registry.setFormulaMass_r(this.getFormulaMass_r());
         registry.setFormulaMassSolid_r(this.getFormulaMassSolid_r());
         registry.setFormulaBrix_r(this.getFormulaBrix_r());
-        registry.setObjectiveBrix(this.getObjectiveBrix());
-        registry.setObjectiveMass_r(this.getObjectiveMass_r());
+        registry.setTargetBrix(this.getTargetBrix());
+        registry.setTargetMass_r(this.getTargetMass_r());
         registry.setDeleted(this.isDeleted());
         registry.setSystem(this.isSystem());
         registry.setFkFormulaTypeId(this.getFkFormulaTypeId());
@@ -465,10 +465,10 @@ public class DDbFormula extends DDbRegistryUser implements DLibRegistry {
         
         for (DDbFormulaComp child : maChildComps) {
             mdFormulaMass_r = DLibUtils.round(mdFormulaMass_r + child.getMass_r(), DLibUtils.getDecimalFormatQuantity().getMaximumFractionDigits());
-            mdFormulaMassSolid_r = DLibUtils.round(mdFormulaMassSolid_r + child.getMass_r(), DLibUtils.getDecimalFormatQuantity().getMaximumFractionDigits());
+            mdFormulaMassSolid_r = DLibUtils.round(mdFormulaMassSolid_r + child.getMassSolid_r(), DLibUtils.getDecimalFormatQuantity().getMaximumFractionDigits());
         }
         
         mdFormulaBrix_r = mdFormulaMass_r == 0d ? 0d : DLibUtils.round(mdFormulaMassSolid_r / mdFormulaMass_r * DCfgConsts.BRIX_MAX, DLibUtils.getDecimalFormatQuantity().getMaximumFractionDigits());
-        mdObjectiveMass_r = mdObjectiveBrix == 0d ? 0d : DLibUtils.round(mdFormulaMassSolid_r / mdObjectiveBrix * DCfgConsts.BRIX_MAX, DLibUtils.getDecimalFormatQuantity().getMaximumFractionDigits());
+        mdTargetMass_r = mdTargetBrix == 0d ? 0d : DLibUtils.round(mdFormulaMassSolid_r / mdTargetBrix * DCfgConsts.BRIX_MAX, DLibUtils.getDecimalFormatQuantity().getMaximumFractionDigits());
     }
 }

@@ -39,7 +39,7 @@ import sba.lib.gui.bean.DBeanForm;
 public class DFormItem extends DBeanForm implements ItemListener {
 
     private DDbItem moRegistry;
-    private DDbFamily moItemFamily;
+    private DDbFamily moFamily;
     private DDbUnit moUnit;
     private boolean mbAppliesItemBase;
     private boolean mbAppliesLotCode;
@@ -279,13 +279,7 @@ public class DFormItem extends DBeanForm implements ItemListener {
     }
     
     private void updateFieldBrix() {
-        if (moBoolBrix.getValue()) {
-            moCompBrix.setEditable(true);
-        }
-        else {
-            moCompBrix.getField().setValue(DCfgConsts.BRIX_MAX);
-            moCompBrix.setEditable(false);
-        }
+        moCompBrix.setEditable(moBoolBrix.getValue() && mbAppliesBrix && moFamily != null && moFamily.isBrix());
     }
     
     public void computeMassUnit() {
@@ -296,31 +290,28 @@ public class DFormItem extends DBeanForm implements ItemListener {
             moUnit = (DDbUnit) miClient.getSession().readRegistry(DModConsts.CU_UOM, moKeyUnit.getValue());
         }
         
-        moCompMassUnit.getField().setValue(DCfgUtils.getMassUnitBasic(miClient.getSession(), moUnit));
+        moCompMassUnit.getField().setValue(!moCompMassUnit.isEditable() ? 0d : DCfgUtils.getMassUnitBasic(miClient.getSession(), moUnit));
     }
     
     private void itemStateChangedFamily() {
         if (moKeyFamily.getSelectedIndex() <= 0) {
-            moItemFamily = null;
-            
-            moKeyItemBase.removeAllItems();
-            
-            moKeyUnit.resetField();
-            moCompMassUnit.getField().resetField();
-            moBoolBrix.resetField();
-            moCompBrix.getField().resetField();
-        }
-        else {
-            moItemFamily = (DDbFamily) miClient.getSession().readRegistry(DModConsts.CU_FAM, moKeyFamily.getValue());
+            moFamily = null;
             
             if (mbAppliesItemBase) {
-                miClient.getSession().populateCatalogue(moKeyItemBase, DModConsts.CU_ITM, DLibConsts.UNDEFINED, new DGuiParams(new int[] { moItemFamily.getFkFamilyBaseId_n() }));
+                moKeyItemBase.removeAllItems();
+            }
+        }
+        else {
+            moFamily = (DDbFamily) miClient.getSession().readRegistry(DModConsts.CU_FAM, moKeyFamily.getValue());
+            
+            if (mbAppliesItemBase) {
+                miClient.getSession().populateCatalogue(moKeyItemBase, DModConsts.CU_ITM, DLibConsts.UNDEFINED, new DGuiParams(new int[] { moFamily.getFkFamilyBaseId_n() }));
             }
             
-            moKeyUnit.setValue(new int[] { moItemFamily.getFkUnitId() });
-            moCompMassUnit.getField().setValue(moItemFamily.getMassUnit());
-            moBoolBrix.setValue(moItemFamily.isBrix());
-            moCompBrix.getField().setValue(moItemFamily.getBrix());
+            moKeyUnit.setValue(new int[] { moFamily.getFkUnitId() });
+            moCompMassUnit.getField().setValue(moFamily.getMassUnit());
+            moBoolBrix.setValue(moFamily.isBrix());
+            moCompBrix.getField().setValue(moFamily.getBrix());
         }
         
         updateFieldItemBase();

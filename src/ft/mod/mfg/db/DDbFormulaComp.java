@@ -60,36 +60,36 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow, DLibReg
         switch (mnFkCompTypeId) {
             case DModSysConsts.MS_CMP_TP_FAM:
                 moRegFamily = (DDbFamily) session.readRegistry(DModConsts.CU_FAM, new int[] { mnFkFamilyId });
+                
                 moRegItem = null;
                 
                 if (update) {
                     mnFkItemTypeId = moRegFamily.getFkItemTypeId();
                     mnFkUnitId = moRegFamily.getFkUnitId();
+                    mdMassUnit = moRegFamily.getMassUnit();
+                    mdBrix = moRegFamily.getBrix();
+                    
+                    mnFkItemId = DModSysConsts.CU_ITM_ND;
                 }
                 
                 moRegUnit = (DDbUnit) session.readRegistry(DModConsts.CU_UOM, new int[] { mnFkUnitId });
-                
-                if (update) {
-                    mdMassUnit = moRegFamily.getMassUnit();
-                    mdBrix = moRegFamily.getBrix();
-                }
                 break;
                 
             case DModSysConsts.MS_CMP_TP_ITM:
                 moRegItem = (DDbItem) session.readRegistry(DModConsts.CU_ITM, new int[] { mnFkItemId });
-                moRegFamily = null;
+                
+                moRegFamily = moRegItem.getRegFamily();
                 
                 if (update) {
                     mnFkItemTypeId = moRegItem.getRegFamily().getFkItemTypeId();
                     mnFkUnitId = moRegItem.getFkUnitId();
+                    mdMassUnit = moRegItem.getMassUnit();
+                    mdBrix = moRegItem.getBrix();
+                    
+                    mnFkFamilyId = moRegItem.getFkFamilyId();
                 }
                 
                 moRegUnit = (DDbUnit) session.readRegistry(DModConsts.CU_UOM, new int[] { mnFkUnitId });
-                
-                if (update) {
-                    mdMassUnit = moRegItem.getMassUnit();
-                    mdBrix = moRegItem.getBrix();
-                }
                 break;
                 
             default:
@@ -99,8 +99,8 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow, DLibReg
     private void readXtaMembers(final DGuiSession session) {
         msXtaCompTypeCode = (String) session.readField(DModConsts.MS_CMP_TP, new int[] { mnFkCompTypeId }, DDbRegistry.FIELD_CODE);
         msXtaCompTypeName = (String) session.readField(DModConsts.MS_CMP_TP, new int[] { mnFkCompTypeId }, DDbRegistry.FIELD_NAME);
-        msXtaCompIncTypeCode = (String) session.readField(DModConsts.MS_CMP_TP, new int[] { mnFkCompTypeId }, DDbRegistry.FIELD_CODE);
-        msXtaCompIncTypeName = (String) session.readField(DModConsts.MS_CMP_TP, new int[] { mnFkCompTypeId }, DDbRegistry.FIELD_NAME);
+        msXtaCompIncTypeCode = (String) session.readField(DModConsts.MS_CMP_INC_TP, new int[] { mnFkCompIncTypeId }, DDbRegistry.FIELD_CODE);
+        msXtaCompIncTypeName = (String) session.readField(DModConsts.MS_CMP_INC_TP, new int[] { mnFkCompIncTypeId }, DDbRegistry.FIELD_NAME);
     }
 
     public void setPkFormulaId(int n) { mnPkFormulaId = n; }

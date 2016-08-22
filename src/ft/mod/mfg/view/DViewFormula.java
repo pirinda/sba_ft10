@@ -49,6 +49,8 @@ public class DViewFormula extends DGridPaneView {
                 "v.ref, " +
                 "v.qty, " +
                 "v.frm_mass_r, " +
+                "v.frm_mass_sld_r, " +
+                "v.tar_mass_r, " +
                 "ft.code, " +
                 "ft.name, " +
                 "i.code, " +
@@ -89,7 +91,7 @@ public class DViewFormula extends DGridPaneView {
     @Override
     public void createGridColumns() {
         int col = 0;
-        DGridColumnView[] columns = new DGridColumnView[16];
+        DGridColumnView[] columns = new DGridColumnView[18];
 
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_ITM_L, DDbConsts.FIELD_NAME, DGridConsts.COL_TITLE_NAME + " producto");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_CODE_ITM, DDbConsts.FIELD_CODE, DGridConsts.COL_TITLE_CODE + " producto");
@@ -101,6 +103,8 @@ public class DViewFormula extends DGridPaneView {
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_DEC_QTY, "v.qty", "Cantidad");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_CODE_UNT, "u.code", "Unidad medida");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_DEC_QTY, "v.frm_mass_r", "Masa (" + DCfgUtils.getMassUnitCode(miClient.getSession()) + ")");
+        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_DEC_QTY, "v.frm_mass_sld_r", "Masa sólida (" + DCfgUtils.getMassUnitCode(miClient.getSession()) + ")");
+        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_DEC_QTY, "v.tar_mass_r", "Masa meta (" + DCfgUtils.getMassUnitCode(miClient.getSession()) + ")");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_BOOL_S, DDbConsts.FIELD_IS_DEL, DGridConsts.COL_TITLE_IS_DEL);
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_BOOL_S, DDbConsts.FIELD_IS_SYS, DGridConsts.COL_TITLE_IS_SYS);
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_USR, DDbConsts.FIELD_USER_INS_NAME, DGridConsts.COL_TITLE_USER_INS_NAME);

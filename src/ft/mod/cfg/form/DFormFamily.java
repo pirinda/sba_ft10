@@ -280,11 +280,6 @@ public class DFormFamily extends DBeanForm implements ItemListener {
             moBoolBrix.setEnabled(false);
             moKeyDepart.setEnabled(false);
             moKeyLine.setEnabled(false);
-            
-            moKeyUnit.resetField();
-            moCompMassUnit.getField().resetField();
-            moBoolBrix.resetField();
-            moCompBrix.getField().resetField();
         }
         else {
             moKeyFamilyBase.setEnabled(DCfgUtils.doesItemTypeRequireFamilyBase(moKeyItemType.getValue()[0]));
@@ -294,16 +289,12 @@ public class DFormFamily extends DBeanForm implements ItemListener {
             moKeyDepart.setEditable(DCfgUtils.doesItemTypeRequireLine(moKeyItemType.getValue()[0]));
             moKeyLine.setEditable(DCfgUtils.doesItemTypeRequireLine(moKeyItemType.getValue()[0]) && moKeyDepart.getSelectedIndex() > 0);
         }
+        
+        updateFieldBrix();
     }
     
     private void updateFieldBrix() {
-        if (moBoolBrix.getValue()) {
-            moCompBrix.setEditable(true);
-        }
-        else {
-            moCompBrix.getField().setValue(DCfgConsts.BRIX_MAX);
-            moCompBrix.setEditable(false);
-        }
+        moCompBrix.setEditable(moBoolBrix.getValue() && moKeyItemType.getSelectedIndex() > 0 && DCfgUtils.doesItemTypeRequireBrix(moKeyItemType.getValue()[0]));
     }
     
     public void computeMassUnit() {
@@ -318,12 +309,6 @@ public class DFormFamily extends DBeanForm implements ItemListener {
     }
     
     private void itemStateChangedItemType() {
-        if (moKeyItemType.getSelectedIndex() <= 0) {
-            moKeyFamilyBase.resetField();
-            moTextLotCode.resetField();
-            moKeyGroupLine.resetGroup();
-        }
-        
         updateFieldItemType();
         updateFieldBrix();
     }

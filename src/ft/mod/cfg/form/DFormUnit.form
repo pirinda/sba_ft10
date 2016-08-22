@@ -134,6 +134,11 @@
                   </Properties>
                 </Component>
                 <Component class="sba.lib.gui.bean.DBeanFieldInteger" name="moIntSortingPos">
+                  <Properties>
+                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                      <Dimension value="[50, 23]"/>
+                    </Property>
+                  </Properties>
                 </Component>
               </SubComponents>
             </Container>
