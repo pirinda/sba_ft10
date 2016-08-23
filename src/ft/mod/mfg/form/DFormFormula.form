@@ -823,7 +823,7 @@
                           <SubComponents>
                             <Component class="javax.swing.JLabel" name="jlCompCompIncType">
                               <Properties>
-                                <Property name="text" type="java.lang.String" value="Tipo incorp.:*"/>
+                                <Property name="text" type="java.lang.String" value="Tipo incorporaci&#xf3;n:*"/>
                                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                                   <Dimension value="[100, 23]"/>
                                 </Property>
@@ -847,7 +847,7 @@
                           <SubComponents>
                             <Component class="javax.swing.JLabel" name="jlCompExclusionLabel">
                               <Properties>
-                                <Property name="text" type="java.lang.String" value="Etiq. exclusi&#xf3;n:*"/>
+                                <Property name="text" type="java.lang.String" value="Etiqueta exclusi&#xf3;n:*"/>
                                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                                   <Dimension value="[100, 23]"/>
                                 </Property>

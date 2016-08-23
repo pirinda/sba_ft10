@@ -60,6 +60,7 @@ public class DDbJobMfgProd extends DDbRegistryUser implements DGridRow, DLibRegi
             mnFkUnitId = moRegItem.getFkUnitId();
             mnFkPresentId = moRegItem.getFkPresentId();
             mdMassUnit = moRegItem.getMassUnit();
+            mdBrix = moRegItem.getBrix();
         }
         
         moRegUnit = (DDbUnit) session.readRegistry(DModConsts.CU_UOM, new int[] { mnFkUnitId });
@@ -318,9 +319,6 @@ public class DDbJobMfgProd extends DDbRegistryUser implements DGridRow, DLibRegi
                 break;
             case 3:
                 value = mdMass_r;
-                break;
-            case 4:
-                value = mdMassSolid_r;
                 break;
             default:
         }

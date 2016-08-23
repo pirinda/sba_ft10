@@ -89,11 +89,13 @@
             <MenuItem class="javax.swing.JMenuItem" name="jmiCfgUser">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Usuarios"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jmiCfgUserProfile">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Usuarios y perfiles"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </MenuItem>
             <MenuItem class="javax.swing.JPopupMenu$Separator" name="jsCfg4">
@@ -101,6 +103,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="jmiCfgConfig">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Configuraci&#xf3;n del sistema"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </MenuItem>
           </SubComponents>
@@ -210,6 +213,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="jmiFrmFormulaByProd">
               <Properties>
                 <Property name="text" type="java.lang.String" value="F&#xf3;rmulas y subproductos"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </MenuItem>
           </SubComponents>
@@ -329,6 +333,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="jmiHelpHelp">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Ayuda"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </MenuItem>
             <MenuItem class="javax.swing.JPopupMenu$Separator" name="jsHlp1">
@@ -336,6 +341,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="jmiHelpAbout">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Acerca de..."/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </MenuItem>
           </SubComponents>

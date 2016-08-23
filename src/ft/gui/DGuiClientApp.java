@@ -338,13 +338,16 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
         jmCfg.add(jsCfg3);
 
         jmiCfgUser.setText("Usuarios");
+        jmiCfgUser.setEnabled(false);
         jmCfg.add(jmiCfgUser);
 
         jmiCfgUserProfile.setText("Usuarios y perfiles");
+        jmiCfgUserProfile.setEnabled(false);
         jmCfg.add(jmiCfgUserProfile);
         jmCfg.add(jsCfg4);
 
         jmiCfgConfig.setText("Configuración del sistema");
+        jmiCfgConfig.setEnabled(false);
         jmCfg.add(jmiCfgConfig);
 
         jMenuBar1.add(jmCfg);
@@ -409,6 +412,7 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
         jmFrm.add(jmiFrmFormulaComp);
 
         jmiFrmFormulaByProd.setText("Fórmulas y subproductos");
+        jmiFrmFormulaByProd.setEnabled(false);
         jmFrm.add(jmiFrmFormulaByProd);
 
         jMenuBar1.add(jmFrm);
@@ -479,10 +483,12 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
         jmHelp.setText("Ayuda");
 
         jmiHelpHelp.setText("Ayuda");
+        jmiHelpHelp.setEnabled(false);
         jmHelp.add(jmiHelpHelp);
         jmHelp.add(jsHlp1);
 
         jmiHelpAbout.setText("Acerca de...");
+        jmiHelpAbout.setEnabled(false);
         jmHelp.add(jmiHelpAbout);
 
         jMenuBar1.add(jmHelp);

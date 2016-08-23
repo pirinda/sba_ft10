@@ -14,7 +14,7 @@
     <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
-    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,2,118,0,0,4,64"/>
+    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,2,-118,0,0,4,96"/>
   </AuxValues>
 
   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
@@ -243,7 +243,6 @@
                         </Component>
                         <Component class="sba.lib.gui.bean.DBeanCompoundField" name="moCompJobFormulaQuantity">
                           <Properties>
-                            <Property name="toolTipText" type="java.lang.String" value="Cant. f&#xf3;rmula"/>
                             <Property name="editable" type="boolean" value="false"/>
                           </Properties>
                         </Component>
@@ -266,7 +265,6 @@
                         </Component>
                         <Component class="sba.lib.gui.bean.DBeanCompoundField" name="moCompJobFormulaTargetMass">
                           <Properties>
-                            <Property name="toolTipText" type="java.lang.String" value="Masa f&#xf3;rmula"/>
                             <Property name="editable" type="boolean" value="false"/>
                           </Properties>
                         </Component>
@@ -301,6 +299,54 @@
                     <Property name="verticalGap" type="int" value="5"/>
                   </Layout>
                   <SubComponents>
+                    <Container class="javax.swing.JPanel" name="jPanel23">
+
+                      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout">
+                        <Property name="alignment" type="int" value="0"/>
+                        <Property name="verticalGap" type="int" value="0"/>
+                      </Layout>
+                      <SubComponents>
+                        <Component class="javax.swing.JLabel" name="jlJobDepart">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="Depto. producci&#xf3;n:*"/>
+                            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                              <Dimension value="[100, 23]"/>
+                            </Property>
+                          </Properties>
+                        </Component>
+                        <Component class="sba.lib.gui.bean.DBeanFieldKey" name="moKeyJobDepart">
+                          <Properties>
+                            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                              <Dimension value="[200, 23]"/>
+                            </Property>
+                          </Properties>
+                        </Component>
+                      </SubComponents>
+                    </Container>
+                    <Container class="javax.swing.JPanel" name="jPanel24">
+
+                      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout">
+                        <Property name="alignment" type="int" value="0"/>
+                        <Property name="verticalGap" type="int" value="0"/>
+                      </Layout>
+                      <SubComponents>
+                        <Component class="javax.swing.JLabel" name="jlJobLine">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="L&#xed;nea producci&#xf3;n:*"/>
+                            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                              <Dimension value="[100, 23]"/>
+                            </Property>
+                          </Properties>
+                        </Component>
+                        <Component class="sba.lib.gui.bean.DBeanFieldKey" name="moKeyJobLine">
+                          <Properties>
+                            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                              <Dimension value="[200, 23]"/>
+                            </Property>
+                          </Properties>
+                        </Component>
+                      </SubComponents>
+                    </Container>
                     <Container class="javax.swing.JPanel" name="jPanel14">
 
                       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout">
@@ -346,54 +392,6 @@
                             </Property>
                             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                               <Dimension value="[50, 23]"/>
-                            </Property>
-                          </Properties>
-                        </Component>
-                      </SubComponents>
-                    </Container>
-                    <Container class="javax.swing.JPanel" name="jPanel23">
-
-                      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout">
-                        <Property name="alignment" type="int" value="0"/>
-                        <Property name="verticalGap" type="int" value="0"/>
-                      </Layout>
-                      <SubComponents>
-                        <Component class="javax.swing.JLabel" name="jlJobDepart">
-                          <Properties>
-                            <Property name="text" type="java.lang.String" value="Depto. producci&#xf3;n:*"/>
-                            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                              <Dimension value="[100, 23]"/>
-                            </Property>
-                          </Properties>
-                        </Component>
-                        <Component class="sba.lib.gui.bean.DBeanFieldKey" name="moKeyJobDepart">
-                          <Properties>
-                            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                              <Dimension value="[200, 23]"/>
-                            </Property>
-                          </Properties>
-                        </Component>
-                      </SubComponents>
-                    </Container>
-                    <Container class="javax.swing.JPanel" name="jPanel24">
-
-                      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout">
-                        <Property name="alignment" type="int" value="0"/>
-                        <Property name="verticalGap" type="int" value="0"/>
-                      </Layout>
-                      <SubComponents>
-                        <Component class="javax.swing.JLabel" name="jlJobLine">
-                          <Properties>
-                            <Property name="text" type="java.lang.String" value="L&#xed;nea producci&#xf3;n:*"/>
-                            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                              <Dimension value="[100, 23]"/>
-                            </Property>
-                          </Properties>
-                        </Component>
-                        <Component class="sba.lib.gui.bean.DBeanFieldKey" name="moKeyJobLine">
-                          <Properties>
-                            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                              <Dimension value="[200, 23]"/>
                             </Property>
                           </Properties>
                         </Component>
@@ -513,7 +511,7 @@
                       <SubComponents>
                         <Component class="javax.swing.JLabel" name="jlJobMfgProdJob">
                           <Properties>
-                            <Property name="text" type="java.lang.String" value="Programada:"/>
+                            <Property name="text" type="java.lang.String" value="Formulaci&#xf3;n:"/>
                             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                               <Dimension value="[100, 23]"/>
                             </Property>
@@ -540,7 +538,7 @@
                       <SubComponents>
                         <Component class="javax.swing.JLabel" name="jlJobMfgProdMfgProd">
                           <Properties>
-                            <Property name="text" type="java.lang.String" value="Producida:"/>
+                            <Property name="text" type="java.lang.String" value="Producci&#xf3;n:"/>
                             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                               <Dimension value="[100, 23]"/>
                             </Property>
@@ -565,20 +563,20 @@
                         <Property name="verticalGap" type="int" value="0"/>
                       </Layout>
                       <SubComponents>
-                        <Component class="javax.swing.JLabel" name="jlJobMfgProdDiff">
+                        <Component class="javax.swing.JLabel" name="jlJobMfgProdMfgProdDiff">
                           <Properties>
-                            <Property name="text" type="java.lang.String" value="Diferencia:"/>
+                            <Property name="text" type="java.lang.String" value="Remanente:"/>
                             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                               <Dimension value="[100, 23]"/>
                             </Property>
                           </Properties>
                         </Component>
-                        <Component class="sba.lib.gui.bean.DBeanCompoundField" name="moCompJobDifferenceQuantity">
+                        <Component class="sba.lib.gui.bean.DBeanCompoundField" name="moCompJobMfgProdQuantityDiff">
                           <Properties>
                             <Property name="editable" type="boolean" value="false"/>
                           </Properties>
                         </Component>
-                        <Component class="sba.lib.gui.bean.DBeanCompoundField" name="moCompJobDifferenceMass">
+                        <Component class="sba.lib.gui.bean.DBeanCompoundField" name="moCompJobMfgProdMassDiff">
                           <Properties>
                             <Property name="editable" type="boolean" value="false"/>
                           </Properties>
@@ -739,6 +737,21 @@
                     <Property name="alignment" type="int" value="0"/>
                     <Property name="verticalGap" type="int" value="0"/>
                   </Layout>
+                  <SubComponents>
+                    <Component class="javax.swing.JLabel" name="jlJobPackingFactor">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Factor consumo:"/>
+                        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[100, 23]"/>
+                        </Property>
+                      </Properties>
+                    </Component>
+                    <Component class="sba.lib.gui.bean.DBeanFieldDecimal" name="moDecJobPackingFactor">
+                      <Properties>
+                        <Property name="editable" type="boolean" value="false"/>
+                      </Properties>
+                    </Component>
+                  </SubComponents>
                 </Container>
                 <Container class="javax.swing.JPanel" name="jPanel46">
 
@@ -747,14 +760,14 @@
                     <Property name="verticalGap" type="int" value="0"/>
                   </Layout>
                   <SubComponents>
-                    <Component class="javax.swing.JLabel" name="jlJobMfgProdMass3">
+                    <Component class="javax.swing.JLabel" name="jlJobReqment1">
                       <Properties>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                           <Dimension value="[100, 23]"/>
                         </Property>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JLabel" name="jlJobMfgProdMass4">
+                    <Component class="javax.swing.JLabel" name="jlJobReqment2">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="Insumos:"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -815,15 +828,15 @@
                     <Property name="verticalGap" type="int" value="0"/>
                   </Layout>
                   <SubComponents>
-                    <Component class="javax.swing.JLabel" name="jlJobConsumpMass1">
+                    <Component class="javax.swing.JLabel" name="jlJobConsumpMassDiff">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="Diferencia:"/>
+                        <Property name="text" type="java.lang.String" value="Remanente:"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                           <Dimension value="[100, 23]"/>
                         </Property>
                       </Properties>
                     </Component>
-                    <Component class="sba.lib.gui.bean.DBeanCompoundField" name="moCompJobConsumpMass1">
+                    <Component class="sba.lib.gui.bean.DBeanCompoundField" name="moCompJobConsumpMassDiff">
                       <Properties>
                         <Property name="editable" type="boolean" value="false"/>
                       </Properties>
@@ -922,7 +935,7 @@
                                 <Property name="text" type="java.lang.String" value="jTextField2"/>
                                 <Property name="focusable" type="boolean" value="false"/>
                                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                                  <Dimension value="[240, 23]"/>
+                                  <Dimension value="[250, 23]"/>
                                 </Property>
                               </Properties>
                             </Component>
@@ -956,7 +969,7 @@
                                 <Property name="text" type="java.lang.String" value="jTextField2"/>
                                 <Property name="focusable" type="boolean" value="false"/>
                                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                                  <Dimension value="[240, 23]"/>
+                                  <Dimension value="[250, 23]"/>
                                 </Property>
                               </Properties>
                             </Component>
@@ -1018,7 +1031,7 @@
                             </Component>
                             <Component class="sba.lib.gui.bean.DBeanFieldBoolean" name="moBoolConsumpRework">
                               <Properties>
-                                <Property name="text" type="java.lang.String" value="Re-trabajo"/>
+                                <Property name="text" type="java.lang.String" value="Retrabajo"/>
                                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                                   <Dimension value="[82, 23]"/>
                                 </Property>

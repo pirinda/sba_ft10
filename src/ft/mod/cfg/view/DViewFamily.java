@@ -99,7 +99,7 @@ public class DViewFamily extends DGridPaneView {
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_CAT_S, "fb.name", "Familia base");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_CAT_S, "u.name", "Unidad medida");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_CODE_CAT, "v.lot_code", DGridConsts.COL_TITLE_CODE + " lotes");
-        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_DEC_AMT_UNIT, "v.mass_unt", "Masa unit. (" + DCfgUtils.getMassUnitCode(miClient.getSession()) + ")");
+        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_DEC_AMT_UNIT, "v.mass_unt", "Masa unit (" + DCfgUtils.getMassUnitCode(miClient.getSession()) + ")");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_BOOL_S, "v.b_brix", "Aplican " + DCfgConsts.BRIX);
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_DEC_QTY, "v.brix", DCfgConsts.BRIX);
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_CAT_S, "l.name", "Línea producción");

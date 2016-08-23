@@ -60,7 +60,6 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow, DLibReg
         switch (mnFkCompTypeId) {
             case DModSysConsts.MS_CMP_TP_FAM:
                 moRegFamily = (DDbFamily) session.readRegistry(DModConsts.CU_FAM, new int[] { mnFkFamilyId });
-                
                 moRegItem = null;
                 
                 if (update) {
@@ -77,7 +76,6 @@ public class DDbFormulaComp extends DDbRegistryUser implements DGridRow, DLibReg
                 
             case DModSysConsts.MS_CMP_TP_ITM:
                 moRegItem = (DDbItem) session.readRegistry(DModConsts.CU_ITM, new int[] { mnFkItemId });
-                
                 moRegFamily = moRegItem.getRegFamily();
                 
                 if (update) {

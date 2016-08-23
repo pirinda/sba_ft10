@@ -25,6 +25,7 @@ import ft.mod.qty.db.DDbTestAppResultVariable;
 import ft.mod.qty.db.DDbTestVariable;
 import ft.mod.qty.db.DQtyUtils;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -66,9 +67,9 @@ import sba.lib.gui.bean.DBeanForm;
  */
 public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionListener, ItemListener, FocusListener, ListSelectionListener {
     
-    private static final int TAB_MFG = 0;
-    private static final int TAB_QTY = 1;
-    private static final int TAB_STS = 2;
+    private static final int TAB_MFG = 0;   // manufacturing
+    private static final int TAB_QTY = 1;   // quality-assurance
+    private static final int TAB_STS = 2;   // statistics
 
     private DDbJob moRegistry;
     private DDbFormula moFormula;
@@ -80,6 +81,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
     private String msCompTypeNameFam;
     private HashMap<Integer, String> moMapStatus;
     private ArrayList<DDbJobConsump> maConsumps;
+    private ArrayList<DDbJobVariable> maVariables;
     private ArrayList<DDbTestApp> maTestApps;
     private DGuiFields moFieldsConsump;
     private DGuiFields moFieldsMfgProd;
@@ -144,17 +146,17 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         jlJobLoads = new javax.swing.JLabel();
         moDecJobLoads = new sba.lib.gui.bean.DBeanFieldDecimal();
         jpJob12 = new javax.swing.JPanel();
-        jPanel14 = new javax.swing.JPanel();
-        jlJobStatus = new javax.swing.JLabel();
-        jtfJobStatus = new javax.swing.JTextField();
-        jbJobGoStatusPrev = new javax.swing.JButton();
-        jbJobGoStatusNext = new javax.swing.JButton();
         jPanel23 = new javax.swing.JPanel();
         jlJobDepart = new javax.swing.JLabel();
         moKeyJobDepart = new sba.lib.gui.bean.DBeanFieldKey();
         jPanel24 = new javax.swing.JPanel();
         jlJobLine = new javax.swing.JLabel();
         moKeyJobLine = new sba.lib.gui.bean.DBeanFieldKey();
+        jPanel14 = new javax.swing.JPanel();
+        jlJobStatus = new javax.swing.JLabel();
+        jtfJobStatus = new javax.swing.JTextField();
+        jbJobGoStatusPrev = new javax.swing.JButton();
+        jbJobGoStatusNext = new javax.swing.JButton();
         jPanel13 = new javax.swing.JPanel();
         jlJobLot = new javax.swing.JLabel();
         moTextJobLot = new sba.lib.gui.bean.DBeanFieldText();
@@ -178,9 +180,9 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         moCompJobMfgProdQuantity = new sba.lib.gui.bean.DBeanCompoundField();
         moCompJobMfgProdMass = new sba.lib.gui.bean.DBeanCompoundField();
         jPanel44 = new javax.swing.JPanel();
-        jlJobMfgProdDiff = new javax.swing.JLabel();
-        moCompJobDifferenceQuantity = new sba.lib.gui.bean.DBeanCompoundField();
-        moCompJobDifferenceMass = new sba.lib.gui.bean.DBeanCompoundField();
+        jlJobMfgProdMfgProdDiff = new javax.swing.JLabel();
+        moCompJobMfgProdQuantityDiff = new sba.lib.gui.bean.DBeanCompoundField();
+        moCompJobMfgProdMassDiff = new sba.lib.gui.bean.DBeanCompoundField();
         jpJob2 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jlJobWarehouseMaterials = new javax.swing.JLabel();
@@ -198,9 +200,11 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         jtfJobWsdProductsNumber = new javax.swing.JTextField();
         jPanel43 = new javax.swing.JPanel();
         jPanel45 = new javax.swing.JPanel();
+        jlJobPackingFactor = new javax.swing.JLabel();
+        moDecJobPackingFactor = new sba.lib.gui.bean.DBeanFieldDecimal();
         jPanel46 = new javax.swing.JPanel();
-        jlJobMfgProdMass3 = new javax.swing.JLabel();
-        jlJobMfgProdMass4 = new javax.swing.JLabel();
+        jlJobReqment1 = new javax.swing.JLabel();
+        jlJobReqment2 = new javax.swing.JLabel();
         jPanel27 = new javax.swing.JPanel();
         jlJobReqmentMass = new javax.swing.JLabel();
         moCompJobReqmentMass = new sba.lib.gui.bean.DBeanCompoundField();
@@ -208,8 +212,8 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         jlJobConsumpMass = new javax.swing.JLabel();
         moCompJobConsumpMass = new sba.lib.gui.bean.DBeanCompoundField();
         jPanel42 = new javax.swing.JPanel();
-        jlJobConsumpMass1 = new javax.swing.JLabel();
-        moCompJobConsumpMass1 = new sba.lib.gui.bean.DBeanCompoundField();
+        jlJobConsumpMassDiff = new javax.swing.JLabel();
+        moCompJobConsumpMassDiff = new sba.lib.gui.bean.DBeanCompoundField();
         jtpJob = new javax.swing.JTabbedPane();
         jpMfg = new javax.swing.JPanel();
         jpReqments = new javax.swing.JPanel();
@@ -371,7 +375,6 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         jlJobFormulaQuantity.setPreferredSize(new java.awt.Dimension(100, 23));
         jPanel20.add(jlJobFormulaQuantity);
 
-        moCompJobFormulaQuantity.setToolTipText("Cant. fórmula");
         moCompJobFormulaQuantity.setEditable(false);
         jPanel20.add(moCompJobFormulaQuantity);
 
@@ -383,7 +386,6 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         jlJobFormulaTargetMass.setPreferredSize(new java.awt.Dimension(100, 23));
         jPanel41.add(jlJobFormulaTargetMass);
 
-        moCompJobFormulaTargetMass.setToolTipText("Masa fórmula");
         moCompJobFormulaTargetMass.setEditable(false);
         jPanel41.add(moCompJobFormulaTargetMass);
 
@@ -401,6 +403,28 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         jpJob1.add(jpJob11);
 
         jpJob12.setLayout(new java.awt.GridLayout(10, 1, 0, 5));
+
+        jPanel23.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
+
+        jlJobDepart.setText("Depto. producción:*");
+        jlJobDepart.setPreferredSize(new java.awt.Dimension(100, 23));
+        jPanel23.add(jlJobDepart);
+
+        moKeyJobDepart.setPreferredSize(new java.awt.Dimension(200, 23));
+        jPanel23.add(moKeyJobDepart);
+
+        jpJob12.add(jPanel23);
+
+        jPanel24.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
+
+        jlJobLine.setText("Línea producción:*");
+        jlJobLine.setPreferredSize(new java.awt.Dimension(100, 23));
+        jPanel24.add(jlJobLine);
+
+        moKeyJobLine.setPreferredSize(new java.awt.Dimension(200, 23));
+        jPanel24.add(moKeyJobLine);
+
+        jpJob12.add(jPanel24);
 
         jPanel14.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
@@ -426,28 +450,6 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         jPanel14.add(jbJobGoStatusNext);
 
         jpJob12.add(jPanel14);
-
-        jPanel23.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
-
-        jlJobDepart.setText("Depto. producción:*");
-        jlJobDepart.setPreferredSize(new java.awt.Dimension(100, 23));
-        jPanel23.add(jlJobDepart);
-
-        moKeyJobDepart.setPreferredSize(new java.awt.Dimension(200, 23));
-        jPanel23.add(moKeyJobDepart);
-
-        jpJob12.add(jPanel23);
-
-        jPanel24.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
-
-        jlJobLine.setText("Línea producción:*");
-        jlJobLine.setPreferredSize(new java.awt.Dimension(100, 23));
-        jPanel24.add(jlJobLine);
-
-        moKeyJobLine.setPreferredSize(new java.awt.Dimension(200, 23));
-        jPanel24.add(moKeyJobLine);
-
-        jpJob12.add(jPanel24);
 
         jPanel13.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
@@ -500,7 +502,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
 
         jPanel21.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
-        jlJobMfgProdJob.setText("Programada:");
+        jlJobMfgProdJob.setText("Formulación:");
         jlJobMfgProdJob.setPreferredSize(new java.awt.Dimension(100, 23));
         jPanel21.add(jlJobMfgProdJob);
 
@@ -514,7 +516,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
 
         jPanel29.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
-        jlJobMfgProdMfgProd.setText("Producida:");
+        jlJobMfgProdMfgProd.setText("Producción:");
         jlJobMfgProdMfgProd.setPreferredSize(new java.awt.Dimension(100, 23));
         jPanel29.add(jlJobMfgProdMfgProd);
 
@@ -528,15 +530,15 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
 
         jPanel44.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
-        jlJobMfgProdDiff.setText("Diferencia:");
-        jlJobMfgProdDiff.setPreferredSize(new java.awt.Dimension(100, 23));
-        jPanel44.add(jlJobMfgProdDiff);
+        jlJobMfgProdMfgProdDiff.setText("Remanente:");
+        jlJobMfgProdMfgProdDiff.setPreferredSize(new java.awt.Dimension(100, 23));
+        jPanel44.add(jlJobMfgProdMfgProdDiff);
 
-        moCompJobDifferenceQuantity.setEditable(false);
-        jPanel44.add(moCompJobDifferenceQuantity);
+        moCompJobMfgProdQuantityDiff.setEditable(false);
+        jPanel44.add(moCompJobMfgProdQuantityDiff);
 
-        moCompJobDifferenceMass.setEditable(false);
-        jPanel44.add(moCompJobDifferenceMass);
+        moCompJobMfgProdMassDiff.setEditable(false);
+        jPanel44.add(moCompJobMfgProdMassDiff);
 
         jpJob12.add(jPanel44);
 
@@ -614,16 +616,24 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         jpJob2.add(jPanel43);
 
         jPanel45.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
+
+        jlJobPackingFactor.setText("Factor consumo:");
+        jlJobPackingFactor.setPreferredSize(new java.awt.Dimension(100, 23));
+        jPanel45.add(jlJobPackingFactor);
+
+        moDecJobPackingFactor.setEditable(false);
+        jPanel45.add(moDecJobPackingFactor);
+
         jpJob2.add(jPanel45);
 
         jPanel46.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
-        jlJobMfgProdMass3.setPreferredSize(new java.awt.Dimension(100, 23));
-        jPanel46.add(jlJobMfgProdMass3);
+        jlJobReqment1.setPreferredSize(new java.awt.Dimension(100, 23));
+        jPanel46.add(jlJobReqment1);
 
-        jlJobMfgProdMass4.setText("Insumos:");
-        jlJobMfgProdMass4.setPreferredSize(new java.awt.Dimension(140, 23));
-        jPanel46.add(jlJobMfgProdMass4);
+        jlJobReqment2.setText("Insumos:");
+        jlJobReqment2.setPreferredSize(new java.awt.Dimension(140, 23));
+        jPanel46.add(jlJobReqment2);
 
         jpJob2.add(jPanel46);
 
@@ -651,12 +661,12 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
 
         jPanel42.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
-        jlJobConsumpMass1.setText("Diferencia:");
-        jlJobConsumpMass1.setPreferredSize(new java.awt.Dimension(100, 23));
-        jPanel42.add(jlJobConsumpMass1);
+        jlJobConsumpMassDiff.setText("Remanente:");
+        jlJobConsumpMassDiff.setPreferredSize(new java.awt.Dimension(100, 23));
+        jPanel42.add(jlJobConsumpMassDiff);
 
-        moCompJobConsumpMass1.setEditable(false);
-        jPanel42.add(moCompJobConsumpMass1);
+        moCompJobConsumpMassDiff.setEditable(false);
+        jPanel42.add(moCompJobConsumpMassDiff);
 
         jpJob2.add(jPanel42);
 
@@ -687,7 +697,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         jtfConsumpType.setEditable(false);
         jtfConsumpType.setText("jTextField2");
         jtfConsumpType.setFocusable(false);
-        jtfConsumpType.setPreferredSize(new java.awt.Dimension(240, 23));
+        jtfConsumpType.setPreferredSize(new java.awt.Dimension(250, 23));
         jPanel10.add(jtfConsumpType);
 
         jpConsumpData.add(jPanel10);
@@ -704,7 +714,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         jtfConsumpItem.setEditable(false);
         jtfConsumpItem.setText("jTextField2");
         jtfConsumpItem.setFocusable(false);
-        jtfConsumpItem.setPreferredSize(new java.awt.Dimension(240, 23));
+        jtfConsumpItem.setPreferredSize(new java.awt.Dimension(250, 23));
         jPanel7.add(jtfConsumpItem);
 
         jpConsumpData.add(jPanel7);
@@ -733,7 +743,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         moTextConsumpLot.setPreferredSize(new java.awt.Dimension(85, 23));
         jPanel12.add(moTextConsumpLot);
 
-        moBoolConsumpRework.setText("Re-trabajo");
+        moBoolConsumpRework.setText("Retrabajo");
         moBoolConsumpRework.setPreferredSize(new java.awt.Dimension(82, 23));
         jPanel12.add(moBoolConsumpRework);
 
@@ -1010,7 +1020,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
     private javax.swing.JLabel jlConsumpLot;
     private javax.swing.JLabel jlConsumpQuantity;
     private javax.swing.JLabel jlJobConsumpMass;
-    private javax.swing.JLabel jlJobConsumpMass1;
+    private javax.swing.JLabel jlJobConsumpMassDiff;
     private javax.swing.JLabel jlJobDate;
     private javax.swing.JLabel jlJobDepart;
     private javax.swing.JLabel jlJobFamily;
@@ -1023,14 +1033,15 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
     private javax.swing.JLabel jlJobLoads;
     private javax.swing.JLabel jlJobLot;
     private javax.swing.JLabel jlJobMfgProd;
-    private javax.swing.JLabel jlJobMfgProdDiff;
     private javax.swing.JLabel jlJobMfgProdJob;
     private javax.swing.JLabel jlJobMfgProdMass;
-    private javax.swing.JLabel jlJobMfgProdMass3;
-    private javax.swing.JLabel jlJobMfgProdMass4;
     private javax.swing.JLabel jlJobMfgProdMfgProd;
+    private javax.swing.JLabel jlJobMfgProdMfgProdDiff;
     private javax.swing.JLabel jlJobMfgProdQuantity;
     private javax.swing.JLabel jlJobNumber;
+    private javax.swing.JLabel jlJobPackingFactor;
+    private javax.swing.JLabel jlJobReqment1;
+    private javax.swing.JLabel jlJobReqment2;
     private javax.swing.JLabel jlJobReqmentMass;
     private javax.swing.JLabel jlJobStatus;
     private javax.swing.JLabel jlJobTimeEnd;
@@ -1084,20 +1095,21 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
     private sba.lib.gui.bean.DBeanCompoundField moCompConsumpMass;
     private sba.lib.gui.bean.DBeanCompoundField moCompConsumpQuantity;
     private sba.lib.gui.bean.DBeanCompoundField moCompJobConsumpMass;
-    private sba.lib.gui.bean.DBeanCompoundField moCompJobConsumpMass1;
-    private sba.lib.gui.bean.DBeanCompoundField moCompJobDifferenceMass;
-    private sba.lib.gui.bean.DBeanCompoundField moCompJobDifferenceQuantity;
+    private sba.lib.gui.bean.DBeanCompoundField moCompJobConsumpMassDiff;
     private sba.lib.gui.bean.DBeanCompoundField moCompJobFormulaQuantity;
     private sba.lib.gui.bean.DBeanCompoundField moCompJobFormulaTargetMass;
     private sba.lib.gui.bean.DBeanCompoundField moCompJobJobMass;
     private sba.lib.gui.bean.DBeanCompoundField moCompJobJobQuantity;
     private sba.lib.gui.bean.DBeanCompoundField moCompJobMfgProdMass;
+    private sba.lib.gui.bean.DBeanCompoundField moCompJobMfgProdMassDiff;
     private sba.lib.gui.bean.DBeanCompoundField moCompJobMfgProdQuantity;
+    private sba.lib.gui.bean.DBeanCompoundField moCompJobMfgProdQuantityDiff;
     private sba.lib.gui.bean.DBeanCompoundField moCompJobReqmentMass;
     private sba.lib.gui.bean.DBeanCompoundField moCompMfgProdMass;
     private sba.lib.gui.bean.DBeanCompoundField moCompMfgProdQuantity;
     private sba.lib.gui.bean.DBeanFieldDate moDateJobDate;
     private sba.lib.gui.bean.DBeanFieldDecimal moDecJobLoads;
+    private sba.lib.gui.bean.DBeanFieldDecimal moDecJobPackingFactor;
     private sba.lib.gui.bean.DBeanFieldKey moKeyConsumpItem;
     private sba.lib.gui.bean.DBeanFieldKey moKeyConsumpItemType;
     private sba.lib.gui.bean.DBeanFieldKey moKeyJobDepart;
@@ -1124,7 +1136,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
     private void initComponentsCustom() {
         String mass = DCfgUtils.getMassUnitCode(miClient.getSession());
         
-        DGuiUtils.setWindowBounds(this, 1088, 680);
+        DGuiUtils.setWindowBounds(this, 1120, 700);
         
         moDateJobDate.setDateSettings(miClient, DGuiUtils.getLabelName(jlJobDate), true);
         moKeyJobItemType.setKeySettings(miClient, DGuiUtils.getLabelName(jlJobItemType), true);
@@ -1134,26 +1146,34 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         moCompJobFormulaQuantity.setCompoundFieldSettings(miClient);
         moCompJobFormulaQuantity.getField().setDecimalSettings(DGuiUtils.getLabelName(jlJobFormulaQuantity), DGuiConsts.GUI_TYPE_DEC_QTY, true);
         moCompJobFormulaTargetMass.setCompoundFieldSettings(miClient);
-        moCompJobFormulaTargetMass.getField().setDecimalSettings(DGuiUtils.getLabelName(moCompJobFormulaTargetMass.getToolTipText()), DGuiConsts.GUI_TYPE_DEC_QTY, true);
+        moCompJobFormulaTargetMass.getField().setDecimalSettings(DGuiUtils.getLabelName(jlJobFormulaTargetMass), DGuiConsts.GUI_TYPE_DEC_QTY, true);
         moDecJobLoads.setDecimalSettings(DGuiUtils.getLabelName(jlJobLoads), DGuiConsts.GUI_TYPE_DEC_QTY, true);
-        moCompJobJobQuantity.setCompoundFieldSettings(miClient);
-        moCompJobJobQuantity.getField().setDecimalSettings(DGuiUtils.getLabelName(jlJobMfgProdJob), DGuiConsts.GUI_TYPE_DEC_QTY, true);
-        moCompJobMfgProdQuantity.setCompoundFieldSettings(miClient);
-        moCompJobMfgProdQuantity.getField().setDecimalSettings(DGuiUtils.getLabelName(jlJobMfgProdMfgProd), DGuiConsts.GUI_TYPE_DEC_QTY, true);
         moKeyJobDepart.setKeySettings(miClient, DGuiUtils.getLabelName(jlJobDepart), true);
         moKeyJobLine.setKeySettings(miClient, DGuiUtils.getLabelName(jlJobLine), true);
         moTextJobLot.setTextSettings(DGuiUtils.getLabelName(jlJobLot), 25);
         moTimeJobTimeStart.setDateSettings(miClient, DGuiUtils.getLabelName(jlJobTimeStart), true);
         moTimeJobTimeEnd.setDateSettings(miClient, DGuiUtils.getLabelName(jlJobTimeEnd), true);
-        moDecJobPackingFactor.setDecimalSettings(DGuiUtils.getLabelName(jlJobPackingFactor), DGuiConsts.GUI_TYPE_DEC_QTY, true);
+        moCompJobJobQuantity.setCompoundFieldSettings(miClient);
+        moCompJobJobQuantity.getField().setDecimalSettings(DGuiUtils.getLabelName(jlJobMfgProdJob), DGuiConsts.GUI_TYPE_DEC_QTY, true);
+        moCompJobMfgProdQuantity.setCompoundFieldSettings(miClient);
+        moCompJobMfgProdQuantity.getField().setDecimalSettings(DGuiUtils.getLabelName(jlJobMfgProdMfgProd), DGuiConsts.GUI_TYPE_DEC_QTY, true);
+        moCompJobMfgProdQuantityDiff.setCompoundFieldSettings(miClient);
+        moCompJobMfgProdQuantityDiff.getField().setDecimalSettings(DGuiUtils.getLabelName(jlJobMfgProdMfgProdDiff), DGuiConsts.GUI_TYPE_DEC_QTY, true);
+        moCompJobJobMass.setCompoundFieldSettings(miClient);
+        moCompJobJobMass.getField().setDecimalSettings(DGuiUtils.getLabelName(jlJobMfgProdJob), DGuiConsts.GUI_TYPE_DEC_QTY, true);
+        moCompJobMfgProdMass.setCompoundFieldSettings(miClient);
+        moCompJobMfgProdMass.getField().setDecimalSettings(DGuiUtils.getLabelName(jlJobMfgProdMfgProd), DGuiConsts.GUI_TYPE_DEC_QTY, true);
+        moCompJobMfgProdMassDiff.setCompoundFieldSettings(miClient);
+        moCompJobMfgProdMassDiff.getField().setDecimalSettings(DGuiUtils.getLabelName(jlJobMfgProdMfgProdDiff), DGuiConsts.GUI_TYPE_DEC_QTY, true);
+        moKeyJobWarehouseMaterials.setKeySettings(miClient, DGuiUtils.getLabelName(jlJobWarehouseMaterials), true);
+        moKeyJobWarehouseProducts.setKeySettings(miClient, DGuiUtils.getLabelName(jlJobWarehouseProducts), true);
+        moDecJobPackingFactor.setDecimalSettings(DGuiUtils.getLabelName(jlJobPackingFactor), DGuiConsts.GUI_TYPE_DEC_AMT_UNIT, true);
         moCompJobReqmentMass.setCompoundFieldSettings(miClient);
         moCompJobReqmentMass.getField().setDecimalSettings(DGuiUtils.getLabelName(jlJobReqmentMass), DGuiConsts.GUI_TYPE_DEC_QTY, true);
         moCompJobConsumpMass.setCompoundFieldSettings(miClient);
         moCompJobConsumpMass.getField().setDecimalSettings(DGuiUtils.getLabelName(jlJobConsumpMass), DGuiConsts.GUI_TYPE_DEC_QTY, true);
-        moCompJobJobMass.setCompoundFieldSettings(miClient);
-        moCompJobJobMass.getField().setDecimalSettings(DGuiUtils.getLabelName(jlJobMfgProd), DGuiConsts.GUI_TYPE_DEC_QTY, true);
-        moKeyJobWarehouseMaterials.setKeySettings(miClient, DGuiUtils.getLabelName(jlJobWarehouseMaterials), true);
-        moKeyJobWarehouseProducts.setKeySettings(miClient, DGuiUtils.getLabelName(jlJobWarehouseProducts), true);
+        moCompJobConsumpMassDiff.setCompoundFieldSettings(miClient);
+        moCompJobConsumpMassDiff.getField().setDecimalSettings(DGuiUtils.getLabelName(jlJobConsumpMassDiff), DGuiConsts.GUI_TYPE_DEC_QTY, true);
         
         moFields.addField(moDateJobDate);
         moFields.addField(moKeyJobItemType);
@@ -1161,22 +1181,25 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         moFields.addField(moKeyJobItem);
         moFields.addField(moKeyJobFormula);
         //moFields.addField(moCompJobFormulaQuantity.getField());
-        //moFields.addField(moCompJobFormulaMass.getField());
+        //moFields.addField(moCompJobFormulaTargetMass.getField());
         moFields.addField(moDecJobLoads);
-        //moFields.addField(moCompJobJobQuantity.getField());
-        //moFields.addField(moCompJobMfgProdQuantity.getField());
         moFields.addField(moKeyJobDepart);
         moFields.addField(moKeyJobLine);
         moFields.addField(moTextJobLot);
         moFields.addField(moTimeJobTimeStart);
         moFields.addField(moTimeJobTimeEnd);
+        //moFields.addField(moCompJobJobQuantity.getField());
+        //moFields.addField(moCompJobMfgProdQuantity.getField());
+        //moFields.addField(moCompJobMfgProdQuantityDiff.getField());
+        //moFields.addField(moCompJobJobMass.getField());
+        //moFields.addField(moCompJobMfgProdMass.getField());
+        //moFields.addField(moCompJobMfgProdMassDiff.getField());
+        moFields.addField(moKeyJobWarehouseMaterials);
+        moFields.addField(moKeyJobWarehouseProducts);
         //moFields.addField(moDecJobPackingFactor);
         //moFields.addField(moCompJobReqmentMass.getField());
         //moFields.addField(moCompJobConsumpMass.getField());
-        //moFields.addField(moCompJobMfgProdMass.getField());
-        moFields.addField(moKeyJobWarehouseMaterials);
-        moFields.addField(moKeyJobWarehouseProducts);
-        
+        //moFields.addField(moCompJobConsumpMassDiff.getField());
         moFields.setFormButton(jbSave);
         
         moKeyConsumpItemType.setKeySettings(miClient, DGuiUtils.getLabelName(jlConsumpItemType), true);
@@ -1201,7 +1224,6 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         moFieldsConsump.addField(moCompConsumpMass.getField());
         moFieldsConsump.addField(moTextConsumpLot);
         moFieldsConsump.addField(moBoolConsumpRework);
-        
         moFieldsConsump.setFormButton(jbConsumpAdd);
         
         moKeyMfgProdItemType.setKeySettings(miClient, DGuiUtils.getLabelName(jlMfgProdItemType), true);
@@ -1220,29 +1242,21 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         moFieldsMfgProd.addField(moKeyMfgProdItem);
         moFieldsMfgProd.addField(moCompMfgProdQuantity.getField());
         moFieldsMfgProd.addField(moCompMfgProdMass.getField());
-        
         moFieldsMfgProd.setFormButton(jbMfgProdAdd);
         
         moKeyTestApp.setKeySettings(miClient, DGuiUtils.getLabelName(jlTestApp), true);
         
         moFieldsTestApp = new DGuiFields();
         moFieldsTestApp.addField(moKeyTestApp);
-        
         moFieldsTestApp.setFormButton(jbTestAppResultAdd);
         
-        moCompJobFormulaQuantity.setEditable(false);
-        moCompJobFormulaTargetMass.setEditable(false);
-        moCompJobJobQuantity.setEditable(false);
-        moCompJobMfgProdQuantity.setEditable(false);
-        moDecJobPackingFactor.setEditable(false);
-        moCompJobReqmentMass.setEditable(false);
-        moCompJobConsumpMass.setEditable(false);
-        moCompJobJobMass.setEditable(false);
-        
         moCompJobFormulaTargetMass.setCompoundText(mass);
+        moCompJobJobMass.setCompoundText(mass);
+        moCompJobMfgProdMass.setCompoundText(mass);
+        moCompJobMfgProdMassDiff.setCompoundText(mass);
         moCompJobReqmentMass.setCompoundText(mass);
         moCompJobConsumpMass.setCompoundText(mass);
-        moCompJobJobMass.setCompoundText(mass);
+        moCompJobConsumpMassDiff.setCompoundText(mass);
         moCompConsumpMass.setCompoundText(mass);
         moCompMfgProdMass.setCompoundText(mass);
         
@@ -1256,6 +1270,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         moMapStatus.put(DModSysConsts.MS_JOB_ST_FIN, (String) miClient.getSession().readField(DModConsts.MS_JOB_ST, new int[] { DModSysConsts.MS_JOB_ST_FIN }, DDbRegistry.FIELD_NAME));
         
         maConsumps = new ArrayList<>();
+        maVariables = new ArrayList<>();
         maTestApps = new ArrayList<>();
         
         moGridReqments = new DGridPaneForm(miClient, mnFormType, DModConsts.M_JOB_REQ, msTitle) {
@@ -1268,16 +1283,17 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
             @Override
             public void createGridColumns() {
                 int col = 0;
-                DGridColumnForm[] columns = new DGridColumnForm[8];
+                DGridColumnForm[] columns = new DGridColumnForm[9];
 
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_INT_1B, "# componente");
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_NAME_ITM_S, DGridConsts.COL_TITLE_NAME + " componente");
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_DEC_QTY, "Cant requerida");
-                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_CODE_UNT, "Unidad medida");
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_DEC_QTY, "Cant consumida");
+                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_CODE_UNT, "Unidad medida");
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_CODE_CAT, DGridConsts.COL_TITLE_TYPE + " componente");
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_CODE_CAT, DGridConsts.COL_TITLE_TYPE + " ítem");
-                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_BOOL_S, "Estándar componente");
+                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_CODE_CAT, DGridConsts.COL_TITLE_TYPE + " incorporación");
+                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_NAME_CAT_S, "Etiqueta exclusión");
 
                 for (col = 0; col < columns.length; col++) {
                     moModel.getGridColumns().add(columns[col]);
@@ -1295,13 +1311,14 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
             @Override
             public void createGridColumns() {
                 int col = 0;
-                DGridColumnForm[] columns = new DGridColumnForm[5];
+                DGridColumnForm[] columns = new DGridColumnForm[6];
 
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_NAME_ITM_S, DGridConsts.COL_TITLE_NAME + " insumo");
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_DEC_QTY, "Cant consumida");
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT_CODE_UNT, "Unidad medida");
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_DEC_QTY, "Masa consumida (" + mass + ")");
                 columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_TEXT, "Lote");
+                columns[col++] = new DGridColumnForm(DGridConsts.COL_TYPE_BOOL_S, "Retrabajo");
 
                 for (col = 0; col < columns.length; col++) {
                     moModel.getGridColumns().add(columns[col]);
@@ -1441,6 +1458,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
             moCompJobFormulaQuantity.setCompoundText("");
             moCompJobJobQuantity.setCompoundText("");
             moCompJobMfgProdQuantity.setCompoundText("");
+            moCompJobMfgProdQuantityDiff.setCompoundText("");
             
             moKeyGroupJobLine.resetGroup();
         }
@@ -1452,6 +1470,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
             moCompJobFormulaQuantity.setCompoundText(moFormula.getRegUnit().getCode());
             moCompJobJobQuantity.setCompoundText(moFormula.getRegUnit().getCode());
             moCompJobMfgProdQuantity.setCompoundText(moFormula.getRegUnit().getCode());
+            moCompJobMfgProdQuantityDiff.setCompoundText(moFormula.getRegUnit().getCode());
             
             moKeyJobDepart.setValue(new int[] { moFormula.getRegItem().getRegFamily().getFkDepartId() });
             moKeyJobLine.setValue(new int[] { moFormula.getRegItem().getRegFamily().getFkLineId() });
@@ -1484,7 +1503,6 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         }
         else {
             jtfTestAppResult.setText("" + DLibUtils.DecimalFormatInteger.format(moTestApp.getChildResults().size()) + "/" + DLibUtils.DecimalFormatInteger.format(moTestApp.getResultsDesired()));
-            
             jtfTestAppResult.setCaretPosition(0);
         }
     }
@@ -1525,6 +1543,14 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         moGridTestAppResults.populateGrid(rows);
     }
     
+    private void preserveVariables() {
+        maVariables.clear();
+        
+        for (DGridRow row : moGridVariables.getModel().getGridRows()) {
+            maVariables.add((DDbJobVariable) row);
+        }
+    }
+    
     private void createGridReqmentRows() throws Exception {
         Vector<DGridRow> rows = new Vector<>();
         
@@ -1553,6 +1579,13 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
                 jobVariable.setPkVariableId(variable.getPkVariableId());
                 //jobVariable.setValue(...);
                 
+                for (DDbJobVariable aux : maVariables) {    // restore preserved variable values, if any
+                    if (aux.getPkVariableId() == jobVariable.getPkVariableId()) {
+                        jobVariable.setValue(aux.getValue());
+                        break;
+                    }
+                }
+                
                 jobVariable.setRegVariable(variable);
                 
                 rows.add(jobVariable);
@@ -1562,7 +1595,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         }
     }
     
-    //@SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked")
     private void createTestAppGuiItems() throws Exception {
         int idApp = 0;
         HashSet<Integer> consumps = new HashSet<>();
@@ -1734,7 +1767,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
                 moGridMfgProds.setRowButtonsEnabled(false, false, true);
                 
                 jbJobGenerateLot.setEnabled(true);
-                jbConsumpNew.setEnabled(true);
+                jbConsumpNew.setEnabled(false); // evaluate if this button is not really needed any longer
                 jbConsumpAdd.setEnabled(true);
                 jbConsumpClear.setEnabled(true);
                 jbMfgProdNew.setEnabled(true);
@@ -1851,13 +1884,18 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
     
     private void computeJobQuantity() {
         if (moFormula == null) {
-            moCompJobJobQuantity.getField().setValue(0d);
-            moCompJobReqmentMass.getField().setValue(0d);
+            moCompJobJobQuantity.getField().resetField();
+            moCompJobJobMass.getField().resetField();
+            moCompJobReqmentMass.getField().resetField();
         }
         else {
             moCompJobJobQuantity.getField().setValue(moFormula.getQuantity() * moDecJobLoads.getValue());
+            moCompJobJobMass.getField().setValue(moFormula.getTargetMass_r() * moDecJobLoads.getValue());
             moCompJobReqmentMass.getField().setValue(moFormula.getFormulaMass_r()* moDecJobLoads.getValue());
         }
+        
+        computeJobConsumps();
+        computeJobMfgProds();
     }
     
     private void computeJobReqments() {
@@ -1891,6 +1929,9 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         }
         
         moCompJobConsumpMass.getField().setValue(mass);
+        moCompJobConsumpMassDiff.getField().setValue(moCompJobConsumpMass.getField().getValue() - moCompJobReqmentMass.getField().getValue());
+        moCompJobConsumpMassDiff.getField().getComponent().setForeground(moCompJobConsumpMassDiff.getField().getValue() < 0 ? Color.RED : Color.BLACK);
+        
         moDecJobPackingFactor.setValue(moCompJobReqmentMass.getField().getValue() == 0d ? 0d : mass / moCompJobReqmentMass.getField().getValue());
         
         computeJobReqments();
@@ -1906,12 +1947,17 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         }
         
         moCompJobMfgProdQuantity.getField().setValue(quantity);
-        moCompJobJobMass.getField().setValue(mass);
+        moCompJobMfgProdQuantityDiff.getField().setValue(moCompJobMfgProdQuantity.getField().getValue() - moCompJobJobQuantity.getField().getValue());
+        moCompJobMfgProdQuantityDiff.getField().getComponent().setForeground(moCompJobMfgProdQuantityDiff.getField().getValue() < 0 ? Color.RED : Color.BLACK);
+        
+        moCompJobMfgProdMass.getField().setValue(mass);
+        moCompJobMfgProdMassDiff.getField().setValue(moCompJobMfgProdMass.getField().getValue() - moCompJobJobMass.getField().getValue());
+        moCompJobMfgProdMassDiff.getField().getComponent().setForeground(moCompJobMfgProdMassDiff.getField().getValue() < 0 ? Color.RED : Color.BLACK);
     }
     
     private void computeConsumpMass() {
         if (moItemConsump == null) {
-            moCompConsumpMass.getField().setValue(0d);
+            moCompConsumpMass.getField().resetField();
         }
         else {
             moCompConsumpMass.getField().setValue(moItemConsump.getMassUnit() * moCompConsumpQuantity.getField().getValue());
@@ -1920,7 +1966,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
     
     private void computeMfgProdMass() {
         if (moItemMfgProd == null) {
-            moCompMfgProdMass.getField().setValue(0d);
+            moCompMfgProdMass.getField().resetField();
         }
         else {
             moCompMfgProdMass.getField().setValue(moItemMfgProd.getMassUnit() * moCompMfgProdQuantity.getField().getValue());
@@ -1930,7 +1976,9 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
     private void processStatusForwardToInProcess() {
         try {
             computeJobLot();
-            createGridReqmentRows();
+            createGridReqmentRows();        // sets current requirement ready to capture
+            actionPerformedMfgProdNew();    // sets product of job ready to capture
+            moCompConsumpQuantity.getField().getComponent().requestFocus();
         }
         catch (Exception e) {
             DLibUtils.showException(this, e);
@@ -1956,6 +2004,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         moGridVariables.clearGridRows();
         moGridTestAppResults.clearGridRows();
         moGridTestAppsResultVariables.clearGridRows();
+        maVariables.clear();
         maTestApps.clear();
         
         computeJobConsumps();
@@ -1964,7 +2013,10 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
     
     private void processStatusBackToInProcess() {
         try {
-            
+            preserveVariables();
+            valueChangedReqments();
+            actionPerformedMfgProdNew();    // sets product of job ready to capture
+            moCompConsumpQuantity.getField().getComponent().requestFocus();
         }
         catch (Exception e) {
             DLibUtils.showException(this, e);
@@ -2124,6 +2176,13 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         DGuiValidation validation = moFieldsConsump.validateFields();
         DDbJobReqment reqment = (DDbJobReqment) moGridReqments.getSelectedGridRow();
         
+        if (validation.isValid()) {
+            if (moGridReqments.getTable().getSelectedRowCount() != 1) {
+                validation.setMessage(DGridConsts.MSG_SELECT_ROW);
+                validation.setComponent(moGridReqments.getTable());
+            }
+        }
+        
         if (!validation.isValid()) {
             DGuiUtils.computeValidation(miClient, validation);
         }
@@ -2135,6 +2194,8 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
             consump.setQuantity(moCompConsumpQuantity.getField().getValue());
             //consump.setMassUnit(...); // set on compute
             //consump.setMass_r(...); // set on compute
+            //consump.setBrix(...); // set on compute
+            //consump.setMassSolid_r(...); // set on compute
             consump.setLot(moTextConsumpLot.getValue());
             consump.setRework(moBoolConsumpRework.getValue());
             consump.setFkReqmentJobId(reqment.getPkJobId());
@@ -2187,6 +2248,8 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
             mfgProd.setQuantity(moCompMfgProdQuantity.getField().getValue());
             //mfgProd.setMassUnit(...); // set on compute
             //mfgProd.setMass_r(...); // set on compute
+            //mfgProd.setBrix(...); // set on compute
+            //mfgProd.setMassSolid_r(...); // set on compute
             mfgProd.setFkItemId(moKeyMfgProdItem.getValue()[0]);
             //mfgProd.setFkItemTypeId(...); // set on compute
             //mfgProd.setFkUnitId(...); // set on compute
@@ -2308,6 +2371,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         }
         
         renderItemConsump();
+        computeConsumpMass();
     }
     
     private void itemStateChangedMfgProdItem() {
@@ -2319,6 +2383,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         }
         
         renderItemMfgProd();
+        computeMfgProdMass();
     }
     
     private void itemStateChangedTestApp() {
@@ -2361,7 +2426,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         moCompConsumpMass.getField().resetField();
         moTextConsumpLot.resetField();
         
-        if (reqment == null) {
+        if (reqment == null || mnJobStatus != DModSysConsts.MS_JOB_ST_PRC) {
             moItemConsump = null;
             
             jtfConsumpType.setText("");
@@ -2430,6 +2495,11 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
                 default:
             }
             
+            moCompConsumpQuantity.getField().setValue(reqment.getQuantity() <= reqment.getAuxQuantityConsump() ? 0d : reqment.getQuantity() - reqment.getAuxQuantityConsump());
+            computeConsumpMass();
+        }
+        
+        if (reqment != null) {
             for (DDbJobConsump consump : maConsumps) {
                 if (DLibUtils.compareKeys(reqment.getPrimaryKey(), consump.getUtilReqmentKey())) {
                     rows.add(consump);
@@ -2607,6 +2677,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         moGridReqments.populateGrid(new Vector<DGridRow>(moRegistry.getChildReqemnts()), this);
         moGridMfgProds.populateGrid(new Vector<DGridRow>(moRegistry.getChildMfgProds()));
         moGridVariables.populateGrid(new Vector<DGridRow>(moRegistry.getChildVariables()));
+        preserveVariables();    // prevent deletion of already captured variables, if any, when job status changes
         
         maTestApps.clear();
         maTestApps.addAll(moRegistry.getRegTestApps());
@@ -2664,12 +2735,14 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
         registry.setTsStart_n(moTimeJobTimeStart.getValue());
         registry.setTsEnd_n(moTimeJobTimeEnd.getValue());
         //registry.setFormulaQuantity(...); // set on save
-        //registry.setFormulaMass_r(...); // set on save
+        //registry.setFormulaFormulaMass_r(...); // set on save
+        //registry.setFormulaTargetMass_r(...); // set on save
         registry.setLoads(moDecJobLoads.getValue());
         //registry.setJobQuantity_r(...); // set on save
         //registry.setMfgProdQuantity_r(...); // set on save
         //registry.setReqmentMass_r(...); // set on save
         //registry.setConsumpMass_r(...); // set on save
+        //registry.setTargetMass_r(...); // set on save
         //registry.setMfgProdMass_r(...); // set on save
         registry.setLot(moTextJobLot.getValue());
         //registry.setPackingFactor(...);

@@ -59,6 +59,7 @@ public class DDbJobConsump extends DDbRegistryUser implements DGridRow, DLibRegi
             mnFkItemTypeId = moRegItem.getRegFamily().getFkItemTypeId();
             mnFkUnitId = moRegItem.getFkUnitId();
             mdMassUnit = moRegItem.getMassUnit();
+            mdBrix = moRegItem.getBrix();
         }
         
         moRegUnit = (DDbUnit) session.readRegistry(DModConsts.CU_UOM, new int[] { mnFkUnitId });
@@ -334,10 +335,10 @@ public class DDbJobConsump extends DDbRegistryUser implements DGridRow, DLibRegi
                 value = mdMass_r;
                 break;
             case 4:
-                value = mdMassSolid_r;
+                value = msLot;
                 break;
             case 5:
-                value = msLot;
+                value = mbRework;
                 break;
             default:
         }

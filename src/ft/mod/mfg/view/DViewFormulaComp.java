@@ -49,7 +49,6 @@ public class DViewFormulaComp extends DGridPaneView {
                 "v.name AS " + DDbConsts.FIELD_NAME + ", " +
                 "v.ref, " +
                 "v.qty, " +
-                "v.mass_r, " +
                 "ft.code, " +
                 "ft.name, " +
                 "i.code, " +
@@ -61,11 +60,13 @@ public class DViewFormulaComp extends DGridPaneView {
                 "p.code, " +
                 "p.name, " +
                 "vc.qty, " +
-                "vc.b_std, " +
+                "vc.exc_lab, " +
                 "ct.code, " +
                 "ct.name, " +
                 "cit.code, " +
                 "cit.name, " +
+                "cnt.code, " +
+                "cnt.name, " +
                 "cu.code, " +
                 "cu.name, " +
                 "CASE WHEN vc.fk_cmp_tp = " + DModSysConsts.MS_CMP_TP_ITM + " THEN ci.code WHEN vc.fk_cmp_tp = " + DModSysConsts.MS_CMP_TP_FAM + " THEN cf.code ELSE '?' END AS _cmp_code, " +
@@ -97,14 +98,16 @@ public class DViewFormulaComp extends DGridPaneView {
                 "v.id_frm = vc.id_frm " +
                 "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.MS_CMP_TP) + " AS ct ON " +
                 "vc.fk_cmp_tp = ct.id_cmp_tp " +
+                "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.MS_CMP_INC_TP) + " AS cnt ON " +
+                "vc.fk_cmp_inc_tp = cnt.id_cmp_inc_tp " +
                 "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CS_ITM_TP) + " AS cit ON " +
                 "vc.fk_itm_tp = cit.id_itm_tp " +
                 "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_UOM) + " AS cu ON " +
                 "vc.fk_uom = cu.id_uom " +
-                "LEFT OUTER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_ITM) + " AS ci ON " +
-                "vc.fk_cmp = ci.id_itm " +
-                "LEFT OUTER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_FAM) + " AS cf ON " +
-                "vc.fk_cmp = cf.id_fam " +
+                "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_ITM) + " AS ci ON " +
+                "vc.fk_itm = ci.id_itm " +
+                "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_FAM) + " AS cf ON " +
+                "vc.fk_fam = cf.id_fam " +
                 (sql.length() == 0 ? "" : "WHERE " + sql) +
                 "ORDER BY v.name, v.code, vc.id_frm, vc.id_cmp ";
     }
@@ -112,20 +115,21 @@ public class DViewFormulaComp extends DGridPaneView {
     @Override
     public void createGridColumns() {
         int col = 0;
-        DGridColumnView[] columns = new DGridColumnView[18];
+        DGridColumnView[] columns = new DGridColumnView[19];
 
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_ITM_L, DDbConsts.FIELD_NAME, DGridConsts.COL_TITLE_NAME + " producto");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_CODE_ITM, DDbConsts.FIELD_CODE, DGridConsts.COL_TITLE_CODE + " producto");
-        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_CODE_CAT, "it.code", DGridConsts.COL_TITLE_TYPE + " producto");
+        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_CODE_CAT, "it.code", DGridConsts.COL_TITLE_TYPE + " ítem producto");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_CAT_S, "ft.name", DGridConsts.COL_TITLE_TYPE + " fórmula");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_INT_2B, DDbConsts.FIELD_ID + "2", "# componente");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_CODE_CAT, "ct.code", DGridConsts.COL_TITLE_TYPE + " componente");
-        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_CODE_CAT, "cit.code", DGridConsts.COL_TITLE_TYPE + " ítem");
+        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_CODE_CAT, "cit.code", DGridConsts.COL_TITLE_TYPE + " ítem componente");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_ITM_L, "_cmp_name", DGridConsts.COL_TITLE_NAME + " componente");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_CODE_ITM, "_cmp_code", DGridConsts.COL_TITLE_CODE + " componente");
-        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_DEC_QTY, "vc.qty", "Cant componente");
+        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_DEC_QTY, "vc.qty", "Cantidad componente");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_CODE_UNT, "cu.code", "Unidad medida componente");
-        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_BOOL_M, "vc.b_std", "Estándar componente");
+        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_CODE_CAT, "cnt.code", DGridConsts.COL_TITLE_TYPE + " incorporación");
+        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_CAT_S, "vc.exc_lab", "Etiqueta exclusión");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_BOOL_S, DDbConsts.FIELD_IS_DEL, DGridConsts.COL_TITLE_IS_DEL);
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_BOOL_S, DDbConsts.FIELD_IS_SYS, DGridConsts.COL_TITLE_IS_SYS);
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_USR, DDbConsts.FIELD_USER_INS_NAME, DGridConsts.COL_TITLE_USER_INS_NAME);

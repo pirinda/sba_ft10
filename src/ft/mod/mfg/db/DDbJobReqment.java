@@ -9,7 +9,6 @@ import ft.lib.DLibRegistry;
 import ft.mod.DModConsts;
 import ft.mod.DModSysConsts;
 import ft.mod.cfg.db.DCfgConsts;
-import ft.mod.cfg.db.DCfgUtils;
 import ft.mod.cfg.db.DDbFamily;
 import ft.mod.cfg.db.DDbItem;
 import ft.mod.cfg.db.DDbUnit;
@@ -68,29 +67,29 @@ public class DDbJobReqment extends DDbRegistryUser implements DGridRow, DLibRegi
                 if (update) {
                     mnFkItemTypeId = moRegFamily.getFkItemTypeId();
                     mnFkUnitId = moRegFamily.getFkUnitId();
+                    mdMassUnit = moRegFamily.getMassUnit();
+                    mdBrix = moRegFamily.getBrix();
+                    
+                    mnFkItemId = DModSysConsts.CU_ITM_ND;
                 }
                 
                 moRegUnit = (DDbUnit) session.readRegistry(DModConsts.CU_UOM, new int[] { mnFkUnitId });
-                
-                if (update) {
-                    mdMassUnit = DCfgUtils.getMassUnitBasic(session, moRegUnit);
-                }
                 break;
                 
             case DModSysConsts.MS_CMP_TP_ITM:
                 moRegItem = (DDbItem) session.readRegistry(DModConsts.CU_ITM, new int[] { mnFkItemId });
-                moRegFamily = null;
+                moRegFamily = moRegItem.getRegFamily();
                 
                 if (update) {
                     mnFkItemTypeId = moRegItem.getRegFamily().getFkItemTypeId();
                     mnFkUnitId = moRegItem.getFkUnitId();
+                    mdMassUnit = moRegItem.getMassUnit();
+                    mdBrix = moRegItem.getBrix();
+                    
+                    mnFkFamilyId = moRegItem.getFkFamilyId();
                 }
                 
                 moRegUnit = (DDbUnit) session.readRegistry(DModConsts.CU_UOM, new int[] { mnFkUnitId });
-                
-                if (update) {
-                    mdMassUnit = moRegItem.getMassUnit();
-                }
                 break;
                 
             default:
@@ -100,8 +99,8 @@ public class DDbJobReqment extends DDbRegistryUser implements DGridRow, DLibRegi
     private void readXtaMembers(final DGuiSession session) {
         msXtaCompTypeCode = (String) session.readField(DModConsts.MS_CMP_TP, new int[] { mnFkCompTypeId }, DDbRegistry.FIELD_CODE);
         msXtaCompTypeName = (String) session.readField(DModConsts.MS_CMP_TP, new int[] { mnFkCompTypeId }, DDbRegistry.FIELD_NAME);
-        msXtaCompIncTypeCode = (String) session.readField(DModConsts.MS_CMP_TP, new int[] { mnFkCompTypeId }, DDbRegistry.FIELD_CODE);
-        msXtaCompIncTypeName = (String) session.readField(DModConsts.MS_CMP_TP, new int[] { mnFkCompTypeId }, DDbRegistry.FIELD_NAME);
+        msXtaCompIncTypeCode = (String) session.readField(DModConsts.MS_CMP_INC_TP, new int[] { mnFkCompIncTypeId }, DDbRegistry.FIELD_CODE);
+        msXtaCompIncTypeName = (String) session.readField(DModConsts.MS_CMP_INC_TP, new int[] { mnFkCompIncTypeId }, DDbRegistry.FIELD_NAME);
     }
 
     public void setPkJobId(int n) { mnPkJobId = n; }
@@ -390,10 +389,10 @@ public class DDbJobReqment extends DDbRegistryUser implements DGridRow, DLibRegi
                 value = mdQuantity;
                 break;
             case 3:
-                value = moRegUnit.getCode();
+                value = mdAuxQuantityConsump;
                 break;
             case 4:
-                value = mdAuxQuantityConsump;
+                value = moRegUnit.getCode();
                 break;
             case 5:
                 value = msXtaCompTypeCode;
