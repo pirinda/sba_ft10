@@ -182,7 +182,7 @@ public class DFormItem extends DBeanForm implements ItemListener {
 
         jPanel12.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
-        moBoolBrix.setText("Aplican °Bx:*");
+        moBoolBrix.setText("Aplican °Bx:");
         jPanel12.add(moBoolBrix);
         jPanel12.add(moCompBrix);
 
@@ -249,7 +249,7 @@ public class DFormItem extends DBeanForm implements ItemListener {
         moCompMassUnit.getField().setDecimalSettings(DGuiUtils.getLabelName(jlMassUnit), DGuiConsts.GUI_TYPE_DEC_AMT_UNIT, true);
         moBoolBrix.setBooleanSettings(DGuiUtils.getLabelName(moBoolBrix.getText()), false);
         moCompBrix.setCompoundFieldSettings(miClient);
-        moCompBrix.getField().setDecimalSettings(DGuiUtils.getLabelName(moBoolBrix.getText()), DGuiConsts.GUI_TYPE_DEC_QTY, true);
+        moCompBrix.getField().setDecimalSettings(DGuiUtils.getLabelName(moBoolBrix.getText()), DGuiConsts.GUI_TYPE_DEC_QTY, false);
         moCompBrix.getField().setMaxDouble(DCfgConsts.BRIX_MAX);
         
         moFields.addField(moKeyFamily);
@@ -269,6 +269,10 @@ public class DFormItem extends DBeanForm implements ItemListener {
         moCompBrix.setCompoundText(DCfgConsts.BRIX);
     }
     
+    private boolean enableBrix() {
+        return mbAppliesBrix && moFamily != null && moFamily.isBrix();
+    }
+    
     private void updateFieldItemBase() {
         if (moKeyFamily.getSelectedIndex() <= 0) {
             moKeyItemBase.setEnabled(false);
@@ -279,7 +283,7 @@ public class DFormItem extends DBeanForm implements ItemListener {
     }
     
     private void updateFieldBrix() {
-        moCompBrix.setEditable(moBoolBrix.getValue() && mbAppliesBrix && moFamily != null && moFamily.isBrix());
+        moCompBrix.setEditable(moBoolBrix.getValue() && enableBrix());
     }
     
     public void computeMassUnit() {
@@ -300,6 +304,8 @@ public class DFormItem extends DBeanForm implements ItemListener {
             if (mbAppliesItemBase) {
                 moKeyItemBase.removeAllItems();
             }
+            
+            moBoolBrix.setEnabled(false);
         }
         else {
             moFamily = (DDbFamily) miClient.getSession().readRegistry(DModConsts.CU_FAM, moKeyFamily.getValue());
@@ -307,6 +313,8 @@ public class DFormItem extends DBeanForm implements ItemListener {
             if (mbAppliesItemBase) {
                 miClient.getSession().populateCatalogue(moKeyItemBase, DModConsts.CU_ITM, DLibConsts.UNDEFINED, new DGuiParams(new int[] { moFamily.getFkFamilyBaseId_n() }));
             }
+            
+            moBoolBrix.setEnabled(enableBrix());
             
             moKeyUnit.setValue(new int[] { moFamily.getFkUnitId() });
             moCompMassUnit.getField().setValue(moFamily.getMassUnit());
@@ -412,7 +420,7 @@ public class DFormItem extends DBeanForm implements ItemListener {
         moTextLotCode.setEditable(mbAppliesLotCode);
         moKeyPresent.setEnabled(mbAppliesPresent);
         moCompMassUnit.setEditable(mbAppliesMassUnit);
-        moBoolBrix.setEditable(mbAppliesBrix);
+        moBoolBrix.setEditable(enableBrix());
 
         if (moRegistry.isRegistryNew()) {
 

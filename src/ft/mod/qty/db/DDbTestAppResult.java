@@ -190,6 +190,7 @@ public class DDbTestAppResult extends DDbRegistryUser {
         
         for (DDbTestAppResultVariable child : maChildVariables) {
             child.setRegistryNew(true);
+            child.setPkJobId(mnPkJobId);
             child.setPkAppId(mnPkAppId);
             child.setPkResultId(mnPkResultId);
             child.save(session);

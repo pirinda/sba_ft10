@@ -243,6 +243,11 @@
                 <Property name="text" type="java.lang.String" value="&#xd3;rdenes de producci&#xf3;n terminadas"/>
               </Properties>
             </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jmiMfgJob">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="&#xd3;rdenes de producci&#xf3;n (todas)"/>
+              </Properties>
+            </MenuItem>
             <MenuItem class="javax.swing.JPopupMenu$Separator" name="jsMfg1">
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jmiMfgVariable">
@@ -324,6 +329,28 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Reportes"/>
           </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="jmiRepStatsJob">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Estad&#xed;sticas &#xf3;rdenes de producci&#xf3;n"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jmiRepStatsMfgProd">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Estad&#xed;sticas producci&#xf3;n x producto"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jmiRepStatsMfgProdTimeWeek">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Estad&#xed;sticas producci&#xf3;n x producto x semana"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jmiRepStatsMfgProdTimeMonth">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Estad&#xed;sticas producci&#xf3;n x producto x mes"/>
+              </Properties>
+            </MenuItem>
+          </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="jmHelp">
           <Properties>

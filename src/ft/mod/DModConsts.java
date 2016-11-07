@@ -77,6 +77,10 @@ public abstract class DModConsts {
     public static final int M_JOB_MFG = 313076;
     public static final int M_JOB_VAR = 313081;
 
+    public static final int MX_STA_JOB = 353061;
+    public static final int MX_STA_MFG_PRO = 353062;
+    public static final int MX_STA_MFG_PRO_TIME = 353063;
+    
     public static final int QS_TST_TP = 411011;
 
     public static final int QU_VAR = 412011;

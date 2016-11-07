@@ -21,6 +21,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.TimeZone;
@@ -67,7 +68,7 @@ import sba.lib.xml.DXmlUtils;
 public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener  {
 
     public static final String APP_NAME = "FoodTrace 1.0";
-    public static final String APP_RELEASE = "FoodTrace 1.0 010.01";
+    public static final String APP_RELEASE = "FoodTrace 1.0 011.01";
     public static final String APP_COPYRIGHT = "Copyright © FoodTrace";
     public static final String APP_PROVIDER = "http://www.foodtrace.com";
     
@@ -194,6 +195,7 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
         jmiMfgJobPrc = new javax.swing.JMenuItem();
         jmiMfgJobQty = new javax.swing.JMenuItem();
         jmiMfgJobFin = new javax.swing.JMenuItem();
+        jmiMfgJob = new javax.swing.JMenuItem();
         jsMfg1 = new javax.swing.JPopupMenu.Separator();
         jmiMfgVariable = new javax.swing.JMenuItem();
         jmQty = new javax.swing.JMenu();
@@ -211,6 +213,10 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
         jmPur = new javax.swing.JMenu();
         jmSal = new javax.swing.JMenu();
         jmRep = new javax.swing.JMenu();
+        jmiRepStatsJob = new javax.swing.JMenuItem();
+        jmiRepStatsMfgProd = new javax.swing.JMenuItem();
+        jmiRepStatsMfgProdTimeWeek = new javax.swing.JMenuItem();
+        jmiRepStatsMfgProdTimeMonth = new javax.swing.JMenuItem();
         jmHelp = new javax.swing.JMenu();
         jmiHelpHelp = new javax.swing.JMenuItem();
         jsHlp1 = new javax.swing.JPopupMenu.Separator();
@@ -430,6 +436,9 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
 
         jmiMfgJobFin.setText("Órdenes de producción terminadas");
         jmMfg.add(jmiMfgJobFin);
+
+        jmiMfgJob.setText("Órdenes de producción (todas)");
+        jmMfg.add(jmiMfgJob);
         jmMfg.add(jsMfg1);
 
         jmiMfgVariable.setText("Variables de producción");
@@ -478,6 +487,19 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
         jMenuBar1.add(jmSal);
 
         jmRep.setText("Reportes");
+
+        jmiRepStatsJob.setText("Estadísticas órdenes de producción");
+        jmRep.add(jmiRepStatsJob);
+
+        jmiRepStatsMfgProd.setText("Estadísticas producción x producto");
+        jmRep.add(jmiRepStatsMfgProd);
+
+        jmiRepStatsMfgProdTimeWeek.setText("Estadísticas producción x producto x semana");
+        jmRep.add(jmiRepStatsMfgProdTimeWeek);
+
+        jmiRepStatsMfgProdTimeMonth.setText("Estadísticas producción x producto x mes");
+        jmRep.add(jmiRepStatsMfgProdTimeMonth);
+
         jMenuBar1.add(jmRep);
 
         jmHelp.setText("Ayuda");
@@ -632,6 +654,7 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
         jmiMfgJobPrc.addActionListener(this);
         jmiMfgJobQty.addActionListener(this);
         jmiMfgJobFin.addActionListener(this);
+        jmiMfgJob.addActionListener(this);
         jmiMfgVariable.addActionListener(this);
         jmiStkWsmIn.addActionListener(this);
         jmiStkWsmOut.addActionListener(this);
@@ -641,6 +664,10 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
         jmiQtyTestAppResult.addActionListener(this);
         jmiQtyTest.addActionListener(this);
         jmiQtyVariable.addActionListener(this);
+        jmiRepStatsJob.addActionListener(this);
+        jmiRepStatsMfgProd.addActionListener(this);
+        jmiRepStatsMfgProdTimeWeek.addActionListener(this);
+        jmiRepStatsMfgProdTimeMonth.addActionListener(this);
         jmiHelpHelp.addActionListener(this);
         jmiHelpAbout.addActionListener(this);
 
@@ -766,7 +793,7 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
                 jmStk.setEnabled(user.hasModuleAccess(DModSysConsts.CS_MOD_STK));
                 //jmPur.setEnabled(user.hasModuleAccess(DModSysConsts.CS_MOD_PUR));
                 //jmSal.setEnabled(user.hasModuleAccess(DModSysConsts.CS_MOD_SAL));
-                //jmRep.setEnabled(true);
+                jmRep.setEnabled(true);
                 jmHelp.setEnabled(true);
 
                 jbWorkingDate.setEnabled(true);
@@ -935,6 +962,7 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
     private javax.swing.JMenuItem jmiFrmFormulaComp;
     private javax.swing.JMenuItem jmiHelpAbout;
     private javax.swing.JMenuItem jmiHelpHelp;
+    private javax.swing.JMenuItem jmiMfgJob;
     private javax.swing.JMenuItem jmiMfgJobFin;
     private javax.swing.JMenuItem jmiMfgJobNew;
     private javax.swing.JMenuItem jmiMfgJobPrc;
@@ -944,6 +972,10 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
     private javax.swing.JMenuItem jmiQtyTestApp;
     private javax.swing.JMenuItem jmiQtyTestAppResult;
     private javax.swing.JMenuItem jmiQtyVariable;
+    private javax.swing.JMenuItem jmiRepStatsJob;
+    private javax.swing.JMenuItem jmiRepStatsMfgProd;
+    private javax.swing.JMenuItem jmiRepStatsMfgProdTimeMonth;
+    private javax.swing.JMenuItem jmiRepStatsMfgProdTimeWeek;
     private javax.swing.JMenuItem jmiStkStock;
     private javax.swing.JMenuItem jmiStkStockLot;
     private javax.swing.JMenuItem jmiStkWsmIn;
@@ -1341,6 +1373,9 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
             else if (menuItem == jmiMfgJobFin) {
                 moSession.showView(DModConsts.M_JOB, DModSysConsts.MS_JOB_ST_FIN, null);
             }
+            else if (menuItem == jmiMfgJob) {
+                moSession.showView(DModConsts.M_JOB, DLibConsts.UNDEFINED, null);
+            }
             else if (menuItem == jmiStkWsmIn) {
                 moSession.showView(DModConsts.S_WSD, DModSysConsts.SS_MOV_CL_IN, null);
             }
@@ -1364,6 +1399,18 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
             }
             else if (menuItem == jmiQtyVariable) {
                 moSession.showView(DModConsts.QU_VAR, DLibConsts.UNDEFINED, null);
+            }
+            else if (menuItem == jmiRepStatsJob) {
+                moSession.showView(DModConsts.MX_STA_JOB, DLibConsts.UNDEFINED, null);
+            }
+            else if (menuItem == jmiRepStatsMfgProd) {
+                moSession.showView(DModConsts.MX_STA_MFG_PRO, DLibConsts.UNDEFINED, null);
+            }
+            else if (menuItem == jmiRepStatsMfgProdTimeWeek) {
+                moSession.showView(DModConsts.MX_STA_MFG_PRO_TIME, Calendar.WEEK_OF_YEAR, null);
+            }
+            else if (menuItem == jmiRepStatsMfgProdTimeMonth) {
+                moSession.showView(DModConsts.MX_STA_MFG_PRO_TIME, Calendar.MONTH, null);
             }
             else if (menuItem == jmiHelpHelp) {
                 actionHelpHelp();

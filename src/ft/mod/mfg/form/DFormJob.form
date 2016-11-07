@@ -441,7 +441,7 @@
                       <SubComponents>
                         <Component class="javax.swing.JLabel" name="jlJobTimeStart">
                           <Properties>
-                            <Property name="text" type="java.lang.String" value="Fecha-hora inicial:"/>
+                            <Property name="text" type="java.lang.String" value="Fecha-hr inicial:*"/>
                             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                               <Dimension value="[100, 23]"/>
                             </Property>
@@ -460,7 +460,7 @@
                       <SubComponents>
                         <Component class="javax.swing.JLabel" name="jlJobTimeEnd">
                           <Properties>
-                            <Property name="text" type="java.lang.String" value="Fecha-hora final:"/>
+                            <Property name="text" type="java.lang.String" value="Fecha-hr final:*"/>
                             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                               <Dimension value="[100, 23]"/>
                             </Property>

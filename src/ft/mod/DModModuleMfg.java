@@ -26,8 +26,13 @@ import ft.mod.mfg.view.DViewFormula;
 import ft.mod.mfg.view.DViewFormulaComp;
 import ft.mod.mfg.view.DViewJob;
 import ft.mod.mfg.view.DViewLine;
+import ft.mod.mfg.view.DViewStatsJob;
+import ft.mod.mfg.view.DViewStatsMfgProd;
+import ft.mod.mfg.view.DViewStatsMfgProdTime;
 import ft.mod.mfg.view.DViewVariable;
+import java.util.Calendar;
 import javax.swing.JMenu;
+import sba.gui.util.DUtilConsts;
 import sba.lib.DLibConsts;
 import sba.lib.db.DDbConsts;
 import sba.lib.db.DDbRegistry;
@@ -279,16 +284,21 @@ public class DModModuleMfg extends DGuiModule {
             case DModConsts.MU_VAR_FAM:
                 break;
             case DModConsts.M_JOB:
-                label = ((String) miClient.getSession().readField(DModConsts.MS_JOB_ST, new int[] { subtype }, DDbRegistry.FIELD_NAME)).toLowerCase();
                 
-                switch (subtype) {
-                    case DModSysConsts.MS_JOB_ST_PRC:
-                    case DModSysConsts.MS_JOB_ST_QTY:
-                        break;
-                    case DModSysConsts.MS_JOB_ST_NEW:
-                    case DModSysConsts.MS_JOB_ST_FIN:
-                        label += "s";
-                        break;
+                if (subtype == DLibConsts.UNDEFINED) {
+                    label = DUtilConsts.ALL_F.toLowerCase();
+                }
+                else {
+                    label = ((String) miClient.getSession().readField(DModConsts.MS_JOB_ST, new int[] { subtype }, DDbRegistry.FIELD_NAME)).toLowerCase();
+                    switch (subtype) {
+                        case DModSysConsts.MS_JOB_ST_PRC:
+                        case DModSysConsts.MS_JOB_ST_QTY:
+                            break;
+                        case DModSysConsts.MS_JOB_ST_NEW:
+                        case DModSysConsts.MS_JOB_ST_FIN:
+                            label += "s";
+                            break;
+                    }
                 }
                 view = new DViewJob(miClient, subtype, "Órdenes producción " + label);
                 break;
@@ -299,6 +309,25 @@ public class DModModuleMfg extends DGuiModule {
             case DModConsts.M_JOB_MFG:
                 break;
             case DModConsts.M_JOB_VAR:
+                break;
+            case DModConsts.MX_STA_JOB:
+                view = new DViewStatsJob(miClient, "Estadísticas órdenes producción");
+                break;
+            case DModConsts.MX_STA_MFG_PRO:
+                view = new DViewStatsMfgProd(miClient, "Estadísticas producción producto");
+                break;
+            case DModConsts.MX_STA_MFG_PRO_TIME:
+                String cal = "";
+                switch (subtype) {
+                    case Calendar.WEEK_OF_YEAR:
+                        cal = "semana";
+                        break;
+                    case Calendar.MONTH:
+                        cal = "mes";
+                        break;
+                    default:
+                }
+                view = new DViewStatsMfgProdTime(miClient, subtype, "Estadísticas producción producto " + cal);
                 break;
             default:
                 miClient.showMsgBoxError(DLibConsts.ERR_MSG_OPTION_UNKNOWN);

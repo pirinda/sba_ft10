@@ -234,7 +234,7 @@
               <SubComponents>
                 <Component class="sba.lib.gui.bean.DBeanFieldBoolean" name="moBoolBrix">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Aplican &#xb0;Bx:*"/>
+                    <Property name="text" type="java.lang.String" value="Aplican &#xb0;Bx:"/>
                   </Properties>
                 </Component>
                 <Component class="sba.lib.gui.bean.DBeanCompoundField" name="moCompBrix">

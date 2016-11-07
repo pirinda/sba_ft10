@@ -120,7 +120,7 @@ public abstract class DMfgUtils {
                     lot += gregorianCalendar.get(Calendar.DAY_OF_WEEK);
                     break;
                 case DMfgConsts.LOT_A:
-                    lot += ("" + lotDate[0]).substring(2, 2);
+                    lot += ("" + lotDate[0]).substring(2, 4);
                     break;
                 case '-':
                     lot += "-";

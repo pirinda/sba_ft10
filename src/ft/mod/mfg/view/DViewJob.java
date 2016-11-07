@@ -7,6 +7,7 @@ package ft.mod.mfg.view;
 
 import ft.mod.DModConsts;
 import ft.mod.DModSysConsts;
+import sba.lib.DLibConsts;
 import sba.lib.db.DDbConsts;
 import sba.lib.grid.DGridColumnView;
 import sba.lib.grid.DGridConsts;
@@ -38,6 +39,9 @@ public class DViewJob extends DGridPaneView {
             case DModSysConsts.MS_JOB_ST_FIN:
                 setRowButtonsEnabled(false, true, false, false, false);
                 break;
+            case DLibConsts.UNDEFINED:
+                setRowButtonsEnabled(false, false, false, false, false);
+                break;
             default:
         }
         
@@ -66,6 +70,8 @@ public class DViewJob extends DGridPaneView {
         filter = (DGuiDate) moFiltersMap.get(DGridConsts.FILTER_DATE_PERIOD);
         sql += (sql.isEmpty() ? "" : "AND ") + DGridUtils.getSqlFilterDate("v.dat", (DGuiDate) filter);
         
+        sql += mnGridSubtype == DLibConsts.UNDEFINED ? "" : (sql.isEmpty() ? "" : "AND ") + "v.fk_job_st = " + mnGridSubtype + " ";
+        
         msSql = "SELECT " +
                 "v.id_job AS " + DDbConsts.FIELD_ID + "1, " +
                 "v.num AS " + DDbConsts.FIELD_CODE + ", " +
@@ -73,6 +79,10 @@ public class DViewJob extends DGridPaneView {
                 "v.dat AS " + DDbConsts.FIELD_DATE + ", " +
                 "v.job_qty_r, " +
                 "v.lot, " +
+                "jt.code, " +
+                "jt.name, " +
+                "js.code, " +
+                "js.name, " +
                 "i.code, " +
                 "i.name, " +
                 "it.code, " +
@@ -85,10 +95,13 @@ public class DViewJob extends DGridPaneView {
                 "v.fk_usr_upd AS " + DDbConsts.FIELD_USER_UPD_ID + ", " +
                 "v.ts_usr_ins AS " + DDbConsts.FIELD_USER_INS_TS + ", " +
                 "v.ts_usr_upd AS " + DDbConsts.FIELD_USER_UPD_TS + ", " +
-                "v.ts_usr_upd AS " + DDbConsts.FIELD_USER_UPD_TS + ", " +
                 "ui.name AS " + DDbConsts.FIELD_USER_INS_NAME + ", " +
                 "uu.name AS " + DDbConsts.FIELD_USER_UPD_NAME + " " +
                 "FROM " + DModConsts.TablesMap.get(DModConsts.M_JOB) + " AS v " +
+                "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.MS_JOB_TP) + " AS jt ON " +
+                "v.fk_job_tp = jt.id_job_tp " +
+                "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.MS_JOB_ST) + " AS js ON " +
+                "v.fk_job_st = js.id_job_st " +
                 "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_ITM) + " AS i ON " +
                 "v.fk_itm = i.id_itm " +
                 "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CS_ITM_TP) + " AS it ON " +
@@ -99,17 +112,19 @@ public class DViewJob extends DGridPaneView {
                 "v.fk_usr_ins = ui.id_usr " +
                 "INNER JOIN " + DModConsts.TablesMap.get(DModConsts.CU_USR) + " AS uu ON " +
                 "v.fk_usr_upd = uu.id_usr " +
-                "WHERE v.fk_job_st = " + mnGridSubtype + " " + (sql.length() == 0 ? "" : "AND " + sql) +
+                "WHERE " + sql +
                 "ORDER BY v.num, v.id_job ";
     }
 
     @Override
     public void createGridColumns() {
         int col = 0;
-        DGridColumnView[] columns = new DGridColumnView[14];
+        DGridColumnView[] columns = new DGridColumnView[16];
 
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_INT_RAW, DDbConsts.FIELD_NAME, DGridConsts.COL_TITLE_NUM);
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_DATE, DDbConsts.FIELD_DATE, DGridConsts.COL_TITLE_DATE);
+        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_CODE_CAT, "jt.code", DGridConsts.COL_TITLE_TYPE);
+        columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_CODE_CAT, "js.code", DGridConsts.COL_TITLE_STAT);
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_NAME_ITM_L, "i.name", DGridConsts.COL_TITLE_NAME + " producto");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_CODE_ITM, "i.code", DGridConsts.COL_TITLE_CODE + " producto");
         columns[col++] = new DGridColumnView(DGridConsts.COL_TYPE_TEXT_CODE_CAT, "it.code", DGridConsts.COL_TITLE_TYPE + " producto");

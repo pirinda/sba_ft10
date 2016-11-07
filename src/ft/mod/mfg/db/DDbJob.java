@@ -797,7 +797,7 @@ public class DDbJob extends DDbRegistryUser implements DLibRegistry {
         
         sql = "SELECT COALESCE(MAX(num), 0) + 1 "
                 + "FROM " + getSqlTable() + " "
-                + "WHERE b_del = 0 ";
+                + "WHERE NOT b_del AND fk_itm_tp = " + mnFkItemTypeId + " ";
         resultSet = session.getStatement().executeQuery(sql);
         if (!resultSet.next()) {
             throw new Exception(DDbConsts.ERR_MSG_REG_NOT_FOUND);

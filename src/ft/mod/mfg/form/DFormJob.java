@@ -469,7 +469,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
 
         jPanel15.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
-        jlJobTimeStart.setText("Fecha-hora inicial:");
+        jlJobTimeStart.setText("Fecha-hr inicial:*");
         jlJobTimeStart.setPreferredSize(new java.awt.Dimension(100, 23));
         jPanel15.add(jlJobTimeStart);
         jPanel15.add(moTimeJobTimeStart);
@@ -478,7 +478,7 @@ public class DFormJob extends DBeanForm implements DGridPaneFormOwner, ActionLis
 
         jPanel16.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 0));
 
-        jlJobTimeEnd.setText("Fecha-hora final:");
+        jlJobTimeEnd.setText("Fecha-hr final:*");
         jlJobTimeEnd.setPreferredSize(new java.awt.Dimension(100, 23));
         jPanel16.add(jlJobTimeEnd);
         jPanel16.add(moTimeJobTimeEnd);

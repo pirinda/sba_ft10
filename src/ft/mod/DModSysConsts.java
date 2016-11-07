@@ -11,10 +11,10 @@ package ft.mod;
  */
 public abstract class DModSysConsts {
 
-    public static final int CX_PAC_CFG = 100000;
-    public static final int CX_PAC_STK = 200000;
-    public static final int CX_PAC_MFG = 300000;
-    public static final int CX_PAC_QTY = 400000;
+    public static final int CX_PAC_CFG = 100000;    // package configuration
+    public static final int CX_PAC_STK = 200000;    // package stock
+    public static final int CX_PAC_MFG = 300000;    // package manufacturing
+    public static final int CX_PAC_QTY = 400000;    // package quality
     
     public static final int CS_MOD_CFG = 1;
     public static final int CS_MOD_FRM = 2;

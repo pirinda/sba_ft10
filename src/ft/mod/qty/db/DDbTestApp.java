@@ -280,6 +280,7 @@ public class DDbTestApp extends DDbRegistryUser implements DLibRegistry {
         
         for (DDbTestAppResult child : maChildResults) {
             child.setRegistryNew(true);
+            child.setPkJobId(mnPkJobId);
             child.setPkAppId(mnPkAppId);
             child.save(session);
         }
