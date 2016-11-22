@@ -284,6 +284,13 @@
                 <Property name="text" type="java.lang.String" value="Variables de calidad"/>
               </Properties>
             </MenuItem>
+            <MenuItem class="javax.swing.JPopupMenu$Separator" name="jsQty2">
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jmiQtyControlCharts">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Cartas de control"/>
+              </Properties>
+            </MenuItem>
           </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="jmStk">

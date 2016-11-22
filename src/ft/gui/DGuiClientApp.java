@@ -16,6 +16,7 @@ import ft.mod.DModUtils;
 import ft.mod.cfg.db.DDbConfig;
 import ft.mod.cfg.db.DDbUser;
 import ft.mod.cfg.db.DDbUserGui;
+import ft.mod.qty.form.DDialogControlCharts;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -204,6 +205,8 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
         jsQty1 = new javax.swing.JPopupMenu.Separator();
         jmiQtyTest = new javax.swing.JMenuItem();
         jmiQtyVariable = new javax.swing.JMenuItem();
+        jsQty2 = new javax.swing.JPopupMenu.Separator();
+        jmiQtyControlCharts = new javax.swing.JMenuItem();
         jmStk = new javax.swing.JMenu();
         jmiStkWsmIn = new javax.swing.JMenuItem();
         jmiStkWsmOut = new javax.swing.JMenuItem();
@@ -460,6 +463,10 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
 
         jmiQtyVariable.setText("Variables de calidad");
         jmQty.add(jmiQtyVariable);
+        jmQty.add(jsQty2);
+
+        jmiQtyControlCharts.setText("Cartas de control");
+        jmQty.add(jmiQtyControlCharts);
 
         jMenuBar1.add(jmQty);
 
@@ -664,6 +671,7 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
         jmiQtyTestAppResult.addActionListener(this);
         jmiQtyTest.addActionListener(this);
         jmiQtyVariable.addActionListener(this);
+        jmiQtyControlCharts.addActionListener(this);
         jmiRepStatsJob.addActionListener(this);
         jmiRepStatsMfgProd.addActionListener(this);
         jmiRepStatsMfgProdTimeWeek.addActionListener(this);
@@ -968,6 +976,7 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
     private javax.swing.JMenuItem jmiMfgJobPrc;
     private javax.swing.JMenuItem jmiMfgJobQty;
     private javax.swing.JMenuItem jmiMfgVariable;
+    private javax.swing.JMenuItem jmiQtyControlCharts;
     private javax.swing.JMenuItem jmiQtyTest;
     private javax.swing.JMenuItem jmiQtyTestApp;
     private javax.swing.JMenuItem jmiQtyTestAppResult;
@@ -996,6 +1005,7 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
     private javax.swing.JPopupMenu.Separator jsHlp1;
     private javax.swing.JPopupMenu.Separator jsMfg1;
     private javax.swing.JPopupMenu.Separator jsQty1;
+    private javax.swing.JPopupMenu.Separator jsQty2;
     private javax.swing.JPopupMenu.Separator jsStk1;
     private javax.swing.JTextField jtfSystemDate;
     private javax.swing.JTextField jtfUser;
@@ -1399,6 +1409,11 @@ public class DGuiClientApp extends JFrame implements DGuiClient, ActionListener 
             }
             else if (menuItem == jmiQtyVariable) {
                 moSession.showView(DModConsts.QU_VAR, DLibConsts.UNDEFINED, null);
+            }
+            else if (menuItem == jmiQtyControlCharts) {
+                DDialogControlCharts dialog = new DDialogControlCharts(this, jmiQtyControlCharts.getText());
+                dialog.initForm();
+                dialog.setVisible(true);
             }
             else if (menuItem == jmiRepStatsJob) {
                 moSession.showView(DModConsts.MX_STA_JOB, DLibConsts.UNDEFINED, null);

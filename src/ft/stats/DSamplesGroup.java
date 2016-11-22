@@ -13,24 +13,20 @@ public class DSamplesGroup {
 
     private double[] madSamples;
 
-    public DSamplesGroup(final int number, final double[] samples) throws Exception {
-        if (number <= 0) {
-            throw new Exception(DStatsConsts.ERR_NUM);
+    public DSamplesGroup(final int samplesNum, final double[] samples) throws Exception {
+        if (samplesNum <= 0) {
+            throw new Exception(DStatsConsts.ERR_NUM_ZERO);
         }
         
         if (samples == null) {
-            throw new Exception(DStatsConsts.ERR_SAM_NUL);
+            throw new Exception(DStatsConsts.ERR_SAM_NULL);
         }
         
-        if (samples.length != number) {
+        if (samples.length != samplesNum) {
             throw new Exception(DStatsConsts.ERR_SAM_NUM);
         }
         
-        madSamples = new double[number];
-        
-        for (int i = 0; i < number; i++) {
-            madSamples[i] = samples[i];
-        }
+        madSamples = samples.clone();
     }
     
     public int getSamplesNum() {
@@ -38,7 +34,7 @@ public class DSamplesGroup {
     }
     
     public double getSample(final int index) throws Exception {
-        if (index < 0 || index >= madSamples.length) {
+        if (index < 0 || index >= getSamplesNum()) {
             throw new Exception(DStatsConsts.ERR_SAM_IDX);
         }
         
