@@ -11,6 +11,7 @@ import ft.stats.DSamplesGroup;
 import ft.stats.DSamplesGroupsArray;
 import ft.stats.DStatsUtils;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -25,7 +26,6 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javax.swing.JButton;
-import javax.swing.SwingUtilities;
 import sba.lib.DLibConsts;
 import sba.lib.DLibTimeUtils;
 import sba.lib.DLibUtils;
@@ -49,6 +49,8 @@ public class DDialogControlCharts extends DBeanFormDialog implements ActionListe
 
     private DGuiFieldKeyGroup moKeyGroupJobFormula;
     private DControlCharts moControlCharts;
+    private final JFXPanel mjfxpChartX = new JFXPanel();
+    private final JFXPanel mjfxpChartR = new JFXPanel();
     
     /**
      * Creates new form DDialogControlCharts
@@ -85,7 +87,7 @@ public class DDialogControlCharts extends DBeanFormDialog implements ActionListe
         moKeyItem = new sba.lib.gui.bean.DBeanFieldKey();
         jPanel15 = new javax.swing.JPanel();
         jbShowStats = new javax.swing.JButton();
-        jbClearStats = new javax.swing.JButton();
+        jbWipeStats = new javax.swing.JButton();
         jPanel10 = new javax.swing.JPanel();
         jlJobsDummy = new javax.swing.JLabel();
         jlJobsTotal = new javax.swing.JLabel();
@@ -129,8 +131,7 @@ public class DDialogControlCharts extends DBeanFormDialog implements ActionListe
         jPanel24 = new javax.swing.JPanel();
         jlProcessCapacity = new javax.swing.JLabel();
         jtfProcessCapacity = new javax.swing.JTextField();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jPanel4 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
         jpChartX = new javax.swing.JPanel();
         jpChartR = new javax.swing.JPanel();
 
@@ -188,9 +189,9 @@ public class DDialogControlCharts extends DBeanFormDialog implements ActionListe
         jbShowStats.setPreferredSize(new java.awt.Dimension(75, 23));
         jPanel15.add(jbShowStats);
 
-        jbClearStats.setText("Limpiar");
-        jbClearStats.setPreferredSize(new java.awt.Dimension(75, 23));
-        jPanel15.add(jbClearStats);
+        jbWipeStats.setText("Limpiar");
+        jbWipeStats.setPreferredSize(new java.awt.Dimension(75, 23));
+        jPanel15.add(jbWipeStats);
 
         jPanel2.add(jPanel15);
 
@@ -401,19 +402,16 @@ public class DDialogControlCharts extends DBeanFormDialog implements ActionListe
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.WEST);
 
-        jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder("Cartas de control:"));
-
-        jPanel4.setLayout(new java.awt.GridLayout(2, 1, 0, 5));
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Cartas de control:"));
+        jPanel3.setLayout(new java.awt.GridLayout(2, 1, 0, 5));
 
         jpChartX.setLayout(new java.awt.BorderLayout());
-        jPanel4.add(jpChartX);
+        jPanel3.add(jpChartX);
 
         jpChartR.setLayout(new java.awt.BorderLayout());
-        jPanel4.add(jpChartR);
+        jPanel3.add(jpChartR);
 
-        jScrollPane1.setViewportView(jPanel4);
-
-        getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
+        getContentPane().add(jPanel3, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
 
@@ -434,13 +432,12 @@ public class DDialogControlCharts extends DBeanFormDialog implements ActionListe
     private javax.swing.JPanel jPanel22;
     private javax.swing.JPanel jPanel23;
     private javax.swing.JPanel jPanel24;
-    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JButton jbClearStats;
     private javax.swing.JButton jbShowStats;
+    private javax.swing.JButton jbWipeStats;
     private javax.swing.JLabel jlChartLables;
     private javax.swing.JLabel jlChartR;
     private javax.swing.JLabel jlChartX;
@@ -490,7 +487,7 @@ public class DDialogControlCharts extends DBeanFormDialog implements ActionListe
      */
     
     private void initComponentsCustom() {
-        DGuiUtils.setWindowBounds(this, 900, 600);
+        DGuiUtils.setWindowBounds(this, 1040, 650);
         
         moDateDateStart.setDateSettings(miClient, DGuiUtils.getLabelName(jlPeriod), true);
         moDateDateEnd.setDateSettings(miClient, DGuiUtils.getLabelName(jlPeriod), true);
@@ -507,44 +504,35 @@ public class DDialogControlCharts extends DBeanFormDialog implements ActionListe
         moFields.setFormButton(jbShowStats);
         
         moKeyGroupJobFormula = new DGuiFieldKeyGroup(miClient);
-    }
-    
-    private void clearDataJobs() {
-        jtfJobsTotal.setText("");
-        jtfJobsFinished.setText("");
-        moCompMfgUnits.getField().resetField();
-        moCompMfgMass.getField().resetField();
-    }
-    
-    private void showDataJobs() {
         
-    }
-    
-    private void clearVariableItems() {
-        moKeyVariable.removeAllItems();
-        moKeyVariable.setEnabled(false);
-    }
-    
-    private void showVariableItems() {
-        try {
-            removeAllListeners();
-            
-            ArrayList<DGuiItem> items = DQtyUtils.getVariableItems(miClient.getSession(), moDateDateStart.getValue(), moDateDateEnd.getValue(), moKeyItem.getValue()[0]);
+        mjfxpChartX.setPreferredSize(new Dimension(600, 275));
+        mjfxpChartR.setPreferredSize(new Dimension(600, 275));
+        
+        jpChartX.add(mjfxpChartX, BorderLayout.CENTER);
+        jpChartR.add(mjfxpChartR, BorderLayout.CENTER);
+        
+        Platform.setImplicitExit(false);    // prevents JavaFX thread from stopping when this dialog closes
+        
+        Platform.runLater(new Runnable() {
 
-            moKeyVariable.addItem(new DGuiItem("- " + DGuiUtils.getLabelName(jlVariable) + " -"));
-
-            for (DGuiItem item : items) {
-                moKeyVariable.addItem(item);
+            @Override
+            public void run() {
+                createJfxPanel(mjfxpChartX, "Carta X");
+                createJfxPanel(mjfxpChartR, "Carta R");
             }
-
-            moKeyVariable.setEnabled(true);
-        }
-        catch (Exception e) {
-            DLibUtils.showException(this, e);
-        }
-        finally {
-            addAllListeners();
-        }
+        });
+    }
+    
+    private void createJfxPanel(final JFXPanel fxPanel, final String title) {
+        final NumberAxis xAxis = new NumberAxis();
+        final NumberAxis yAxis = new NumberAxis();
+        final LineChart<Number, Number> lineChart = new LineChart<>(xAxis, yAxis);
+        
+        lineChart.setTitle(title);
+        lineChart.setCreateSymbols(false);
+        Scene scene = new Scene(lineChart);
+        
+        fxPanel.setScene(scene);
     }
     
     private void addSamplesGroup(final DSamplesGroupsArray groupsArray, final ArrayList<Double> group, final int samplesNum) throws Exception {
@@ -561,7 +549,137 @@ public class DDialogControlCharts extends DBeanFormDialog implements ActionListe
         }
     }
     
-    private void clearDataStats() {
+    private void clearVariableItems() {
+        moKeyVariable.removeAllItems();
+        moKeyVariable.setEnabled(false);
+    }
+    
+    private void createVariableItems() throws Exception {
+        ArrayList<DGuiItem> items = DQtyUtils.getVariableItems(miClient.getSession(), moDateDateStart.getValue(), moDateDateEnd.getValue(), moKeyItem.getValue()[0]);
+
+        moKeyVariable.addItem(new DGuiItem("- " + DGuiUtils.getLabelName(jlVariable) + " -"));
+
+        for (DGuiItem item : items) {
+            moKeyVariable.addItem(item);
+        }
+
+        moKeyVariable.setEnabled(true);
+    }
+    
+    private void clearChartX() {
+        LineChart<Number, Number> lineChart = (LineChart<Number, Number>) mjfxpChartX.getScene().getRoot();
+        lineChart.getData().clear();
+    }
+    
+    private void clearChartR() {
+        LineChart<Number, Number> lineChart = (LineChart<Number, Number>) mjfxpChartR.getScene().getRoot();
+        lineChart.getData().clear();
+    }
+    
+    private void clearCharts() {
+        Platform.runLater(new Runnable() {
+
+            @Override
+            public void run() {
+                clearChartX();
+                clearChartR();
+            }
+        });
+    }
+    
+    private void createChartX() {
+        double[] data = moControlCharts.getXChartData();
+        LineChart<Number, Number> lineChart = (LineChart<Number, Number>) mjfxpChartX.getScene().getRoot();
+        
+        XYChart.Series seriesCL = new XYChart.Series<>();
+        seriesCL.setName("Límite control");
+        seriesCL.getData().add(new XYChart.Data(1, moControlCharts.getXChartCentralLim()));
+        seriesCL.getData().add(new XYChart.Data(data.length, moControlCharts.getXChartCentralLim()));
+        
+        XYChart.Series seriesCLU = new XYChart.Series<>();
+        seriesCLU.setName("Límite control superior");
+        seriesCLU.getData().add(new XYChart.Data(1, moControlCharts.getXChartCentralLimUpper()));
+        seriesCLU.getData().add(new XYChart.Data(data.length, moControlCharts.getXChartCentralLimUpper()));
+        
+        XYChart.Series seriesCLL = new XYChart.Series<>();
+        seriesCLL.setName("Límite control inferior");
+        seriesCLL.getData().add(new XYChart.Data(1, moControlCharts.getXChartCentralLimLower()));
+        seriesCLL.getData().add(new XYChart.Data(data.length, moControlCharts.getXChartCentralLimLower()));
+        
+        XYChart.Series series = new XYChart.Series<>();
+        series.setName("Variable");
+        for (int i = 0; i < data.length; i++) {
+            series.getData().add(new XYChart.Data(i + 1, data[i]));
+        }
+        
+        lineChart.getData().clear();
+        lineChart.getData().add(seriesCL);
+        lineChart.getData().add(seriesCLU);
+        lineChart.getData().add(seriesCLL);
+        lineChart.getData().add(series);
+    }
+    
+    private void createChartR() {
+        double[] data = moControlCharts.getRChartData();
+        LineChart<Number, Number> lineChart = (LineChart<Number, Number>) mjfxpChartR.getScene().getRoot();
+        
+        XYChart.Series seriesCL = new XYChart.Series<>();
+        seriesCL.setName("Límite control");
+        seriesCL.getData().add(new XYChart.Data(1, moControlCharts.getRChartCentralLim()));
+        seriesCL.getData().add(new XYChart.Data(data.length, moControlCharts.getRChartCentralLim()));
+        
+        XYChart.Series seriesCLU = new XYChart.Series<>();
+        seriesCLU.setName("Límite control superior");
+        seriesCLU.getData().add(new XYChart.Data(1, moControlCharts.getRChartCentralLimUpper()));
+        seriesCLU.getData().add(new XYChart.Data(data.length, moControlCharts.getRChartCentralLimUpper()));
+        
+        XYChart.Series seriesCLL = new XYChart.Series<>();
+        seriesCLL.setName("Límite control inferior");
+        seriesCLL.getData().add(new XYChart.Data(1, moControlCharts.getRChartCentralLimLower()));
+        seriesCLL.getData().add(new XYChart.Data(data.length, moControlCharts.getRChartCentralLimLower()));
+        
+        XYChart.Series series = new XYChart.Series<>();
+        series.setName("Variable");
+        for (int i = 0; i < data.length; i++) {
+            series.getData().add(new XYChart.Data(i + 1, data[i]));
+        }
+        
+        lineChart.getData().clear();
+        lineChart.getData().add(seriesCL);
+        lineChart.getData().add(seriesCLU);
+        lineChart.getData().add(seriesCLL);
+        lineChart.getData().add(series);
+    }
+    
+    private void createCharts() {
+        Platform.runLater(new Runnable() {
+
+            @Override
+            public void run() {
+                createChartX();
+                createChartR();
+            }
+        });
+    }
+    private void wipeDataJobs() {
+        jtfJobsTotal.setText("");
+        jtfJobsFinished.setText("");
+        moCompMfgUnits.getField().resetField();
+        moCompMfgUnits.setCompoundText("");
+        moCompMfgMass.getField().resetField();
+        moCompMfgMass.setCompoundText("");
+    }
+    
+    private void showDataJobs() {
+        jtfJobsTotal.setText("");
+        jtfJobsFinished.setText("");
+        moCompMfgUnits.getField().resetField();
+        moCompMfgUnits.setCompoundText("");
+        moCompMfgMass.getField().resetField();
+        moCompMfgMass.setCompoundText("");
+    }
+    
+    private void wipeDataStats() {
         jtfSamples.setText("");
         jtfGroups.setText("");
         jtfGroupSamples.setText("");
@@ -572,6 +690,8 @@ public class DDialogControlCharts extends DBeanFormDialog implements ActionListe
         jtfLCLChartX.setText("");
         jtfLCLChartR.setText("");
         jtfProcessCapacity.setText("");
+        
+        clearCharts();
     }
     
     private void showDataStats() throws Exception {
@@ -652,199 +772,87 @@ public class DDialogControlCharts extends DBeanFormDialog implements ActionListe
         jtfLCLChartX.setText(DLibUtils.DecimalFormatValue4D.format(moControlCharts.getXChartCentralLimLower()));
         jtfLCLChartR.setText(DLibUtils.DecimalFormatValue4D.format(moControlCharts.getRChartCentralLimLower()));
         jtfProcessCapacity.setText(DLibUtils.DecimalFormatValue4D.format(moControlCharts.getProcessCapacity()));
+        
+        createCharts();
     }
     
-    private void createChartX(final JFXPanel fxPanel, final DControlCharts controlCharts) {
-        final NumberAxis xAxis = new NumberAxis();
-        final NumberAxis yAxis = new NumberAxis();
-        final LineChart<Number, Number> lineChart = new LineChart<>(xAxis, yAxis);
-        
-        lineChart.setTitle("Carta X");
-        
-        double[] data = controlCharts.getXChartData();
-        
-        XYChart.Series seriesCL = new XYChart.Series<>();
-        seriesCL.setName("Límite control");
-        seriesCL.getData().add(new XYChart.Data(1, controlCharts.getXChartCentralLim()));
-        seriesCL.getData().add(new XYChart.Data(data.length, controlCharts.getXChartCentralLim()));
-        
-        XYChart.Series seriesCLU = new XYChart.Series<>();
-        seriesCLU.setName("Límite control superior");
-        seriesCLU.getData().add(new XYChart.Data(1, controlCharts.getXChartCentralLimUpper()));
-        seriesCLU.getData().add(new XYChart.Data(data.length, controlCharts.getXChartCentralLimUpper()));
-        
-        XYChart.Series seriesCLL = new XYChart.Series<>();
-        seriesCLL.setName("Límite control inferior");
-        seriesCLL.getData().add(new XYChart.Data(1, controlCharts.getXChartCentralLimLower()));
-        seriesCLL.getData().add(new XYChart.Data(data.length, controlCharts.getXChartCentralLimLower()));
-        
-        XYChart.Series series = new XYChart.Series<>();
-        series.setName("Variable");
-        for (int i = 0; i < data.length; i++) {
-            series.getData().add(new XYChart.Data(i + 1, data[0]));
-        }
-        
-        lineChart.setCreateSymbols(false);
-        lineChart.getData().add(seriesCL);
-        lineChart.getData().add(seriesCLU);
-        lineChart.getData().add(seriesCLL);
-        lineChart.getData().add(series);
-        
-        Scene scene = new Scene(lineChart);
-        
-        fxPanel.setScene(scene);
-        
-        SwingUtilities.invokeLater(new Runnable() {
-
-            @Override
-            public void run() {
-                jpChartX.validate();
-            }
-        });
-    }
-    
-    private void createChartR(final JFXPanel fxPanel, final DControlCharts controlCharts) {
-        final NumberAxis xAxis = new NumberAxis();
-        final NumberAxis yAxis = new NumberAxis();
-        final LineChart<Number, Number> lineChart = new LineChart<>(xAxis, yAxis);
-        
-        lineChart.setTitle("Carta R");
-        
-        double[] data = controlCharts.getRChartData();
-        
-        XYChart.Series seriesCL = new XYChart.Series<>();
-        seriesCL.setName("Límite control");
-        seriesCL.getData().add(new XYChart.Data(1, controlCharts.getRChartCentralLim()));
-        seriesCL.getData().add(new XYChart.Data(data.length, controlCharts.getRChartCentralLim()));
-        
-        XYChart.Series seriesCLU = new XYChart.Series<>();
-        seriesCLU.setName("Límite control superior");
-        seriesCLU.getData().add(new XYChart.Data(1, controlCharts.getRChartCentralLimUpper()));
-        seriesCLU.getData().add(new XYChart.Data(data.length, controlCharts.getRChartCentralLimUpper()));
-        
-        XYChart.Series seriesCLL = new XYChart.Series<>();
-        seriesCLL.setName("Límite control inferior");
-        seriesCLL.getData().add(new XYChart.Data(1, controlCharts.getRChartCentralLimLower()));
-        seriesCLL.getData().add(new XYChart.Data(data.length, controlCharts.getRChartCentralLimLower()));
-        
-        XYChart.Series series = new XYChart.Series<>();
-        series.setName("Variable");
-        for (int i = 0; i < data.length; i++) {
-            series.getData().add(new XYChart.Data(i + 1, data[0]));
-        }
-        
-        lineChart.setCreateSymbols(false);
-        lineChart.getData().add(seriesCL);
-        lineChart.getData().add(seriesCLU);
-        lineChart.getData().add(seriesCLL);
-        lineChart.getData().add(series);
-        
-        Scene scene = new Scene(lineChart);
-        
-        fxPanel.setScene(scene);
-        
-        SwingUtilities.invokeLater(new Runnable() {
-
-            @Override
-            public void run() {
-                jpChartR.validate();
-            }
-        });
-    }
-    
-    private void clearCharts() {
-        jpChartX.removeAll();
-        jpChartR.removeAll();
-    }
-    
-    private void showCharts() {
-        final JFXPanel fxpChartX = new JFXPanel();
-        final JFXPanel fxpChartR = new JFXPanel();
-        
-        //jpChartX.add(new JLabel("Chart X:"), BorderLayout.NORTH);
-        jpChartX.add(fxpChartX, BorderLayout.CENTER);
-        //jpChartR.add(new JLabel("Chart R:"), BorderLayout.NORTH);
-        jpChartR.add(fxpChartR, BorderLayout.CENTER);
-        
-        Platform.runLater(new Runnable() {
-
-            @Override
-            public void run() {
-                createChartX(fxpChartX, moControlCharts);
-                createChartR(fxpChartR, moControlCharts);
-            }
-        });
-    }
-    
-    private void clearControlCharts() {
-        clearDataStats();
-        clearCharts();
-    }
-    
-    private void showControlCharts() {
+    private void actionPerformedWipeStats() {
         try {
-            showDataStats();
-            showCharts();
+            removeAllListeners();
+            
+            wipeDataJobs();
+
+            moDateDateStart.setEditable(true);
+            moDateDateEnd.setEditable(true);
+            moKeyItemType.setEnabled(true);
+            moKeyFamily.setEnabled(true);
+            moKeyItem.setEnabled(true);
+
+            clearVariableItems();
+            itemStateChangedVariable();
+
+            jbWipeStats.setEnabled(false);
+            jbShowStats.setEnabled(true);
+
+            moDateDateStart.requestFocus();
         }
         catch (Exception e) {
             DLibUtils.showException(this, e);
         }
+        finally {
+            addAllListeners();
+        }
     }
     
     private void actionPerformedShowStats() {
-        DGuiValidation validation = null;
-        
-        validation = moFields.validateFields();
-        if (validation.isValid()) {
-            validation = DGuiUtils.validateDateRange(moDateDateStart, moDateDateEnd);
+        try {
+            removeAllListeners();
+
+            DGuiValidation validation = moFields.validateFields();
             if (validation.isValid()) {
-                moDateDateStart.setEditable(false);
-                moDateDateEnd.setEditable(false);
-                moKeyItemType.setEnabled(false);
-                moKeyFamily.setEnabled(false);
-                moKeyItem.setEnabled(false);
-                
-                showVariableItems();
-                itemStateChangedVariable();
-                
-                jbShowStats.setEnabled(false);
-                jbClearStats.setEnabled(true);
-                
-                moKeyVariable.requestFocus();
+                validation = DGuiUtils.validateDateRange(moDateDateStart, moDateDateEnd);
+                if (validation.isValid()) {
+                    showDataJobs();
+                    
+                    moDateDateStart.setEditable(false);
+                    moDateDateEnd.setEditable(false);
+                    moKeyItemType.setEnabled(false);
+                    moKeyFamily.setEnabled(false);
+                    moKeyItem.setEnabled(false);
+
+                    createVariableItems();
+                    itemStateChangedVariable();
+
+                    jbWipeStats.setEnabled(true);
+                    jbShowStats.setEnabled(false);
+
+                    moKeyVariable.requestFocus();
+                }
+            }
+
+            if (!validation.isValid()) {
+                DGuiUtils.computeValidation(miClient, validation);
             }
         }
-        
-        if (!validation.isValid()) {
-            DGuiUtils.computeValidation(miClient, validation);
+        catch (Exception e) {
+            DLibUtils.showException(this, e);
         }
-    }
-    
-    private void actionPerformedClearStats() {
-        removeAllListeners();
-        
-        moDateDateStart.setEditable(true);
-        moDateDateEnd.setEditable(true);
-        moKeyItemType.setEnabled(true);
-        moKeyFamily.setEnabled(true);
-        moKeyItem.setEnabled(true);
-        
-        clearVariableItems();
-        itemStateChangedVariable();
-
-        jbClearStats.setEnabled(false);
-        jbShowStats.setEnabled(true);
-
-        moDateDateStart.requestFocus();
-        
-        addAllListeners();
+        finally {
+            addAllListeners();
+        }
     }
     
     private void itemStateChangedVariable() {
-        if (moKeyVariable.getSelectedIndex() <= 0) {
-            clearControlCharts();
+        try {
+            if (moKeyVariable.getSelectedIndex() <= 0) {
+                wipeDataStats();
+            }
+            else {
+                showDataStats();
+            }
         }
-        else {
-            showControlCharts();
+        catch (Exception e) {
+            DLibUtils.showException(this, e);
         }
     }
     
@@ -859,14 +867,14 @@ public class DDialogControlCharts extends DBeanFormDialog implements ActionListe
     @Override
     public void addAllListeners() {
         jbShowStats.addActionListener(this);
-        jbClearStats.addActionListener(this);
+        jbWipeStats.addActionListener(this);
         moKeyVariable.addItemListener(this);
     }
 
     @Override
     public void removeAllListeners() {
         jbShowStats.removeActionListener(this);
-        jbClearStats.removeActionListener(this);
+        jbWipeStats.removeActionListener(this);
         moKeyVariable.removeItemListener(this);
     }
 
@@ -902,10 +910,9 @@ public class DDialogControlCharts extends DBeanFormDialog implements ActionListe
         removeAllListeners();
         reloadCatalogues();
         
-        clearDataJobs();
-        clearDataStats();
+        wipeDataJobs();
+        wipeDataStats();
         clearVariableItems();
-        clearControlCharts();
         
         moKeyGroupJobFormula.resetGroup();
         
@@ -917,11 +924,11 @@ public class DDialogControlCharts extends DBeanFormDialog implements ActionListe
         if (e.getSource() instanceof JButton) {
             JButton button = (JButton) e.getSource();
             
-            if (button == jbShowStats) {
-                actionPerformedShowStats();
+            if (button == jbWipeStats) {
+                actionPerformedWipeStats();
             }
-            else if (button == jbClearStats) {
-                actionPerformedClearStats();
+            else if (button == jbShowStats) {
+                actionPerformedShowStats();
             }
         }
     }
